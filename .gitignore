@@ -38,3 +38,6 @@ lib/generated_plugin_registrant.dart
 
 # Emacs related
 *~
+
+# Misc folder
+misc/*
