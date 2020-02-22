@@ -57,7 +57,7 @@ abstract class Styles {
   );
 
   static const searchTabTitle = TextStyle(
-    color: poliferieRedAccent,
+    color: poliferieWhite,
     fontWeight: FontWeight.bold,
     fontFamily: 'Montserrat',
     fontSize: 14.0,

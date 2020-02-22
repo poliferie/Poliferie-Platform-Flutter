@@ -166,7 +166,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PoliferieAppBar(icon: Icons.settings, onTap: () {}),
+      appBar: PoliferieAppBar(),
       body: BlocProvider<UserBloc>(
         create: (context) => UserBloc(userRepository: widget.userRepository),
         child: ProfileScreenBody(),

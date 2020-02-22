@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+
+import 'package:poliferie_platform_flutter/icons.dart';
 import 'package:poliferie_platform_flutter/models/models.dart';
 import 'package:poliferie_platform_flutter/screens/course.dart';
-
 import 'package:poliferie_platform_flutter/styles.dart';
 import 'package:poliferie_platform_flutter/strings.dart';
 import 'package:poliferie_platform_flutter/widgets/poliferie_filter.dart';
+import 'package:poliferie_platform_flutter/widgets/poliferie_app_bar.dart';
 
 ///TODO(@amerlo): Try to shift to ListTile widget
 
@@ -69,48 +71,6 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  Widget _buildAppBar(BuildContext context) {
-    return AppBar(
-      backgroundColor: Colors.white,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Image.asset(
-            'assets/images/PF_Logo_Rosso.png',
-            fit: BoxFit.cover,
-            height: 35.0,
-          )
-        ],
-      ),
-      bottom: TabBar(
-        tabs: [
-          Tab(
-              child: Text(
-            Strings.searchTabCourse.toUpperCase(),
-            style: Styles.searchTabTitle,
-          )),
-          Tab(
-              child: Text(
-            Strings.searchTabUniversity.toUpperCase(),
-            style: Styles.searchTabTitle,
-          ))
-        ],
-      ),
-      actions: <Widget>[
-        IconButton(
-          padding: EdgeInsets.all(5.0),
-          icon: Icon(Icons.search, color: Styles.poliferieRedAccent),
-          onPressed: () {
-            showSearch(
-              context: context,
-              delegate: PoliferieSearchDelegate(),
-            );
-          },
-        ),
-      ],
-    );
-  }
-
   // In the FrontEnd we just set the parameter for the Search API call to send
   // to the backend, thus we instantiate the filter and the search string text,
   // save into the state and then send the correct API request to the backend.
@@ -306,10 +266,36 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    void _onPressedSearch() {
+      showSearch(
+        context: context,
+        delegate: PoliferieSearchDelegate(),
+      );
+    }
+
+    PreferredSizeWidget _searchTabBar = TabBar(
+      tabs: [
+        Tab(
+            child: Text(
+          Strings.searchTabCourse.toUpperCase(),
+          style: Styles.searchTabTitle,
+        )),
+        Tab(
+            child: Text(
+          Strings.searchTabUniversity.toUpperCase(),
+          style: Styles.searchTabTitle,
+        ))
+      ],
+    );
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: _buildAppBar(context),
+        appBar: PoliferieAppBar(
+          icon: AppIcons.search,
+          bottom: _searchTabBar,
+          onPressed: _onPressedSearch,
+        ),
         body: _buildTabSearchView(context),
       ),
     );
