@@ -6,6 +6,9 @@ The following is a list of items we need to address before the release.
 
 ## To-do
 
+General:
+* Port all icons to icons.dart file.
+
 Navigation Bar:
 * Get icons from Beta design screens
 * Add code to use icons in terms of target platform
