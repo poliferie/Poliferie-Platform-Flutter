@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import "package:flutter/widgets.dart";
 
+import 'package:poliferie_platform_flutter/dimensions.dart';
 import 'package:poliferie_platform_flutter/icons.dart';
 import 'package:poliferie_platform_flutter/strings.dart';
 import 'package:poliferie_platform_flutter/styles.dart';
@@ -24,7 +25,7 @@ class _CompareScreenState extends State<CompareScreen> {
 
   Widget _buildBody(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(16.0, 20.0, 16.0, 20.0),
+      padding: AppDimensions.bodyPadding,
       child: ListView(
         scrollDirection: Axis.vertical,
         children: <Widget>[
