@@ -18,6 +18,7 @@ class _BaseScreenState extends State<BaseScreen> {
   var pages = [
     DiscoverScreen(),
     SearchScreen(),
+    CompareScreen(),
     //ProfileScreen(userRepository: profileRepository),
     //TestUserScreen(usersRepository: usersRepository),
     //TestScreen(),

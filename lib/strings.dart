@@ -19,6 +19,12 @@ abstract class Strings {
   static const String discoverStudying = 'Studiare';
   static const String discoverLiving = 'Vivere';
 
+  // Compare Screen
+  static const String compareHeadline = 'Confronta';
+  static const String compareSubHeadline = "Scegli due corsi o università e "
+      "confrontali uno accanto all'altro per scoprire quello "
+      "più adatto alle tue esigenze.";
+
   // Course Screen
   static const String courseHowToApply = 'Scopri come iscriverti';
   static const String courseInfo = 'Informazioni';
