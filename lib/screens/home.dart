@@ -1,12 +1,12 @@
-// TODO(@amerlo): Add LICENSE
-
 import 'package:flutter/material.dart';
 import "package:flutter/widgets.dart";
 
-import 'package:poliferie_platform_flutter/widgets/poliferie_app_bar.dart';
-import 'package:poliferie_platform_flutter/styles.dart';
-import 'package:poliferie_platform_flutter/widgets/poliferie_card.dart';
+import 'package:poliferie_platform_flutter/dimensions.dart';
 import 'package:poliferie_platform_flutter/strings.dart';
+import 'package:poliferie_platform_flutter/styles.dart';
+
+import 'package:poliferie_platform_flutter/widgets/poliferie_app_bar.dart';
+import 'package:poliferie_platform_flutter/widgets/poliferie_card.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -16,14 +16,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  /// UI Elements for this page
-  static const _headline =
-      Text(Strings.discoverHeadline, style: Styles.headline);
+  Widget _buildHeadline(String headline) {
+    return Text(headline, style: Styles.headline);
+  }
 
-  static const _subHeadline = Text(
-    Strings.discoverSubHeadline,
-    style: Styles.subHeadline,
-  );
+  Widget _buildSubHeadline(String subHeadline) {
+    return Padding(
+      padding: AppDimensions.subHeadlinePadding,
+      child: Text(
+        subHeadline,
+        style: Styles.subHeadline,
+      ),
+    );
+  }
 
   Widget _headingTab(String heading) {
     return Padding(
@@ -50,15 +55,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildBody(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(16.0, 20.0, 16.0, 20.0),
+      padding: AppDimensions.bodyPadding,
       child: ListView(
         scrollDirection: Axis.vertical,
         children: <Widget>[
-          _headline,
-          _subHeadline,
-          _headingTab(Strings.discoverStudying),
+          _buildHeadline(Strings.homeHeadline),
+          _buildSubHeadline(Strings.homeSubHeadline),
+          _headingTab(Strings.homeStudying),
           _buildList(context, studyingTabList),
-          _headingTab(Strings.discoverLiving),
+          _headingTab(Strings.homeLiving),
           _buildList(context, studyingTabList),
         ],
       ),

@@ -13,11 +13,13 @@ abstract class Strings {
   static const String searchTabCourse = 'Corsi';
   static const String searchTabUniversity = 'Università';
 
-  // Discover Screen
-  static const String discoverHeadline = 'Ciao, Andrea!';
-  static const String discoverSubHeadline = 'Vuoi scegliere il tuo futuro?';
-  static const String discoverStudying = 'Studiare';
-  static const String discoverLiving = 'Vivere';
+  // Home Screen
+  static const String homeHeadline = 'Ciao!';
+  static const String homeSubHeadline =
+      "Inizia scoprendo le università e i corsi. "
+      "Puoi cercare per tematica, università o corso.";
+  static const String homeStudying = 'Studiare';
+  static const String homeLiving = 'Vivere';
 
   // Compare Screen
   static const String compareHeadline = 'Confronta';
