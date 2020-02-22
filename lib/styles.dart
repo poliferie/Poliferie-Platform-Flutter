@@ -1,5 +1,3 @@
-// TODO(@amerlo): Add LICENSE
-
 import 'package:flutter/widgets.dart';
 
 abstract class Styles {
@@ -169,8 +167,4 @@ abstract class Styles {
   static const bottomNavBarSelected = TextStyle(fontFamily: 'Lato');
 
   static const bottomNavBarUnselected = TextStyle(color: poliferieBlack);
-
-  // Set UI Icons as a map
-  // TODO(@amerlo): Add icon map
-
 }
