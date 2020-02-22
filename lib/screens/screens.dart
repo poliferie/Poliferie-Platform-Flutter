@@ -1,4 +1,4 @@
 export 'compare.dart';
-export 'discover.dart';
+export 'home.dart';
 export 'profile.dart';
 export 'search.dart';

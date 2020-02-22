@@ -8,14 +8,14 @@ import 'package:poliferie_platform_flutter/styles.dart';
 import 'package:poliferie_platform_flutter/widgets/poliferie_card.dart';
 import 'package:poliferie_platform_flutter/strings.dart';
 
-class DiscoverScreen extends StatefulWidget {
-  DiscoverScreen({Key key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  HomeScreen({Key key}) : super(key: key);
 
   @override
-  _DiscoverScreenState createState() => _DiscoverScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _DiscoverScreenState extends State<DiscoverScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   /// UI Elements for this page
   static const _headline =
       Text(Strings.discoverHeadline, style: Styles.headline);
