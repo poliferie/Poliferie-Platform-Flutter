@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PoliferieAppBar(icon: Icons.menu),
+      appBar: PoliferieAppBar(),
       body: _buildBody(context),
     );
   }
