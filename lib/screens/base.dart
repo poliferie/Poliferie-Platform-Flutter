@@ -19,9 +19,7 @@ class _BaseScreenState extends State<BaseScreen> {
     DiscoverScreen(),
     SearchScreen(),
     CompareScreen(),
-    //ProfileScreen(userRepository: profileRepository),
-    //TestUserScreen(usersRepository: usersRepository),
-    //TestScreen(),
+    ProfileScreen(userRepository: profileRepository),
   ];
 
   @override

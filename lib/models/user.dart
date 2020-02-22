@@ -17,7 +17,7 @@ class User extends Equatable {
       name: json['name'],
       city: json['city'],
       followers: json['followers'],
-      badges: json['badges'],
+      badges: List<String>.from(json['badges']),
     );
   }
 }

@@ -31,18 +31,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   @override
-  UserState get initialState => FetchStateEmpty();
+  UserState get initialState => FetchStateLoading();
 
   @override
   Stream<UserState> mapEventToState(UserEvent event) async* {
-    if (event is ViewScreen) {
+    if (event is FetchUser) {
       final String _userName = event.userName;
       yield FetchStateLoading();
       try {
         final User user = await userRepository.fetch(_userName);
         yield FetchStateSuccess(user);
       } catch (error) {
-        print(error);
         yield FetchStateError(error.message);
       }
     }

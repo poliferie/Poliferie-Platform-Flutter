@@ -8,9 +8,6 @@ abstract class UserState extends Equatable {
   List<Object> get props => [];
 }
 
-// TODO(@amerlo): Check if empty and loading are needed
-class FetchStateEmpty extends UserState {}
-
 class FetchStateLoading extends UserState {}
 
 class FetchStateSuccess extends UserState {

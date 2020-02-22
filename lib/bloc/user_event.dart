@@ -5,10 +5,10 @@ abstract class UserEvent extends Equatable {
   const UserEvent([List props = const []]) : super();
 }
 
-class ViewScreen extends UserEvent {
+class FetchUser extends UserEvent {
   final String userName;
 
-  const ViewScreen({this.userName});
+  const FetchUser({this.userName});
 
   @override
   List<Object> get props => [];

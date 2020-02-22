@@ -1,40 +1,22 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/services.dart' show rootBundle;
-// TODO(@amerlo): http package has to be checked, revert to mockup now
-//import 'package:http/http.dart' as http;
 
 import 'package:poliferie_platform_flutter/models/models.dart';
 
-// Mockup flag
-final bool _mockup = true;
-
+// TODO(@amerlo): Implement API call
 class UserClient {
   final String baseUrl;
-  //final http.Client httpClient;
-
-  // TODO(@amerlo): Update true API base url
+  final bool useLocalJson;
   UserClient(
-      { //this.httpClient,
-      this.baseUrl = "https://api.github.com/search/repositories?q="});
-  //: assert(httpClient != null);
+      {this.baseUrl = "https://api.poliferie.org/user?q=",
+      this.useLocalJson = false});
 
   Future<User> fetch(String userName) async {
-    //final _response = await httpClient.get(Uri.parse("$baseUrl$userName"));
-    final String _path = await rootBundle.loadString('assets/data/user.json');
-    var _result = json.decode(_path);
-    if (!_mockup) {
-      //  _result = json.decode(_response.body);
+    if (useLocalJson) {
+      String _data = await rootBundle.loadString("assets/data/user.json");
+      Map<String, dynamic> _result = json.decode(_data);
+      return User.fromJson(_result);
     }
-    final _user = User.fromJson(_result);
-
-    // TODO(@amerlo): Implement error message
-    return _user;
-/*     if (_response.statusCode == 200) {
-      return _user;
-    } else {
-      throw _result['message'] as String;
-    }
- */
   }
 }

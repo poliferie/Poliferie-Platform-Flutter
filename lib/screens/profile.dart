@@ -11,7 +11,7 @@ import 'package:poliferie_platform_flutter/widgets/poliferie_badge.dart';
 import 'package:poliferie_platform_flutter/models/models.dart';
 
 final UserRepository profileRepository = UserRepository(
-  userClient: UserClient(),
+  userClient: UserClient(useLocalJson: true),
   userCache: UserCache(),
 );
 
@@ -143,13 +143,10 @@ class ProfileScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserBloc _userBloc = BlocProvider.of<UserBloc>(context);
-    _userBloc.add(ViewScreen());
+    _userBloc.add(FetchUser());
 
     return BlocBuilder<UserBloc, UserState>(
       builder: (BuildContext context, UserState state) {
-        if (state is FetchStateEmpty) {
-          return Text('Error, no user with this id');
-        }
         if (state is FetchStateLoading) {
           return CircularProgressIndicator();
         }
