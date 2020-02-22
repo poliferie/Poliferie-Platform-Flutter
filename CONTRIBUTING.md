@@ -8,6 +8,7 @@ The following is a list of items we need to address before the release.
 
 General:
 * Port all icons to icons.dart file.
+* Adapt padding and margin based on media queries.
 
 Navigation Bar:
 * Get icons from Beta design screens
