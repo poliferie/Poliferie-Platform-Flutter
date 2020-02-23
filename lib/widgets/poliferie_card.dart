@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:poliferie_platform_flutter/styles.dart';
+import 'package:Poliferie.io/styles.dart';
 
 // TODO(@amerlo): Remove from here and create json file
 final discoverCardList = <PoliferieCard>[

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:poliferie_platform_flutter/bloc/user.dart';
-import 'package:poliferie_platform_flutter/repositories/repositories.dart';
+import 'package:Poliferie.io/bloc/user.dart';
+import 'package:Poliferie.io/repositories/repositories.dart';
 
-import 'package:poliferie_platform_flutter/styles.dart';
-import 'package:poliferie_platform_flutter/strings.dart';
-import 'package:poliferie_platform_flutter/widgets/poliferie_app_bar.dart';
-import 'package:poliferie_platform_flutter/widgets/poliferie_badge.dart';
-import 'package:poliferie_platform_flutter/models/models.dart';
+import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/strings.dart';
+import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
+import 'package:Poliferie.io/widgets/poliferie_badge.dart';
+import 'package:Poliferie.io/models/models.dart';
 
 final UserRepository profileRepository = UserRepository(
   userClient: UserClient(useLocalJson: true),

@@ -1,4 +1,4 @@
-name: poliferie_platform_flutter
+name: Poliferie.io
 description: Front end for the Poliferie.io platform.
 
 # The following defines the version and build number for your application.
@@ -23,6 +23,9 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
+
+  # App icons.
+  flutter_launcher_icons: "^0.7.3"
 
   # BLoC state management.
   bloc: ^3.0.0
@@ -100,3 +103,9 @@ flutter:
           weight: 700
         - asset: assets/fonts/Montserrat-Black.ttf
           weight: 900
+
+# Flutter App Icons
+flutter_icons:
+  android: true 
+  ios: true
+  image_path: "assets/images/PF-Logo_Icon.png"

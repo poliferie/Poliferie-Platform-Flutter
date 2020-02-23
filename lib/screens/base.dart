@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:poliferie_platform_flutter/styles.dart';
-import 'package:poliferie_platform_flutter/icons.dart';
-import 'package:poliferie_platform_flutter/screens/screens.dart';
+import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/icons.dart';
+import 'package:Poliferie.io/screens/screens.dart';
+import 'package:Poliferie.io/dimensions.dart';
 
 class BaseScreen extends StatefulWidget {
   @override
@@ -25,37 +26,64 @@ class _BaseScreenState extends State<BaseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[_selectedPageIndex],
-      bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              title: Text(""),
-              icon: Icon(AppIcons.home),
+      body: Stack(
+        children: <Widget>[
+          pages[_selectedPageIndex],
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(30),
+                topLeft: Radius.circular(30),
+              ),
+              child: BottomNavigationBar(
+                  items: const <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                      title: Text(""),
+                      icon: Icon(
+                        AppIcons.home,
+                        size: AppDimensions.bottomNavigationBarIconSize,
+                      ),
+                    ),
+                    BottomNavigationBarItem(
+                      title: Text(""),
+                      icon: Icon(
+                        AppIcons.search,
+                        size: AppDimensions.bottomNavigationBarIconSize,
+                      ),
+                    ),
+                    BottomNavigationBarItem(
+                      title: Text(""),
+                      icon: Icon(
+                        AppIcons.compare,
+                        size: AppDimensions.bottomNavigationBarIconSize,
+                      ),
+                    ),
+                    BottomNavigationBarItem(
+                      title: Text(""),
+                      icon: Icon(
+                        AppIcons.profile,
+                        size: AppDimensions.bottomNavigationBarIconSize,
+                      ),
+                    ),
+                  ],
+                  onTap: (index) {
+                    setState(() {
+                      _selectedPageIndex = index;
+                    });
+                  },
+                  type: BottomNavigationBarType.fixed,
+                  selectedFontSize: 0.0,
+                  unselectedFontSize: 0.0,
+                  selectedItemColor: Styles.poliferieRedAccent,
+                  unselectedItemColor: Styles.poliferieDarkGrey,
+                  currentIndex: _selectedPageIndex),
             ),
-            BottomNavigationBarItem(
-              title: Text(""),
-              icon: Icon(AppIcons.search),
-            ),
-            BottomNavigationBarItem(
-              title: Text(""),
-              icon: Icon(AppIcons.compare),
-            ),
-            BottomNavigationBarItem(
-              title: Text(""),
-              icon: Icon(AppIcons.profile),
-            ),
-          ],
-          onTap: (index) {
-            setState(() {
-              _selectedPageIndex = index;
-            });
-          },
-          type: BottomNavigationBarType.fixed,
-          selectedFontSize: 0.0,
-          unselectedFontSize: 0.0,
-          selectedItemColor: Styles.poliferieRedAccent,
-          unselectedItemColor: Styles.poliferieDarkGrey,
-          currentIndex: _selectedPageIndex),
+          ),
+        ],
+      ),
     );
   }
 }

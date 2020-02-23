@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:poliferie_platform_flutter/widgets/poliferie_tile.dart';
-import 'package:poliferie_platform_flutter/styles.dart';
+import 'package:Poliferie.io/widgets/poliferie_tile.dart';
+import 'package:Poliferie.io/styles.dart';
 
 class PageScreen extends StatefulWidget {
   final PoliferieTile card;

@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:poliferie_platform_flutter/styles.dart';
-import 'package:poliferie_platform_flutter/strings.dart';
+import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/strings.dart';
 
-import 'package:poliferie_platform_flutter/screens/base.dart';
+import 'package:Poliferie.io/screens/base.dart';
 
 class PoliferieApp extends StatelessWidget {
   @override

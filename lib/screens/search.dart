@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:poliferie_platform_flutter/icons.dart';
-import 'package:poliferie_platform_flutter/models/models.dart';
-import 'package:poliferie_platform_flutter/screens/course.dart';
-import 'package:poliferie_platform_flutter/styles.dart';
-import 'package:poliferie_platform_flutter/strings.dart';
-import 'package:poliferie_platform_flutter/widgets/poliferie_filter.dart';
-import 'package:poliferie_platform_flutter/widgets/poliferie_app_bar.dart';
+import 'package:Poliferie.io/icons.dart';
+import 'package:Poliferie.io/models/models.dart';
+import 'package:Poliferie.io/screens/course.dart';
+import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/strings.dart';
+import 'package:Poliferie.io/widgets/poliferie_filter.dart';
+import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 
 ///TODO(@amerlo): Try to shift to ListTile widget
 

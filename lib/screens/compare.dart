@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import "package:flutter/widgets.dart";
 
-import 'package:poliferie_platform_flutter/dimensions.dart';
-import 'package:poliferie_platform_flutter/icons.dart';
-import 'package:poliferie_platform_flutter/strings.dart';
-import 'package:poliferie_platform_flutter/styles.dart';
-import 'package:poliferie_platform_flutter/widgets/poliferie_app_bar.dart';
+import 'package:Poliferie.io/dimensions.dart';
+import 'package:Poliferie.io/icons.dart';
+import 'package:Poliferie.io/strings.dart';
+import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 
 class CompareScreen extends StatefulWidget {
   CompareScreen({Key key}) : super(key: key);

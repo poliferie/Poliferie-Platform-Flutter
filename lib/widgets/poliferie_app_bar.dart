@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:poliferie_platform_flutter/icons.dart';
-import 'package:poliferie_platform_flutter/styles.dart';
+import 'package:Poliferie.io/icons.dart';
+import 'package:Poliferie.io/styles.dart';
 
 class PoliferieAppBar extends StatelessWidget implements PreferredSizeWidget {
   final IconData icon;

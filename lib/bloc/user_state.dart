@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:poliferie_platform_flutter/models/models.dart';
+
+import 'package:Poliferie.io/models/models.dart';
 
 abstract class UserState extends Equatable {
   const UserState([List props = const []]) : super();

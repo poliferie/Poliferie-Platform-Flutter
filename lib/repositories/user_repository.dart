@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:meta/meta.dart';
 
-import 'package:poliferie_platform_flutter/models/user.dart';
-import 'package:poliferie_platform_flutter/repositories/user_client.dart';
-import 'package:poliferie_platform_flutter/repositories/user_cache.dart';
+import 'package:Poliferie.io/models/user.dart';
+import 'package:Poliferie.io/repositories/user_client.dart';
+import 'package:Poliferie.io/repositories/user_cache.dart';
 
 class UserRepository {
   final UserClient userClient;

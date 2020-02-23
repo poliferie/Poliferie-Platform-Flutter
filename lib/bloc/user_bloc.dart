@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:poliferie_platform_flutter/bloc/user_event.dart';
-import 'package:poliferie_platform_flutter/bloc/user_state.dart';
-import 'package:poliferie_platform_flutter/repositories/repositories.dart';
-import 'package:poliferie_platform_flutter/models/user.dart';
+import 'package:Poliferie.io/bloc/user_event.dart';
+import 'package:Poliferie.io/bloc/user_state.dart';
+import 'package:Poliferie.io/repositories/repositories.dart';
+import 'package:Poliferie.io/models/user.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepository userRepository;

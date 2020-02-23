@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import "package:flutter/widgets.dart";
 
-import 'package:poliferie_platform_flutter/dimensions.dart';
-import 'package:poliferie_platform_flutter/strings.dart';
-import 'package:poliferie_platform_flutter/styles.dart';
+import 'package:Poliferie.io/dimensions.dart';
+import 'package:Poliferie.io/strings.dart';
+import 'package:Poliferie.io/styles.dart';
 
-import 'package:poliferie_platform_flutter/widgets/poliferie_app_bar.dart';
-import 'package:poliferie_platform_flutter/widgets/poliferie_card.dart';
-import 'package:poliferie_platform_flutter/widgets/poliferie_tile.dart';
+import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
+import 'package:Poliferie.io/widgets/poliferie_card.dart';
+import 'package:Poliferie.io/widgets/poliferie_tile.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);

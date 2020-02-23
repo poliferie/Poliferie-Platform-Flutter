@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:poliferie_platform_flutter/models/models.dart';
-import 'package:poliferie_platform_flutter/strings.dart';
+import 'package:Poliferie.io/models/models.dart';
+import 'package:Poliferie.io/strings.dart';
 
-import 'package:poliferie_platform_flutter/styles.dart';
+import 'package:Poliferie.io/styles.dart';
 
 class CourseScreen extends StatefulWidget {
   final CourseModel course;

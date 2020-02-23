@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:poliferie_platform_flutter/styles.dart';
+import 'package:Poliferie.io/styles.dart';
 
 class PoliferieBadge extends StatefulWidget {
   const PoliferieBadge({

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:poliferie_platform_flutter/styles.dart';
+import 'package:Poliferie.io/styles.dart';
 
 /// TODO(@amerlo): Move this to BLoC
 final courseFilterList = <PoliferieFilter>[

@@ -1,4 +1,4 @@
-import 'package:poliferie_platform_flutter/models/models.dart';
+import 'package:Poliferie.io/models/models.dart';
 
 class UserCache {
   User _user = User();

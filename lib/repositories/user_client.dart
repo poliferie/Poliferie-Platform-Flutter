@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/services.dart' show rootBundle;
 
-import 'package:poliferie_platform_flutter/models/models.dart';
+import 'package:Poliferie.io/models/models.dart';
 
 // TODO(@amerlo): Implement API call
 class UserClient {
