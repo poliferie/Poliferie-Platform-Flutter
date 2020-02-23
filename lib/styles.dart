@@ -14,22 +14,23 @@ abstract class Styles {
   /// Background.
   static const Color poliferieWhite = Color.fromRGBO(255, 255, 255, 1.0);
   static const Color poliferieLightWhite = Color.fromRGBO(255, 255, 255, 0.87);
-  static const Color poliferieBackground = Color.fromRGBO(225, 228, 229, 1.0);
+  static const Color poliferieBackground = Color.fromRGBO(255, 255, 255, 1.0);
 
   /// Define UI text styles.
   static const headline = TextStyle(
     color: poliferieLightBlack,
     fontFamily: 'Montserrat',
-    fontSize: 48,
+    fontSize: 75,
+    height: 1.3,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.bold,
   );
 
   /// Home subheadline text style.
   static const subHeadline = TextStyle(
-    color: poliferieDarkGrey,
-    fontFamily: 'Lato',
-    fontSize: 22,
+    color: poliferieLightBlack,
+    fontFamily: 'Montserrat',
+    fontSize: 25,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.w300,
   );
@@ -149,9 +150,9 @@ abstract class Styles {
 
   static const cardHead = TextStyle(
     color: Styles.poliferieLightBlack,
-    fontSize: 25.0,
-    height: 1.1,
-    fontFamily: 'Lato',
+    fontSize: 22.0,
+    height: 1.2,
+    fontFamily: 'Montserrat',
   );
 
   static const cardLeading = TextStyle(

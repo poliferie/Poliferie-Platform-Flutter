@@ -18,8 +18,12 @@ abstract class Strings {
   static const String homeSubHeadline =
       "Inizia scoprendo le università e i corsi. "
       "Puoi cercare per tematica, università o corso.";
-  static const String homeStudying = 'Studiare';
-  static const String homeLiving = 'Vivere';
+  static const String homeSearch = 'Cerca';
+  static const String homeDiscover = 'Scopri';
+
+  // Cards
+  static const String cardCourses = 'Corsi';
+  static const String cardUniversities = 'Università';
 
   // Compare Screen
   static const String compareHeadline = 'Confronta';

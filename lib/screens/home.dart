@@ -7,6 +7,7 @@ import 'package:poliferie_platform_flutter/styles.dart';
 
 import 'package:poliferie_platform_flutter/widgets/poliferie_app_bar.dart';
 import 'package:poliferie_platform_flutter/widgets/poliferie_card.dart';
+import 'package:poliferie_platform_flutter/widgets/poliferie_tile.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -30,17 +31,29 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _headingTab(String heading) {
+  Widget _buildRowHeading(String heading) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: Text(
-        heading.toUpperCase(),
+        heading,
         style: Styles.headingTab,
       ),
     );
   }
 
-  Widget _buildList(BuildContext context, List<PoliferieCard> cards) {
+  Widget _buildRowCards(BuildContext context) {
+    return Container(
+        child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        PoliferieCard('assets/images/squadra.png', Strings.cardCourses),
+        PoliferieCard('assets/images/squadra.png', Strings.cardUniversities),
+      ],
+    ));
+  }
+
+  // TODO(@amerlo): To be removed
+  Widget _buildList(BuildContext context, List<PoliferieTile> cards) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.35,
       child: ListView.builder(
@@ -54,23 +67,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return Padding(
+    return ListView(
       padding: AppDimensions.bodyPadding,
-      child: ListView(
-        scrollDirection: Axis.vertical,
-        children: <Widget>[
-          _buildHeadline(Strings.homeHeadline),
-          _buildSubHeadline(Strings.homeSubHeadline),
-          _headingTab(Strings.homeStudying),
-          _buildList(context, studyingTabList),
-          _headingTab(Strings.homeLiving),
-          _buildList(context, studyingTabList),
-        ],
-      ),
+      scrollDirection: Axis.vertical,
+      children: <Widget>[
+        _buildHeadline(Strings.homeHeadline),
+        _buildSubHeadline(Strings.homeSubHeadline),
+        _buildRowHeading(Strings.homeSearch),
+        _buildRowCards(context),
+        _buildRowHeading(Strings.homeDiscover),
+        ...discoverCardList,
+      ],
     );
   }
 
-  /// Build method
   @override
   Widget build(BuildContext context) {
     return Scaffold(
