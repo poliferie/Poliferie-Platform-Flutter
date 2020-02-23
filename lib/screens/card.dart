@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 
-import 'package:poliferie_platform_flutter/widgets/poliferie_card.dart';
+import 'package:poliferie_platform_flutter/widgets/poliferie_tile.dart';
 import 'package:poliferie_platform_flutter/styles.dart';
 
-/// TODO(@amerlo): Implement scraping of Wiki Page with markdown
-
-class CardScreen extends StatefulWidget {
-  final PoliferieCard card;
-  CardScreen({this.card, Key key}) : super(key: key);
+class PageScreen extends StatefulWidget {
+  final PoliferieTile card;
+  PageScreen({this.card, Key key}) : super(key: key);
 
   @override
-  _CardScreenState createState() => _CardScreenState();
+  _PageScreenState createState() => _PageScreenState();
 }
 
-class _CardScreenState extends State<CardScreen> {
+class _PageScreenState extends State<PageScreen> {
   /// TODO(@amerlo): Move this to BLoC
   bool _isFavorite = false;
   static const _padding = 20.0;

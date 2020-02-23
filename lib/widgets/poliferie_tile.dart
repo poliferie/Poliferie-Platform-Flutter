@@ -4,8 +4,8 @@ import 'package:poliferie_platform_flutter/styles.dart';
 import 'package:poliferie_platform_flutter/screens/card.dart';
 
 /// TODO(@amerlo): Move this to BLoC
-final studyingTabList = <PoliferieCard>[
-  PoliferieCard(
+final studyingTabList = <PoliferieTile>[
+  PoliferieTile(
       'assets/images/squadra.png',
       'Sardegna',
       'Migliori Università in Sardegna',
@@ -17,23 +17,23 @@ final studyingTabList = <PoliferieCard>[
           " quelli che hanno un numero di iscritti compreso tra i diecimila e i ventimila studenti,"
           " mentre Cagliari è quinta nella classifica dei “grandi atenei”, che"
           " contano tra i ventimila e i quarantamila iscritti."),
-  PoliferieCard('assets/images/squadra.png', 'Piemonte',
+  PoliferieTile('assets/images/squadra.png', 'Piemonte',
       'Migliori Università in Piemonte', 'Piemonte'),
-  PoliferieCard('assets/images/squadra.png', 'Università', 'Entrare a Medicina',
+  PoliferieTile('assets/images/squadra.png', 'Università', 'Entrare a Medicina',
       'Medicina'),
-  PoliferieCard('assets/images/squadra.png', 'Università',
+  PoliferieTile('assets/images/squadra.png', 'Università',
       'Entrare a Giurisprudenza', 'Giurisprudenza'),
-  PoliferieCard('assets/images/squadra.png', 'Università',
+  PoliferieTile('assets/images/squadra.png', 'Università',
       'Le Unviersità Private', 'Università')
 ];
 
-class PoliferieCard extends StatelessWidget {
+class PoliferieTile extends StatelessWidget {
   final String imagePath;
   final String leading;
   final String head;
   final String body;
 
-  const PoliferieCard(this.imagePath, this.leading, this.head, this.body);
+  const PoliferieTile(this.imagePath, this.leading, this.head, this.body);
 
   Widget _buildTile(BuildContext context) {
     return ListTile(
@@ -49,13 +49,13 @@ class PoliferieCard extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => CardScreen(card: this)),
+          MaterialPageRoute(builder: (context) => PageScreen(card: this)),
         );
       },
     );
   }
 
-  Widget _buildCard(BuildContext context) {
+  Widget _buildCardTile(BuildContext context) {
     return Card(
       elevation: 8.0,
       margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
@@ -65,6 +65,6 @@ class PoliferieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildCard(context);
+    return _buildCardTile(context);
   }
 }
