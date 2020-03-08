@@ -78,6 +78,7 @@ class _BaseScreenState extends State<BaseScreen> {
                   type: BottomNavigationBarType.fixed,
                   selectedFontSize: 0.0,
                   unselectedFontSize: 0.0,
+                  backgroundColor: Styles.poliferieWhite,
                   selectedItemColor: Styles.poliferieRedAccent,
                   unselectedItemColor: Styles.poliferieDarkGrey,
                   currentIndex: _selectedPageIndex),

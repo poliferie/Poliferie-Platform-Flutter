@@ -14,7 +14,7 @@ abstract class Styles {
   /// Background.
   static const Color poliferieWhite = Color.fromRGBO(255, 255, 255, 1.0);
   static const Color poliferieLightWhite = Color.fromRGBO(255, 255, 255, 0.87);
-  static const Color poliferieBackground = Color.fromRGBO(255, 255, 255, 1.0);
+  static const Color poliferieBackground = Color.fromRGBO(255, 255, 255, 0.75);
 
   /// Define UI text styles.
   static const headline = TextStyle(
