@@ -15,21 +15,22 @@ class PoliferieCard extends StatelessWidget {
   const PoliferieCard(this.imagePath, this.heading);
 
   Widget _buildCard(BuildContext context) {
+    final _height = MediaQuery.of(context).size.width * 0.55;
     return Container(
-      height: 250.0,
+      height: _height,
       child: Card(
         elevation: 8.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
           child: Column(
             children: <Widget>[
               Image.asset(
                 imagePath,
                 fit: BoxFit.cover,
-                height: 120.0,
+                height: _height * 0.50,
               ),
               Padding(
                 padding: EdgeInsets.only(top: 20.0),
