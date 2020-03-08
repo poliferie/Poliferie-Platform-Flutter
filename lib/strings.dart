@@ -12,6 +12,10 @@ abstract class Strings {
   // Search Screen
   static const String searchTabCourse = 'Corsi';
   static const String searchTabUniversity = 'Università';
+  static const String searchFilterIntro =
+      "Se non sai precisamente quello che stai cercando, "
+      "imposta solo qualche filtro e inizia ad esplorare l'offerta.";
+  static const String searchExplore = 'Esplora';
 
   // Home Screen
   static const String homeHeadline = 'Ciao!';

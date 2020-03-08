@@ -5,11 +5,12 @@ import 'package:Poliferie.io/models/models.dart';
 import 'package:Poliferie.io/screens/course.dart';
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
+import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/widgets/poliferie_filter.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
 
-///TODO(@amerlo): Try to shift to ListTile widget
+enum TabType { course, university }
 
 ///TODO(@amerlo): Mockup data to move
 const List<String> _results = <String>[
@@ -77,24 +78,6 @@ class _SearchScreenState extends State<SearchScreen> {
   // save into the state and then send the correct API request to the backend.
   // We wait for the reply and show it. We make a new request every time something
   // in the state change.
-
-  Widget _buildFilterList(BuildContext context, List<PoliferieFilter> filters) {
-    return Container(
-      height: 50.0,
-      child: ListView.builder(
-        physics: BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        itemCount: filters.length,
-        itemBuilder: (BuildContext context, int index) {
-          return filters[index];
-        },
-      ),
-    );
-  }
-
-  // TODO(@amerlo): Move to BLoC modules
-  final _courses = mockCourses;
-  final _universities = mockUniversities;
 
   // TODO(@amerlo): Remove from here
   static const _paddingItem = 4.0;
@@ -232,35 +215,105 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget _buildSearchView(BuildContext context, List<PoliferieFilter> filters,
-      List<CourseModel> courses, List<UniversityModel> universities) {
-    final _items = (courses != null) ? courses : universities;
-    return Column(
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 5.0),
-          child: _buildFilterList(context, filters),
-        ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: _items.length,
-            itemBuilder: (context, position) {
-              if (courses != null)
-                return _buildCourseShort(context, _items[position]);
-              else
-                return _buildUniversityShort(context, _items[position]);
-            },
-          ),
-        ),
-      ],
+  Widget _buildFilterHeading() {
+    return Text(
+      "Filtri",
+      style: Styles.headingTab,
     );
   }
+
+  Widget _buildFilterIntro() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 6.0),
+      child: Text(
+        Strings.searchFilterIntro,
+        style: Styles.searchFilterIntro,
+      ),
+    );
+  }
+
+  // Widget _buildFilterList(BuildContext context, List<PoliferieFilter> filters) {
+  //   return Container(
+  //     height: 50.0,
+  //     child: ListView.builder(
+  //       physics: BouncingScrollPhysics(),
+  //       scrollDirection: Axis.horizontal,
+  //       itemCount: filters.length,
+  //       itemBuilder: (BuildContext context, int index) {
+  //         return filters[index];
+  //       },
+  //     ),
+  //   );
+  // }
+
+  Widget _buildFilterList(BuildContext context, List<PoliferieFilter> filters) {
+    return Expanded(
+      child: GridView.builder(
+        physics: BouncingScrollPhysics(),
+        scrollDirection: Axis.vertical,
+        itemCount: filters.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          childAspectRatio: 2,
+          crossAxisCount: 2,
+        ),
+        itemBuilder: (BuildContext context, int index) {
+          return filters[index];
+        },
+      ),
+    );
+  }
+
+  Widget _buildFloatingButton() {
+    return Center(
+      child: Padding(
+        padding: EdgeInsetsDirectional.only(bottom: 50.0),
+        child: FloatingActionButton.extended(
+          backgroundColor: Styles.poliferieBlue,
+          focusColor: Styles.poliferieBlue,
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(10.0),
+          ),
+          onPressed: () {},
+          label: Text(Strings.searchExplore, style: Styles.searchExplore),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSearchView(
+      BuildContext context, List<PoliferieFilter> filters, TabType tabType) {
+    return Container(
+      height: double.infinity,
+      padding: AppDimensions.searchBodyPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _buildFilterHeading(),
+          _buildFilterIntro(),
+          _buildFilterList(context, filters),
+          _buildFloatingButton(),
+        ],
+      ),
+    );
+  }
+
+  //   Expanded(
+  //   child: ListView.builder(
+  //     itemCount: _items.length,
+  //     itemBuilder: (context, position) {
+  //       if (courses != null)
+  //         return _buildCourseShort(context, _items[position]);
+  //       else
+  //         return _buildUniversityShort(context, _items[position]);
+  //     },
+  //   ),
+  // ),
 
   Widget _buildTabSearchView(BuildContext context) {
     return TabBarView(
       children: [
-        _buildSearchView(context, courseFilterList, _courses, null),
-        _buildSearchView(context, courseFilterList, null, _universities),
+        _buildSearchView(context, courseFilterList, TabType.course),
+        _buildSearchView(context, courseFilterList, TabType.university),
       ],
     );
   }

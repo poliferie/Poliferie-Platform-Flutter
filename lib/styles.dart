@@ -4,6 +4,7 @@ abstract class Styles {
   /// Define UI colors.
   /// Primary color Swatch based on Poliferie Red.
   static const Color poliferieRedAccent = Color.fromRGBO(234, 46, 66, 1.0);
+  static const Color poliferieBlue = Color.fromRGBO(0, 140, 211, 1.0);
 
   /// Texts.
   static const Color poliferieLightGrey = Color.fromRGBO(0, 0, 0, 0.25);
@@ -61,6 +62,26 @@ abstract class Styles {
     fontWeight: FontWeight.bold,
     fontFamily: 'Montserrat',
     fontSize: 14.0,
+  );
+
+  static const searchFilterIntro = TextStyle(
+    color: poliferieLightBlack,
+    fontFamily: 'Lato',
+    fontSize: 18.0,
+    fontWeight: FontWeight.w300,
+  );
+
+  static const searchExplore = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Montserrat',
+    fontSize: 22.0,
+  );
+
+  static const filterName = TextStyle(
+    color: poliferieLightBlack,
+    fontFamily: 'Lato',
+    fontSize: 14.0,
+    fontWeight: FontWeight.w300,
   );
 
   static const profileUserName = TextStyle(

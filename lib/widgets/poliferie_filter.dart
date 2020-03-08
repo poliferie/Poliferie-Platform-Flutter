@@ -24,6 +24,31 @@ final courseFilterList = <PoliferieFilter>[
       name: 'Soddisfazione',
       hint: 'Grado di soddisfazione minimo...',
       description: 'Grado di soddisfazione dei laureati'),
+  PoliferieFilter(
+      icon: Icons.book,
+      name: 'Area Disciplinare',
+      hint: 'Area disciplinare...',
+      description: 'Area disciplinare del corso'),
+  PoliferieFilter(
+      icon: Icons.book,
+      name: 'Area Disciplinare',
+      hint: 'Area disciplinare...',
+      description: 'Area disciplinare del corso'),
+  PoliferieFilter(
+      icon: Icons.book,
+      name: 'Area Disciplinare',
+      hint: 'Area disciplinare...',
+      description: 'Area disciplinare del corso'),
+  PoliferieFilter(
+      icon: Icons.book,
+      name: 'Area Disciplinare',
+      hint: 'Area disciplinare...',
+      description: 'Area disciplinare del corso'),
+  PoliferieFilter(
+      icon: Icons.book,
+      name: 'Area Disciplinare',
+      hint: 'Area disciplinare...',
+      description: 'Area disciplinare del corso'),
 ];
 
 class PoliferieFilter extends StatefulWidget {
@@ -48,48 +73,72 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
   String _value = '';
   bool _isApplied = false;
 
-  void _toggle() {
-    setState(() {
-      _isApplied = !_isApplied;
-    });
-  }
-
   TextEditingController _textFieldController = TextEditingController();
 
-  _showValuePicker(BuildContext context) async {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(widget.name),
-          content: TextField(
+  _onButtonPressed() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            color: Styles.poliferieLightGrey,
+            child: Container(
+              child: _buildBottomSheet(),
+              decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(20),
+                  topRight: const Radius.circular(20),
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+  Widget _builcActionButtons() {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      FlatButton(
+        child: new Text('APPLICA'),
+        onPressed: () {
+          Navigator.pop(context);
+          setState(() {
+            _value = _textFieldController.text;
+            _isApplied = true;
+          });
+        },
+      ),
+      FlatButton(
+        child: new Text('PULISCI'),
+        onPressed: () {
+          Navigator.pop(context);
+          setState(() {
+            _value = null;
+            _isApplied = false;
+          });
+        },
+      ),
+    ]);
+  }
+
+  Widget _buildBottomSheet() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 20.0),
+      child: Column(
+        children: <Widget>[
+          Text(widget.name),
+          TextField(
             controller: _textFieldController,
             decoration: InputDecoration(hintText: widget.hint),
           ),
-          actions: <Widget>[
-            FlatButton(
-              child: new Text('ANNULLA'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            FlatButton(
-              child: new Text('APPLICA'),
-              onPressed: () {
-                _value = _textFieldController.text;
-                _isApplied = true;
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
+          _builcActionButtons(),
+        ],
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: EdgeInsets.all(6.0),
       child: FlatButton(
         color: Colors.white,
@@ -97,14 +146,28 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
           borderRadius: new BorderRadius.circular(20.0),
         ),
         onPressed: () {
-          _toggle();
+          _onButtonPressed();
         },
-        onLongPress: () {
-          _showValuePicker(context);
-        },
+        onLongPress: () {},
         textColor:
             _isApplied ? Styles.poliferieRedAccent : Styles.poliferieDarkGrey,
-        child: Icon(widget.icon),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(right: 10.0),
+              child: Icon(widget.icon),
+            ),
+            Expanded(
+              child: Text(
+                widget.name,
+                style: Styles.filterName,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
