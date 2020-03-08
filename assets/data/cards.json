@@ -1,0 +1,16 @@
+[
+    {
+        "id": 0,
+        "shortName": "Università in Lombardia",
+        "longName": "Migliori Università in Lombardia",
+        "imagePath": "assets/images/squadra.png",
+        "fullText": "Bla bla."
+    },
+    {
+        "id": 1,
+        "shortName": "Università in Sicilia",
+        "longName": "Migliori Università in Sicilia",
+        "imagePath": "assets/images/squadra.png",
+        "fullText": "Bla bla."
+    }
+]

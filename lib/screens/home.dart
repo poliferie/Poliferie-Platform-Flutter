@@ -1,22 +1,40 @@
 import 'package:flutter/material.dart';
 import "package:flutter/widgets.dart";
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:Poliferie.io/bloc/card.dart';
+import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/dimensions.dart';
+import 'package:Poliferie.io/models/card.dart';
 import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/styles.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_card.dart';
-import 'package:Poliferie.io/widgets/poliferie_tile.dart';
+
+final CardRepository cardRepository = CardRepository(
+  cardClient: CardClient(useLocalJson: true),
+);
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key}) : super(key: key);
+  final CardRepository cardRepository;
+
+  HomeScreen({Key key, this.cardRepository}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenBody extends StatelessWidget {
+  final _coursesCard = CardInfo(
+      id: 42,
+      imagePath: 'assets/images/squadra.png',
+      shortName: Strings.cardCourses);
+  final _universitiesCard = CardInfo(
+      id: 43,
+      imagePath: 'assets/images/squadra.png',
+      shortName: Strings.cardUniversities);
+
   Widget _buildHeadline(String headline) {
     return Text(headline, style: Styles.headline);
   }
@@ -41,32 +59,19 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildRowCards(BuildContext context) {
+  Widget _buildRowCards() {
     return Container(
         child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        PoliferieCard('assets/images/squadra.png', Strings.cardCourses),
-        PoliferieCard('assets/images/squadra.png', Strings.cardUniversities),
+        PoliferieCard(_coursesCard),
+        PoliferieCard(_universitiesCard),
       ],
     ));
   }
 
-  // TODO(@amerlo): To be removed
-  Widget _buildList(BuildContext context, List<PoliferieTile> cards) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.35,
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        itemCount: cards.length,
-        itemBuilder: (BuildContext context, int index) {
-          return cards[index];
-        },
-      ),
-    );
-  }
-
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context, List<CardInfo> cards) {
+    final _cards = cards.map((card) => PoliferieCard(card));
     return ListView(
       padding: AppDimensions.bodyPadding,
       scrollDirection: Axis.vertical,
@@ -74,18 +79,44 @@ class _HomeScreenState extends State<HomeScreen> {
         _buildHeadline(Strings.homeHeadline),
         _buildSubHeadline(Strings.homeSubHeadline),
         _buildRowHeading(Strings.homeSearch),
-        _buildRowCards(context),
+        _buildRowCards(),
         _buildRowHeading(Strings.homeDiscover),
-        ...discoverCardList,
+        ..._cards,
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final CardBloc _cardBloc = BlocProvider.of<CardBloc>(context);
+    _cardBloc.add(FetchCards());
+
+    return BlocBuilder<CardBloc, CardState>(
+      builder: (BuildContext context, CardState state) {
+        if (state is FetchStateLoading) {
+          return CircularProgressIndicator();
+        }
+        if (state is FetchStateError) {
+          return Text(state.error);
+        }
+        if (state is FetchStateSuccess) {
+          return _buildBody(context, state.cards);
+        }
+        return Text('This widge should never be reached');
+      },
+    );
+  }
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: PoliferieAppBar(),
-      body: _buildBody(context),
+      body: BlocProvider<CardBloc>(
+        create: (context) => CardBloc(cardRepository: widget.cardRepository),
+        child: HomeScreenBody(),
+      ),
     );
   }
 }

@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/styles.dart';
-
-// TODO(@amerlo): Remove from here and create json file
-final discoverCardList = <PoliferieCard>[
-  PoliferieCard('assets/images/squadra.png', 'Migliori Università in Piemonte'),
-  PoliferieCard('assets/images/squadra.png', 'Migliori Università in Sicilia'),
-];
+import 'package:Poliferie.io/models/card.dart';
 
 class PoliferieCard extends StatelessWidget {
-  final String imagePath;
-  final String heading;
+  final CardInfo card;
 
-  const PoliferieCard(this.imagePath, this.heading);
+  const PoliferieCard(@required this.card);
 
   Widget _buildCard(BuildContext context) {
     final _height = MediaQuery.of(context).size.width * 0.55;
@@ -28,13 +22,13 @@ class PoliferieCard extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Image.asset(
-                imagePath,
+                card.imagePath,
                 fit: BoxFit.cover,
                 height: _height * 0.50,
               ),
               Padding(
                 padding: EdgeInsets.only(top: 20.0),
-                child: Text(heading, style: Styles.cardHead),
+                child: Text(card.shortName, style: Styles.cardHead),
               ),
             ],
           ),

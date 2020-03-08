@@ -1,3 +1,4 @@
+import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/styles.dart';
@@ -17,7 +18,7 @@ class _BaseScreenState extends State<BaseScreen> {
   // TODO(@amerlo): How to zip together screens and
   // BottomNavigationBarItem
   var pages = [
-    HomeScreen(),
+    HomeScreen(cardRepository: cardRepository),
     SearchScreen(),
     CompareScreen(),
     ProfileScreen(userRepository: profileRepository),
