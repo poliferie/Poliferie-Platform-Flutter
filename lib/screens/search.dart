@@ -7,6 +7,7 @@ import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/widgets/poliferie_filter.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
+import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
 
 ///TODO(@amerlo): Try to shift to ListTile widget
 
@@ -273,27 +274,12 @@ class _SearchScreenState extends State<SearchScreen> {
       );
     }
 
-    PreferredSizeWidget _searchTabBar = TabBar(
-      tabs: [
-        Tab(
-            child: Text(
-          Strings.searchTabCourse.toUpperCase(),
-          style: Styles.searchTabTitle,
-        )),
-        Tab(
-            child: Text(
-          Strings.searchTabUniversity.toUpperCase(),
-          style: Styles.searchTabTitle,
-        ))
-      ],
-    );
-
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: PoliferieAppBar(
           icon: AppIcons.search,
-          bottom: _searchTabBar,
+          bottom: PoliferieTabBar(),
           onPressed: _onPressedSearch,
         ),
         body: _buildTabSearchView(context),
