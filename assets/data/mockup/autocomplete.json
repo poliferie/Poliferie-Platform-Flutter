@@ -1,0 +1,18 @@
+[
+    {
+        "type": "university",
+        "shortName": "Politecnico di Milano"
+    },
+    {
+        "type": "course",
+        "shortName": "Design del Prodotto Industriale"
+    },
+    {
+        "type": "course",
+        "shortName": "Ingegneria Civile"
+    },
+    {
+        "type": "university",
+        "shortName": "Politecnico di Torino"
+    }
+]

@@ -14,7 +14,8 @@ class CardClient {
 
   Future<List<CardInfo>> fetch() async {
     if (useLocalJson) {
-      String _data = await rootBundle.loadString("assets/data/cards.json");
+      String _data =
+          await rootBundle.loadString("assets/data/mockup/cards.json");
       final _cardList = json.decode(_data).toList();
       return <CardInfo>[
         CardInfo.fromJson(_cardList[0]),
