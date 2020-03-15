@@ -1,0 +1,42 @@
+[
+    {
+        "index": 0,
+        "shortName": "Ingegneria delle Merendine",
+        "university": "Sapienza Università di Roma",
+        "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "universityLogoPath": "assets/images/sapienza_logo.jpg",
+        "isBookmarked": false,
+        "stdents": 1245,
+        "salary": 2200,
+        "satisfacion": 87.2,
+        "info": {
+            "Studenti": 19.0,
+            "Aule": 28.0
+        },
+        "facilities": {
+            "Stipendio": 19.0,
+            "Biblioteche": 28.0,
+            "Computer": 89.0
+        }
+    },
+    {
+        "index": 1,
+        "shortName": "Ingegneria delle Periferie",
+        "university": "Università di Pisa",
+        "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "universityLogoPath": "assets/images/unipi_logo.jpg",
+        "isBookmarked": false,
+        "stdents": 87,
+        "salary": 945,
+        "satisfacion": 92.1,
+        "info": {
+            "Studenti": 879.0,
+            "Aule": 48.0
+        },
+        "facilities": {
+            "Stipendio": 9.0,
+            "Biblioteche": 99.0,
+            "Computer": 88.0
+        }
+    }
+]

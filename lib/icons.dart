@@ -7,4 +7,7 @@ class AppIcons {
   static const IconData search = IconData(59574, fontFamily: 'MaterialIcons');
   static const IconData profile = IconData(59475, fontFamily: 'MaterialIcons');
   static const IconData settings = IconData(59576, fontFamily: 'MaterialIcons');
+  static const IconData university =
+      IconData(59471, fontFamily: 'MaterialIcons');
+  static const IconData course = IconData(57391, fontFamily: 'MaterialIcons');
 }

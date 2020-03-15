@@ -1,30 +1,28 @@
-class UniversityModel {
-  final String name;
+import 'package:equatable/equatable.dart';
+
+class UniversityModel extends Equatable {
   final int index;
-  final String descriptionShort;
+  final String shortName;
+  final String shortDescription;
   final String imagePath;
 
-  UniversityModel(
+  const UniversityModel({
     this.index,
-    this.name,
-    this.descriptionShort,
+    this.shortName,
+    this.shortDescription,
     this.imagePath,
-  );
-}
+  });
 
-final mockUniversities = [
-  UniversityModel(
-    0,
-    'Sapienza Università di Roma',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut '
-        'labore et dolore magna aliqua.',
-    'assets/images/sapienza_logo.jpg',
-  ),
-  UniversityModel(
-    1,
-    'Università di Pisa',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut '
-        'labore et dolore magna aliqua.',
-    'assets/images/unipi_logo.jpg',
-  ),
-];
+  @override
+  List<Object> get props => [shortName, index, shortDescription, imagePath];
+
+  // Constructor from Json file
+  factory UniversityModel.fromJson(Map<String, dynamic> json) {
+    return UniversityModel(
+      index: json['index'],
+      shortName: json['shortName'],
+      shortDescription: json['shortDescription'],
+      imagePath: json['imagePath'],
+    );
+  }
+}

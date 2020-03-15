@@ -1,30 +1,44 @@
+import 'package:Poliferie.io/screens/screens.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:Poliferie.io/bloc/search_event.dart';
+import 'package:Poliferie.io/bloc/search_state.dart';
+import 'package:Poliferie.io/repositories/search_client.dart';
+import 'package:Poliferie.io/bloc/search_bloc.dart';
+import 'package:Poliferie.io/repositories/search_repository.dart';
 import 'package:Poliferie.io/icons.dart';
 import 'package:Poliferie.io/models/models.dart';
 import 'package:Poliferie.io/screens/course.dart';
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/dimensions.dart';
+
 import 'package:Poliferie.io/widgets/poliferie_filter.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
 
 enum TabType { course, university }
 
-///TODO(@amerlo): Mockup data to move
-const List<String> _results = <String>[
-  'Prova1',
-  'Prova2',
-];
-
+// SearchDelegate helper class
 class PoliferieSearchDelegate extends SearchDelegate {
+  final SearchBloc searchBloc;
+
+  PoliferieSearchDelegate({this.searchBloc});
+
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    assert(context != null);
+    final ThemeData theme = Theme.of(context);
+    assert(theme != null);
+    return theme;
+  }
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
         icon: Icon(Icons.clear),
-        // TODO(@amerlo): Clear other filter status here
         onPressed: () {
           query = '';
         },
@@ -44,41 +58,61 @@ class PoliferieSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO(@amerlo): Make API call and update SearchScreenState
-    return Column(
-      children: <Widget>[
-        ListView.builder(
-          itemCount: _results.length,
-          itemBuilder: (context, index) {
-            var _result = _results[index];
-            return ListTile(
-              title: Text('prv'),
-            );
-          },
-        )
-      ],
-    );
+    // Add search term to Bloc
+    searchBloc.add(FetchSuggestions(searchText: query));
+
+    return Text('here');
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // TODO(@amerlo): Display auto-complete suggestions
-    return Container();
+    // Add search term to Bloc
+    searchBloc.add(FetchSuggestions(searchText: query));
+
+    return BlocBuilder<SearchBloc, SearchState>(
+      bloc: searchBloc,
+      builder: (BuildContext context, SearchState state) {
+        if (state is SearchStateLoading) {
+          return CircularProgressIndicator();
+        }
+        if (state is SuggestionStateSuccess) {
+          Widget list = ListView.builder(
+            itemCount: state.suggestions.length,
+            itemBuilder: (context, index) {
+              var item = state.suggestions[index];
+              return ListTile(
+                leading: Icon(
+                    item.isCourse() ? AppIcons.course : AppIcons.university),
+                onTap: () {},
+                title: Text(item.shortName),
+              );
+            },
+          );
+          searchBloc.close();
+          return list;
+        }
+        if (state is SearchStateError) {
+          return Text(state.error);
+        }
+        return Text('This widge should never be reached');
+      },
+    );
   }
 }
 
+final SearchRepository searchRepository =
+    SearchRepository(searchClient: SearchClient(useLocalJson: true));
+
 class SearchScreen extends StatefulWidget {
+  final SearchRepository searchRepository;
+
+  SearchScreen({Key key, this.searchRepository}) : super(key: key);
+
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
-  // In the FrontEnd we just set the parameter for the Search API call to send
-  // to the backend, thus we instantiate the filter and the search string text,
-  // save into the state and then send the correct API request to the backend.
-  // We wait for the reply and show it. We make a new request every time something
-  // in the state change.
-
+class SearchScreenBody extends StatelessWidget {
   // TODO(@amerlo): Remove from here
   static const _paddingItem = 4.0;
 
@@ -117,7 +151,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               child: RichText(
                                 maxLines: 2,
                                 text: TextSpan(
-                                  text: course.name,
+                                  text: course.shortName,
                                   style: Styles.feedPostTitle,
                                   children: <TextSpan>[
                                     TextSpan(
@@ -156,7 +190,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         padding:
                             const EdgeInsets.symmetric(vertical: _paddingItem),
                         child: Text(
-                          course.descriptionShort,
+                          course.shortDescription,
                           style: TextStyle(fontSize: 16.0),
                         ),
                       ),
@@ -207,8 +241,8 @@ class _SearchScreenState extends State<SearchScreen> {
       leading: CircleAvatar(
         backgroundImage: AssetImage(university.imagePath),
       ),
-      title: Text(university.name),
-      subtitle: Text(university.descriptionShort),
+      title: Text(university.shortName),
+      subtitle: Text(university.shortDescription),
       isThreeLine: true,
       onTap: () {},
       trailing: Icon(Icons.bookmark_border),
@@ -309,7 +343,7 @@ class _SearchScreenState extends State<SearchScreen> {
   //   ),
   // ),
 
-  Widget _buildTabSearchView(BuildContext context) {
+  Widget _buildTabBarBody(BuildContext context) {
     return TabBarView(
       children: [
         _buildSearchView(context, courseFilterList, TabType.course),
@@ -323,7 +357,8 @@ class _SearchScreenState extends State<SearchScreen> {
     void _onPressedSearch() {
       showSearch(
         context: context,
-        delegate: PoliferieSearchDelegate(),
+        delegate: PoliferieSearchDelegate(
+            searchBloc: BlocProvider.of<SearchBloc>(context)),
       );
     }
 
@@ -335,8 +370,19 @@ class _SearchScreenState extends State<SearchScreen> {
           bottom: PoliferieTabBar(),
           onPressed: _onPressedSearch,
         ),
-        body: _buildTabSearchView(context),
+        body: _buildTabBarBody(context),
       ),
+    );
+  }
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<SearchBloc>(
+      create: (context) =>
+          SearchBloc(searchRepository: widget.searchRepository),
+      child: SearchScreenBody(),
     );
   }
 }

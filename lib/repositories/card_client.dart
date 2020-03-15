@@ -12,6 +12,7 @@ class CardClient {
       {this.baseUrl = "https://api.poliferie.org/user?q=",
       this.useLocalJson = false});
 
+  // TODO(@amerlo): Implement list builder
   Future<List<CardInfo>> fetch() async {
     if (useLocalJson) {
       String _data =

@@ -36,10 +36,10 @@ class _CourseScreenState extends State<CourseScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(course.university.toUpperCase(), style: Styles.courseSubHeadline),
-        Text(course.name, style: Styles.courseHeadline),
+        Text(course.shortName, style: Styles.courseHeadline),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 8.0),
-          child: Text(course.descriptionShort),
+          child: Text(course.shortDescription),
         ),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 8.0),

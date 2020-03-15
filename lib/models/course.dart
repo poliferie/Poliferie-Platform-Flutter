@@ -1,9 +1,10 @@
-class CourseModel {
-  final String name;
+import 'package:equatable/equatable.dart';
+
+class CourseModel extends Equatable {
   final int index;
-  final String descriptionShort;
-  // TODO(@amerlo): Change with proper description
-  final String descriptionLong = '';
+  final String shortName;
+  final String shortDescription;
+  final String longDescription = '';
   final String university;
   final String universityLogoPath;
   final bool isBookmarked;
@@ -13,11 +14,11 @@ class CourseModel {
   final Map<String, double> info;
   final Map<String, double> facilities;
 
-  CourseModel(
+  const CourseModel({
     this.index,
-    this.name,
+    this.shortName,
     this.university,
-    this.descriptionShort,
+    this.shortDescription,
     this.universityLogoPath,
     this.isBookmarked,
     this.students,
@@ -25,50 +26,17 @@ class CourseModel {
     this.satisfaction,
     this.info,
     this.facilities,
-  );
-}
+  });
 
-final mockCourses = [
-  CourseModel(
-    0,
-    'Ingegneria delle Merendine',
-    'Sapienza Università di Roma',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut '
-        'labore et dolore magna aliqua.',
-    'assets/images/sapienza_logo.jpg',
-    false,
-    1245,
-    2200,
-    87.2,
-    {
-      'Studenti': 19.0,
-      'Aule': 28.0,
-    },
-    {
-      'Stipendio': 19.0,
-      'Biblioteche': 28.0,
-      'Computer': 89.0,
-    },
-  ),
-  CourseModel(
-    0,
-    'Ingegneria delle Periferie',
-    'Università di Pisa',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut '
-        'labore et dolore magna aliqua.',
-    'assets/images/unipi_logo.jpg',
-    true,
-    87,
-    945,
-    92.1,
-    {
-      'studenti': 879.0,
-      'aule': 48.0,
-    },
-    {
-      'Stipendio': 9.0,
-      'Biblioteche': 99.0,
-      'Computer': 89.0,
-    },
-  ),
-];
+  @override
+  List<Object> get props => [index, shortName];
+
+  // Constructor from Json file
+  factory CourseModel.fromJson(Map<String, dynamic> json) {
+    return CourseModel(
+      index: json['index'],
+      shortName: json['shortName'],
+      shortDescription: json['shortDescription'],
+    );
+  }
+}

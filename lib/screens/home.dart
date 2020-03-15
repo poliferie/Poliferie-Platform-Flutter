@@ -88,8 +88,7 @@ class HomeScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CardBloc _cardBloc = BlocProvider.of<CardBloc>(context);
-    _cardBloc.add(FetchCards());
+    BlocProvider.of<CardBloc>(context).add(FetchCards());
 
     return BlocBuilder<CardBloc, CardState>(
       builder: (BuildContext context, CardState state) {

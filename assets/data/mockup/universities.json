@@ -1,0 +1,20 @@
+[
+    {
+        "index": 0,
+        "shortName": "Politecnico di Milano",
+        "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "imagePath": "assets/images/sapienza_logo.jpg"
+    },
+    {
+        "index": 1,
+        "shortName": "Sapienza Università di Roma",
+        "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "imagePath": "assets/images/sapienza_logo.jpg"
+    },
+    {
+        "index": 2,
+        "shortName": "Università di Pisa",
+        "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "imagePath": "assets/images/unipi_logo.jpg"
+    }
+]

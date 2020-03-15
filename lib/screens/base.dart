@@ -19,7 +19,7 @@ class _BaseScreenState extends State<BaseScreen> {
   // BottomNavigationBarItem
   var pages = [
     HomeScreen(cardRepository: cardRepository),
-    SearchScreen(),
+    SearchScreen(searchRepository: searchRepository),
     CompareScreen(),
     ProfileScreen(userRepository: profileRepository),
   ];
