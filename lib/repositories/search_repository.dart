@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:Poliferie.io/bloc/search_event.dart';
 import 'package:meta/meta.dart';
 
 import 'package:Poliferie.io/models/suggestion.dart';

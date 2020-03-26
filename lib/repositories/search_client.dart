@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:async';
-import 'package:Poliferie.io/models/course.dart';
-import 'package:Poliferie.io/models/university.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:Poliferie.io/models/suggestion.dart';
+import 'package:Poliferie.io/models/course.dart';
+import 'package:Poliferie.io/models/university.dart';
 
 // TODO(@amerlo): Implement API call
 class SearchClient {

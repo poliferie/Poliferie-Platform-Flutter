@@ -30,7 +30,7 @@ flutter devices
 Then launch project into the target Android emulator.
 
 '''sh
-flutter run
+flutter run -d emulator-5554
 '''
 
 ### Run on usb connected device

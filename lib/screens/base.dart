@@ -1,4 +1,3 @@
-import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/styles.dart';

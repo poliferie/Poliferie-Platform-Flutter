@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:Poliferie.io/models/models.dart';
 import 'package:Poliferie.io/strings.dart';
-
 import 'package:Poliferie.io/styles.dart';
 
 class CourseScreen extends StatefulWidget {

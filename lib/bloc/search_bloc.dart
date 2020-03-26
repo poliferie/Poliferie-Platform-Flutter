@@ -1,5 +1,3 @@
-import 'package:Poliferie.io/models/course.dart';
-import 'package:Poliferie.io/models/university.dart';
 import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -7,6 +5,8 @@ import 'package:Poliferie.io/bloc/search_event.dart';
 import 'package:Poliferie.io/bloc/search_state.dart';
 import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/models/suggestion.dart';
+import 'package:Poliferie.io/models/course.dart';
+import 'package:Poliferie.io/models/university.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final SearchRepository searchRepository;
