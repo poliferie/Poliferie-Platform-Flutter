@@ -14,41 +14,41 @@ It is written in Dart using [Flutter](https://flutter.io).
 ## Usage
 Update and check flutter installations first.
 
-'''sh
+```sh
 flutter upgrade
 flutter doctor
-'''
+```
 
 ### Run on emulator
 Start Android emulator first via the GUI interface of Android Studio. 
 Check device id via
 
-'''sh
+```sh
 flutter devices
-'''
+```
 
 Then launch project into the target Android emulator.
 
-'''sh
+```sh
 flutter run -d emulator-5554
-'''
+```
 
 ### Run on usb connected device
 Dive into Developer options on your device, and be sure to have
 'USB debugging' enabled. Then connect your device via a usb cable
 and launch the app via flutter.
 
-'''sh
+```sh
 flutter run
-'''
+```
 
 In case you encounter permission errors, kill the adb server,
 and respwan it with root privileges.
 
-'''sh
+```sh
 adb kill-server
 sudo adb usb
-'''
+```
 
 Then run flutter again.
 
@@ -58,5 +58,3 @@ as the flutter run process will get stuck on 'syncing files to device'.
 So please wait for a fix on this.
 
 * https://github.com/flutter/flutter/issues/49185
-
-
