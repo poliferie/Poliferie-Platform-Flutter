@@ -1,21 +1,7 @@
-/// TODO(@amerlo): Add LICENSE
-
+/// Class which holds strings for the entire app.
 abstract class Strings {
-  // Bottom Naviation Bar
-  static const String navBarHome = 'Home';
-  static const String navBarCourses = 'Corsi';
-  static const String navBarProfile = 'Profilo';
-
-  // General App
+  // App
   static const String appTitle = 'Poliferie';
-
-  // Search Screen
-  static const String searchTabCourse = 'Corsi';
-  static const String searchTabUniversity = 'Università';
-  static const String searchFilterIntro =
-      "Se non sai precisamente quello che stai cercando, "
-      "imposta solo qualche filtro e inizia ad esplorare l'offerta.";
-  static const String searchExplore = 'Esplora';
 
   // Home Screen
   static const String homeHeadline = 'Ciao!';
@@ -29,11 +15,13 @@ abstract class Strings {
   static const String cardCourses = 'Corsi';
   static const String cardUniversities = 'Università';
 
-  // Compare Screen
-  static const String compareHeadline = 'Confronta';
-  static const String compareSubHeadline = "Scegli due corsi o università e "
-      "confrontali uno accanto all'altro per scoprire quello "
-      "più adatto alle tue esigenze.";
+  // Search Screen
+  static const String searchTabCourse = 'Corsi';
+  static const String searchTabUniversity = 'Università';
+  static const String searchFilterIntro =
+      "Se non sai precisamente quello che stai cercando, "
+      "imposta solo qualche filtro e inizia ad esplorare l'offerta.";
+  static const String searchExplore = 'Esplora';
 
   // Course Screen
   static const String courseHowToApply = 'Scopri come iscriverti';
@@ -46,6 +34,12 @@ abstract class Strings {
       "per dimostrare al docente di aver appreso le conoscenze della materia"
       " in questione. L'esame può essere scritto, orale, a progetto oppure "
       "la combinazione di alcuni di questi.";
+
+  // Compare Screen
+  static const String compareHeadline = 'Confronta';
+  static const String compareSubHeadline = "Scegli due corsi o università e "
+      "confrontali uno accanto all'altro per scoprire quello "
+      "più adatto alle tue esigenze.";
 
   // User Screen
   static const String userFollowers = 'Followers';
