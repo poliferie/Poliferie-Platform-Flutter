@@ -1,6 +1,9 @@
-import 'package:Poliferie.io/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/strings.dart';
+import 'package:Poliferie.io/dimensions.dart';
 
 import 'package:Poliferie.io/bloc/search_event.dart';
 import 'package:Poliferie.io/bloc/search_state.dart';
@@ -8,11 +11,6 @@ import 'package:Poliferie.io/repositories/search_client.dart';
 import 'package:Poliferie.io/bloc/search_bloc.dart';
 import 'package:Poliferie.io/repositories/search_repository.dart';
 import 'package:Poliferie.io/icons.dart';
-import 'package:Poliferie.io/models/models.dart';
-import 'package:Poliferie.io/screens/course.dart';
-import 'package:Poliferie.io/styles.dart';
-import 'package:Poliferie.io/strings.dart';
-import 'package:Poliferie.io/dimensions.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_filter.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
@@ -20,7 +18,7 @@ import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
 
 enum TabType { course, university }
 
-// SearchDelegate helper class
+/// [SearchDelegate] helper class.
 class PoliferieSearchDelegate extends SearchDelegate {
   final SearchBloc searchBloc;
 
@@ -66,7 +64,6 @@ class PoliferieSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // Add search term to Bloc
     searchBloc.add(FetchSuggestions(searchText: query));
 
     return BlocBuilder<SearchBloc, SearchState>(
@@ -94,7 +91,7 @@ class PoliferieSearchDelegate extends SearchDelegate {
         if (state is SearchStateError) {
           return Text(state.error);
         }
-        return Text('This widge should never be reached');
+        return Text('This widget should never be reached');
       },
     );
   }
@@ -113,145 +110,9 @@ class SearchScreen extends StatefulWidget {
 }
 
 class SearchScreenBody extends StatelessWidget {
-  // TODO(@amerlo): Remove from here
-  static const _paddingItem = 4.0;
-
-  Widget _buildCourseShort(BuildContext context, CourseModel course) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => CourseScreen(course: course)),
-        );
-      },
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(_paddingItem),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CircleAvatar(
-                    backgroundImage: AssetImage(course.universityLogoPath),
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(top: _paddingItem),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Expanded(
-                              child: RichText(
-                                maxLines: 2,
-                                text: TextSpan(
-                                  text: course.shortName,
-                                  style: Styles.feedPostTitle,
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text: ' @ ' + course.university,
-                                      style: Styles.feedPostHandle,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              flex: 5,
-                            ),
-                            Expanded(
-                              child: IconButton(
-                                icon: Icon(
-                                  course.isBookmarked
-                                      ? Icons.bookmark
-                                      : Icons.bookmark_border,
-                                  color: course.isBookmarked
-                                      ? Styles.poliferieRed
-                                      : Styles.poliferieDarkGrey,
-                                ),
-                                onPressed: () {},
-                              ),
-                              flex: 1,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: _paddingItem),
-                        height: 2.0,
-                        width: 50.0,
-                        color: Styles.poliferieRed,
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.symmetric(vertical: _paddingItem),
-                        child: Text(
-                          course.shortDescription,
-                          style: TextStyle(fontSize: 16.0),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          FlatButton.icon(
-                            icon: Icon(
-                              Icons.people,
-                              color: Styles.poliferieLightGrey,
-                            ),
-                            onPressed: null,
-                            label: Text(course.students.toString()),
-                          ),
-                          FlatButton.icon(
-                            icon: Icon(
-                              Icons.sentiment_very_satisfied,
-                              color: Styles.poliferieLightGrey,
-                            ),
-                            onPressed: null,
-                            label: Text(course.satisfaction.toString()),
-                          ),
-                          FlatButton.icon(
-                            icon: Icon(
-                              Icons.monetization_on,
-                              color: Styles.poliferieLightGrey,
-                            ),
-                            onPressed: null,
-                            label: Text(course.salary.toString() + ' € / m'),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          Divider(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildUniversityShort(
-      BuildContext context, UniversityModel university) {
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundImage: AssetImage(university.imagePath),
-      ),
-      title: Text(university.shortName),
-      subtitle: Text(university.shortDescription),
-      isThreeLine: true,
-      onTap: () {},
-      trailing: Icon(Icons.bookmark_border),
-    );
-  }
-
   Widget _buildFilterHeading() {
     return Text(
-      "Filtri",
+      Strings.searchFilterHeading,
       style: Styles.tabHeading,
     );
   }
@@ -265,20 +126,6 @@ class SearchScreenBody extends StatelessWidget {
       ),
     );
   }
-
-  // Widget _buildFilterList(BuildContext context, List<PoliferieFilter> filters) {
-  //   return Container(
-  //     height: 50.0,
-  //     child: ListView.builder(
-  //       physics: BouncingScrollPhysics(),
-  //       scrollDirection: Axis.horizontal,
-  //       itemCount: filters.length,
-  //       itemBuilder: (BuildContext context, int index) {
-  //         return filters[index];
-  //       },
-  //     ),
-  //   );
-  // }
 
   Widget _buildFilterList(BuildContext context, List<PoliferieFilter> filters) {
     return Expanded(
@@ -297,6 +144,7 @@ class SearchScreenBody extends StatelessWidget {
     );
   }
 
+  // TODO(@amerlo): Make buttom float over filter list.
   Widget _buildFloatingButton() {
     return Center(
       child: Padding(
@@ -314,6 +162,7 @@ class SearchScreenBody extends StatelessWidget {
     );
   }
 
+  /// Builds filter list tab based on [tabType].
   Widget _buildSearchView(
       BuildContext context, List<PoliferieFilter> filters, TabType tabType) {
     return Container(
@@ -330,18 +179,6 @@ class SearchScreenBody extends StatelessWidget {
       ),
     );
   }
-
-  //   Expanded(
-  //   child: ListView.builder(
-  //     itemCount: _items.length,
-  //     itemBuilder: (context, position) {
-  //       if (courses != null)
-  //         return _buildCourseShort(context, _items[position]);
-  //       else
-  //         return _buildUniversityShort(context, _items[position]);
-  //     },
-  //   ),
-  // ),
 
   Widget _buildTabBarBody(BuildContext context) {
     return TabBarView(
