@@ -1,5 +1,3 @@
-// TODO(@amerlo): Add LICENSE
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -16,7 +14,6 @@ class PoliferieApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: Strings.appTitle,
       theme: ThemeData(
-          // TODO(@amerlo): Create new color Swatch
           primarySwatch: Colors.red,
           primaryColor: Styles.poliferieRed,
           fontFamily: 'Lato',
