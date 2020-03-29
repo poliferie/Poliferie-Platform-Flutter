@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/icons.dart';
-import 'package:Poliferie.io/screens/screens.dart';
 import 'package:Poliferie.io/dimensions.dart';
+
+import 'package:Poliferie.io/screens/screens.dart';
 
 class BaseScreen extends StatefulWidget {
   @override
@@ -11,11 +12,10 @@ class BaseScreen extends StatefulWidget {
 }
 
 class _BaseScreenState extends State<BaseScreen> {
-  int _selectedPageIndex = 0;
+  int _selectedScreenIndex = 0;
 
-  // TODO(@amerlo): Remove TestScreen() and TestUserScreen()
-  // TODO(@amerlo): How to zip together screens and
-  // BottomNavigationBarItem
+  // TODO(@amerlo): Is there a more elegant solution
+  // to zip together screens and BottomNavigationBarItem?
   var pages = [
     HomeScreen(cardRepository: cardRepository),
     SearchScreen(searchRepository: searchRepository),
@@ -23,12 +23,13 @@ class _BaseScreenState extends State<BaseScreen> {
     ProfileScreen(userRepository: profileRepository),
   ];
 
+  /// Build the [BottomNavigationBar] which handles the screens.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          pages[_selectedPageIndex],
+          pages[_selectedScreenIndex],
           Positioned(
             left: 0,
             right: 0,
@@ -71,7 +72,7 @@ class _BaseScreenState extends State<BaseScreen> {
                   ],
                   onTap: (index) {
                     setState(() {
-                      _selectedPageIndex = index;
+                      _selectedScreenIndex = index;
                     });
                   },
                   type: BottomNavigationBarType.fixed,
@@ -80,7 +81,7 @@ class _BaseScreenState extends State<BaseScreen> {
                   backgroundColor: Styles.poliferieWhite,
                   selectedItemColor: Styles.poliferieRed,
                   unselectedItemColor: Styles.poliferieDarkGrey,
-                  currentIndex: _selectedPageIndex),
+                  currentIndex: _selectedScreenIndex),
             ),
           ),
         ],
