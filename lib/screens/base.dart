@@ -78,7 +78,7 @@ class _BaseScreenState extends State<BaseScreen> {
                   selectedFontSize: 0.0,
                   unselectedFontSize: 0.0,
                   backgroundColor: Styles.poliferieWhite,
-                  selectedItemColor: Styles.poliferieRedAccent,
+                  selectedItemColor: Styles.poliferieRed,
                   unselectedItemColor: Styles.poliferieDarkGrey,
                   currentIndex: _selectedPageIndex),
             ),

@@ -19,12 +19,12 @@ class _CourseScreenState extends State<CourseScreen> {
   Widget _buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.white,
-      iconTheme: IconThemeData(color: Styles.poliferieRedAccent),
+      iconTheme: IconThemeData(color: Styles.poliferieRed),
       title: Text('Corso'.toUpperCase(), style: Styles.searchTabTitle),
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.share),
-          color: Styles.poliferieRedAccent,
+          color: Styles.poliferieRed,
           onPressed: () {},
         ),
       ],
@@ -53,7 +53,7 @@ class _CourseScreenState extends State<CourseScreen> {
                         ? Icons.bookmark
                         : Icons.bookmark_border,
                     color: course.isBookmarked
-                        ? Styles.poliferieRedAccent
+                        ? Styles.poliferieRed
                         : Styles.poliferieDarkGrey,
                   ),
                   onPressed: () {},
@@ -63,7 +63,7 @@ class _CourseScreenState extends State<CourseScreen> {
               Expanded(
                 // TODO(@amerlo): Update splash color
                 child: FlatButton(
-                  color: Styles.poliferieRedAccent,
+                  color: Styles.poliferieRed,
                   textColor: Colors.white,
                   disabledColor: Styles.poliferieLightGrey,
                   disabledTextColor: Styles.poliferieDarkGrey,
@@ -115,7 +115,7 @@ class _CourseScreenState extends State<CourseScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Icon(description != null ? Icons.info : Icons.storage,
-                        color: Styles.poliferieRedAccent),
+                        color: Styles.poliferieRed),
                     Padding(
                       child: Text(title, style: Styles.courseTabTitle),
                       padding: EdgeInsets.symmetric(horizontal: 10.0),

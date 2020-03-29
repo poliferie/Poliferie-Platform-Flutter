@@ -54,7 +54,7 @@ class HomeScreenBody extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: Text(
         heading,
-        style: Styles.headingTab,
+        style: Styles.tabHeading,
       ),
     );
   }

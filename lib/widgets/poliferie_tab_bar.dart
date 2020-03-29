@@ -15,7 +15,7 @@ class PoliferieTabBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return TabBar(
-      labelColor: Styles.poliferieRedAccent,
+      labelColor: Styles.poliferieRed,
       unselectedLabelColor: Styles.poliferieWhite,
       indicatorSize: TabBarIndicatorSize.label,
       indicator: BoxDecoration(

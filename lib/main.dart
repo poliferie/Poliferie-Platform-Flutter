@@ -18,7 +18,7 @@ class PoliferieApp extends StatelessWidget {
       theme: ThemeData(
           // TODO(@amerlo): Create new color Swatch
           primarySwatch: Colors.red,
-          primaryColor: Styles.poliferieRedAccent,
+          primaryColor: Styles.poliferieRed,
           fontFamily: 'Lato',
           backgroundColor: Styles.poliferieBackground,
           scaffoldBackgroundColor: Styles.poliferieBackground),

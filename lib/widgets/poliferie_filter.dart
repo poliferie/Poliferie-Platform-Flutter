@@ -149,8 +149,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
           _onButtonPressed();
         },
         onLongPress: () {},
-        textColor:
-            _isApplied ? Styles.poliferieRedAccent : Styles.poliferieDarkGrey,
+        textColor: _isApplied ? Styles.poliferieRed : Styles.poliferieDarkGrey,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[

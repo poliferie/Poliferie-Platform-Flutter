@@ -43,8 +43,7 @@ class PoliferieTile extends StatelessWidget {
         height: 55.0,
       ),
       title: Text(head),
-      subtitle:
-          Text(leading, style: TextStyle(color: Styles.poliferieRedAccent)),
+      subtitle: Text(leading, style: TextStyle(color: Styles.poliferieRed)),
       trailing: Icon(Icons.keyboard_arrow_right),
       onTap: () {
         Navigator.push(

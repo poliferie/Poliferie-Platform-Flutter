@@ -37,7 +37,7 @@ class PoliferieAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Styles.poliferieRedAccent,
+      backgroundColor: Styles.poliferieRed,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[

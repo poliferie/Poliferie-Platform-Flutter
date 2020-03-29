@@ -170,7 +170,7 @@ class SearchScreenBody extends StatelessWidget {
                                       ? Icons.bookmark
                                       : Icons.bookmark_border,
                                   color: course.isBookmarked
-                                      ? Styles.poliferieRedAccent
+                                      ? Styles.poliferieRed
                                       : Styles.poliferieDarkGrey,
                                 ),
                                 onPressed: () {},
@@ -184,7 +184,7 @@ class SearchScreenBody extends StatelessWidget {
                         margin: EdgeInsets.symmetric(vertical: _paddingItem),
                         height: 2.0,
                         width: 50.0,
-                        color: Styles.poliferieRedAccent,
+                        color: Styles.poliferieRed,
                       ),
                       Padding(
                         padding:
@@ -252,7 +252,7 @@ class SearchScreenBody extends StatelessWidget {
   Widget _buildFilterHeading() {
     return Text(
       "Filtri",
-      style: Styles.headingTab,
+      style: Styles.tabHeading,
     );
   }
 
@@ -261,7 +261,7 @@ class SearchScreenBody extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 6.0),
       child: Text(
         Strings.searchFilterIntro,
-        style: Styles.searchFilterIntro,
+        style: Styles.tabDescription,
       ),
     );
   }
@@ -308,7 +308,7 @@ class SearchScreenBody extends StatelessWidget {
             borderRadius: new BorderRadius.circular(10.0),
           ),
           onPressed: () {},
-          label: Text(Strings.searchExplore, style: Styles.searchExplore),
+          label: Text(Strings.searchExplore, style: Styles.buttonTitle),
         ),
       ),
     );

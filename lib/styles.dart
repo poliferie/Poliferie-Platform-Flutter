@@ -1,23 +1,21 @@
 import 'package:flutter/widgets.dart';
 
+/// Class which holds text styles and colors for the entire app.
 abstract class Styles {
-  /// Define UI colors.
-  /// Primary color Swatch based on Poliferie Red.
-  static const Color poliferieRedAccent = Color.fromRGBO(234, 46, 66, 1.0);
+  // Colors used for UI components.
+  static const Color poliferieRed = Color.fromRGBO(234, 46, 66, 1.0);
   static const Color poliferieBlue = Color.fromRGBO(0, 140, 211, 1.0);
+  static const Color poliferieWhite = Color.fromRGBO(255, 255, 255, 1.0);
+  static const Color poliferieLightWhite = Color.fromRGBO(255, 255, 255, 0.87);
+  static const Color poliferieBackground = Color.fromRGBO(255, 255, 255, 0.75);
 
-  /// Texts.
+  // Colors used for texts.
   static const Color poliferieLightGrey = Color.fromRGBO(0, 0, 0, 0.25);
   static const Color poliferieDarkGrey = Color.fromRGBO(0, 0, 0, 0.5);
   static const Color poliferieBlack = Color.fromRGBO(0, 0, 0, 1.0);
   static const Color poliferieLightBlack = Color.fromRGBO(0, 0, 0, 0.87);
 
-  /// Background.
-  static const Color poliferieWhite = Color.fromRGBO(255, 255, 255, 1.0);
-  static const Color poliferieLightWhite = Color.fromRGBO(255, 255, 255, 0.87);
-  static const Color poliferieBackground = Color.fromRGBO(255, 255, 255, 0.75);
-
-  /// Define UI text styles.
+  // Text styles.
   static const headline = TextStyle(
     color: poliferieLightBlack,
     fontFamily: 'Montserrat',
@@ -27,7 +25,6 @@ abstract class Styles {
     fontWeight: FontWeight.bold,
   );
 
-  /// Home subheadline text style.
   static const subHeadline = TextStyle(
     color: poliferieLightBlack,
     fontFamily: 'Montserrat',
@@ -36,7 +33,7 @@ abstract class Styles {
     fontWeight: FontWeight.w300,
   );
 
-  static const headingTab = TextStyle(
+  static const tabHeading = TextStyle(
     color: poliferieLightBlack,
     fontFamily: 'Montserrat',
     fontSize: 18,
@@ -64,14 +61,14 @@ abstract class Styles {
     fontSize: 14.0,
   );
 
-  static const searchFilterIntro = TextStyle(
+  static const tabDescription = TextStyle(
     color: poliferieLightBlack,
     fontFamily: 'Lato',
     fontSize: 18.0,
     fontWeight: FontWeight.w300,
   );
 
-  static const searchExplore = TextStyle(
+  static const buttonTitle = TextStyle(
     fontWeight: FontWeight.bold,
     fontFamily: 'Montserrat',
     fontSize: 22.0,
@@ -123,7 +120,7 @@ abstract class Styles {
   );
 
   static const courseSubHeadline = TextStyle(
-    color: poliferieRedAccent,
+    color: poliferieRed,
     fontFamily: 'Montserrat',
     fontSize: 12,
     fontStyle: FontStyle.normal,
@@ -176,16 +173,22 @@ abstract class Styles {
   );
 
   static const cardLeading = TextStyle(
-    color: Styles.poliferieRedAccent,
+    color: Styles.poliferieRed,
     fontSize: 17.0,
     height: 1.5,
     fontFamily: 'Lato',
   );
 
-  static const profileStats =
-      TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.bold);
+  static const profileStats = TextStyle(
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.bold,
+  );
 
-  static const bottomNavBarSelected = TextStyle(fontFamily: 'Lato');
+  static const bottomNavBarSelected = TextStyle(
+    fontFamily: 'Lato',
+  );
 
-  static const bottomNavBarUnselected = TextStyle(color: poliferieBlack);
+  static const bottomNavBarUnselected = TextStyle(
+    color: poliferieBlack,
+  );
 }

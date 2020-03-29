@@ -19,12 +19,12 @@ class _PageScreenState extends State<PageScreen> {
   Widget _buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.white,
-      iconTheme: IconThemeData(color: Styles.poliferieRedAccent),
+      iconTheme: IconThemeData(color: Styles.poliferieRed),
       title: Text('Card'.toUpperCase(), style: Styles.searchTabTitle),
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.share),
-          color: Styles.poliferieRedAccent,
+          color: Styles.poliferieRed,
           onPressed: () {},
         ),
       ],
