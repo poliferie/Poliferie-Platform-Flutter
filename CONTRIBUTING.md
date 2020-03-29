@@ -15,14 +15,19 @@ Navigation Bar:
 * Add code to use icons in terms of target platform.
 
 Top Bar:
-* Use red as background color.
 * Rounded box like here https://stackoverflow.com/questions/55826789/flutter-rounded-corners-in-sliverappbar.
+
+User Data:
+* Save user preferences with [this](https://pub.dev/packages/shared_preferences) flutter package.
+* Exploit the same package to store user interactions data, such as last searches.
+
+Onboarding:
+* To be done from the design point of view.
 
 ## Home
 
 * Fix copy.
-* Fix page layout.
-* Data for the the list view.
+* Integrate API to fetch data for the list view.
 
 ## Search
 
@@ -53,7 +58,7 @@ Searches:
   https://pub.dev/packages/expandable.
 
 ## Courses
-
+* To be done.
 
 ## Compare
 
