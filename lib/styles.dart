@@ -77,7 +77,7 @@ abstract class Styles {
   static const filterName = TextStyle(
     color: poliferieLightBlack,
     fontFamily: 'Lato',
-    fontSize: 14.0,
+    fontSize: 18.0,
     fontWeight: FontWeight.w300,
   );
 
