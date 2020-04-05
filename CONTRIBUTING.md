@@ -36,11 +36,9 @@ Onboarding:
   SliverAppBar will be hide when we scroll down.
 * Have the search bar in the second AppBar or SliverBar, examples from
   https://pub.dev/packages/floating_search_bar.
-* Make Tab Bar more like buttons, examples here:
-  -> https://medium.com/better-programming/flutter-tabbar-with-buttons-as-tabs-ios-style-4dff5ae6c055
-* Add internal TabBar view for Filters and Searches.
 
 Filters:
+* Retrieve filter list from BLoC.
 * Define state for each filter and group them into a global filter state.
   This would serve to send the JSON request to the backend.
 * Implement filter clear action.
