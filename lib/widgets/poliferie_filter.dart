@@ -2,53 +2,52 @@ import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/styles.dart';
 
-/// TODO(@amerlo): Move this to BLoC
+enum FilterType { dropDown, selectRange }
+
 final courseFilterList = <PoliferieFilter>[
   PoliferieFilter(
-      icon: Icons.my_location,
-      name: 'Regione',
-      hint: 'Inserisci una regione...',
-      description: "Regione dell'università"),
+    icon: Icons.my_location,
+    name: 'Regione',
+    hint: 'Inserisci una regione...',
+    description: "Regione dell'università",
+    type: FilterType.dropDown,
+  ),
   PoliferieFilter(
-      icon: Icons.supervised_user_circle,
-      name: 'Studenti',
-      hint: 'Numero minimo di studenti...',
-      description: 'Numero di iscritti al corso'),
+    icon: Icons.supervised_user_circle,
+    name: 'Studenti',
+    hint: 'Numero minimo di studenti...',
+    description: 'Numero di iscritti al corso',
+    type: FilterType.selectRange,
+  ),
   PoliferieFilter(
-      icon: Icons.money_off,
-      name: 'Tassa',
-      hint: 'Tassa massima annuale...',
-      description: 'Tassa universitaria annuale'),
+    icon: Icons.money_off,
+    name: 'Tassa',
+    hint: 'Tassa massima annuale...',
+    description: 'Tassa universitaria annuale',
+    type: FilterType.selectRange,
+  ),
   PoliferieFilter(
-      icon: Icons.sentiment_satisfied,
-      name: 'Soddisfazione',
-      hint: 'Grado di soddisfazione minimo...',
-      description: 'Grado di soddisfazione dei laureati'),
+    icon: Icons.sentiment_satisfied,
+    name: 'Soddisfazione',
+    hint: 'Grado di soddisfazione minimo...',
+    description: 'Grado di soddisfazione dei laureati',
+    type: FilterType.selectRange,
+  ),
   PoliferieFilter(
-      icon: Icons.book,
-      name: 'Area Disciplinare',
-      hint: 'Area disciplinare...',
-      description: 'Area disciplinare del corso'),
+    icon: Icons.book,
+    name: 'Area Disciplinare',
+    hint: 'Area disciplinare...',
+    description: 'Area disciplinare del corso',
+    type: FilterType.dropDown,
+  ),
   PoliferieFilter(
-      icon: Icons.book,
-      name: 'Area Disciplinare',
-      hint: 'Area disciplinare...',
-      description: 'Area disciplinare del corso'),
-  PoliferieFilter(
-      icon: Icons.book,
-      name: 'Area Disciplinare',
-      hint: 'Area disciplinare...',
-      description: 'Area disciplinare del corso'),
-  PoliferieFilter(
-      icon: Icons.book,
-      name: 'Area Disciplinare',
-      hint: 'Area disciplinare...',
-      description: 'Area disciplinare del corso'),
-  PoliferieFilter(
-      icon: Icons.book,
-      name: 'Area Disciplinare',
-      hint: 'Area disciplinare...',
-      description: 'Area disciplinare del corso'),
+    icon: Icons.settings,
+    name: 'Tirocini',
+    hint: 'Percentuale di tirocini...',
+    description:
+        'Percentuale di studenti che ha effettuato almeno un tirocinio formativo',
+    type: FilterType.selectRange,
+  )
 ];
 
 class PoliferieFilter extends StatefulWidget {
@@ -58,20 +57,25 @@ class PoliferieFilter extends StatefulWidget {
     this.name,
     this.hint,
     this.description,
+    this.type,
   }) : super(key: key);
 
   final IconData icon;
   final String name;
   final String description;
   final String hint;
+  final FilterType type;
 
   @override
   _PoliferieFilterState createState() => new _PoliferieFilterState();
 }
 
 class _PoliferieFilterState extends State<PoliferieFilter> {
-  String _value = '';
-  bool _isApplied = false;
+  // TODO(@amerlo): Could they be made private?
+  bool selected = false;
+  String value;
+  double rangeLow = 0.0;
+  double rangeHigh = 0.0;
 
   TextEditingController _textFieldController = TextEditingController();
 
@@ -102,8 +106,8 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
         onPressed: () {
           Navigator.pop(context);
           setState(() {
-            _value = _textFieldController.text;
-            _isApplied = true;
+            value = _textFieldController.text;
+            selected = true;
           });
         },
       ),
@@ -112,8 +116,8 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
         onPressed: () {
           Navigator.pop(context);
           setState(() {
-            _value = null;
-            _isApplied = false;
+            value = null;
+            selected = false;
           });
         },
       ),
@@ -149,7 +153,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
           _onButtonPressed();
         },
         onLongPress: () {},
-        textColor: _isApplied ? Styles.poliferieRed : Styles.poliferieDarkGrey,
+        textColor: selected ? Styles.poliferieRed : Styles.poliferieDarkGrey,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
