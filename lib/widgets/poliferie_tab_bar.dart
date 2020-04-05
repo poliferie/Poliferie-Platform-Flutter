@@ -13,7 +13,6 @@ class PoliferieTabBar extends StatelessWidget implements PreferredSizeWidget {
     return Size.fromHeight(AppBar().preferredSize.height);
   }
 
-  // TODO(@amerlo): Set logo dimensions and padding
   @override
   Widget build(BuildContext context) {
     return TabBar(
