@@ -109,7 +109,49 @@ class SearchScreen extends StatefulWidget {
   _SearchScreenState createState() => _SearchScreenState();
 }
 
-class SearchScreenBody extends StatelessWidget {
+class SearchScreenBody extends StatefulWidget {
+  @override
+  _SearchScreenBodyState createState() => _SearchScreenBodyState();
+}
+
+class _SearchScreenBodyState extends State<SearchScreenBody> {
+  /// List of [PoliferieFilter] for courses
+  List<PoliferieFilter> courseFilters = courseFilterList;
+
+  /// List of [PoliferieFilter] for universities
+  List<PoliferieFilter> universityFilters = courseFilterList;
+
+  Widget _buildFilterList(
+      BuildContext context, List<PoliferieFilter> filters, TabType tabType) {
+    return GridView.builder(
+      physics: BouncingScrollPhysics(),
+      scrollDirection: Axis.vertical,
+      itemCount: filters.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        childAspectRatio: 2,
+        crossAxisCount: 2,
+      ),
+      itemBuilder: (BuildContext context, int index) {
+        return filters[index];
+      },
+    );
+  }
+
+  Widget _buildFloatingButton() {
+    return Padding(
+      padding: EdgeInsetsDirectional.only(bottom: 50.0),
+      child: FloatingActionButton.extended(
+        backgroundColor: Styles.poliferieBlue,
+        focusColor: Styles.poliferieBlue,
+        shape: RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(10.0),
+        ),
+        onPressed: () {},
+        label: Text(Strings.searchExplore, style: Styles.buttonTitle),
+      ),
+    );
+  }
+
   Widget _buildFilterHeading() {
     return Text(
       Strings.searchFilterHeading,
@@ -119,7 +161,7 @@ class SearchScreenBody extends StatelessWidget {
 
   Widget _buildFilterIntro() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 6.0),
+      padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 10.0),
       child: Text(
         Strings.searchFilterIntro,
         style: Styles.tabDescription,
@@ -127,65 +169,40 @@ class SearchScreenBody extends StatelessWidget {
     );
   }
 
-  Widget _buildFilterList(BuildContext context, List<PoliferieFilter> filters) {
+  Widget _buildTabBar() {
+    return PoliferieTabBar();
+  }
+
+  Widget _buildTabBarBody(BuildContext context) {
     return Expanded(
-      child: GridView.builder(
-        physics: BouncingScrollPhysics(),
-        scrollDirection: Axis.vertical,
-        itemCount: filters.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          childAspectRatio: 2,
-          crossAxisCount: 2,
-        ),
-        itemBuilder: (BuildContext context, int index) {
-          return filters[index];
-        },
-      ),
-    );
-  }
-
-  // TODO(@amerlo): Make buttom float over filter list.
-  Widget _buildFloatingButton() {
-    return Center(
-      child: Padding(
-        padding: EdgeInsetsDirectional.only(bottom: 50.0),
-        child: FloatingActionButton.extended(
-          backgroundColor: Styles.poliferieBlue,
-          focusColor: Styles.poliferieBlue,
-          shape: RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(10.0),
-          ),
-          onPressed: () {},
-          label: Text(Strings.searchExplore, style: Styles.buttonTitle),
-        ),
-      ),
-    );
-  }
-
-  /// Builds filter list tab based on [tabType].
-  Widget _buildSearchView(
-      BuildContext context, List<PoliferieFilter> filters, TabType tabType) {
-    return Container(
-      height: double.infinity,
-      padding: AppDimensions.searchBodyPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
+        alignment: AlignmentDirectional.bottomCenter,
         children: <Widget>[
-          _buildFilterHeading(),
-          _buildFilterIntro(),
-          _buildFilterList(context, filters),
+          TabBarView(
+            children: [
+              _buildFilterList(context, courseFilterList, TabType.course),
+              _buildFilterList(context, courseFilterList, TabType.university),
+            ],
+          ),
           _buildFloatingButton(),
         ],
       ),
     );
   }
 
-  Widget _buildTabBarBody(BuildContext context) {
-    return TabBarView(
-      children: [
-        _buildSearchView(context, courseFilterList, TabType.course),
-        _buildSearchView(context, courseFilterList, TabType.university),
-      ],
+  Widget _buildSearchScreenBody(BuildContext context) {
+    return Container(
+      padding: AppDimensions.searchBodyPadding,
+      height: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _buildFilterHeading(),
+          _buildFilterIntro(),
+          _buildTabBar(),
+          _buildTabBarBody(context),
+        ],
+      ),
     );
   }
 
@@ -204,10 +221,9 @@ class SearchScreenBody extends StatelessWidget {
       child: Scaffold(
         appBar: PoliferieAppBar(
           icon: AppIcons.search,
-          bottom: PoliferieTabBar(),
           onPressed: _onPressedSearch,
         ),
-        body: _buildTabBarBody(context),
+        body: _buildSearchScreenBody(context),
       ),
     );
   }
