@@ -82,7 +82,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
   Widget _buildActionButtons() {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
       FlatButton(
-        child: new Text('APPLICA'),
+        child: Text('APPLICA'),
         onPressed: () {
           Navigator.pop(context);
           setState(() {
@@ -92,7 +92,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
         },
       ),
       FlatButton(
-        child: new Text('PULISCI'),
+        child: Text('PULISCI'),
         onPressed: () {
           Navigator.pop(context);
           setState(() {
@@ -140,37 +140,41 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
         });
   }
 
+  Future<bool> _doNotDismiss() async {
+    setState(() {
+      selected = false;
+    });
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.width * 0.15,
-      margin: EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
-      child: FlatButton(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(20.0),
+    return Dismissible(
+      key: GlobalKey(),
+      confirmDismiss: (direction) => _doNotDismiss(),
+      background: Container(
+        color: Styles.poliferieRed,
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        alignment: AlignmentDirectional.centerStart,
+        child: Icon(
+          Icons.delete,
+          color: Styles.poliferieLightWhite,
         ),
-        onPressed: () {
-          _onButtonPressed();
-        },
-        onLongPress: () {},
-        textColor: selected ? Styles.poliferieRed : Styles.poliferieDarkGrey,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(right: 10.0),
-              child: Icon(widget.icon),
-            ),
-            Expanded(
-              child: Text(
-                widget.name,
-                style: Styles.filterName,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-              ),
-            ),
-          ],
+      ),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: ListTile(
+          onTap: _onButtonPressed,
+          leading: Icon(widget.icon),
+          selected: selected,
+          title: Text(
+            widget.name,
+            style: Styles.filterName,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+          ),
         ),
       ),
     );
