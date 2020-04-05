@@ -123,14 +123,10 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
 
   Widget _buildFilterList(
       BuildContext context, List<PoliferieFilter> filters, TabType tabType) {
-    return GridView.builder(
+    return ListView.builder(
       physics: BouncingScrollPhysics(),
       scrollDirection: Axis.vertical,
       itemCount: filters.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        childAspectRatio: 2,
-        crossAxisCount: 2,
-      ),
       itemBuilder: (BuildContext context, int index) {
         return filters[index];
       },
@@ -179,6 +175,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
         alignment: AlignmentDirectional.bottomCenter,
         children: <Widget>[
           TabBarView(
+            physics: NeverScrollableScrollPhysics(),
             children: [
               _buildFilterList(context, courseFilterList, TabType.course),
               _buildFilterList(context, courseFilterList, TabType.university),

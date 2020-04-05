@@ -79,27 +79,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
 
   TextEditingController _textFieldController = TextEditingController();
 
-  _onButtonPressed() {
-    showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return Container(
-            color: Styles.poliferieLightGrey,
-            child: Container(
-              child: _buildBottomSheet(),
-              decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(20),
-                  topRight: const Radius.circular(20),
-                ),
-              ),
-            ),
-          );
-        });
-  }
-
-  Widget _builcActionButtons() {
+  Widget _buildActionButtons() {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
       FlatButton(
         child: new Text('APPLICA'),
@@ -134,16 +114,37 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
             controller: _textFieldController,
             decoration: InputDecoration(hintText: widget.hint),
           ),
-          _builcActionButtons(),
+          _buildActionButtons(),
         ],
       ),
     );
   }
 
+  _onButtonPressed() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            color: Styles.poliferieLightGrey,
+            child: Container(
+              child: _buildBottomSheet(),
+              decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(20),
+                  topRight: const Radius.circular(20),
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(6.0),
+      height: MediaQuery.of(context).size.width * 0.15,
+      margin: EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
       child: FlatButton(
         color: Colors.white,
         shape: RoundedRectangleBorder(
