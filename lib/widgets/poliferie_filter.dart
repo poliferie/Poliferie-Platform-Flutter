@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/dimensions.dart';
 
-enum FilterType { dropDown, selectRange }
+import 'package:Poliferie.io/widgets/poliferie_value_box.dart';
+
+enum FilterType { dropDown, selectRange, selectValue }
 
 final courseFilterList = <PoliferieFilter>[
   PoliferieFilter(
@@ -11,6 +14,7 @@ final courseFilterList = <PoliferieFilter>[
     hint: 'Inserisci una regione...',
     description: "Regione dell'università",
     type: FilterType.dropDown,
+    range: ["Lazio", "Lombardia"],
   ),
   PoliferieFilter(
     icon: Icons.supervised_user_circle,
@@ -18,6 +22,7 @@ final courseFilterList = <PoliferieFilter>[
     hint: 'Numero minimo di studenti...',
     description: 'Numero di iscritti al corso',
     type: FilterType.selectRange,
+    range: [0, 10000],
   ),
   PoliferieFilter(
     icon: Icons.money_off,
@@ -25,6 +30,8 @@ final courseFilterList = <PoliferieFilter>[
     hint: 'Tassa massima annuale...',
     description: 'Tassa universitaria annuale',
     type: FilterType.selectRange,
+    range: [0, 10000],
+    unit: "€",
   ),
   PoliferieFilter(
     icon: Icons.sentiment_satisfied,
@@ -32,6 +39,8 @@ final courseFilterList = <PoliferieFilter>[
     hint: 'Grado di soddisfazione minimo...',
     description: 'Grado di soddisfazione dei laureati',
     type: FilterType.selectRange,
+    range: [0, 100],
+    unit: "%",
   ),
   PoliferieFilter(
     icon: Icons.book,
@@ -39,6 +48,7 @@ final courseFilterList = <PoliferieFilter>[
     hint: 'Area disciplinare...',
     description: 'Area disciplinare del corso',
     type: FilterType.dropDown,
+    range: ["Matematica", "Fisica"],
   ),
   PoliferieFilter(
     icon: Icons.settings,
@@ -47,7 +57,16 @@ final courseFilterList = <PoliferieFilter>[
     description:
         'Percentuale di studenti che ha effettuato almeno un tirocinio formativo',
     type: FilterType.selectRange,
-  )
+    range: [0, 100],
+    unit: "%",
+  ),
+  PoliferieFilter(
+      icon: Icons.settings,
+      name: 'Lingua',
+      hint: '',
+      description: 'Lingua di insegnamento del corso',
+      type: FilterType.selectValue,
+      range: ["ITA", "ENG"])
 ];
 
 class PoliferieFilter extends StatefulWidget {
@@ -58,6 +77,8 @@ class PoliferieFilter extends StatefulWidget {
     this.hint,
     this.description,
     this.type,
+    this.range,
+    this.unit = "",
   }) : super(key: key);
 
   final IconData icon;
@@ -65,6 +86,10 @@ class PoliferieFilter extends StatefulWidget {
   final String description;
   final String hint;
   final FilterType type;
+  final String unit;
+
+  /// Set of possible values, it depends on [FilterType]
+  final List range;
 
   @override
   _PoliferieFilterState createState() => new _PoliferieFilterState();
@@ -73,48 +98,132 @@ class PoliferieFilter extends StatefulWidget {
 class _PoliferieFilterState extends State<PoliferieFilter> {
   // TODO(@amerlo): Could they be made private?
   bool selected = false;
+
+  // String values selected for dropDown and selectValue types
   String value;
-  double rangeLow = 0.0;
-  double rangeHigh = 0.0;
 
-  TextEditingController _textFieldController = TextEditingController();
+  // RangeValues selected for selectRange type
+  RangeValues values;
 
-  Widget _buildActionButtons() {
-    return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-      FlatButton(
-        child: Text('APPLICA'),
+  // Initialize filter state
+  @override
+  initState() {
+    super.initState();
+    if (widget.type == FilterType.selectRange) {
+      double _min = widget.range[0].toDouble();
+      double _max = widget.range[1].toDouble();
+      double _range = _max - _min;
+      values = RangeValues(_min + 0.1 * _range, _max - _range * 0.1);
+    }
+  }
+
+  Widget _buildFloatingButton() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 50.0),
+      child: FloatingActionButton.extended(
+        backgroundColor: Styles.poliferieBlue,
+        focusColor: Styles.poliferieBlue,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
         onPressed: () {
           Navigator.pop(context);
           setState(() {
-            value = _textFieldController.text;
+            value = "Prova";
             selected = true;
           });
         },
+        label: Text("Imposta", style: Styles.buttonTitle),
       ),
-      FlatButton(
-        child: Text('PULISCI'),
-        onPressed: () {
-          Navigator.pop(context);
-          setState(() {
-            value = null;
-            selected = false;
-          });
-        },
+    );
+  }
+
+  Widget _buildHeading() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: AppDimensions.bottomSheetPadding,
+          child: Icon(
+            widget.icon,
+            color: Styles.poliferieRed,
+          ),
+        ),
+        Text(
+          widget.name,
+          style: Styles.filterHeadline,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 2,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDescription() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(AppDimensions.bottomSheetPaddingHorizontal,
+          10.0, AppDimensions.bottomSheetPaddingHorizontal, 10.0),
+      child: Text(
+        widget.description,
+        style: Styles.tabDescription,
       ),
-    ]);
+    );
+  }
+
+  Widget _buildSelector() {
+    if (widget.type == FilterType.selectRange) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          RangeSlider(
+            values: values,
+            onChanged: (RangeValues values) {
+              setState(() {
+                values = values;
+              });
+            },
+            min: widget.range[0].toDouble(),
+            max: widget.range[1].toDouble(),
+          ),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                PoliferieValueBox(
+                    "Minimo", values.start.toString() + " " + widget.unit),
+                PoliferieValueBox(
+                    "Massimo", values.end.toString() + " " + widget.unit),
+              ]),
+        ],
+      );
+    } else if (widget.type == FilterType.selectValue) {
+      return Text("Value");
+    } else if (widget.type == FilterType.dropDown) {
+      return Text("Drop down");
+    } else {
+      throw Exception("Filter type is not defined!");
+    }
   }
 
   Widget _buildBottomSheet() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 20.0),
-      child: Column(
+      padding: EdgeInsets.fromLTRB(
+        AppDimensions.bodyPaddingLeft,
+        AppDimensions.bottomSheetPaddingVertical,
+        AppDimensions.bodyPaddingRight,
+        AppDimensions.bottomSheetPaddingVertical,
+      ),
+      child: Stack(
+        alignment: Alignment.bottomCenter,
         children: <Widget>[
-          Text(widget.name),
-          TextField(
-            controller: _textFieldController,
-            decoration: InputDecoration(hintText: widget.hint),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _buildHeading(),
+              _buildDescription(),
+              _buildSelector(),
+            ],
           ),
-          _buildActionButtons(),
+          _buildFloatingButton(),
         ],
       ),
     );

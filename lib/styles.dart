@@ -11,6 +11,7 @@ abstract class Styles {
 
   // Colors used for texts.
   static const Color poliferieLightGrey = Color.fromRGBO(0, 0, 0, 0.25);
+  static const Color poliferieVeryLightGrey = Color.fromRGBO(0, 0, 0, 0.1);
   static const Color poliferieDarkGrey = Color.fromRGBO(0, 0, 0, 0.5);
   static const Color poliferieBlack = Color.fromRGBO(0, 0, 0, 1.0);
   static const Color poliferieLightBlack = Color.fromRGBO(0, 0, 0, 0.87);
@@ -68,6 +69,20 @@ abstract class Styles {
     fontWeight: FontWeight.w300,
   );
 
+  static const filterValueBoxText = TextStyle(
+    color: poliferieLightBlack,
+    fontFamily: 'Montserrat',
+    fontSize: 14.0,
+    fontWeight: FontWeight.w300,
+  );
+
+  static const filterValueBoxValue = TextStyle(
+    color: poliferieRed,
+    fontFamily: 'Montserrat',
+    fontSize: 22.0,
+    fontWeight: FontWeight.bold,
+  );
+
   static const buttonTitle = TextStyle(
     fontWeight: FontWeight.bold,
     fontFamily: 'Montserrat',
@@ -79,6 +94,14 @@ abstract class Styles {
     fontFamily: 'Lato',
     fontSize: 18.0,
     fontWeight: FontWeight.w300,
+  );
+
+  static const filterHeadline = TextStyle(
+    color: poliferieLightBlack,
+    fontFamily: 'Montserrat',
+    fontSize: 22.0,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.bold,
   );
 
   static const profileUserName = TextStyle(
