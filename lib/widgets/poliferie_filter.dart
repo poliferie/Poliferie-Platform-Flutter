@@ -16,7 +16,15 @@ final courseFilterList = <PoliferieFilter>[
     hint: 'Inserisci una regione...',
     description: "Regione dell'università",
     type: FilterType.dropDown,
-    range: ["Lazio", "Lombardia"],
+    range: [
+      "Lazio",
+      "Lombardia",
+      "Piemonte",
+      "Campania",
+      "Basilicata",
+      "Puglia",
+      "Molise"
+    ],
   ),
   PoliferieFilter(
     icon: Icons.supervised_user_circle,
@@ -102,7 +110,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
   bool selected = false;
 
   // String values selected for dropDown and selectValue types
-  String value;
+  List<String> value = [];
 
   // RangeValues selected for selectRange type
   RangeValues values;
@@ -128,7 +136,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
         onPressed: () {
           Navigator.pop(context);
           setState(() {
-            value = "Prova";
+            value = [];
             selected = true;
           });
         },
@@ -168,7 +176,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
     );
   }
 
-  Widget _buildSelector() {
+  Widget _buildSelector(StateSetter updateState) {
     if (widget.type == FilterType.selectRange) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -176,9 +184,8 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
           RangeSlider(
             values: values,
             onChanged: (RangeValues values) {
-              setState(() {
-                values = values;
-              });
+              updateBottomSheetState(
+                  updateState, FilterType.selectRange, values);
             },
             min: widget.range[0].toDouble(),
             max: widget.range[1].toDouble(),
@@ -186,23 +193,60 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                PoliferieValueBox(
-                    "Minimo", values.start.toString() + " " + widget.unit),
-                PoliferieValueBox(
-                    "Massimo", values.end.toString() + " " + widget.unit),
+                PoliferieValueBox("Minimo",
+                    values.start.toInt().toString() + " " + widget.unit),
+                PoliferieValueBox("Massimo",
+                    values.end.toInt().toString() + " " + widget.unit),
               ]),
         ],
       );
     } else if (widget.type == FilterType.selectValue) {
       return Text("Value");
     } else if (widget.type == FilterType.dropDown) {
-      return Text("Drop down");
+      List<String> _list = widget.range.map((e) => e.toString()).toList();
+      // TODO(@amerlo): Fix hack for Container height
+      return Container(
+        height: 300,
+        child: ListView.builder(
+          itemCount: _list.length,
+          itemBuilder: (context, index) {
+            return Card(
+              child: ListTile(
+                onTap: () {
+                  updateBottomSheetState(
+                      updateState, FilterType.dropDown, _list[index]);
+                },
+                leading: value.contains(_list[index])
+                    ? Icon(Icons.check_box, color: Styles.poliferieRed)
+                    : Icon(Icons.check_box_outline_blank,
+                        color: Styles.poliferieVeryLightGrey),
+                title: Text(_list[index]),
+              ),
+            );
+          },
+        ),
+      );
     } else {
       throw Exception("Filter type is not defined!");
     }
   }
 
-  Widget _buildBottomSheet() {
+  Future<Null> updateBottomSheetState(
+      StateSetter updateState, FilterType type, dynamic newValue) async {
+    updateState(() {
+      if (type == FilterType.selectRange) {
+        values = newValue;
+      } else if (type == FilterType.dropDown) {
+        if (value.contains(newValue)) {
+          value.remove(newValue);
+        } else {
+          value.add(newValue);
+        }
+      }
+    });
+  }
+
+  Widget _buildBottomSheet(StateSetter updateState) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
         AppDimensions.bodyPaddingLeft,
@@ -218,7 +262,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
             children: <Widget>[
               _buildHeading(),
               _buildDescription(),
-              _buildSelector(),
+              _buildSelector(updateState),
             ],
           ),
           _buildFloatingButton(),
@@ -231,19 +275,21 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
     showModalBottomSheet(
         context: context,
         builder: (context) {
-          return Container(
-            color: Styles.poliferieLightGrey,
-            child: Container(
-              child: _buildBottomSheet(),
-              decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(20),
-                  topRight: const Radius.circular(20),
+          return StatefulBuilder(builder: (context, state) {
+            return Container(
+              color: Styles.poliferieLightGrey,
+              child: Container(
+                child: _buildBottomSheet(state),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).canvasColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: const Radius.circular(20),
+                    topRight: const Radius.circular(20),
+                  ),
                 ),
               ),
-            ),
-          );
+            );
+          });
         });
   }
 
