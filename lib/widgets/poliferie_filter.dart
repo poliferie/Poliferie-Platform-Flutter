@@ -136,7 +136,6 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
         onPressed: () {
           Navigator.pop(context);
           setState(() {
-            value = [];
             selected = true;
           });
         },
