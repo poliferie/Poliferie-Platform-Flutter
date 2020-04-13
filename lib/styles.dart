@@ -8,6 +8,7 @@ abstract class Styles {
   static const Color poliferieWhite = Color.fromRGBO(255, 255, 255, 1.0);
   static const Color poliferieLightWhite = Color.fromRGBO(255, 255, 255, 0.87);
   static const Color poliferieBackground = Color.fromRGBO(255, 255, 255, 0.75);
+  static const Color poliferieGreen = Color.fromRGBO(113, 193, 179, 1.0);
 
   // Colors used for texts.
   static const Color poliferieLightGrey = Color.fromRGBO(0, 0, 0, 0.25);

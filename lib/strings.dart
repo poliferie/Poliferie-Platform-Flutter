@@ -23,6 +23,7 @@ abstract class Strings {
       "Se non sai precisamente quello che stai cercando, "
       "imposta solo qualche filtro e inizia ad esplorare l'offerta.";
   static const String searchExplore = 'Esplora';
+  static const String filterSet = 'Imposta';
 
   // Course Screen
   static const String courseHowToApply = 'Scopri come iscriverti';

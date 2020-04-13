@@ -15,6 +15,7 @@ import 'package:Poliferie.io/icons.dart';
 import 'package:Poliferie.io/widgets/poliferie_filter.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
+import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
 
 enum TabType { course, university }
 
@@ -136,14 +137,10 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
   Widget _buildFloatingButton() {
     return Padding(
       padding: EdgeInsetsDirectional.only(bottom: 50.0),
-      child: FloatingActionButton.extended(
-        backgroundColor: Styles.poliferieBlue,
-        focusColor: Styles.poliferieBlue,
-        shape: RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(10.0),
-        ),
+      child: PoliferieFloatingButton(
+        text: Strings.searchExplore,
+        activeColor: Styles.poliferieBlue,
         onPressed: () {},
-        label: Text(Strings.searchExplore, style: Styles.buttonTitle),
       ),
     );
   }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/dimensions.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_value_box.dart';
+import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
 
 enum FilterType { dropDown, selectRange, selectValue }
 
@@ -120,12 +122,9 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
   Widget _buildFloatingButton() {
     return Padding(
       padding: EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 50.0),
-      child: FloatingActionButton.extended(
-        backgroundColor: Styles.poliferieBlue,
-        focusColor: Styles.poliferieBlue,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
+      child: PoliferieFloatingButton(
+        text: Strings.filterSet,
+        activeColor: Styles.poliferieGreen,
         onPressed: () {
           Navigator.pop(context);
           setState(() {
@@ -133,7 +132,6 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
             selected = true;
           });
         },
-        label: Text("Imposta", style: Styles.buttonTitle),
       ),
     );
   }
