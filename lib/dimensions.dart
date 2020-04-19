@@ -23,6 +23,11 @@ class AppDimensions {
   static const EdgeInsets bottomSheetPadding =
       EdgeInsets.symmetric(horizontal: bottomSheetPaddingHorizontal);
 
+  static const EdgeInsets iconBoxPadding = EdgeInsets.all(8.0);
+
   // Sizes
   static const double bottomNavigationBarIconSize = 32.0;
+
+  static const double iconBoxBorderRadius = 6.0;
+  static const double iconBoxBorderWidth = 2.0;
 }

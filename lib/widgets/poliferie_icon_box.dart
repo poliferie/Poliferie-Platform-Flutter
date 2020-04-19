@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/dimensions.dart';
 
 class PoliferieIconBox extends StatelessWidget {
   final IconData icon;
@@ -12,13 +13,13 @@ class PoliferieIconBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
+      padding: AppDimensions.iconBoxPadding,
       decoration: BoxDecoration(
         border: Border.all(
           color: Styles.poliferieVeryLightGrey,
-          width: 2,
+          width: AppDimensions.iconBoxBorderWidth,
         ),
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(AppDimensions.iconBoxBorderRadius),
       ),
       child: Icon(
         icon,
