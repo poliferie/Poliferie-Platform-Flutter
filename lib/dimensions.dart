@@ -6,7 +6,7 @@ class AppDimensions {
   static const double bodyPaddingLeft = 30.0;
   static const double bodyPaddingTop = 50.0;
   static const double bodyPaddingRight = 30.0;
-  static const double bodyPaddingBottom = 70.0;
+  static const double bodyPaddingBottom = 10.0;
 
   static const double bottomSheetPaddingHorizontal = 10.0;
   static const double bottomSheetPaddingVertical = 20.0;
@@ -18,7 +18,7 @@ class AppDimensions {
       EdgeInsets.fromLTRB(0, 20.0, 0, 20.0);
 
   static const EdgeInsets searchBodyPadding =
-      EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0);
+      EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 1.0);
 
   static const EdgeInsets bottomSheetPadding =
       EdgeInsets.symmetric(horizontal: bottomSheetPaddingHorizontal);
