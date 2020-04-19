@@ -6,6 +6,7 @@ import 'package:Poliferie.io/dimensions.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_value_box.dart';
 import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
+import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
 
 enum FilterType { dropDown, selectRange, selectValue }
 
@@ -149,10 +150,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
       children: <Widget>[
         Padding(
           padding: AppDimensions.bottomSheetPadding,
-          child: Icon(
-            widget.icon,
-            color: Styles.poliferieRed,
-          ),
+          child: PoliferieIconBox(widget.icon, iconColor: Styles.poliferieRed),
         ),
         Text(
           widget.name,
