@@ -20,7 +20,7 @@ class _BaseScreenState extends State<BaseScreen> {
     HomeScreen(),
     SearchScreen(searchRepository: searchRepository),
     CompareScreen(),
-    ProfileScreen(userRepository: profileRepository),
+    ProfileScreen(),
   ];
 
   /// Build the [BottomNavigationBar] which handles the screens.
