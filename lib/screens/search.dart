@@ -126,7 +126,6 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
       BuildContext context, List<PoliferieFilter> filters, TabType tabType) {
     return ListView.builder(
       physics: BouncingScrollPhysics(),
-      scrollDirection: Axis.vertical,
       itemCount: filters.length,
       itemBuilder: (BuildContext context, int index) {
         return Padding(

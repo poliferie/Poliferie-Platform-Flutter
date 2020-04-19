@@ -77,7 +77,14 @@ final courseFilterList = <PoliferieFilter>[
       hint: '',
       description: 'Lingua di insegnamento del corso',
       type: FilterType.selectValue,
-      range: ["ITA", "ENG"])
+      range: ["ITA", "ENG"]),
+  PoliferieFilter(
+      icon: Icons.monetization_on,
+      name: 'Stipendio',
+      hint: '',
+      description: 'Stipendio netto mensile',
+      type: FilterType.selectRange,
+      range: [0, 100]),
 ];
 
 class PoliferieFilter extends StatefulWidget {
