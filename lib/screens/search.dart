@@ -129,7 +129,9 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
       scrollDirection: Axis.vertical,
       itemCount: filters.length,
       itemBuilder: (BuildContext context, int index) {
-        return filters[index];
+        return Padding(
+            padding: AppDimensions.betweenFiltersPadding,
+            child: filters[index]);
       },
     );
   }
