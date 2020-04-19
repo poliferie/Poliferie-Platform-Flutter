@@ -11,6 +11,7 @@ import 'package:Poliferie.io/repositories/search_client.dart';
 import 'package:Poliferie.io/bloc/search_bloc.dart';
 import 'package:Poliferie.io/repositories/search_repository.dart';
 import 'package:Poliferie.io/icons.dart';
+import 'package:Poliferie.io/screens/course.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_filter.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
@@ -81,7 +82,16 @@ class PoliferieSearchDelegate extends SearchDelegate {
               return ListTile(
                 leading: Icon(
                     item.isCourse() ? AppIcons.course : AppIcons.university),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => item.isCourse()
+                          ? CourseScreen(item.id)
+                          : Text("To be implemented"),
+                    ),
+                  );
+                },
                 title: Text(item.shortName),
               );
             },

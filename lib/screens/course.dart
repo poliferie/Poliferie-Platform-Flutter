@@ -5,9 +5,10 @@ import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/styles.dart';
 
 class CourseScreen extends StatefulWidget {
+  final String id;
   final CourseModel course;
 
-  CourseScreen({this.course, Key key}) : super(key: key);
+  CourseScreen(this.id, {this.course, Key key}) : super(key: key);
 
   @override
   _CourseScreenState createState() => _CourseScreenState();
