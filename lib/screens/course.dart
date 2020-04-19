@@ -13,7 +13,7 @@ class CourseScreen extends StatefulWidget {
   /// This [id] is the requested id from the frontend
   final int id;
 
-  CourseScreen(this.id);
+  const CourseScreen(this.id, {Key key}) : super(key: key);
 
   @override
   _CourseScreenState createState() => _CourseScreenState();
