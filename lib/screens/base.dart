@@ -18,7 +18,7 @@ class _BaseScreenState extends State<BaseScreen> {
   // to zip together screens and BottomNavigationBarItem?
   var pages = [
     HomeScreen(),
-    SearchScreen(searchRepository: searchRepository),
+    SearchScreen(),
     CompareScreen(),
     ProfileScreen(),
   ];

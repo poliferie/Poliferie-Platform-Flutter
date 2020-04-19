@@ -113,9 +113,7 @@ final SearchRepository searchRepository =
     SearchRepository(searchClient: SearchClient(useLocalJson: true));
 
 class SearchScreen extends StatefulWidget {
-  final SearchRepository searchRepository;
-
-  SearchScreen({Key key, this.searchRepository}) : super(key: key);
+  SearchScreen({Key key}) : super(key: key);
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -239,8 +237,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SearchBloc>(
-      create: (context) =>
-          SearchBloc(searchRepository: widget.searchRepository),
+      create: (context) => SearchBloc(searchRepository: searchRepository),
       child: SearchScreenBody(),
     );
   }
