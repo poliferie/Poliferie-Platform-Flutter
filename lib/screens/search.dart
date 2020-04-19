@@ -83,6 +83,7 @@ class PoliferieSearchDelegate extends SearchDelegate {
                 leading: Icon(
                     item.isCourse() ? AppIcons.course : AppIcons.university),
                 onTap: () {
+                  close(context, null);
                   Navigator.push(
                     context,
                     MaterialPageRoute(

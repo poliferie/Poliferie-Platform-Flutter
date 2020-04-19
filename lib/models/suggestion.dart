@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 class SearchSuggestion extends Equatable {
   final String type;
   final String shortName;
-  final String id;
+  final int id;
 
   const SearchSuggestion({this.id, this.shortName, this.type});
 

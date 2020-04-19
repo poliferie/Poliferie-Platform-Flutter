@@ -1,197 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:Poliferie.io/repositories/repositories.dart';
+import 'package:Poliferie.io/bloc/course.dart';
 import 'package:Poliferie.io/models/models.dart';
-import 'package:Poliferie.io/strings.dart';
-import 'package:Poliferie.io/styles.dart';
+
+// TODO(@amerlo): Where the repositories have to be declared?
+final CourseRepository courseRepository =
+    CourseRepository(courseClient: CourseClient(useLocalJson: true));
 
 class CourseScreen extends StatefulWidget {
-  final String id;
-  final CourseModel course;
+  /// This [id] is the requested id from the frontend
+  final int id;
 
-  CourseScreen(this.id, {this.course, Key key}) : super(key: key);
+  CourseScreen(this.id);
 
   @override
   _CourseScreenState createState() => _CourseScreenState();
 }
 
-class _CourseScreenState extends State<CourseScreen> {
-  static const _padding = 20.0;
+class CourseScreenBody extends StatefulWidget {
+  // TODO(@amerlo): Could we avoid this?
+  final int id;
 
-  Widget _buildAppBar(BuildContext context) {
-    return AppBar(
-      backgroundColor: Colors.white,
-      iconTheme: IconThemeData(color: Styles.poliferieRed),
-      title: Text('Corso'.toUpperCase(), style: Styles.searchTabTitle),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.share),
-          color: Styles.poliferieRed,
-          onPressed: () {},
-        ),
-      ],
-    );
-  }
+  CourseScreenBody(this.id);
 
-  Widget _buildCourse(BuildContext context, CourseModel course) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(course.university.toUpperCase(), style: Styles.courseSubHeadline),
-        Text(course.shortName, style: Styles.courseHeadline),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0),
-          child: Text(course.shortDescription),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Expanded(
-                child: IconButton(
-                  icon: Icon(
-                    course.isBookmarked
-                        ? Icons.bookmark
-                        : Icons.bookmark_border,
-                    color: course.isBookmarked
-                        ? Styles.poliferieRed
-                        : Styles.poliferieDarkGrey,
-                  ),
-                  onPressed: () {},
-                ),
-                flex: 1,
-              ),
-              Expanded(
-                // TODO(@amerlo): Update splash color
-                child: FlatButton(
-                  color: Styles.poliferieRed,
-                  textColor: Colors.white,
-                  disabledColor: Styles.poliferieLightGrey,
-                  disabledTextColor: Styles.poliferieDarkGrey,
-                  padding: EdgeInsets.all(8.0),
-                  // TODO(@amerlo): Open external URL
-                  onPressed: () {},
-                  child: Text(
-                    Strings.courseHowToApply.toUpperCase(),
-                    style: Styles.courseApplyButton,
-                  ),
-                ),
-                flex: 4,
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: ListView(
-            scrollDirection: Axis.vertical,
-            children: <Widget>[
-              _buildInfo(context, Strings.courseInfo, course.info, null),
-              _buildInfo(context, Strings.courseExamination, {},
-                  Strings.courseExaminationDesc),
-              _buildInfo(
-                  context, Strings.courseFacilities, course.facilities, null),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
+  @override
+  _CourseScreenBodyState createState() => _CourseScreenBodyState();
+}
 
-  Widget _buildInfo(BuildContext context, String title,
-      Map<String, double> courseData, String description) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0),
-      child: Container(
-        decoration: BoxDecoration(
-            color: Styles.poliferieWhite,
-            borderRadius: BorderRadius.circular(25.0)),
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(35.0, 0.0, 35.0, 20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 20.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Icon(description != null ? Icons.info : Icons.storage,
-                        color: Styles.poliferieRed),
-                    Padding(
-                      child: Text(title, style: Styles.courseTabTitle),
-                      padding: EdgeInsets.symmetric(horizontal: 10.0),
-                    ),
-                    GestureDetector(
-                      // TODO(@amerlo): Add showDialag()
-                      onTap: () {},
-                      child: Icon(Icons.info,
-                          color: Styles.poliferieLightGrey, size: 16.0),
-                    ),
-                  ],
-                ),
-              ),
-              if (description != null)
-                RichText(
-                  text: TextSpan(
-                      text: description, style: Styles.courseDataValue),
-                ),
-              ...courseData.entries.map((item) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(vertical: 4.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          RichText(
-                            text: TextSpan(
-                              text: item.key,
-                              style: Styles.courseDataHeading,
-                              children: <TextSpan>[
-                                TextSpan(
-                                    text: "\t\t\t${item.value.toString()}",
-                                    style: Styles.courseDataValue),
-                              ],
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.bottomLeft,
-                            // TODO(@amerlo): Change with max value
-                            child: Text('100'.toString(),
-                                style: Styles.courseDataValue),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 4.0),
-                        child: LinearProgressIndicator(
-                          value: item.value / 100,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
+class _CourseScreenBodyState extends State<CourseScreenBody> {
   Widget _buildBody(BuildContext context, CourseModel course) {
-    return Padding(
-      padding: EdgeInsets.all(_padding),
-      child: _buildCourse(context, widget.course),
-    );
+    return Text(course.shortName);
   }
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<CourseBloc>(context).add(FetchCourse(widget.id));
+
+    return BlocBuilder<CourseBloc, CourseState>(
+      builder: (BuildContext context, CourseState state) {
+        if (state is FetchStateLoading) {
+          return CircularProgressIndicator();
+        }
+        if (state is FetchStateError) {
+          return Text(state.error);
+        }
+        if (state is FetchStateSuccess) {
+          return _buildBody(context, state.course);
+        }
+        return Text('This widge should never be reached');
+      },
+    );
+  }
+}
+
+class _CourseScreenState extends State<CourseScreen> {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(context),
-      body: _buildBody(context, widget.course),
+      body: BlocProvider<CourseBloc>(
+        create: (context) => CourseBloc(courseRepository: courseRepository),
+        child: CourseScreenBody(widget.id),
+      ),
     );
   }
 }

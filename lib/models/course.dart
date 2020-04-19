@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class CourseModel extends Equatable {
-  final int index;
+  final int id;
   final String shortName;
   final String shortDescription;
   final String longDescription = '';
@@ -15,7 +15,7 @@ class CourseModel extends Equatable {
   final Map<String, double> facilities;
 
   const CourseModel({
-    this.index,
+    this.id,
     this.shortName,
     this.university,
     this.shortDescription,
@@ -29,14 +29,15 @@ class CourseModel extends Equatable {
   });
 
   @override
-  List<Object> get props => [index, shortName];
+  List<Object> get props => [id, shortName];
 
   // Constructor from Json file
   factory CourseModel.fromJson(Map<String, dynamic> json) {
     return CourseModel(
-      index: json['index'],
+      id: json['index'],
       shortName: json['shortName'],
       shortDescription: json['shortDescription'],
+      university: json["university"],
     );
   }
 }

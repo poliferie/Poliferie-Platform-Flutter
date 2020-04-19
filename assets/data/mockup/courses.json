@@ -1,6 +1,26 @@
 [
     {
-        "index": 0,
+        "id": 1001,
+        "shortName": "Design del prodotto industriale",
+        "university": "Politecnico di Milano",
+        "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "universityLogoPath": "assets/images/sapienza_logo.jpg",
+        "isBookmarked": false,
+        "stdents": 1245,
+        "salary": 2200,
+        "satisfacion": 87.2,
+        "info": {
+            "Studenti": 19.0,
+            "Aule": 28.0
+        },
+        "facilities": {
+            "Stipendio": 19.0,
+            "Biblioteche": 28.0,
+            "Computer": 89.0
+        }
+    },
+    {
+        "id": 1003,
         "shortName": "Ingegneria delle Merendine",
         "university": "Sapienza Università di Roma",
         "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -20,7 +40,7 @@
         }
     },
     {
-        "index": 1,
+        "id": 1004,
         "shortName": "Ingegneria delle Periferie",
         "university": "Università di Pisa",
         "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
