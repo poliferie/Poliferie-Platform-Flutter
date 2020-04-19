@@ -107,7 +107,6 @@ class PoliferieFilter extends StatefulWidget {
 }
 
 class _PoliferieFilterState extends State<PoliferieFilter> {
-  // TODO(@amerlo): Could they be made private?
   bool selected = false;
 
   // String values selected for dropDown and selectValue types
@@ -313,11 +312,12 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
       ),
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius:
+              BorderRadius.circular(AppDimensions.filterCardBorderRadius),
         ),
         child: ListTile(
           onTap: _onButtonPressed,
-          leading: Icon(widget.icon),
+          leading: PoliferieIconBox(widget.icon),
           selected: selected,
           title: Text(
             widget.name,

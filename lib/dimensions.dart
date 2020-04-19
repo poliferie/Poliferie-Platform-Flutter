@@ -30,4 +30,6 @@ class AppDimensions {
 
   static const double iconBoxBorderRadius = 6.0;
   static const double iconBoxBorderWidth = 2.0;
+
+  static const double filterCardBorderRadius = 6.0;
 }
