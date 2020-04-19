@@ -12,14 +12,13 @@ import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_card.dart';
 
+// TODO(@amerlo): Where the repository have to be declared?
 final CardRepository cardRepository = CardRepository(
   cardClient: CardClient(useLocalJson: true),
 );
 
 class HomeScreen extends StatefulWidget {
-  final CardRepository cardRepository;
-
-  HomeScreen({Key key, this.cardRepository}) : super(key: key);
+  HomeScreen({Key key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -113,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: PoliferieAppBar(),
       body: BlocProvider<CardBloc>(
-        create: (context) => CardBloc(cardRepository: widget.cardRepository),
+        create: (context) => CardBloc(cardRepository: cardRepository),
         child: HomeScreenBody(),
       ),
     );

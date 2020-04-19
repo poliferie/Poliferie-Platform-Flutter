@@ -17,7 +17,7 @@ class _BaseScreenState extends State<BaseScreen> {
   // TODO(@amerlo): Is there a more elegant solution
   // to zip together screens and BottomNavigationBarItem?
   var pages = [
-    HomeScreen(cardRepository: cardRepository),
+    HomeScreen(),
     SearchScreen(searchRepository: searchRepository),
     CompareScreen(),
     ProfileScreen(userRepository: profileRepository),
