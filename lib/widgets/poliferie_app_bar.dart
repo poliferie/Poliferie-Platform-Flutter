@@ -19,10 +19,11 @@ class PoliferieAppBar extends StatelessWidget implements PreferredSizeWidget {
       : super(key: key);
 
   @override
-  Size get preferredSize {
+  Size get preferredSize => Size.fromHeight(kToolbarHeight + (bottom?.preferredSize?.height ?? 0.0));
+  /*{
     if (bottom == null) return Size.fromHeight(AppBar().preferredSize.height);
     return Size.fromHeight(AppBar().preferredSize.height * 2);
-  }
+  }*/
 
   // TODO(@amerlo): Set icon padding and set based on design screens
   Widget _actions(icon) {

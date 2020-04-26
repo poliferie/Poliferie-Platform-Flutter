@@ -185,17 +185,20 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
   }
 
   Widget _buildSearchScreenBody(BuildContext context) {
-    return Container(
-      padding: AppDimensions.searchBodyPadding,
-      height: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          _buildFilterHeading(),
-          _buildFilterIntro(),
-          _buildTabBar(),
-          _buildTabBarBody(context),
-        ],
+    return DefaultTabController(
+      length: 2,
+      child: Container(
+        padding: AppDimensions.searchBodyPadding,
+        height: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            _buildFilterHeading(),
+            _buildFilterIntro(),
+            _buildTabBar(),
+            _buildTabBarBody(context),
+          ],
+        ),
       ),
     );
   }
@@ -206,20 +209,17 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
       showSearch(
         context: context,
         delegate: PoliferieSearchDelegate(
-            searchBloc: BlocProvider.of<SearchBloc>(context)),
+          searchBloc: BlocProvider.of<SearchBloc>(context)),
       );
     }
 
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
+    return Scaffold(
         appBar: PoliferieAppBar(
           icon: AppIcons.search,
           onPressed: _onPressedSearch,
         ),
         body: _buildSearchScreenBody(context),
-      ),
-    );
+      );
   }
 }
 
