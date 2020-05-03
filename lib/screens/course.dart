@@ -1,12 +1,13 @@
-import 'package:Poliferie.io/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:Poliferie.io/dimensions.dart';
+import 'package:Poliferie.io/styles.dart';
 
 import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/bloc/course.dart';
 import 'package:Poliferie.io/models/models.dart';
-
-import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
 
 // TODO(@amerlo): Where the repositories have to be declared?
 final CourseRepository courseRepository =
@@ -89,7 +90,7 @@ Widget _buildInfo(CourseModel course) {
       Text(course.shortName.toUpperCase(), style: Styles.courseHeadline),
       Text(course.university, style: Styles.courseSubHeadline),
       Padding(
-        padding: EdgeInsetsDirectional.only(top: 20.0),
+        padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 20.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -102,29 +103,42 @@ Widget _buildInfo(CourseModel course) {
   );
 }
 
-// TODO(@amerlo): Fix it!
 Widget _buildStats(CourseModel course) {
-  // final Map<String, dynamic> infoMap = {
-  //   course.info.duration: Icons.looks_one,
-  //   course.info.language: Icons.language,
-  //   course.info.requirements: Icons.card_membership,
-  //   course.info.owner: Icons.lock,
-  //   course.info.access: Icons.check_circle,
-  //   course.info.education: Icons.recent_actors,
-  // };
-  return Text("TODO");
-  // return Container(
-  //   height: 200,
-  //   child: GridView.count(
-  //     crossAxisCount: 3,
-  //     children: infoMap.keys.map((String text) {
-  //       return GridTile(
-  //         header: Text(text),
-  //         child: Text(text),
-  //       );
-  //     }).toList(),
-  //   ),
-  // );
+  final Map<String, dynamic> infoMap = {
+    course.duration.toString(): Icons.looks_one,
+    course.language: Icons.language,
+    course.requirements: Icons.card_membership,
+    course.owner: Icons.lock,
+    course.access: Icons.check_circle,
+    course.education: Icons.recent_actors,
+  };
+  return Container(
+    height: 200,
+    child: GridView.count(
+      padding: EdgeInsets.all(0.0),
+      crossAxisCount: 3,
+      childAspectRatio: 2,
+      children: infoMap.keys.map((String text) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(right: 6.0),
+              child: PoliferieIconBox(
+                infoMap[text],
+                iconColor: Styles.poliferieRed,
+                iconSize: 18.0,
+              ),
+            ),
+            Text(
+              text,
+              style: Styles.courseInfoStats,
+            ),
+          ],
+        );
+      }).toList(),
+    ),
+  );
 }
 
 Widget _buildCourseBody(BuildContext context, CourseModel course) {

@@ -159,6 +159,14 @@ abstract class Styles {
     fontWeight: FontWeight.w400,
   );
 
+  static const courseInfoStats = TextStyle(
+    color: poliferieLightBlack,
+    fontFamily: 'Montserrat',
+    fontSize: 14.0,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w400,
+  );
+
   static const courseApplyButton = TextStyle(
     color: poliferieWhite,
     fontFamily: 'Montserrat',
