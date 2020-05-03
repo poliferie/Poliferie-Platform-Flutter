@@ -102,8 +102,29 @@ Widget _buildInfo(CourseModel course) {
   );
 }
 
+// TODO(@amerlo): Fix it!
 Widget _buildStats(CourseModel course) {
-  return Text("start here");
+  // final Map<String, dynamic> infoMap = {
+  //   course.info.duration: Icons.looks_one,
+  //   course.info.language: Icons.language,
+  //   course.info.requirements: Icons.card_membership,
+  //   course.info.owner: Icons.lock,
+  //   course.info.access: Icons.check_circle,
+  //   course.info.education: Icons.recent_actors,
+  // };
+  return Text("TODO");
+  // return Container(
+  //   height: 200,
+  //   child: GridView.count(
+  //     crossAxisCount: 3,
+  //     children: infoMap.keys.map((String text) {
+  //       return GridTile(
+  //         header: Text(text),
+  //         child: Text(text),
+  //       );
+  //     }).toList(),
+  //   ),
+  // );
 }
 
 Widget _buildCourseBody(BuildContext context, CourseModel course) {

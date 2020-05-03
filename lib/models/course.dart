@@ -1,5 +1,36 @@
 import 'package:equatable/equatable.dart';
 
+class CourseInfo extends Equatable {
+  final String duration;
+  final String language;
+  final String requirements;
+  final String owner;
+  final String access;
+  final String education;
+
+  const CourseInfo(
+      {this.duration,
+      this.language,
+      this.requirements,
+      this.owner,
+      this.access,
+      this.education});
+
+  // TODO(@amerlo)
+  @override
+  List<Object> get props => [];
+
+  factory CourseInfo.fromJson(Map<String, dynamic> json) {
+    return CourseInfo(
+        education: json["education"],
+        duration: json["duration"],
+        language: json["language"],
+        requirements: json["requirements"],
+        access: json["access"],
+        owner: json["owner"]);
+  }
+}
+
 class CourseModel extends Equatable {
   final int id;
   final String shortName;
@@ -13,7 +44,7 @@ class CourseModel extends Equatable {
   final int students;
   final int salary;
   final double satisfaction;
-  final Map<String, double> info;
+  final CourseInfo info;
   final Map<String, double> facilities;
 
   const CourseModel({
@@ -35,16 +66,17 @@ class CourseModel extends Equatable {
   @override
   List<Object> get props => [id, shortName];
 
-  // TODO(@amerlo): could we build it dynamically?
-  // Constructor from Json file
+  // TODO(@amerlo): Fix loading error
   factory CourseModel.fromJson(Map<String, dynamic> json) {
     return CourseModel(
-        id: json['index'],
-        shortName: json['shortName'],
-        shortDescription: json['shortDescription'],
-        university: json["university"],
-        region: json["region"],
-        universityImagePath: json["universityImagePath"],
-        isBookmarked: json["isBookmarked"]);
+      id: json['index'],
+      shortName: json['shortName'],
+      shortDescription: json['shortDescription'],
+      university: json["university"],
+      region: json["region"],
+      universityImagePath: json["universityImagePath"],
+      isBookmarked: json["isBookmarked"],
+      //info: CourseInfo.fromJson(json["info"]),
+    );
   }
 }

@@ -8,13 +8,17 @@
         "universityLogoPath": "assets/images/sapienza_logo.jpg",
         "universityImagePath": "assets/images/polimi_image.png",
         "isBookmarked": false,
-        "stdents": 1245,
+        "info": {
+            "duration": 3,
+            "language": "Italiano",
+            "requirements": "Diploma",
+            "owner": "Privata",
+            "access": "Test",
+            "education": "Remoto"
+        },
+        "students": 1245,
         "salary": 2200,
         "satisfacion": 87.2,
-        "info": {
-            "Studenti": 19.0,
-            "Aule": 28.0
-        },
         "facilities": {
             "Stipendio": 19.0,
             "Biblioteche": 28.0,
@@ -30,13 +34,17 @@
         "universityLogoPath": "assets/images/sapienza_logo.jpg",
         "universityImagePath": "assets/images/polimi_image.png",
         "isBookmarked": false,
-        "stdents": 1245,
+        "info": {
+            "duration": 2,
+            "language": "Italiano",
+            "requirements": "Triennale",
+            "owner": "Pubblica",
+            "access": "Test",
+            "education": "In Presenza"
+        },
+        "students": 1245,
         "salary": 2200,
         "satisfacion": 87.2,
-        "info": {
-            "Studenti": 19.0,
-            "Aule": 28.0
-        },
         "facilities": {
             "Stipendio": 19.0,
             "Biblioteche": 28.0,
@@ -52,13 +60,17 @@
         "universityLogoPath": "assets/images/unipi_logo.jpg",
         "universityImagePath": "assets/images/polimi_image.png",
         "isBookmarked": false,
-        "stdents": 87,
+        "info": {
+            "duration": 3,
+            "language": "Italiano",
+            "requirements": "Diploma",
+            "owner": "Pubblica",
+            "access": "Libero",
+            "education": "Remoto"
+        },
+        "students": 87,
         "salary": 945,
         "satisfacion": 92.1,
-        "info": {
-            "Studenti": 879.0,
-            "Aule": 48.0
-        },
         "facilities": {
             "Stipendio": 9.0,
             "Biblioteche": 99.0,
