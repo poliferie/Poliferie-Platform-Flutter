@@ -6,6 +6,7 @@ class CourseModel extends Equatable {
   final String shortDescription;
   final String longDescription = '';
   final String university;
+  final String region;
   final String universityLogoPath;
   final String universityImagePath;
   final bool isBookmarked;
@@ -19,6 +20,7 @@ class CourseModel extends Equatable {
     this.id,
     this.shortName,
     this.university,
+    this.region,
     this.shortDescription,
     this.universityLogoPath,
     this.universityImagePath,
@@ -33,6 +35,7 @@ class CourseModel extends Equatable {
   @override
   List<Object> get props => [id, shortName];
 
+  // TODO(@amerlo): could we build it dynamically?
   // Constructor from Json file
   factory CourseModel.fromJson(Map<String, dynamic> json) {
     return CourseModel(
@@ -40,6 +43,7 @@ class CourseModel extends Equatable {
         shortName: json['shortName'],
         shortDescription: json['shortDescription'],
         university: json["university"],
+        region: json["region"],
         universityImagePath: json["universityImagePath"],
         isBookmarked: json["isBookmarked"]);
   }

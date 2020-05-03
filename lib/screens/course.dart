@@ -88,6 +88,16 @@ Widget _buildInfo(CourseModel course) {
     children: <Widget>[
       Text(course.shortName.toUpperCase(), style: Styles.courseHeadline),
       Text(course.university, style: Styles.courseSubHeadline),
+      Padding(
+        padding: EdgeInsetsDirectional.only(top: 20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Icon(Icons.location_on, color: Styles.poliferieRed),
+            Text(course.region, style: Styles.courseLocation)
+          ],
+        ),
+      ),
     ],
   );
 }
