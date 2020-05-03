@@ -138,17 +138,17 @@ abstract class Styles {
   static const courseHeadline = TextStyle(
     color: poliferieLightBlack,
     fontFamily: 'Montserrat',
-    fontSize: 24,
+    fontSize: 16,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.bold,
   );
 
   static const courseSubHeadline = TextStyle(
-    color: poliferieRed,
+    color: poliferieLightBlack,
     fontFamily: 'Montserrat',
-    fontSize: 12,
+    fontSize: 14,
     fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w400,
   );
 
   static const courseApplyButton = TextStyle(

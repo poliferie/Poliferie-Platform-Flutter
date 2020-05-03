@@ -7,6 +7,7 @@ class CourseModel extends Equatable {
   final String longDescription = '';
   final String university;
   final String universityLogoPath;
+  final String universityImagePath;
   final bool isBookmarked;
   final int students;
   final int salary;
@@ -20,6 +21,7 @@ class CourseModel extends Equatable {
     this.university,
     this.shortDescription,
     this.universityLogoPath,
+    this.universityImagePath,
     this.isBookmarked,
     this.students,
     this.salary,
@@ -34,10 +36,11 @@ class CourseModel extends Equatable {
   // Constructor from Json file
   factory CourseModel.fromJson(Map<String, dynamic> json) {
     return CourseModel(
-      id: json['index'],
-      shortName: json['shortName'],
-      shortDescription: json['shortDescription'],
-      university: json["university"],
-    );
+        id: json['index'],
+        shortName: json['shortName'],
+        shortDescription: json['shortDescription'],
+        university: json["university"],
+        universityImagePath: json["universityImagePath"],
+        isBookmarked: json["isBookmarked"]);
   }
 }

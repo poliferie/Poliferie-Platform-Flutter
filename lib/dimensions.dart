@@ -1,5 +1,8 @@
 import 'package:flutter/widgets.dart';
 
+// TODO(@amerlo): Maybe is better to keep only raw double values here, and then
+//                combine them in the widget
+
 /// Class which holds layout parameters for the entire app.
 class AppDimensions {
   // Values

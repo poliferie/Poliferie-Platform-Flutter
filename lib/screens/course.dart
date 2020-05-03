@@ -1,9 +1,12 @@
+import 'package:Poliferie.io/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/bloc/course.dart';
 import 'package:Poliferie.io/models/models.dart';
+
+import 'package:Poliferie.io/styles.dart';
 
 // TODO(@amerlo): Where the repositories have to be declared?
 final CourseRepository courseRepository =
@@ -29,9 +32,97 @@ class CourseScreenBody extends StatefulWidget {
   _CourseScreenBodyState createState() => _CourseScreenBodyState();
 }
 
+Widget _buildBackButton(BuildContext context) {
+  return Positioned(
+    top: 20.0,
+    left: -10.0,
+    child: MaterialButton(
+        color: Styles.poliferieWhite,
+        shape: CircleBorder(),
+        child: Icon(
+          Icons.arrow_back_ios,
+          color: Styles.poliferieLightGrey,
+        ),
+        onPressed: () {
+          {
+            Navigator.pop(context);
+          }
+        }),
+  );
+}
+
+Widget _buildImage(CourseModel course) {
+  return Image(
+    image: AssetImage(course.universityImagePath),
+  );
+}
+
+Widget _buildCourseHeader(BuildContext context, CourseModel course) {
+  return Stack(
+    alignment: Alignment.topLeft,
+    children: <Widget>[
+      _buildImage(course),
+      _buildBackButton(context),
+    ],
+  );
+}
+
+// TODO(@amerlo): This needs to be moved up
+Widget _buildFavorite(CourseModel course) {
+  return Align(
+    alignment: Alignment.topRight,
+    child: MaterialButton(
+      color: Styles.poliferieWhite,
+      shape: CircleBorder(),
+      padding: EdgeInsets.all(6.0),
+      child: Icon(course.isBookmarked ? Icons.favorite : Icons.favorite_border,
+          color: Styles.poliferieRed, size: 32),
+      onPressed: () {},
+    ),
+  );
+}
+
+Widget _buildInfo(CourseModel course) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      Text(course.shortName.toUpperCase(), style: Styles.courseHeadline),
+      Text(course.university, style: Styles.courseSubHeadline),
+    ],
+  );
+}
+
+Widget _buildStats(CourseModel course) {
+  return Text("start here");
+}
+
+Widget _buildCourseBody(BuildContext context, CourseModel course) {
+  return Container(
+    padding: EdgeInsets.symmetric(horizontal: AppDimensions.bodyPaddingLeft),
+    width: double.infinity,
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        color: Styles.poliferieWhite),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        _buildFavorite(course),
+        _buildInfo(course),
+        _buildStats(course)
+      ],
+    ),
+  );
+}
+
 class _CourseScreenBodyState extends State<CourseScreenBody> {
   Widget _buildBody(BuildContext context, CourseModel course) {
-    return Text(course.shortName);
+    return Column(
+      children: <Widget>[
+        _buildCourseHeader(context, course),
+        _buildCourseBody(context, course)
+      ],
+    );
   }
 
   @override
