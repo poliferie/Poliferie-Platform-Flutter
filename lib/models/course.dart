@@ -60,6 +60,8 @@ class CourseModel extends Equatable {
       requirements: json["requirements"],
       access: json["access"],
       owner: json["owner"],
+      satisfaction: json["satisfaction"],
+      salary: json["salary"],
     );
   }
 }

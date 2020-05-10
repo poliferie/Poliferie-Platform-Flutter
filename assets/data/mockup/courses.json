@@ -16,7 +16,7 @@
         "education": "Remoto",
         "students": 1245,
         "salary": 2200,
-        "satisfacion": 87.2,
+        "satisfaction": 87.2,
         "facilities": {
             "Stipendio": 19.0,
             "Biblioteche": 28.0,
@@ -40,7 +40,7 @@
         "education": "In Presenza",
         "students": 1245,
         "salary": 2200,
-        "satisfacion": 87.2,
+        "satisfaction": 87.2,
         "facilities": {
             "Stipendio": 19.0,
             "Biblioteche": 28.0,
@@ -64,7 +64,7 @@
         "education": "Remoto",
         "students": 87,
         "salary": 945,
-        "satisfacion": 92.1,
+        "satisfaction": 92.1,
         "facilities": {
             "Stipendio": 9.0,
             "Biblioteche": 99.0,

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
 
+import 'package:Poliferie.io/widgets/poliferie_animated_list.dart';
 import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/bloc/course.dart';
 import 'package:Poliferie.io/models/models.dart';
@@ -157,8 +159,41 @@ Widget _buildDescription(CourseModel course) {
 }
 
 Widget _buildCourseBody(BuildContext context, CourseModel course) {
+  // TODO(@amerlo): Move to an helper class to build the list from course stats.
+  List<Card> opportunity = <Card>[
+    Card(
+      elevation: 0.0,
+      child: ListTile(
+        title: Text('Soddisfazione', style: Styles.statsTitle),
+        subtitle: Text('Percentuale di soddisfazione per il corso di laurea',
+            style: Styles.statsDescription),
+        trailing: CircularPercentIndicator(
+          radius: 50.0,
+          lineWidth: 3.0,
+          percent: course.satisfaction / 100,
+          center: Text(
+            course.satisfaction.toString(),
+            style: Styles.statsValue,
+          ),
+          progressColor: Colors.green,
+        ),
+      ),
+    ),
+    Card(
+      elevation: 0.0,
+      child: ListTile(
+        title: Text('Stipendio mensile netto', style: Styles.statsTitle),
+        subtitle: Text('Stipendio mensile netto medio a 5 anni dal titolo',
+            style: Styles.statsDescription),
+        trailing:
+            Text(course.salary.toString() + '€', style: Styles.statsValue),
+      ),
+    ),
+  ];
+
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: AppDimensions.bodyPaddingLeft),
+    padding: EdgeInsets.fromLTRB(AppDimensions.bodyPaddingLeft, 0.0,
+        AppDimensions.bodyPaddingRight, AppDimensions.bodyPaddingBottom),
     width: double.infinity,
     decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -171,6 +206,8 @@ Widget _buildCourseBody(BuildContext context, CourseModel course) {
         _buildInfo(course),
         _buildStats(course),
         _buildDescription(course),
+        PoliferieAnimatedList(title: 'Opportunità', items: opportunity),
+        PoliferieAnimatedList(title: 'Mobilità', items: opportunity),
       ],
     ),
   );
