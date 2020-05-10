@@ -31,6 +31,8 @@ class AppDimensions {
   static const EdgeInsets betweenFiltersPadding =
       EdgeInsets.symmetric(vertical: 1.0);
 
+  static const EdgeInsets betweenTabs = EdgeInsets.symmetric(vertical: 20.0);
+
   // Sizes
   static const double bottomNavigationBarIconSize = 32.0;
 

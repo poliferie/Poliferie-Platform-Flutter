@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/strings.dart';
 
 import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/bloc/course.dart';
@@ -112,8 +113,9 @@ Widget _buildStats(CourseModel course) {
     course.access: Icons.check_circle,
     course.education: Icons.recent_actors,
   };
+  // TODO(@amerlo): How to scale height dynamically?
   return Container(
-    height: 200,
+    height: 120,
     child: GridView.count(
       padding: EdgeInsets.all(0.0),
       crossAxisCount: 3,
@@ -141,6 +143,19 @@ Widget _buildStats(CourseModel course) {
   );
 }
 
+Widget _buildDescription(CourseModel course) {
+  return Padding(
+    padding: AppDimensions.betweenTabs,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(Strings.courseDescription, style: Styles.tabHeading),
+        Text(course.shortDescription, style: Styles.tabDescription),
+      ],
+    ),
+  );
+}
+
 Widget _buildCourseBody(BuildContext context, CourseModel course) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: AppDimensions.bodyPaddingLeft),
@@ -154,7 +169,8 @@ Widget _buildCourseBody(BuildContext context, CourseModel course) {
       children: <Widget>[
         _buildFavorite(course),
         _buildInfo(course),
-        _buildStats(course)
+        _buildStats(course),
+        _buildDescription(course),
       ],
     ),
   );
@@ -162,7 +178,8 @@ Widget _buildCourseBody(BuildContext context, CourseModel course) {
 
 class _CourseScreenBodyState extends State<CourseScreenBody> {
   Widget _buildBody(BuildContext context, CourseModel course) {
-    return Column(
+    return ListView(
+      scrollDirection: Axis.vertical,
       children: <Widget>[
         _buildCourseHeader(context, course),
         _buildCourseBody(context, course)

@@ -26,6 +26,7 @@ abstract class Strings {
   static const String filterSet = 'Imposta';
 
   // Course Screen
+  static const String courseDescription = 'Descrizione';
   static const String courseHowToApply = 'Scopri come iscriverti';
   static const String courseInfo = 'Informazioni';
   static const String courseFacilities = 'Strutture';
