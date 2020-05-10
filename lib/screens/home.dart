@@ -12,6 +12,9 @@ import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_card.dart';
 
+import 'package:Poliferie.io/models/article.dart';
+import 'package:Poliferie.io/widgets/poliferie_article.dart';
+
 final CardRepository cardRepository = CardRepository(
   cardClient: CardClient(useLocalJson: true),
 );
@@ -78,6 +81,7 @@ class HomeScreenBody extends StatelessWidget {
       children: <Widget>[
         _buildHeadline(Strings.homeHeadline),
         _buildSubHeadline(Strings.homeSubHeadline),
+        _tryPoliferieArticle(context),
         _buildRowHeading(Strings.homeSearch),
         _buildRowCards(),
         _buildRowHeading(Strings.homeDiscover),
@@ -118,4 +122,62 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+Widget _tryPoliferieArticle(BuildContext context) {
+  String md = """- asd
+- asd
+# adi2
+
+## Ciao
+
+> asdasdasdasdas dasdas das das da sd aasdasda s sdasda sdasd asdasd asd as d asdasda sdasd asd a s
+
+
+- a
+- b
+- c
+
+- d
+- e
+- f
+
+
+asd
+as
+dasdas
+
+
+[ ] todo
+[ ] todo 2
+
+1. das
+2. dsd
+
+as
+d
+as
+das
+da
+![Ciao](https://raw.githubusercontent.com/flutter-rus/flutter-rus.github.io/master/images/logo.png)
+sd
+as
+d
+as""";
+  Article article1 = Article(id: 1, title: "Titolo", bodyMarkdownSource: md);
+  Article article2 = Article(id: 2, title: "Titolo 2 un pò più lungo dai", subtitle: "Anche col sottotitolo e l'immagine", image: NetworkImage("https://raw.githubusercontent.com/flutter-rus/flutter-rus.github.io/master/images/logo.png", scale: 1.0), bodyMarkdownSource: md);
+  return Column(
+    children: <Widget>[
+      RaisedButton(
+        onPressed: PoliferieArticle(article: article1).bottomSheetCaller(context),
+        padding: EdgeInsets.all(5),
+        child: Text("Apri articolo di prova", style: TextStyle(fontSize: 20))
+      ),
+      RaisedButton(
+        onPressed: PoliferieArticle(article: article2).bottomSheetCaller(context),
+        padding: EdgeInsets.all(5),
+        child: Text("Apri articolo di prova", style: TextStyle(fontSize: 20))
+      ),
+    ],
+  );
 }
