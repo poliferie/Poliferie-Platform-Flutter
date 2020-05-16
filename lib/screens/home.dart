@@ -74,8 +74,9 @@ class HomeScreenBody extends StatelessWidget {
 
   Widget _buildBody(BuildContext context, List<CardInfo> cards) {
     final _cards = cards.map((card) => PoliferieCard(card));
+    final double bottomPadding = MediaQuery.of(context).padding.bottom + AppDimensions.bodyPadding.bottom;
     return ListView(
-      padding: AppDimensions.bodyPadding,
+      padding: AppDimensions.bodyPadding.copyWith(bottom: bottomPadding),
       scrollDirection: Axis.vertical,
       children: <Widget>[
         _buildHeadline(Strings.homeHeadline),

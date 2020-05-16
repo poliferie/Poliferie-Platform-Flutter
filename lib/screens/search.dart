@@ -134,6 +134,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
   Widget _buildFilterList(
       BuildContext context, List<PoliferieFilter> filters, TabType tabType) {
     return ListView.builder(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 56),
       physics: BouncingScrollPhysics(),
       itemCount: filters.length,
       itemBuilder: (BuildContext context, int index) {
@@ -144,9 +145,9 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
     );
   }
 
-  Widget _buildFloatingButton() {
+  Widget _buildFloatingButton(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsDirectional.only(bottom: 50.0),
+      padding: EdgeInsetsDirectional.only(bottom: MediaQuery.of(context).padding.bottom + 5),
       child: PoliferieFloatingButton(
         text: Strings.searchExplore,
         activeColor: Styles.poliferieBlue,
@@ -188,7 +189,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
               _buildFilterList(context, courseFilterList, TabType.university),
             ],
           ),
-          _buildFloatingButton(),
+          _buildFloatingButton(context),
         ],
       ),
     );

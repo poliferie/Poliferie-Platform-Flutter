@@ -11,14 +11,17 @@ class PoliferieFloatingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton.extended(
-      backgroundColor: activeColor,
-      focusColor: activeColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
+    return SizedBox(
+      width: double.infinity,
+      child: FloatingActionButton.extended(
+        backgroundColor: activeColor,
+        focusColor: activeColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        onPressed: onPressed,
+        label: Text(text, style: Styles.buttonTitle),
       ),
-      onPressed: onPressed,
-      label: Text(text, style: Styles.buttonTitle),
     );
   }
 }
