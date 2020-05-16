@@ -11,6 +11,7 @@ import 'package:Poliferie.io/repositories/search_client.dart';
 import 'package:Poliferie.io/bloc/search_bloc.dart';
 import 'package:Poliferie.io/repositories/search_repository.dart';
 import 'package:Poliferie.io/icons.dart';
+import 'package:Poliferie.io/screens/course.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_filter.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
@@ -81,7 +82,17 @@ class PoliferieSearchDelegate extends SearchDelegate {
               return ListTile(
                 leading: Icon(
                     item.isCourse() ? AppIcons.course : AppIcons.university),
-                onTap: () {},
+                onTap: () {
+                  close(context, null);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => item.isCourse()
+                          ? CourseScreen(item.id)
+                          : Text("To be implemented"),
+                    ),
+                  );
+                },
                 title: Text(item.shortName),
               );
             },
@@ -102,9 +113,7 @@ final SearchRepository searchRepository =
     SearchRepository(searchClient: SearchClient(useLocalJson: true));
 
 class SearchScreen extends StatefulWidget {
-  final SearchRepository searchRepository;
-
-  SearchScreen({Key key, this.searchRepository}) : super(key: key);
+  SearchScreen({Key key}) : super(key: key);
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -126,10 +135,11 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
       BuildContext context, List<PoliferieFilter> filters, TabType tabType) {
     return ListView.builder(
       physics: BouncingScrollPhysics(),
-      scrollDirection: Axis.vertical,
       itemCount: filters.length,
       itemBuilder: (BuildContext context, int index) {
-        return filters[index];
+        return Padding(
+            padding: AppDimensions.betweenFiltersPadding,
+            child: filters[index]);
       },
     );
   }
@@ -227,8 +237,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SearchBloc>(
-      create: (context) =>
-          SearchBloc(searchRepository: widget.searchRepository),
+      create: (context) => SearchBloc(searchRepository: searchRepository),
       child: SearchScreenBody(),
     );
   }

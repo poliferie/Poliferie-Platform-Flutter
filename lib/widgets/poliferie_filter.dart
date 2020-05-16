@@ -6,6 +6,7 @@ import 'package:Poliferie.io/dimensions.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_value_box.dart';
 import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
+import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
 
 enum FilterType { dropDown, selectRange, selectValue }
 
@@ -76,7 +77,14 @@ final courseFilterList = <PoliferieFilter>[
       hint: '',
       description: 'Lingua di insegnamento del corso',
       type: FilterType.selectValue,
-      range: ["ITA", "ENG"])
+      range: ["ITA", "ENG"]),
+  PoliferieFilter(
+      icon: Icons.monetization_on,
+      name: 'Stipendio',
+      hint: '',
+      description: 'Stipendio netto mensile',
+      type: FilterType.selectRange,
+      range: [0, 100]),
 ];
 
 class PoliferieFilter extends StatefulWidget {
@@ -106,7 +114,6 @@ class PoliferieFilter extends StatefulWidget {
 }
 
 class _PoliferieFilterState extends State<PoliferieFilter> {
-  // TODO(@amerlo): Could they be made private?
   bool selected = false;
 
   // String values selected for dropDown and selectValue types
@@ -149,10 +156,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
       children: <Widget>[
         Padding(
           padding: AppDimensions.bottomSheetPadding,
-          child: Icon(
-            widget.icon,
-            color: Styles.poliferieRed,
-          ),
+          child: PoliferieIconBox(widget.icon, iconColor: Styles.poliferieRed),
         ),
         Text(
           widget.name,
@@ -315,11 +319,12 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
       ),
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius:
+              BorderRadius.circular(AppDimensions.filterCardBorderRadius),
         ),
         child: ListTile(
           onTap: _onButtonPressed,
-          leading: Icon(widget.icon),
+          leading: PoliferieIconBox(widget.icon),
           selected: selected,
           title: Text(
             widget.name,

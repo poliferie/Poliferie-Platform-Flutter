@@ -16,9 +16,7 @@ final UserRepository profileRepository = UserRepository(
 );
 
 class ProfileScreen extends StatefulWidget {
-  final UserRepository userRepository;
-
-  const ProfileScreen({Key key, this.userRepository}) : super(key: key);
+  const ProfileScreen({Key key}) : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -168,7 +166,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: PoliferieAppBar(),
       body: BlocProvider<UserBloc>(
-        create: (context) => UserBloc(userRepository: widget.userRepository),
+        create: (context) => UserBloc(userRepository: profileRepository),
         child: ProfileScreenBody(),
       ),
     );
