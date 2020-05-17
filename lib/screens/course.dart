@@ -1,3 +1,4 @@
+import 'package:Poliferie.io/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -36,184 +37,209 @@ class CourseScreenBody extends StatefulWidget {
   _CourseScreenBodyState createState() => _CourseScreenBodyState();
 }
 
-Widget _buildBackButton(BuildContext context) {
-  return Positioned(
-    top: 20.0,
-    left: -10.0,
-    child: MaterialButton(
-        color: Styles.poliferieWhite,
-        shape: CircleBorder(),
-        child: Icon(
-          Icons.arrow_back_ios,
-          color: Styles.poliferieLightGrey,
-        ),
-        onPressed: () {
-          {
-            Navigator.pop(context);
-          }
-        }),
-  );
-}
+class _CourseScreenBodyState extends State<CourseScreenBody> {
+  bool _isFavorite = false;
 
-Widget _buildImage(CourseModel course) {
-  return Image(
-    image: AssetImage(course.universityImagePath),
-  );
-}
+  @override
+  void initState() {
+    super.initState();
+    _setFavoriteCourses();
+  }
 
-Widget _buildCourseHeader(BuildContext context, CourseModel course) {
-  return Stack(
-    alignment: Alignment.topLeft,
-    children: <Widget>[
-      _buildImage(course),
-      _buildBackButton(context),
-    ],
-  );
-}
+  void _setFavoriteCourses() async {
+    final List<dynamic> favoriteCourses =
+        await getPersistenceList('favorite_courses');
+    setState(() {
+      _isFavorite = favoriteCourses.contains(widget.id);
+    });
+  }
+
+  Widget _buildBackButton(BuildContext context) {
+    return Positioned(
+      top: 20.0,
+      left: -10.0,
+      child: MaterialButton(
+          color: Styles.poliferieWhite,
+          shape: CircleBorder(),
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: Styles.poliferieLightGrey,
+          ),
+          onPressed: () {
+            {
+              Navigator.pop(context);
+            }
+          }),
+    );
+  }
+
+  Widget _buildImage(CourseModel course) {
+    return Image(
+      image: AssetImage(course.universityImagePath),
+    );
+  }
+
+  Widget _buildCourseHeader(BuildContext context, CourseModel course) {
+    return Stack(
+      alignment: Alignment.topLeft,
+      children: <Widget>[
+        _buildImage(course),
+        _buildBackButton(context),
+      ],
+    );
+  }
 
 // TODO(@amerlo): This needs to be moved up
-Widget _buildFavorite(CourseModel course) {
-  return Align(
-    alignment: Alignment.topRight,
-    child: MaterialButton(
-      color: Styles.poliferieWhite,
-      shape: CircleBorder(),
-      padding: EdgeInsets.all(6.0),
-      child: Icon(course.isBookmarked ? Icons.favorite : Icons.favorite_border,
-          color: Styles.poliferieRed, size: 32),
-      onPressed: () {},
-    ),
-  );
-}
-
-Widget _buildInfo(CourseModel course) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(course.shortName.toUpperCase(), style: Styles.courseHeadline),
-      Text(course.university, style: Styles.courseSubHeadline),
-      Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 20.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Icon(Icons.location_on, color: Styles.poliferieRed),
-            Text(course.region, style: Styles.courseLocation)
-          ],
-        ),
+  Widget _buildFavorite(CourseModel course) {
+    return Align(
+      alignment: Alignment.topRight,
+      child: MaterialButton(
+        color: Styles.poliferieWhite,
+        shape: CircleBorder(),
+        padding: EdgeInsets.all(6.0),
+        child: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border,
+            color: Styles.poliferieRed, size: 32),
+        onPressed: () {
+          setState(() {
+            _isFavorite = !_isFavorite;
+            if (_isFavorite) {
+              addToPersistenceList('favorite_courses', widget.id);
+            } else {
+              removeFromPersistenceList('favorite_courses', widget.id);
+            }
+          });
+        },
       ),
-    ],
-  );
-}
+    );
+  }
 
-Widget _buildStats(CourseModel course) {
-  final Map<String, dynamic> infoMap = {
-    course.duration.toString(): Icons.looks_one,
-    course.language: Icons.language,
-    course.requirements: Icons.card_membership,
-    course.owner: Icons.lock,
-    course.access: Icons.check_circle,
-    course.education: Icons.recent_actors,
-  };
-  // TODO(@amerlo): How to scale height dynamically?
-  return Container(
-    height: 120,
-    child: GridView.count(
-      padding: EdgeInsets.all(0.0),
-      crossAxisCount: 3,
-      childAspectRatio: 2,
-      children: infoMap.keys.map((String text) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(right: 6.0),
-              child: PoliferieIconBox(
-                infoMap[text],
-                iconColor: Styles.poliferieRed,
-                iconSize: 18.0,
-              ),
-            ),
-            Text(
-              text,
-              style: Styles.courseInfoStats,
-            ),
-          ],
-        );
-      }).toList(),
-    ),
-  );
-}
-
-Widget _buildDescription(CourseModel course) {
-  return Padding(
-    padding: AppDimensions.betweenTabs,
-    child: Column(
+  Widget _buildInfo(CourseModel course) {
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(Strings.courseDescription, style: Styles.tabHeading),
-        Text(course.shortDescription, style: Styles.tabDescription),
-      ],
-    ),
-  );
-}
-
-Widget _buildCourseBody(BuildContext context, CourseModel course) {
-  // TODO(@amerlo): Move to an helper class to build the list from course stats.
-  List<Card> opportunity = <Card>[
-    Card(
-      elevation: 0.0,
-      child: ListTile(
-        title: Text('Soddisfazione', style: Styles.statsTitle),
-        subtitle: Text('Percentuale di soddisfazione per il corso di laurea',
-            style: Styles.statsDescription),
-        trailing: CircularPercentIndicator(
-          radius: 50.0,
-          lineWidth: 3.0,
-          percent: course.satisfaction / 100,
-          center: Text(
-            course.satisfaction.toString(),
-            style: Styles.statsValue,
+        Text(course.shortName.toUpperCase(), style: Styles.courseHeadline),
+        Text(course.university, style: Styles.courseSubHeadline),
+        Padding(
+          padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Icon(Icons.location_on, color: Styles.poliferieRed),
+              Text(course.region, style: Styles.courseLocation)
+            ],
           ),
-          progressColor: Colors.green,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStats(CourseModel course) {
+    final Map<String, dynamic> infoMap = {
+      course.duration.toString(): Icons.looks_one,
+      course.language: Icons.language,
+      course.requirements: Icons.card_membership,
+      course.owner: Icons.lock,
+      course.access: Icons.check_circle,
+      course.education: Icons.recent_actors,
+    };
+    // TODO(@amerlo): How to scale height dynamically?
+    return Container(
+      height: 120,
+      child: GridView.count(
+        padding: EdgeInsets.all(0.0),
+        crossAxisCount: 3,
+        childAspectRatio: 2,
+        children: infoMap.keys.map((String text) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(right: 6.0),
+                child: PoliferieIconBox(
+                  infoMap[text],
+                  iconColor: Styles.poliferieRed,
+                  iconSize: 18.0,
+                ),
+              ),
+              Text(
+                text,
+                style: Styles.courseInfoStats,
+              ),
+            ],
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget _buildDescription(CourseModel course) {
+    return Padding(
+      padding: AppDimensions.betweenTabs,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(Strings.courseDescription, style: Styles.tabHeading),
+          Text(course.shortDescription, style: Styles.tabDescription),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCourseBody(BuildContext context, CourseModel course) {
+    // TODO(@amerlo): Move to an helper class to build the list from course stats.
+    List<Card> opportunity = <Card>[
+      Card(
+        elevation: 0.0,
+        child: ListTile(
+          title: Text('Soddisfazione', style: Styles.statsTitle),
+          subtitle: Text('Percentuale di soddisfazione per il corso di laurea',
+              style: Styles.statsDescription),
+          trailing: CircularPercentIndicator(
+            radius: 50.0,
+            lineWidth: 3.0,
+            percent: course.satisfaction / 100,
+            center: Text(
+              course.satisfaction.toString(),
+              style: Styles.statsValue,
+            ),
+            progressColor: Colors.green,
+          ),
         ),
       ),
-    ),
-    Card(
-      elevation: 0.0,
-      child: ListTile(
-        title: Text('Stipendio mensile netto', style: Styles.statsTitle),
-        subtitle: Text('Stipendio mensile netto medio a 5 anni dal titolo',
-            style: Styles.statsDescription),
-        trailing:
-            Text(course.salary.toString() + '€', style: Styles.statsValue),
+      Card(
+        elevation: 0.0,
+        child: ListTile(
+          title: Text('Stipendio mensile netto', style: Styles.statsTitle),
+          subtitle: Text('Stipendio mensile netto medio a 5 anni dal titolo',
+              style: Styles.statsDescription),
+          trailing:
+              Text(course.salary.toString() + '€', style: Styles.statsValue),
+        ),
       ),
-    ),
-  ];
+    ];
 
-  return Container(
-    padding: EdgeInsets.fromLTRB(AppDimensions.bodyPaddingLeft, 0.0,
-        AppDimensions.bodyPaddingRight, AppDimensions.bodyPaddingBottom),
-    width: double.infinity,
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-        color: Styles.poliferieWhite),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        _buildFavorite(course),
-        _buildInfo(course),
-        _buildStats(course),
-        _buildDescription(course),
-        PoliferieAnimatedList(title: 'Opportunità', items: opportunity),
-        PoliferieAnimatedList(title: 'Mobilità', items: opportunity),
-      ],
-    ),
-  );
-}
+    return Container(
+      padding: EdgeInsets.fromLTRB(AppDimensions.bodyPaddingLeft, 0.0,
+          AppDimensions.bodyPaddingRight, AppDimensions.bodyPaddingBottom),
+      width: double.infinity,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+          color: Styles.poliferieWhite),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _buildFavorite(course),
+          _buildInfo(course),
+          _buildStats(course),
+          _buildDescription(course),
+          PoliferieAnimatedList(title: 'Opportunità', items: opportunity),
+          PoliferieAnimatedList(title: 'Mobilità', items: opportunity),
+        ],
+      ),
+    );
+  }
 
-class _CourseScreenBodyState extends State<CourseScreenBody> {
   Widget _buildBody(BuildContext context, CourseModel course) {
     return ListView(
       scrollDirection: Axis.vertical,

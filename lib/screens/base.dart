@@ -1,3 +1,4 @@
+import 'package:Poliferie.io/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/styles.dart';
@@ -23,6 +24,11 @@ class _BaseScreenState extends State<BaseScreen> {
     ProfileScreen(),
   ];
 
+  @override
+  void initState() {
+    _initializeFavoriteLists();
+  }
+
   BorderRadius navigationBarRadius = BorderRadius.only(
     topRight: Radius.circular(AppDimensions.bottomNavigationBarBorderRadius),
     topLeft: Radius.circular(AppDimensions.bottomNavigationBarBorderRadius),
@@ -39,7 +45,10 @@ class _BaseScreenState extends State<BaseScreen> {
         decoration: BoxDecoration(
           borderRadius: navigationBarRadius,
           boxShadow: <BoxShadow>[
-            BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 0, blurRadius: 10),
+            BoxShadow(
+                color: Colors.black.withOpacity(0.4),
+                spreadRadius: 0,
+                blurRadius: 10),
           ],
         ),
         child: ClipRRect(
@@ -91,5 +100,18 @@ class _BaseScreenState extends State<BaseScreen> {
         ),
       ),
     );
+  }
+}
+
+void _initializeFavoriteLists() async {
+  List<dynamic> courses = await getPersistenceList('favorite_courses');
+  if (courses == null) {
+    savePersistenceList('favorite_courses', [null]);
+  }
+
+  List<dynamic> universities =
+      await getPersistenceList('favorite_universities');
+  if (universities == null) {
+    savePersistenceList('favorite_universities', [null]);
   }
 }
