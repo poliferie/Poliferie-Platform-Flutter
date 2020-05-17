@@ -8,6 +8,8 @@ import 'package:Poliferie.io/widgets/poliferie_value_box.dart';
 import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
 import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
 
+import 'package:auto_size_text/auto_size_text.dart';
+
 enum FilterType { dropDown, selectRange, selectValue }
 
 final courseFilterList = <PoliferieFilter>[
@@ -318,11 +320,34 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
         ),
       ),
       child: Card(
+        elevation: 3.0,
         shape: RoundedRectangleBorder(
           borderRadius:
               BorderRadius.circular(AppDimensions.filterCardBorderRadius),
         ),
-        child: ListTile(
+        /*child: FlatButton(onPressed: _onButtonPressed, child: Row(children: <Widget>[PoliferieIconBox(widget.icon), Expanded(child:Text(
+            widget.name,
+            style: Styles.filterName.copyWith(fontSize: 14),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+          ))]),),*/
+        child: FlatButton.icon(
+          padding: EdgeInsets.all(10),
+          onPressed: _onButtonPressed, 
+          icon: PoliferieIconBox(
+            widget.icon, 
+            iconColor: selected ? Colors.white : Styles.poliferieRed,
+            iconBackgroundColor: selected ? Styles.poliferieRed : null), 
+          label: Expanded(child: AutoSizeText(
+            widget.name,
+            style: Styles.filterName,
+            wrapWords: false,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+            minFontSize: 12,
+          )),
+        ),
+        /*child: ListTile(
           onTap: _onButtonPressed,
           leading: PoliferieIconBox(widget.icon),
           selected: selected,
@@ -332,7 +357,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
           ),
-        ),
+        ),*/
       ),
     );
   }

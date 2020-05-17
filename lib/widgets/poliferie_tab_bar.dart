@@ -15,39 +15,43 @@ class PoliferieTabBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TabBar(
-      labelColor: Styles.poliferieWhite,
-      unselectedLabelColor: Styles.poliferieRed,
-      indicatorSize: TabBarIndicatorSize.label,
-      indicator: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(_borderRadius),
-          topRight: Radius.circular(_borderRadius),
-          bottomLeft: Radius.circular(_borderRadius),
-          bottomRight: Radius.circular(_borderRadius),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(_borderRadius),
+        border: Border.all(
+          color: Styles.poliferieVeryLightGrey,
+          width: 2,
         ),
-        color: Styles.poliferieRed,
+      ), 
+      child: TabBar(
+        labelColor: Styles.poliferieWhite,
+        unselectedLabelColor: Styles.poliferieRed,
+        indicatorSize: TabBarIndicatorSize.tab,
+        indicator: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
+          color: Styles.poliferieRed,
+        ),
+        tabs: [
+          Tab(
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                Strings.searchTabCourse.toUpperCase(),
+                style: Styles.searchTabTitle,
+              ),
+            ),
+          ),
+          Tab(
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                Strings.searchTabUniversity.toUpperCase(),
+                style: Styles.searchTabTitle,
+              ),
+            ),
+          ),
+        ],
       ),
-      tabs: [
-        Tab(
-          child: Align(
-            alignment: Alignment.center,
-            child: Text(
-              Strings.searchTabCourse.toUpperCase(),
-              style: Styles.searchTabTitle,
-            ),
-          ),
-        ),
-        Tab(
-          child: Align(
-            alignment: Alignment.center,
-            child: Text(
-              Strings.searchTabUniversity.toUpperCase(),
-              style: Styles.searchTabTitle,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

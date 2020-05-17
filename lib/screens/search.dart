@@ -133,15 +133,21 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
 
   Widget _buildFilterList(
       BuildContext context, List<PoliferieFilter> filters, TabType tabType) {
-    return ListView.builder(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 56),
+    final double containerWidth = MediaQuery.of(context).size.width - AppDimensions.searchBodyPadding.left - AppDimensions.searchBodyPadding.right;
+    return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
-      itemCount: filters.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Padding(
-            padding: AppDimensions.betweenFiltersPadding,
-            child: filters[index]);
-      },
+      padding: EdgeInsets.only(top: 10, bottom: MediaQuery.of(context).padding.bottom + 56),
+      child: Wrap(
+        children: <Widget>[
+          for (var f in filters)
+            ClipRect(
+              child: SizedBox(
+                width: containerWidth > 280 ? (containerWidth/2).round().toDouble() : containerWidth,
+                child: f,
+              ),
+            )
+        ], 
+      ),
     );
   }
 
@@ -206,6 +212,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
           children: <Widget>[
             _buildFilterHeading(),
             _buildFilterIntro(),
+            SizedBox(height: 20),
             _buildTabBar(),
             _buildTabBarBody(context),
           ],
