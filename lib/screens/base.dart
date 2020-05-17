@@ -23,20 +23,28 @@ class _BaseScreenState extends State<BaseScreen> {
     ProfileScreen(),
   ];
 
+  BorderRadius navigationBarRadius = BorderRadius.only(
+    topRight: Radius.circular(AppDimensions.bottomNavigationBarBorderRadius),
+    topLeft: Radius.circular(AppDimensions.bottomNavigationBarBorderRadius),
+  );
+
   /// Build the [BottomNavigationBar] which handles the screens.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: pages[_selectedScreenIndex],
       extendBody: true,
-      bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.only(
-          topRight:
-              Radius.circular(AppDimensions.bottomNavigationBarBorderRadius),
-          topLeft:
-              Radius.circular(AppDimensions.bottomNavigationBarBorderRadius),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          borderRadius: navigationBarRadius,
+          boxShadow: <BoxShadow>[
+            BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 0, blurRadius: 10),
+          ],
         ),
-        child: BottomNavigationBar(
+        child: ClipRRect(
+          borderRadius: navigationBarRadius,
+          child: BottomNavigationBar(
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 title: Text(""),
@@ -78,7 +86,9 @@ class _BaseScreenState extends State<BaseScreen> {
             backgroundColor: Styles.poliferieWhite,
             selectedItemColor: Styles.poliferieRed,
             unselectedItemColor: Styles.poliferieDarkGrey,
-            currentIndex: _selectedScreenIndex),
+            currentIndex: _selectedScreenIndex,
+          ),
+        ),
       ),
     );
   }
