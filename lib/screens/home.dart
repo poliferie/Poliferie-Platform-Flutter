@@ -73,7 +73,12 @@ class HomeScreenBody extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context, List<CardInfo> cards) {
-    final _cards = cards.map((card) => PoliferieCard(card));
+    final _cards = cards.asMap().map((index, card) {
+      return MapEntry(index, GestureDetector(
+        onTap: _tryPoliferieArticle(context, which: index),
+        child: PoliferieCard(card),
+      ));
+    }).values.toList();
     final double bottomPadding = MediaQuery.of(context).padding.bottom + AppDimensions.bodyPadding.bottom;
     return ListView(
       padding: AppDimensions.bodyPadding.copyWith(bottom: bottomPadding),
@@ -81,7 +86,6 @@ class HomeScreenBody extends StatelessWidget {
       children: <Widget>[
         _buildHeadline(Strings.homeHeadline),
         _buildSubHeadline(Strings.homeSubHeadline),
-        _tryPoliferieArticle(context),
         _buildRowHeading(Strings.homeSearch),
         _buildRowCards(),
         _buildRowHeading(Strings.homeDiscover),
@@ -124,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-Widget _tryPoliferieArticle(BuildContext context) {
+void Function() _tryPoliferieArticle(BuildContext context, {int which: 1}) {
   String md = """- asd
 - asd
 # adi2
@@ -166,18 +170,5 @@ d
 as""";
   Article article1 = Article(id: 1, title: "Titolo", bodyMarkdownSource: md);
   Article article2 = Article(id: 2, title: "Titolo 2 un pò più lungo dai", subtitle: "Anche col sottotitolo e l'immagine", image: NetworkImage("https://raw.githubusercontent.com/flutter-rus/flutter-rus.github.io/master/images/logo.png", scale: 1.0), bodyMarkdownSource: md);
-  return Column(
-    children: <Widget>[
-      RaisedButton(
-        onPressed: PoliferieArticle(article: article1).bottomSheetCaller(context),
-        padding: EdgeInsets.all(5),
-        child: Text("Apri articolo di prova", style: TextStyle(fontSize: 20))
-      ),
-      RaisedButton(
-        onPressed: PoliferieArticle(article: article2).bottomSheetCaller(context),
-        padding: EdgeInsets.all(5),
-        child: Text("Apri articolo di prova", style: TextStyle(fontSize: 20))
-      ),
-    ],
-  );
+  return which == 1 ? PoliferieArticle(article: article1).bottomSheetCaller(context) : PoliferieArticle(article: article2).bottomSheetCaller(context);
 }
