@@ -278,24 +278,23 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
 
   _onButtonPressed() {
     showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return StatefulBuilder(builder: (context, state) {
+      context: context,
+      backgroundColor: Theme.of(context).canvasColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20.0),
+        ),
+      ),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, state) {
             return Container(
-              color: Styles.poliferieLightGrey,
-              child: Container(
-                child: _buildBottomSheet(state),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).canvasColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: const Radius.circular(20),
-                    topRight: const Radius.circular(20),
-                  ),
-                ),
-              ),
+              child: _buildBottomSheet(state),
             );
-          });
-        });
+          },
+        );
+      },
+    );
   }
 
   Future<bool> _doNotDismiss() async {
@@ -333,12 +332,12 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
           ))]),),*/
         child: FlatButton.icon(
           padding: EdgeInsets.all(10),
-          onPressed: _onButtonPressed, 
-          icon: PoliferieIconBox(
-            widget.icon, 
-            iconColor: selected ? Colors.white : Styles.poliferieRed,
-            iconBackgroundColor: selected ? Styles.poliferieRed : null), 
-          label: Expanded(child: AutoSizeText(
+          onPressed: _onButtonPressed,
+          icon: PoliferieIconBox(widget.icon,
+              iconColor: selected ? Colors.white : Styles.poliferieRed,
+              iconBackgroundColor: selected ? Styles.poliferieRed : null),
+          label: Expanded(
+              child: AutoSizeText(
             widget.name,
             style: Styles.filterName,
             wrapWords: false,
