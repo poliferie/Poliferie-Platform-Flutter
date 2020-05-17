@@ -46,6 +46,9 @@ dependencies:
   # Show rich text from server with markdown
   flutter_markdown: ^0.3.5
 
+  # Adapt text size to container
+  auto_size_text: ^2.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
