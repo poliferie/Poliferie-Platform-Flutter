@@ -85,31 +85,29 @@ class _CourseScreenBodyState extends State<CourseScreenBody> {
       children: <Widget>[
         _buildImage(course),
         _buildBackButton(context),
+        Positioned(child: _buildFavorite(course), right: 0, bottom: 0),
       ],
     );
   }
 
 // TODO(@amerlo): This needs to be moved up
   Widget _buildFavorite(CourseModel course) {
-    return Align(
-      alignment: Alignment.topRight,
-      child: MaterialButton(
-        color: Styles.poliferieWhite,
-        shape: CircleBorder(),
-        padding: EdgeInsets.all(6.0),
-        child: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border,
-            color: Styles.poliferieRed, size: 32),
-        onPressed: () {
-          setState(() {
-            _isFavorite = !_isFavorite;
-            if (_isFavorite) {
-              addToPersistenceList('favorite_courses', widget.id);
-            } else {
-              removeFromPersistenceList('favorite_courses', widget.id);
-            }
-          });
-        },
-      ),
+    return MaterialButton(
+      color: Styles.poliferieWhite,
+      shape: CircleBorder(),
+      padding: EdgeInsets.all(6.0),
+      child: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border,
+          color: Styles.poliferieRed, size: 40),
+      onPressed: () {
+        setState(() {
+          _isFavorite = !_isFavorite;
+          if (_isFavorite) {
+            addToPersistenceList('favorite_courses', widget.id);
+          } else {
+            removeFromPersistenceList('favorite_courses', widget.id);
+          }
+        });
+      },
     );
   }
 
@@ -185,6 +183,16 @@ class _CourseScreenBodyState extends State<CourseScreenBody> {
     );
   }
 
+  Widget _buildList(String title, List<Card> items) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(title, style: Styles.tabHeading),
+        PoliferieAnimatedList(items: items),
+      ],
+    );
+  }
+
   Widget _buildCourseBody(BuildContext context, CourseModel course) {
     // TODO(@amerlo): Move to an helper class to build the list from course stats.
     List<Card> opportunity = <Card>[
@@ -219,8 +227,7 @@ class _CourseScreenBodyState extends State<CourseScreenBody> {
     ];
 
     return Container(
-      padding: EdgeInsets.fromLTRB(AppDimensions.bodyPaddingLeft, 0.0,
-          AppDimensions.bodyPaddingRight, AppDimensions.bodyPaddingBottom),
+      padding: AppDimensions.bodyPadding,
       width: double.infinity,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -229,12 +236,11 @@ class _CourseScreenBodyState extends State<CourseScreenBody> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _buildFavorite(course),
           _buildInfo(course),
           _buildStats(course),
           _buildDescription(course),
-          PoliferieAnimatedList(title: 'Opportunità', items: opportunity),
-          PoliferieAnimatedList(title: 'Mobilità', items: opportunity),
+          _buildList('Opportunità', opportunity),
+          _buildList('Mobilità', opportunity),
         ],
       ),
     );
@@ -245,7 +251,7 @@ class _CourseScreenBodyState extends State<CourseScreenBody> {
       scrollDirection: Axis.vertical,
       children: <Widget>[
         _buildCourseHeader(context, course),
-        _buildCourseBody(context, course)
+        _buildCourseBody(context, course),
       ],
     );
   }
