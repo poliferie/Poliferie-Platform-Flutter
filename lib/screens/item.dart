@@ -43,12 +43,11 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
   @override
   void initState() {
     super.initState();
-    _setFavoriteCourses();
+    _setFavoriteItems();
   }
 
-  void _setFavoriteCourses() async {
-    final List<dynamic> storedFavorites =
-        await getPersistenceList('favorite_courses');
+  void _setFavoriteItems() async {
+    final List<dynamic> storedFavorites = await getPersistenceList('favorites');
     setState(() {
       _isFavorite = storedFavorites.contains(widget.id);
     });
@@ -102,9 +101,9 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
         setState(() {
           _isFavorite = !_isFavorite;
           if (_isFavorite) {
-            addToPersistenceList('favorite_courses', widget.id);
+            addToPersistenceList('favorites', widget.id);
           } else {
-            removeFromPersistenceList('favorite_courses', widget.id);
+            removeFromPersistenceList('favorites', widget.id);
           }
         });
       },

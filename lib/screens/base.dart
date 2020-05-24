@@ -104,14 +104,8 @@ class _BaseScreenState extends State<BaseScreen> {
 }
 
 void _initializeFavoriteLists() async {
-  List<dynamic> courses = await getPersistenceList('favorite_courses');
-  if (courses == null) {
-    savePersistenceList('favorite_courses', [null]);
-  }
-
-  List<dynamic> universities =
-      await getPersistenceList('favorite_universities');
-  if (universities == null) {
-    savePersistenceList('favorite_universities', [null]);
+  List<dynamic> favorites = await getPersistenceList('favorites');
+  if (favorites == null) {
+    savePersistenceList('favorites', [null]);
   }
 }
