@@ -198,7 +198,10 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(title, style: Styles.tabHeading),
+        Padding(
+          child: Text(title, style: Styles.tabHeading),
+          padding: EdgeInsets.only(bottom: 10.0),
+        ),
         PoliferieAnimatedList(items: items),
       ],
     );
@@ -233,6 +236,7 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
   }
 
   Widget _buildCourseBody(BuildContext context, ItemModel item) {
+    // TODO(@amerlo): List order matters, decide how to do it.
     List<Widget> itemStats = List<Widget>();
     for (String listName in item.stats.keys) {
       List<Card> cards =

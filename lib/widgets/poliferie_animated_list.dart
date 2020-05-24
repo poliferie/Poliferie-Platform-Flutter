@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/dimensions.dart';
 
 class PoliferieAnimatedList extends StatefulWidget {
-  const PoliferieAnimatedList({Key key, this.items, this.singleHeight = 75.0})
+  const PoliferieAnimatedList({Key key, this.items, this.singleHeight = 90.0})
       : super(key: key);
 
   final List<Card> items;
@@ -16,7 +17,8 @@ class PoliferieAnimatedList extends StatefulWidget {
 
 // TODO(@amerlo): Change to reflect design
 class _PoliferieAnimatedListState extends State<PoliferieAnimatedList> {
-  // TODO(@amerlo): Single heigth should be in sync with card height
+  // TODO(@amerlo): Single heigth should be in sync with card height,
+  //                and height expansion should scale with it.
   int _length;
   double _height;
   IconData _icon;
@@ -32,6 +34,19 @@ class _PoliferieAnimatedListState extends State<PoliferieAnimatedList> {
     return Column(children: <Widget>[
       AnimatedContainer(
         duration: Duration(milliseconds: 300),
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                spreadRadius: 0,
+                blurRadius: 3,
+                offset: Offset(0, 1)),
+          ],
+          borderRadius:
+              BorderRadius.circular(AppDimensions.iconBoxBorderRadius),
+        ),
         height: _height,
         child: Column(
           children: <Widget>[
