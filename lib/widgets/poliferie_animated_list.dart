@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:Poliferie.io/styles.dart';
 
 class PoliferieAnimatedList extends StatefulWidget {
-  const PoliferieAnimatedList({Key key, this.items}) : super(key: key);
+  const PoliferieAnimatedList({Key key, this.items, this.singleHeight = 75.0})
+      : super(key: key);
 
   final List<Card> items;
+  final double singleHeight;
 
   @override
   _PoliferieAnimatedListState createState() =>
@@ -16,14 +18,13 @@ class PoliferieAnimatedList extends StatefulWidget {
 class _PoliferieAnimatedListState extends State<PoliferieAnimatedList> {
   // TODO(@amerlo): Single heigth should be in sync with card height
   int _length;
-  double _singleHeight = 70.0;
   double _height;
   IconData _icon;
 
   @override
   void initState() {
     _length = 1;
-    _height = _singleHeight * _length;
+    _height = widget.singleHeight * _length;
     _icon = Icons.expand_more;
   }
 
@@ -39,7 +40,7 @@ class _PoliferieAnimatedListState extends State<PoliferieAnimatedList> {
         ),
         onEnd: () {
           setState(() {
-            if (_height != _singleHeight) {
+            if (_height != widget.singleHeight) {
               _length = widget.items.length;
             }
           });
@@ -51,11 +52,11 @@ class _PoliferieAnimatedListState extends State<PoliferieAnimatedList> {
         onPressed: () {
           setState(() {
             if (_length == 1) {
-              _height = _singleHeight * widget.items.length;
+              _height = widget.singleHeight * widget.items.length;
               _icon = Icons.expand_less;
             } else {
               _length = 1;
-              _height = _singleHeight;
+              _height = widget.singleHeight;
               _icon = Icons.expand_more;
             }
           });

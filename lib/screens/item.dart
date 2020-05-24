@@ -203,37 +203,41 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
     );
   }
 
+  Card _buildCard(ItemStat stat) {
+    var trailing;
+    if (stat.type == "euro") {
+      trailing =
+          Text(stat.value.toStringAsFixed(0) + '€', style: Styles.statsValue);
+    } else if (stat.type == "circle") {
+      trailing = CircularPercentIndicator(
+        radius: 50.0,
+        lineWidth: 3.0,
+        percent: stat.value / 100,
+        center: Text(
+          stat.value.toString(),
+          style: Styles.statsValue,
+        ),
+        progressColor: Colors.green,
+      );
+    }
+    return Card(
+      elevation: 0.0,
+      child: ListTile(
+        title: Text(stat.name, style: Styles.statsTitle),
+        subtitle: Text(stat.desc, style: Styles.statsDescription),
+        trailing: trailing,
+        contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+      ),
+    );
+  }
+
   Widget _buildCourseBody(BuildContext context, ItemModel item) {
-    // TODO(@amerlo): Move to an helper class to build the list from course stats.
-    List<Card> opportunity = <Card>[
-      Card(
-        elevation: 0.0,
-        child: ListTile(
-          title: Text('Soddisfazione', style: Styles.statsTitle),
-          subtitle: Text('Percentuale di soddisfazione per il corso di laurea',
-              style: Styles.statsDescription),
-          trailing: CircularPercentIndicator(
-            radius: 50.0,
-            lineWidth: 3.0,
-            percent: 87.2 / 100,
-            center: Text(
-              "87.2",
-              style: Styles.statsValue,
-            ),
-            progressColor: Colors.green,
-          ),
-        ),
-      ),
-      Card(
-        elevation: 0.0,
-        child: ListTile(
-          title: Text('Stipendio mensile netto', style: Styles.statsTitle),
-          subtitle: Text('Stipendio mensile netto medio a 5 anni dal titolo',
-              style: Styles.statsDescription),
-          trailing: Text('2200€', style: Styles.statsValue),
-        ),
-      ),
-    ];
+    List<Widget> itemStats = List<Widget>();
+    for (String listName in item.stats.keys) {
+      List<Card> cards =
+          item.stats[listName].map((e) => _buildCard(e)).toList();
+      itemStats.add(_buildList(listName, cards));
+    }
 
     return Container(
       padding: AppDimensions.bodyPadding,
@@ -248,8 +252,7 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
           _buildInfo(item),
           _buildStats(item),
           _buildDescription(item),
-          _buildList('Opportunità', opportunity),
-          _buildList('Mobilità', opportunity),
+          ...itemStats,
         ],
       ),
     );
