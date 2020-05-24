@@ -154,6 +154,7 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
     return Container(
       height: 120,
       child: GridView.count(
+        physics: NeverScrollableScrollPhysics(),
         padding: EdgeInsets.all(0.0),
         crossAxisCount: 3,
         childAspectRatio: 2,
