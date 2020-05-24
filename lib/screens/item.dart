@@ -9,35 +9,35 @@ import 'package:Poliferie.io/strings.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_animated_list.dart';
 import 'package:Poliferie.io/repositories/repositories.dart';
-import 'package:Poliferie.io/bloc/course.dart';
+import 'package:Poliferie.io/bloc/item.dart';
 import 'package:Poliferie.io/models/models.dart';
 import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
 
 // TODO(@amerlo): Where the repositories have to be declared?
-final CourseRepository courseRepository =
-    CourseRepository(courseClient: CourseClient(useLocalJson: true));
+final ItemRepository itemRepository =
+    ItemRepository(itemClient: ItemClient(useLocalJson: true));
 
-class CourseScreen extends StatefulWidget {
+class ItemScreen extends StatefulWidget {
   /// This [id] is the requested id from the frontend
   final int id;
 
-  const CourseScreen(this.id, {Key key}) : super(key: key);
+  const ItemScreen(this.id, {Key key}) : super(key: key);
 
   @override
-  _CourseScreenState createState() => _CourseScreenState();
+  _ItemScreenState createState() => _ItemScreenState();
 }
 
-class CourseScreenBody extends StatefulWidget {
+class ItemScreenBody extends StatefulWidget {
   // TODO(@amerlo): Could we avoid this?
   final int id;
 
-  CourseScreenBody(this.id);
+  ItemScreenBody(this.id);
 
   @override
-  _CourseScreenBodyState createState() => _CourseScreenBodyState();
+  _ItemScreenBodyState createState() => _ItemScreenBodyState();
 }
 
-class _CourseScreenBodyState extends State<CourseScreenBody> {
+class _ItemScreenBodyState extends State<ItemScreenBody> {
   bool _isFavorite = false;
 
   @override
@@ -47,10 +47,10 @@ class _CourseScreenBodyState extends State<CourseScreenBody> {
   }
 
   void _setFavoriteCourses() async {
-    final List<dynamic> favoriteCourses =
+    final List<dynamic> storedFavorites =
         await getPersistenceList('favorite_courses');
     setState(() {
-      _isFavorite = favoriteCourses.contains(widget.id);
+      _isFavorite = storedFavorites.contains(widget.id);
     });
   }
 
@@ -73,25 +73,25 @@ class _CourseScreenBodyState extends State<CourseScreenBody> {
     );
   }
 
-  Widget _buildImage(CourseModel course) {
+  Widget _buildImage(ItemModel item) {
     return Image(
-      image: AssetImage(course.universityImagePath),
+      image: AssetImage(item.providerImage),
     );
   }
 
-  Widget _buildCourseHeader(BuildContext context, CourseModel course) {
+  Widget _buildCourseHeader(BuildContext context, ItemModel item) {
     return Stack(
       alignment: Alignment.topLeft,
       children: <Widget>[
-        _buildImage(course),
+        _buildImage(item),
         _buildBackButton(context),
-        Positioned(child: _buildFavorite(course), right: 0, bottom: 0),
+        Positioned(child: _buildFavorite(), right: 0, bottom: 0),
       ],
     );
   }
 
-// TODO(@amerlo): This needs to be moved up
-  Widget _buildFavorite(CourseModel course) {
+// TODO(@amerlo): This needs to be moved up in the stack
+  Widget _buildFavorite() {
     return MaterialButton(
       color: Styles.poliferieWhite,
       shape: CircleBorder(),
@@ -111,19 +111,20 @@ class _CourseScreenBodyState extends State<CourseScreenBody> {
     );
   }
 
-  Widget _buildInfo(CourseModel course) {
+  Widget _buildInfo(ItemModel item) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(course.shortName.toUpperCase(), style: Styles.courseHeadline),
-        Text(course.university, style: Styles.courseSubHeadline),
+        Text(item.shortName.toUpperCase(), style: Styles.courseHeadline),
+        // TODO(@amerlo): Check move region up here
+        Text(item.provider, style: Styles.courseSubHeadline),
         Padding(
           padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 20.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Icon(Icons.location_on, color: Styles.poliferieRed),
-              Text(course.region, style: Styles.courseLocation)
+              Text(item.region, style: Styles.courseLocation)
             ],
           ),
         ),
@@ -131,15 +132,25 @@ class _CourseScreenBodyState extends State<CourseScreenBody> {
     );
   }
 
-  Widget _buildStats(CourseModel course) {
-    final Map<String, dynamic> infoMap = {
-      course.duration.toString(): Icons.looks_one,
-      course.language: Icons.language,
-      course.requirements: Icons.card_membership,
-      course.owner: Icons.lock,
-      course.access: Icons.check_circle,
-      course.education: Icons.recent_actors,
-    };
+  Widget _buildStats(ItemModel item) {
+    // If item does not have stats, do not build it
+    if (item.type != "course" && item.type != "university") {
+      return Container();
+    }
+    // Build stats according to item type
+    Map<String, dynamic> infoMap;
+    if (item.type == "course") {
+      infoMap = {
+        item.duration.toString(): Icons.looks_one,
+        item.language: Icons.language,
+        item.requirements: Icons.card_membership,
+        item.owner: Icons.lock,
+        item.access: Icons.check_circle,
+        item.education: Icons.recent_actors,
+      };
+    } else if (item.type == "university") {
+      infoMap = {item.owner: Icons.lock};
+    }
     // TODO(@amerlo): How to scale height dynamically?
     return Container(
       height: 120,
@@ -170,14 +181,14 @@ class _CourseScreenBodyState extends State<CourseScreenBody> {
     );
   }
 
-  Widget _buildDescription(CourseModel course) {
+  Widget _buildDescription(ItemModel item) {
     return Padding(
       padding: AppDimensions.betweenTabs,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(Strings.courseDescription, style: Styles.tabHeading),
-          Text(course.shortDescription, style: Styles.tabDescription),
+          Text(item.shortDescription, style: Styles.tabDescription),
         ],
       ),
     );
@@ -193,7 +204,7 @@ class _CourseScreenBodyState extends State<CourseScreenBody> {
     );
   }
 
-  Widget _buildCourseBody(BuildContext context, CourseModel course) {
+  Widget _buildCourseBody(BuildContext context, ItemModel item) {
     // TODO(@amerlo): Move to an helper class to build the list from course stats.
     List<Card> opportunity = <Card>[
       Card(
@@ -205,9 +216,9 @@ class _CourseScreenBodyState extends State<CourseScreenBody> {
           trailing: CircularPercentIndicator(
             radius: 50.0,
             lineWidth: 3.0,
-            percent: course.satisfaction / 100,
+            percent: 87.2 / 100,
             center: Text(
-              course.satisfaction.toString(),
+              "87.2",
               style: Styles.statsValue,
             ),
             progressColor: Colors.green,
@@ -220,8 +231,7 @@ class _CourseScreenBodyState extends State<CourseScreenBody> {
           title: Text('Stipendio mensile netto', style: Styles.statsTitle),
           subtitle: Text('Stipendio mensile netto medio a 5 anni dal titolo',
               style: Styles.statsDescription),
-          trailing:
-              Text(course.salary.toString() + '€', style: Styles.statsValue),
+          trailing: Text('2200€', style: Styles.statsValue),
         ),
       ),
     ];
@@ -236,9 +246,9 @@ class _CourseScreenBodyState extends State<CourseScreenBody> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _buildInfo(course),
-          _buildStats(course),
-          _buildDescription(course),
+          _buildInfo(item),
+          _buildStats(item),
+          _buildDescription(item),
           _buildList('Opportunità', opportunity),
           _buildList('Mobilità', opportunity),
         ],
@@ -246,22 +256,22 @@ class _CourseScreenBodyState extends State<CourseScreenBody> {
     );
   }
 
-  Widget _buildBody(BuildContext context, CourseModel course) {
+  Widget _buildBody(BuildContext context, ItemModel item) {
     return ListView(
       scrollDirection: Axis.vertical,
       children: <Widget>[
-        _buildCourseHeader(context, course),
-        _buildCourseBody(context, course),
+        _buildCourseHeader(context, item),
+        _buildCourseBody(context, item),
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<CourseBloc>(context).add(FetchCourse(widget.id));
+    BlocProvider.of<ItemBloc>(context).add(FetchItem(widget.id));
 
-    return BlocBuilder<CourseBloc, CourseState>(
-      builder: (BuildContext context, CourseState state) {
+    return BlocBuilder<ItemBloc, ItemState>(
+      builder: (BuildContext context, ItemState state) {
         if (state is FetchStateLoading) {
           return CircularProgressIndicator();
         }
@@ -269,7 +279,7 @@ class _CourseScreenBodyState extends State<CourseScreenBody> {
           return Text(state.error);
         }
         if (state is FetchStateSuccess) {
-          return _buildBody(context, state.course);
+          return _buildBody(context, state.item);
         }
         return Text('This widge should never be reached');
       },
@@ -277,13 +287,13 @@ class _CourseScreenBodyState extends State<CourseScreenBody> {
   }
 }
 
-class _CourseScreenState extends State<CourseScreen> {
+class _ItemScreenState extends State<ItemScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider<CourseBloc>(
-        create: (context) => CourseBloc(courseRepository: courseRepository),
-        child: CourseScreenBody(widget.id),
+      body: BlocProvider<ItemBloc>(
+        create: (context) => ItemBloc(itemRepository: itemRepository),
+        child: ItemScreenBody(widget.id),
       ),
     );
   }

@@ -1,0 +1,102 @@
+[
+    {
+        "id": 1001,
+        "type": "course",
+        "shortName": "Design del prodotto industriale",
+        "longName": "Design del prodotto industriale",
+        "provider": "Politecnico di Milano",
+        "region": "Lombardia",
+        "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "longDescription": null,
+        "providerLogo": "assets/images/sapienza_logo.jpg",
+        "providerImage": "assets/images/polimi_image.png",
+        "isBookmarked": false,
+        "duration": 3,
+        "language": "Italiano",
+        "requirements": "Diploma",
+        "owner": "Privata",
+        "access": "Test",
+        "education": "Remoto",
+        "students": 1245,
+        "stats": [
+            {
+                "name": "Soddisfazione",
+                "desc": "Percentuale di studenti soddisfatti del corso di laurea",
+                "tag": "Opportunità",
+                "value": 87.2,
+                "type": "circle"
+            },
+            {
+                "name": "Stipendio",
+                "desc": "Stipendio mensile netto medio a 5 anni",
+                "tag": "Opportunità",
+                "value": 2200.0,
+                "type": "euro"
+            },
+            {
+                "name": "Tirocini",
+                "desc": "Percentuale di studenti che ha effettuato almeno un tirocinio",
+                "tag": "Mobilità",
+                "value": 9.2,
+                "type": "circle"
+            },
+            {
+                "name": "Soggiorno Estero",
+                "desc": "Percentuale di studenti che ha effettuato almeno un soggiorno estero",
+                "tag": "Mobilità",
+                "value": 19.2,
+                "type": "circle"
+            }
+        ]
+    },
+    {
+        "id": 1002,
+        "type": "university",
+        "shortName": "Unipi",
+        "longName": "Università di Pisa",
+        "provider": null,
+        "region": "Toscana",
+        "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "longDescription": null,
+        "providerLogo": "assets/images/sapienza_logo.jpg",
+        "providerImage": "assets/images/polimi_image.png",
+        "isBookmarked": false,
+        "duration": null,
+        "language": null,
+        "requirements": null,
+        "owner": "Privata",
+        "access": null,
+        "education": null,
+        "students": 12098,
+        "stats": [
+            {
+                "name": "Soddisfazione",
+                "desc": "Percentuale di studenti soddisfatti dell'ateneo",
+                "tag": "Soddisfazione",
+                "value": 51.0,
+                "type": "circle"
+            },
+            {
+                "name": "Professori",
+                "desc": "Percentuale di studenti soddisfatti del rapporto con i professori",
+                "tag": "Soddisfazione",
+                "value": 80.1,
+                "type": "circle"
+            },
+            {
+                "name": "Biblioteche",
+                "desc": "Percentuale di studenti soddisfatti delle biblioteche",
+                "tag": "Soddisfazione",
+                "value": 92.1,
+                "type": "circle"
+            },
+            {
+                "name": "Aule studio",
+                "desc": "Percentuale di studenti soddisfatti dell'aule studio",
+                "tag": "Soddisfazione",
+                "value": 10.2,
+                "type": "circle"
+            }
+        ]
+    }
+]

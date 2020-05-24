@@ -5,5 +5,5 @@ export 'search_repository.dart';
 export 'user_cache.dart';
 export 'user_client.dart';
 export 'user_repository.dart';
-export 'course_repository.dart';
-export 'course_client.dart';
+export 'item_repository.dart';
+export 'item_client.dart';

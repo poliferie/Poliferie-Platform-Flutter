@@ -12,17 +12,15 @@ abstract class SearchState extends Equatable {
 class SearchStateLoading extends SearchState {}
 
 class SearchStateSuccess extends SearchState {
-  final List<CourseModel> courses;
-  final List<UniversityModel> universities;
+  final List<ItemModel> results;
 
-  const SearchStateSuccess(this.courses, this.universities);
-
-  @override
-  List<Object> get props => [courses, universities];
+  const SearchStateSuccess(this.results);
 
   @override
-  String toString() =>
-      'SearchStateSuccess { courses: $courses, universities: $universities}';
+  List<Object> get props => [results];
+
+  @override
+  String toString() => 'SearchStateSuccess { results: $results}';
 }
 
 class SuggestionStateSuccess extends SearchState {

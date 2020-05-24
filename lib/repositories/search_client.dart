@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:Poliferie.io/models/suggestion.dart';
-import 'package:Poliferie.io/models/course.dart';
-import 'package:Poliferie.io/models/university.dart';
+import 'package:Poliferie.io/models/item.dart';
 
 // TODO(@amerlo): Implement API call
 class SearchClient {
@@ -32,16 +31,10 @@ class SearchClient {
   // TODO(@amerlo): Implement list builder
   Future<List> fetchSearch(String searchText) async {
     if (useLocalJson) {
-      String _coursesData =
-          await rootBundle.loadString("assets/data/mockup/courses.json");
-      String _universitiesData =
-          await rootBundle.loadString("assets/data/mockup/universities.json");
-      final _coursesList = json.decode(_coursesData).toList();
-      final _universitiesList = json.decode(_universitiesData).toList();
-      return <Object>[
-        <CourseModel>[CourseModel.fromJson(_coursesList[0])],
-        <UniversityModel>[UniversityModel.fromJson(_universitiesList[1])],
-      ];
+      String searchData =
+          await rootBundle.loadString("assets/data/mockup/items.json");
+      final Map<String, dynamic> items = json.decode(searchData);
+      return <ItemModel>[ItemModel.fromJson(items[0])];
     } else {
       return <SearchSuggestion>[];
     }

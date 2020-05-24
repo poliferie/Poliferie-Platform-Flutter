@@ -1,5 +1,4 @@
-export 'course.dart';
+export 'item.dart';
 export 'card.dart';
-export 'university.dart';
 export 'user.dart';
 export 'suggestion.dart';

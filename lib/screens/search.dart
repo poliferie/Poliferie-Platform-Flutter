@@ -11,7 +11,7 @@ import 'package:Poliferie.io/repositories/search_client.dart';
 import 'package:Poliferie.io/bloc/search_bloc.dart';
 import 'package:Poliferie.io/repositories/search_repository.dart';
 import 'package:Poliferie.io/icons.dart';
-import 'package:Poliferie.io/screens/course.dart';
+import 'package:Poliferie.io/screens/item.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_filter.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
@@ -88,7 +88,7 @@ class PoliferieSearchDelegate extends SearchDelegate {
                     context,
                     MaterialPageRoute(
                       builder: (context) => item.isCourse()
-                          ? CourseScreen(item.id)
+                          ? ItemScreen(item.id)
                           : Text("To be implemented"),
                     ),
                   );
@@ -133,27 +133,33 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
 
   Widget _buildFilterList(
       BuildContext context, List<PoliferieFilter> filters, TabType tabType) {
-    final double containerWidth = MediaQuery.of(context).size.width - AppDimensions.searchBodyPadding.left - AppDimensions.searchBodyPadding.right;
+    final double containerWidth = MediaQuery.of(context).size.width -
+        AppDimensions.searchBodyPadding.left -
+        AppDimensions.searchBodyPadding.right;
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
-      padding: EdgeInsets.only(top: 10, bottom: MediaQuery.of(context).padding.bottom + 56),
+      padding: EdgeInsets.only(
+          top: 10, bottom: MediaQuery.of(context).padding.bottom + 56),
       child: Wrap(
         children: <Widget>[
           for (var f in filters)
             ClipRect(
               child: SizedBox(
-                width: containerWidth > 280 ? (containerWidth/2).round().toDouble() : containerWidth,
+                width: containerWidth > 280
+                    ? (containerWidth / 2).round().toDouble()
+                    : containerWidth,
                 child: f,
               ),
             )
-        ], 
+        ],
       ),
     );
   }
 
   Widget _buildFloatingButton(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsDirectional.only(bottom: MediaQuery.of(context).padding.bottom + 5),
+      padding: EdgeInsetsDirectional.only(
+          bottom: MediaQuery.of(context).padding.bottom + 5),
       child: PoliferieFloatingButton(
         text: Strings.searchExplore,
         activeColor: Styles.poliferieBlue,
@@ -227,17 +233,17 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
       showSearch(
         context: context,
         delegate: PoliferieSearchDelegate(
-          searchBloc: BlocProvider.of<SearchBloc>(context)),
+            searchBloc: BlocProvider.of<SearchBloc>(context)),
       );
     }
 
     return Scaffold(
-        appBar: PoliferieAppBar(
-          icon: AppIcons.search,
-          onPressed: _onPressedSearch,
-        ),
-        body: _buildSearchScreenBody(context),
-      );
+      appBar: PoliferieAppBar(
+        icon: AppIcons.search,
+        onPressed: _onPressedSearch,
+      ),
+      body: _buildSearchScreenBody(context),
+    );
   }
 }
 

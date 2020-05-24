@@ -1,3 +1,4 @@
+import 'package:Poliferie.io/models/models.dart';
 import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -5,8 +6,7 @@ import 'package:Poliferie.io/bloc/search_event.dart';
 import 'package:Poliferie.io/bloc/search_state.dart';
 import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/models/suggestion.dart';
-import 'package:Poliferie.io/models/course.dart';
-import 'package:Poliferie.io/models/university.dart';
+import 'package:Poliferie.io/models/item.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final SearchRepository searchRepository;
@@ -39,23 +39,22 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   @override
   Stream<SearchState> mapEventToState(SearchEvent event) async* {
     if (event is FetchSuggestions) {
-      final String _searchText = event.searchText;
+      final String searchText = event.searchText;
       yield SearchStateLoading();
       try {
         final List<SearchSuggestion> suggestions =
-            await searchRepository.fetchSuggestions(_searchText);
+            await searchRepository.fetchSuggestions(searchText);
         yield SuggestionStateSuccess(suggestions);
       } catch (error) {
         yield SearchStateError(error.message);
       }
     } else if (event is FetchSearch) {
-      final String _searchText = event.searchText;
+      final String searchText = event.searchText;
       yield SearchStateLoading();
       try {
-        final results = await searchRepository.fetchSearch(_searchText);
-        final List<CourseModel> courses = results[0];
-        final List<UniversityModel> universities = results[1];
-        yield SearchStateSuccess(courses, universities);
+        final List<ItemModel> results =
+            await searchRepository.fetchSearch(searchText);
+        yield SearchStateSuccess(results);
       } catch (error) {
         yield SearchStateError(error.message);
       }
