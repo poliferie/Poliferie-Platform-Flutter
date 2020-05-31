@@ -42,4 +42,5 @@ class AppDimensions {
   static const double filterCardBorderRadius = 6.0;
 
   static const double bottomNavigationBarBorderRadius = 30.0;
+  static const double screenContainerBoxRadius = 20.0;
 }

@@ -75,26 +75,35 @@ class PoliferieSearchDelegate extends SearchDelegate {
           return CircularProgressIndicator();
         }
         if (state is SuggestionStateSuccess) {
-          Widget list = ListView.builder(
-            itemCount: state.suggestions.length,
-            itemBuilder: (context, index) {
-              var item = state.suggestions[index];
-              return ListTile(
-                leading: Icon(
-                    item.isCourse() ? AppIcons.course : AppIcons.university),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => item.isCourse()
-                          ? ItemScreen(item.id)
-                          : Text("To be implemented"),
-                    ),
-                  );
-                },
-                title: Text(item.shortName),
-              );
-            },
+          Widget list = Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft:
+                        Radius.circular(AppDimensions.screenContainerBoxRadius),
+                    topRight: Radius.circular(
+                        AppDimensions.screenContainerBoxRadius)),
+                color: Styles.poliferieWhite),
+            child: ListView.builder(
+              itemCount: state.suggestions.length,
+              itemBuilder: (context, index) {
+                var item = state.suggestions[index];
+                return ListTile(
+                  leading: Icon(
+                      item.isCourse() ? AppIcons.course : AppIcons.university),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => item.isCourse()
+                            ? ItemScreen(item.id)
+                            : Text("To be implemented"),
+                      ),
+                    );
+                  },
+                  title: Text(item.shortName),
+                );
+              },
+            ),
           );
           searchBloc.close();
           return list;
