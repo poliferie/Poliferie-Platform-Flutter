@@ -108,12 +108,13 @@ Widget _buildUserStats(User user) {
         ],
         color: Styles.poliferieWhite),
     // TODO(@amerlo): How to properly scale this?
+    // TODO(@amerlo): Add university and courses values
     width: 200,
     padding: EdgeInsets.all(10.0),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        _buildUserStatsCard(Strings.userUniversities.toUpperCase(), '31'),
+        _buildUserStatsCard(Strings.userUniversities, '31'),
         _buildUserStatsCard(Strings.userCourses, '21'),
       ],
     ),
