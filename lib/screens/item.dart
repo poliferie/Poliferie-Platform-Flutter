@@ -84,7 +84,6 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
       children: <Widget>[
         _buildImage(item),
         _buildBackButton(context),
-        Positioned(child: _buildFavorite(), right: 0, bottom: 0),
       ],
     );
   }
@@ -111,26 +110,33 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
   }
 
   Widget _buildInfo(ItemModel item) {
-    return Column(
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Text(item.longName.toUpperCase(), style: Styles.courseHeadline),
-        // TODO(@amerlo): Check move region up here
-        Text(
-            item.provider != null
-                ? item.provider + ', ' + item.city
-                : item.city,
-            style: Styles.courseSubHeadline),
-        Padding(
-          padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 20.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Icon(Icons.location_on, color: Styles.poliferieRed),
-              Text(item.region, style: Styles.courseLocation)
-            ],
-          ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(item.longName.toUpperCase(), style: Styles.courseHeadline),
+            // TODO(@amerlo): Check move region up here
+            Text(
+                item.provider != null
+                    ? item.provider + ', ' + item.city
+                    : item.city,
+                style: Styles.courseSubHeadline),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Icon(Icons.location_on, color: Styles.poliferieRed),
+                  Text(item.region, style: Styles.courseLocation)
+                ],
+              ),
+            ),
+          ],
         ),
+        _buildFavorite()
       ],
     );
   }
@@ -152,11 +158,11 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
         item.education: Icons.recent_actors,
       };
     } else if (item.type == "university") {
-      infoMap = {item.owner: Icons.lock};
+      infoMap = {item.owner: Icons.lock, item.region: Icons.location_searching};
     }
     // TODO(@amerlo): How to scale height dynamically?
     return Container(
-      height: 120,
+      height: 60.0 * (infoMap.length / 3).ceil(),
       child: GridView.count(
         physics: NeverScrollableScrollPhysics(),
         padding: EdgeInsets.all(0.0),
