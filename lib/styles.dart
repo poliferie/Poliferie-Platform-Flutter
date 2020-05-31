@@ -136,6 +136,22 @@ abstract class Styles {
     fontWeight: FontWeight.w400,
   );
 
+  static const resultHeadline = TextStyle(
+    color: poliferieLightBlack,
+    fontFamily: 'Montserrat',
+    fontSize: 14,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const resultSubHeadline = TextStyle(
+    color: poliferieLightBlack,
+    fontFamily: 'Montserrat',
+    fontSize: 12,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w400,
+  );
+
   static const courseHeadline = TextStyle(
     color: poliferieLightBlack,
     fontFamily: 'Montserrat',

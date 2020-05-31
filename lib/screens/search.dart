@@ -12,6 +12,7 @@ import 'package:Poliferie.io/bloc/search_bloc.dart';
 import 'package:Poliferie.io/repositories/search_repository.dart';
 import 'package:Poliferie.io/icons.dart';
 import 'package:Poliferie.io/screens/item.dart';
+import 'package:Poliferie.io/screens/results.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_filter.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
@@ -58,10 +59,9 @@ class PoliferieSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    // Add search term to Bloc
-    searchBloc.add(FetchSuggestions(searchText: query));
-
-    return Text('here');
+    // TODO(@amerlo): Here we should include the whole search state and
+    //                provide it to the results screen
+    return ResultsScreen(query);
   }
 
   @override
@@ -83,7 +83,6 @@ class PoliferieSearchDelegate extends SearchDelegate {
                 leading: Icon(
                     item.isCourse() ? AppIcons.course : AppIcons.university),
                 onTap: () {
-                  close(context, null);
                   Navigator.push(
                     context,
                     MaterialPageRoute(

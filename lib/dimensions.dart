@@ -26,7 +26,7 @@ class AppDimensions {
   static const EdgeInsets bottomSheetPadding =
       EdgeInsets.symmetric(horizontal: bottomSheetPaddingHorizontal);
 
-  static const EdgeInsets iconBoxPadding = EdgeInsets.all(8.0);
+  static const EdgeInsets iconBoxPadding = EdgeInsets.all(6.0);
 
   static const EdgeInsets betweenFiltersPadding =
       EdgeInsets.symmetric(vertical: 1.0);

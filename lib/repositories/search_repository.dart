@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:Poliferie.io/models/item.dart';
 import 'package:meta/meta.dart';
 
 import 'package:Poliferie.io/models/suggestion.dart';
@@ -14,7 +15,7 @@ class SearchRepository {
     return await searchClient.fetchSuggestions(searchText);
   }
 
-  Future<List> fetchSearch(String searchText) async {
+  Future<List<ItemModel>> fetchSearch(String searchText) async {
     return await searchClient.fetchSearch(searchText);
   }
 }

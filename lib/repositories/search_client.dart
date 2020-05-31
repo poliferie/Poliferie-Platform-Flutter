@@ -33,8 +33,11 @@ class SearchClient {
     if (useLocalJson) {
       String searchData =
           await rootBundle.loadString("assets/data/mockup/items.json");
-      final Map<String, dynamic> items = json.decode(searchData);
-      return <ItemModel>[ItemModel.fromJson(items[0])];
+      final items = json.decode(searchData).toList();
+      return <ItemModel>[
+        ItemModel.fromJson(items[0]),
+        ItemModel.fromJson(items[1])
+      ];
     } else {
       return <SearchSuggestion>[];
     }
