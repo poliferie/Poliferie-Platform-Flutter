@@ -4,6 +4,7 @@ import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/models/item.dart';
 
+import 'package:Poliferie.io/screens/item.dart';
 import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
 
 class PoliferieItemCard extends StatefulWidget {
@@ -129,26 +130,38 @@ class _PoliferieItemCardState extends State<PoliferieItemCard> {
     );
   }
 
+  // TODO(@amerlo): We could add a longTap to show a bottom screen with a preview for that course
   Widget _buildCard(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              spreadRadius: 0,
-              blurRadius: 3,
-              offset: Offset(0, 1)),
-        ],
-        borderRadius: BorderRadius.circular(AppDimensions.iconBoxBorderRadius),
-      ),
-      child: Column(
-        children: <Widget>[
-          _buildInfo(widget.item),
-          _buildDivider(),
-          _buildStats(widget.item),
-        ],
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ItemScreen(widget.item.id),
+          ),
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                spreadRadius: 0,
+                blurRadius: 3,
+                offset: Offset(0, 1)),
+          ],
+          borderRadius:
+              BorderRadius.circular(AppDimensions.iconBoxBorderRadius),
+        ),
+        child: Column(
+          children: <Widget>[
+            _buildInfo(widget.item),
+            _buildDivider(),
+            _buildStats(widget.item),
+          ],
+        ),
       ),
     );
   }

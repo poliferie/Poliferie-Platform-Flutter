@@ -64,6 +64,8 @@ class PoliferieSearchDelegate extends SearchDelegate {
     return ResultsScreen(query);
   }
 
+  // TODO(@amerlo): Add the feature to highlight with bold the search text
+  //                in the suggestion name
   @override
   Widget buildSuggestions(BuildContext context) {
     searchBloc.add(FetchSuggestions(searchText: query));
