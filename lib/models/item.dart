@@ -18,6 +18,7 @@ class ItemModel extends Equatable {
   final String longName;
   final String provider;
   final String region;
+  final String city;
   final String shortDescription;
   final String longDescription;
   final String providerLogo;
@@ -39,6 +40,7 @@ class ItemModel extends Equatable {
       this.longName,
       this.provider,
       this.region,
+      this.city,
       this.shortDescription,
       this.longDescription,
       this.providerLogo,
@@ -78,6 +80,7 @@ class ItemModel extends Equatable {
         longName: json['longName'],
         provider: json['provider'],
         region: json['region'],
+        city: json['city'],
         shortDescription: json['shortDescription'],
         longDescription: json['longDescription'],
         providerLogo: json['providerLogo'],

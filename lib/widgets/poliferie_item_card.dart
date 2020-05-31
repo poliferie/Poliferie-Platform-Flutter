@@ -31,7 +31,7 @@ class _PoliferieItemCardState extends State<PoliferieItemCard> {
     } else if (item.region != null) {
       subHeader = item.region;
     }
-    subHeader = subHeader + ', ' + 'Milano';
+    subHeader = subHeader + ', ' + item.city;
     return Expanded(
       child: Padding(
         padding: EdgeInsets.only(left: 20.0),
@@ -40,7 +40,7 @@ class _PoliferieItemCardState extends State<PoliferieItemCard> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              item.shortName,
+              item.longName,
               style: Styles.resultHeadline,
             ),
             Text(subHeader, style: Styles.resultSubHeadline),

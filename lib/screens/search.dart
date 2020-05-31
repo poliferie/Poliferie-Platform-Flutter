@@ -76,13 +76,7 @@ class PoliferieSearchDelegate extends SearchDelegate {
         }
         if (state is SuggestionStateSuccess) {
           Widget list = Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft:
-                        Radius.circular(AppDimensions.screenContainerBoxRadius),
-                    topRight: Radius.circular(
-                        AppDimensions.screenContainerBoxRadius)),
-                color: Styles.poliferieWhite),
+            color: Styles.poliferieWhite,
             child: ListView.builder(
               itemCount: state.suggestions.length,
               itemBuilder: (context, index) {
@@ -94,9 +88,7 @@ class PoliferieSearchDelegate extends SearchDelegate {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => item.isCourse()
-                            ? ItemScreen(item.id)
-                            : Text("To be implemented"),
+                        builder: (context) => ItemScreen(item.id),
                       ),
                     );
                   },
