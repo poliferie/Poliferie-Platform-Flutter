@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:Poliferie.io/widgets/poliferie_item_card.dart';
 import 'package:Poliferie.io/bloc/user.dart';
 import 'package:Poliferie.io/repositories/repositories.dart';
-
-import 'package:Poliferie.io/styles.dart';
-import 'package:Poliferie.io/strings.dart';
+import 'package:Poliferie.io/bloc/item.dart' as itm;
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/models/models.dart';
+
+import 'package:Poliferie.io/dimensions.dart';
+import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/strings.dart';
+
+// TODO(@amerlo): Where the repositories have to be declared?
+final ItemRepository itemRepository =
+    ItemRepository(itemClient: ItemClient(useLocalJson: true));
 
 final UserRepository profileRepository = UserRepository(
   userClient: UserClient(useLocalJson: true),
@@ -111,6 +118,7 @@ Widget _buildUserStats(User user) {
     // TODO(@amerlo): Add university and courses values
     width: 200,
     padding: EdgeInsets.all(10.0),
+    margin: EdgeInsets.symmetric(vertical: 2.0),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
@@ -131,16 +139,69 @@ Widget _buildUserInfo(BuildContext context, User user) {
   );
 }
 
+// TODO(@amerlo): Update this to support a list
+Widget _buildItemsList(String listName, ItemModel item) {
+  return Padding(
+    padding: EdgeInsets.symmetric(vertical: 10.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          child: Text(listName, style: Styles.tabHeading),
+          padding: EdgeInsets.only(bottom: 10.0),
+        ),
+        PoliferieItemCard(item),
+      ],
+    ),
+  );
+}
+
+Widget _buildList(BuildContext context, String listName, List<int> ids) {
+  // TODO(@amerlo): Fetch multiple ids
+  BlocProvider.of<itm.ItemBloc>(context).add(itm.FetchItem(ids[0]));
+
+  return BlocBuilder<itm.ItemBloc, itm.ItemState>(
+    builder: (BuildContext context, itm.ItemState state) {
+      if (state is itm.FetchStateLoading) {
+        return CircularProgressIndicator();
+      }
+      if (state is itm.FetchStateSuccess) {
+        return _buildItemsList(listName, state.item);
+      }
+      return Text('This widge should never be reached');
+    },
+  );
+}
+
+Widget _buildUserBody(BuildContext context) {
+  // TODO(@amerlo): Retrieve persistence lists
+  final List<int> favoriteCourses = [1001];
+  final List<int> favoriteProvider = [1002];
+
+  return Container(
+    padding: EdgeInsets.symmetric(
+        horizontal: AppDimensions.bodyPaddingLeft, vertical: 10.0),
+    width: double.infinity,
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        color: Styles.poliferieWhite),
+    child: Column(
+      children: [
+        _buildList(context, 'Corsi', favoriteCourses),
+        _buildList(context, 'Università', favoriteProvider),
+      ],
+    ),
+  );
+}
+
 Widget _buildBody(BuildContext context, User user) {
-  final List<ItemModel> favoriteCourses = null;
-  final List<ItemModel> favoriteProvider = null;
   return ListView(
     children: <Widget>[
       Column(
         children: <Widget>[
           _buildUserInfo(context, user),
-          //_buildList('Corsi', favoriteCourses),
-          //_buildList('Università', favoriteProvider),
+          _buildUserBody(context),
         ],
       )
     ],
@@ -175,8 +236,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PoliferieAppBar(),
-      body: BlocProvider<UserBloc>(
-        create: (context) => UserBloc(userRepository: profileRepository),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider<UserBloc>(
+            create: (context) => UserBloc(userRepository: profileRepository),
+          ),
+          BlocProvider<itm.ItemBloc>(
+            create: (context) => itm.ItemBloc(itemRepository: itemRepository),
+          ),
+        ],
         child: ProfileScreenBody(),
       ),
     );
