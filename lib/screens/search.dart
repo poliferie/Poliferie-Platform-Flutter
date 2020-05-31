@@ -148,7 +148,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
             ClipRect(
               child: SizedBox(
                 width: containerWidth > 280
-                    ? (containerWidth / 2).round().toDouble()
+                    ? (containerWidth / 2).floor().toDouble()
                     : containerWidth,
                 child: f,
               ),
