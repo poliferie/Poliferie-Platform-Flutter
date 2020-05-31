@@ -107,11 +107,19 @@ abstract class Styles {
   );
 
   static const profileUserName = TextStyle(
-    color: poliferieLightBlack,
+    color: poliferieWhite,
     fontFamily: 'Montserrat',
-    fontSize: 32,
+    fontSize: 18,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.bold,
+  );
+
+  static const profileSubHeadline = TextStyle(
+    color: poliferieWhite,
+    fontFamily: 'Montserrat',
+    fontSize: 14,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w300,
   );
 
   static const profileUserInfoLabel = TextStyle(
