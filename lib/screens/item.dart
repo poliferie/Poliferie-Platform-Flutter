@@ -114,27 +114,32 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(item.longName.toUpperCase(), style: Styles.courseHeadline),
-            // TODO(@amerlo): Check move region up here
-            Text(
-                item.provider != null
-                    ? item.provider + ', ' + item.city
-                    : item.city,
-                style: Styles.courseSubHeadline),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Icon(Icons.location_on, color: Styles.poliferieRed),
-                  Text(item.region, style: Styles.courseLocation)
-                ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                item.longName.toUpperCase(),
+                style: Styles.courseHeadline,
+                maxLines: 2,
               ),
-            ),
-          ],
+              Text(
+                  item.provider != null
+                      ? item.provider + ', ' + item.city
+                      : item.city,
+                  style: Styles.courseSubHeadline),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Icon(Icons.location_on, color: Styles.poliferieRed),
+                    Text(item.region, style: Styles.courseLocation)
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
         _buildFavorite()
       ],
