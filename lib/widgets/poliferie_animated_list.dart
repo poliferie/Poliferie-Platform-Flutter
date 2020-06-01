@@ -4,7 +4,10 @@ import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/dimensions.dart';
 
 class PoliferieAnimatedList extends StatefulWidget {
-  const PoliferieAnimatedList({Key key, this.items, this.singleHeight = 90.0})
+  const PoliferieAnimatedList(
+      {Key key,
+      this.items,
+      this.singleHeight = AppDimensions.itemCardHeight * 1.15})
       : super(key: key);
 
   final List<Card> items;
@@ -34,7 +37,8 @@ class _PoliferieAnimatedListState extends State<PoliferieAnimatedList> {
     return Column(children: <Widget>[
       AnimatedContainer(
         duration: Duration(milliseconds: 300),
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+        padding: EdgeInsets.symmetric(
+            horizontal: 10.0, vertical: AppDimensions.itemCardPaddingVertical),
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: <BoxShadow>[
@@ -47,8 +51,10 @@ class _PoliferieAnimatedListState extends State<PoliferieAnimatedList> {
           borderRadius:
               BorderRadius.circular(AppDimensions.iconBoxBorderRadius),
         ),
-        height: _height,
+        // Add height due to padding
+        height: _height + 2 * AppDimensions.itemCardPaddingVertical,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             ...widget.items.getRange(0, _length).toList(),
           ],

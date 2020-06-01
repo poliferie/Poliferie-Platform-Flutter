@@ -260,11 +260,14 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
     }
     return Card(
       elevation: 0.0,
-      child: ListTile(
-        title: Text(stat.name, style: Styles.statsTitle),
-        subtitle: Text(stat.desc, style: Styles.statsDescription),
-        trailing: trailing,
-        contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+      child: Container(
+        height: AppDimensions.itemCardHeight,
+        child: ListTile(
+          title: Text(stat.name, style: Styles.statsTitle),
+          subtitle: Text(stat.desc, style: Styles.statsDescription),
+          trailing: trailing,
+          contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+        ),
       ),
     );
   }
