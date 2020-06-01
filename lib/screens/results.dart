@@ -14,6 +14,7 @@ import 'package:Poliferie.io/bloc/search.dart';
 import 'package:Poliferie.io/models/models.dart';
 import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
 
+// TODO(@amerlo): Move under a common place
 enum TabType { course, university }
 
 // TODO(@amerlo): Where the repositories have to be declared?

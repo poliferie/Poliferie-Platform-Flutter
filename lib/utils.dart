@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+// TODO(@amerlo): Is this the place?
+enum TabType { course, university }
+
 void savePersistenceList(String key, List<dynamic> list) async {
   final prefs = await SharedPreferences.getInstance();
   final string = jsonEncode(list);

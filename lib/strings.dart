@@ -49,6 +49,6 @@ abstract class Strings {
 
   // User Screen
   static const String userFollowers = 'Followers';
-  static const String userUniversities = 'Università';
-  static const String userCourses = 'Corsi';
+  static const String listExpand = 'Vedi tutto';
+  static const String listCollapse = 'Chiudi';
 }

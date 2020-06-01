@@ -19,8 +19,6 @@ import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
 
-enum TabType { course, university }
-
 /// [SearchDelegate] helper class.
 class PoliferieSearchDelegate extends SearchDelegate {
   final SearchBloc searchBloc;

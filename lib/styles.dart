@@ -128,6 +128,14 @@ abstract class Styles {
     color: poliferieLightGrey,
   );
 
+  static const profileExpandAll = TextStyle(
+    color: poliferieRed,
+    fontFamily: 'Lato',
+    fontSize: 14,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w400,
+  );
+
   static const badgeHeading = TextStyle(
     color: poliferieWhite,
     fontFamily: 'Montserrat',
