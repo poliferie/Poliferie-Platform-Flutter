@@ -47,7 +47,7 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
   }
 
   void _setFavoriteItems() async {
-    final List<dynamic> storedFavorites = await getPersistenceList('favorites');
+    final List<int> storedFavorites = await getPersistenceList('favorites');
     setState(() {
       _isFavorite = storedFavorites.contains(widget.id);
     });

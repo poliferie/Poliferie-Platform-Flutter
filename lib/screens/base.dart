@@ -24,11 +24,7 @@ class _BaseScreenState extends State<BaseScreen> {
     ProfileScreen(),
   ];
 
-  @override
-  void initState() {
-    _initializeFavoriteLists();
-  }
-
+  // TODO(@amerlo): MOve this to AppDimensions
   BorderRadius navigationBarRadius = BorderRadius.only(
     topRight: Radius.circular(AppDimensions.bottomNavigationBarBorderRadius),
     topLeft: Radius.circular(AppDimensions.bottomNavigationBarBorderRadius),
@@ -100,12 +96,5 @@ class _BaseScreenState extends State<BaseScreen> {
         ),
       ),
     );
-  }
-}
-
-void _initializeFavoriteLists() async {
-  List<dynamic> favorites = await getPersistenceList('favorites');
-  if (favorites == null) {
-    savePersistenceList('favorites', [null]);
   }
 }

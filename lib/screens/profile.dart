@@ -45,11 +45,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
   };
 
   // Favorite list
-  // TODO(@amerlo): Retrieve persistence lists
-  final Map<TabType, List<int>> tabFavorite = {
-    TabType.course: [1001, 1001, 1001],
-    TabType.university: [1002, 1002, 1002],
-  };
+  List<int> favoriteList = [];
 
   // Strings
   // TODO(@amerlo): Move from here to Strings.dart file
@@ -57,6 +53,19 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
     TabType.course: Strings.searchTabCourse,
     TabType.university: Strings.searchTabUniversity,
   };
+
+  @override
+  void initState() {
+    super.initState();
+    _setFavoriteItems();
+  }
+
+  void _setFavoriteItems() async {
+    final List<int> favorites = await getPersistenceList('favorites');
+    setState(() {
+      favoriteList = favorites;
+    });
+  }
 
   Widget _buildUserImage(String userImagePath) {
     return Hero(
@@ -172,8 +181,10 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
 
   // TODO(@amerlo): Animation is missing!
   Widget _buildItemsList(String listName, List<ItemModel> items, TabType type) {
-    List<ItemModel> itemsToShow =
-        tabExpanded[type] ? items : items.sublist(0, 1);
+    List<ItemModel> itemsToShow = [];
+    if (items.isNotEmpty) {
+      itemsToShow = tabExpanded[type] ? items : [items[0]];
+    }
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10.0),
       child: Column(
@@ -207,10 +218,11 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
   }
 
   Widget _buildList(BuildContext context, TabType type) {
+    if (favoriteList.isEmpty) {
+      return _buildItemsList(tabStrings[type], [], type);
+    }
     // TODO(@amerlo): Fetch multiple ids
-    BlocProvider.of<itm.ItemBloc>(context)
-        .add(itm.FetchItem(tabFavorite[type][0]));
-
+    BlocProvider.of<itm.ItemBloc>(context).add(itm.FetchItem(favoriteList[0]));
     return BlocBuilder<itm.ItemBloc, itm.ItemState>(
       builder: (BuildContext context, itm.ItemState state) {
         if (state is itm.FetchStateLoading) {

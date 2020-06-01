@@ -5,23 +5,28 @@ import 'package:shared_preferences/shared_preferences.dart';
 // TODO(@amerlo): Is this the place?
 enum TabType { course, university }
 
-void savePersistenceList(String key, List<dynamic> list) async {
+void savePersistenceList(String key, List<int> list) async {
   final prefs = await SharedPreferences.getInstance();
-  final string = jsonEncode(list);
+  final String string = jsonEncode(list);
 
   await prefs.setString(key, string);
 }
 
-Future<List<dynamic>> getPersistenceList(String key) async {
+Future<List<int>> getPersistenceList(String key) async {
   final prefs = await SharedPreferences.getInstance();
-  final list = prefs.getString(key);
+  final String encodedList = prefs.getString(key);
 
-  if (list != null) return jsonDecode(list) as List<dynamic>;
-  return null;
+  //prefs.remove(key);
+  if (encodedList != null) {
+    final List<dynamic> list = jsonDecode(encodedList);
+    return list.cast<int>();
+  }
+
+  return [];
 }
 
-void addToPersistenceList(String key, dynamic element) async {
-  List<dynamic> list = await getPersistenceList(key);
+void addToPersistenceList(String key, int element) async {
+  List<int> list = await getPersistenceList(key);
   if (!list.contains(element)) {
     list.add(element);
   }
@@ -29,8 +34,8 @@ void addToPersistenceList(String key, dynamic element) async {
   savePersistenceList(key, list);
 }
 
-void removeFromPersistenceList(String key, dynamic element) async {
-  List<dynamic> list = await getPersistenceList(key);
+void removeFromPersistenceList(String key, int element) async {
+  List<int> list = await getPersistenceList(key);
   list.remove(element);
 
   savePersistenceList(key, list);
