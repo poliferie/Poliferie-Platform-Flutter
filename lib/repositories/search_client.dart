@@ -13,31 +13,23 @@ class SearchClient {
       {this.baseUrl = "https://api.poliferie.org/user?q=",
       this.useLocalJson = false});
 
-  // TODO(@amerlo): Implement list builder
   Future<List<SearchSuggestion>> fetchSuggestions(String searchText) async {
     if (useLocalJson) {
-      String _data =
+      String suggestionData =
           await rootBundle.loadString("assets/data/mockup/suggestions.json");
-      final _suggestionList = json.decode(_data).toList();
-      return <SearchSuggestion>[
-        SearchSuggestion.fromJson(_suggestionList[0]),
-        SearchSuggestion.fromJson(_suggestionList[1]),
-      ];
+      final List<dynamic> suggestions = json.decode(suggestionData).toList();
+      return suggestions.map((e) => SearchSuggestion.fromJson(e)).toList();
     } else {
       return <SearchSuggestion>[];
     }
   }
 
-  // TODO(@amerlo): Implement list builder
   Future<List> fetchSearch(String searchText) async {
     if (useLocalJson) {
       String searchData =
           await rootBundle.loadString("assets/data/mockup/items.json");
-      final items = json.decode(searchData).toList();
-      return <ItemModel>[
-        ItemModel.fromJson(items[0]),
-        ItemModel.fromJson(items[1])
-      ];
+      final List<dynamic> items = json.decode(searchData).toList();
+      return items.map((e) => ItemModel.fromJson(e)).toList();
     } else {
       return <SearchSuggestion>[];
     }
