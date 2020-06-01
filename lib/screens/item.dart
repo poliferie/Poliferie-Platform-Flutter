@@ -78,34 +78,52 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
     );
   }
 
-  Widget _buildCourseHeader(BuildContext context, ItemModel item) {
-    return Stack(
-      alignment: Alignment.topLeft,
-      children: <Widget>[
-        _buildImage(item),
-        _buildBackButton(context),
-      ],
+  Widget _buildSpacer() {
+    return Container(
+      height: 50.0,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(AppDimensions.screenContainerBoxRadius),
+              topRight:
+                  Radius.circular(AppDimensions.screenContainerBoxRadius)),
+          color: Styles.poliferieWhite),
+      width: double.infinity,
     );
   }
 
-// TODO(@amerlo): This needs to be moved up in the stack
   Widget _buildFavorite() {
-    return MaterialButton(
-      color: Styles.poliferieWhite,
-      shape: CircleBorder(),
-      padding: EdgeInsets.all(6.0),
-      child: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border,
-          color: Styles.poliferieRed, size: 40),
-      onPressed: () {
-        setState(() {
-          _isFavorite = !_isFavorite;
-          if (_isFavorite) {
-            addToPersistenceList('favorites', widget.id);
-          } else {
-            removeFromPersistenceList('favorites', widget.id);
-          }
-        });
-      },
+    return Positioned(
+      bottom: 20.0,
+      right: 10.0,
+      child: MaterialButton(
+        color: Styles.poliferieWhite,
+        shape: CircleBorder(),
+        padding: EdgeInsets.all(6.0),
+        child: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border,
+            color: Styles.poliferieRed, size: 40),
+        onPressed: () {
+          setState(() {
+            _isFavorite = !_isFavorite;
+            if (_isFavorite) {
+              addToPersistenceList('favorites', widget.id);
+            } else {
+              removeFromPersistenceList('favorites', widget.id);
+            }
+          });
+        },
+      ),
+    );
+  }
+
+  Widget _buildCourseHeader(BuildContext context, ItemModel item) {
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: <Widget>[
+        _buildImage(item),
+        _buildBackButton(context),
+        _buildSpacer(),
+        _buildFavorite()
+      ],
     );
   }
 
@@ -141,7 +159,6 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
             ],
           ),
         ),
-        _buildFavorite()
       ],
     );
   }
@@ -260,12 +277,9 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
     }
 
     return Container(
-      padding: AppDimensions.bodyPadding,
+      padding: EdgeInsets.symmetric(horizontal: AppDimensions.bodyPaddingLeft),
       width: double.infinity,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-          color: Styles.poliferieWhite),
+      color: Styles.poliferieWhite,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
