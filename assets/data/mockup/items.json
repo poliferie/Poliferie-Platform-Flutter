@@ -98,6 +98,55 @@
                 "tag": "Soddisfazione",
                 "value": 10.2,
                 "type": "circle"
+            },
+            {
+                "name": "Retta universitaria",
+                "desc": "Importo medio annuale delle tasse universitarie",
+                "tag": "Costi",
+                "value": 1980.0,
+                "type": "euro"
+            },
+            {
+                "name": "Tassa regionale",
+                "desc": "Tassa per il diritto allo studio e bollo d'iscrizione",
+                "tag": "Costi",
+                "value": 156.0,
+                "type": "euro"
+            },
+            {
+                "name": "Altro",
+                "desc": "Altri costi",
+                "tag": "Costi",
+                "value": 34.0,
+                "type": "euro"
+            },
+            {
+                "name": "Borsa di studio",
+                "desc": "Sostegno economico per reddito",
+                "tag": "Sostegni Economici",
+                "value": 1000.0,
+                "type": "euro"
+            },
+            {
+                "name": "Studente meritevole",
+                "desc": "Sostegno economico aggiuntivo per un profilo di studente meritevole",
+                "tag": "Sostegni Economici",
+                "value": 890.0,
+                "type": "euro"
+            },
+            {
+                "name": "Sostegno alloggio",
+                "desc": "Costo agevolato per camera in studentato",
+                "tag": "Sostegni Economici",
+                "value": 140.0,
+                "type": "euro"
+            },
+            {
+                "name": "Sostegno mensa",
+                "desc": "Numero di pasti gratuiti al giorno",
+                "tag": "Sostegni Economici",
+                "value": 2,
+                "type": "string"
             }
         ]
     }

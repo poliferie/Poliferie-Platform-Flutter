@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 class ItemStat {
   final String name;
   final String desc;
-  final double value;
+  final dynamic value;
   final String type;
 
   const ItemStat(this.name, this.desc, this.value, this.type);

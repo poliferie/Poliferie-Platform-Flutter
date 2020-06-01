@@ -255,6 +255,8 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
         ),
         progressColor: Colors.green,
       );
+    } else {
+      trailing = Text(stat.value.toString(), style: Styles.statsValue);
     }
     return Card(
       elevation: 0.0,
