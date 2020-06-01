@@ -163,8 +163,14 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
           TabBarView(
             physics: NeverScrollableScrollPhysics(),
             children: [
-              _buildTabBody(context, results, TabType.course),
-              _buildTabBody(context, results, TabType.university),
+              _buildTabBody(
+                  context,
+                  results.where((item) => item.type == 'course').toList(),
+                  TabType.course),
+              _buildTabBody(
+                  context,
+                  results.where((item) => item.type == 'university').toList(),
+                  TabType.university),
             ],
           )
         ],
