@@ -110,9 +110,7 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
       items.add(card);
     }
 
-    // TODO(@amerlo): How to take all the available space here?
-    return Container(
-      height: 400,
+    return Expanded(
       child: ListView(
         scrollDirection: Axis.vertical,
         children: <Widget>[
