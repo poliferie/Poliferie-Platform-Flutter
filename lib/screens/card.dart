@@ -44,7 +44,7 @@ class _PageScreenState extends State<PageScreen> {
                 Text(
                   widget.card.head,
                   textAlign: TextAlign.left,
-                  style: Styles.cardHead,
+                  style: Styles.cardHeadVertical,
                 ),
                 Text(
                   widget.card.leading,

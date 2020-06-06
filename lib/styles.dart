@@ -238,11 +238,24 @@ abstract class Styles {
     fontStyle: FontStyle.normal,
   );
 
-  static const cardHead = TextStyle(
+  static const cardHeadVertical = TextStyle(
     color: Styles.poliferieLightBlack,
     fontSize: 20.0,
     height: 1.2,
     fontFamily: 'Montserrat',
+  );
+
+  static const cardHeadHorizontal = TextStyle(
+    color: Styles.poliferieLightBlack,
+    fontSize: 18.0,
+    height: 1.2,
+    fontFamily: 'Montserrat',
+  );
+
+  static const cardSubHeading = TextStyle(
+    color: Styles.poliferieLightBlack,
+    fontSize: 14.0,
+    fontFamily: 'Lato',
   );
 
   static const cardLeading = TextStyle(

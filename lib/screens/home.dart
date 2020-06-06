@@ -6,7 +6,6 @@ import 'package:Poliferie.io/bloc/card.dart';
 import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/models/card.dart';
 import 'package:Poliferie.io/models/article.dart';
-import 'package:Poliferie.io/screens/base.dart';
 
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/strings.dart';
@@ -15,6 +14,21 @@ import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_card.dart';
 import 'package:Poliferie.io/widgets/poliferie_article.dart';
+
+// TODO(@amerlo): Where to locate these?
+// TODO(@amerlo): Start onboarding on this PoliferieCard onTap
+final _howToCard = PoliferieCard(
+  CardInfo(0,
+      image: 'assets/images/squadra.png', title: 'Come funziona l\'app?'),
+  orientation: CardOrientation.horizontal,
+  onTap: () {},
+);
+
+// Static cards
+final _coursesCard = CardInfo(42,
+    image: 'assets/images/squadra.png', title: Strings.cardCourses);
+final _universitiesCard = CardInfo(43,
+    image: 'assets/images/squadra.png', title: Strings.cardUniversities);
 
 // TODO(@amerlo): Where the repository have to be declared?
 final CardRepository cardRepository = CardRepository(
@@ -29,11 +43,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenBody extends StatelessWidget {
-  final _coursesCard = CardInfo(42,
-      image: 'assets/images/squadra.png', title: Strings.cardCourses);
-  final _universitiesCard = CardInfo(43,
-      image: 'assets/images/squadra.png', title: Strings.cardUniversities);
-
   Widget _buildHeadline(String headline) {
     return Text(headline, style: Styles.headline);
   }
@@ -78,23 +87,18 @@ class HomeScreenBody extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context, List<CardInfo> cards) {
-    final _cards = cards
-        .asMap()
-        .map((index, card) {
-          return MapEntry(
-            index,
-            PoliferieCard(
+    List<PoliferieCard> _cards = cards
+        .map((card) => PoliferieCard(
               card,
               onTap: _fetchPoliferieArticle(context, card: card),
-            ),
-          );
-        })
-        .values
+              orientation: CardOrientation.horizontal,
+            ))
         .toList();
-    final double bottomPadding = MediaQuery.of(context).padding.bottom +
+    _cards.insertAll(0, [_howToCard]);
+    final double _bottomPadding = MediaQuery.of(context).padding.bottom +
         AppDimensions.bodyPadding.bottom;
     return ListView(
-      padding: AppDimensions.bodyPadding.copyWith(bottom: bottomPadding),
+      padding: AppDimensions.bodyPadding.copyWith(bottom: _bottomPadding),
       scrollDirection: Axis.vertical,
       children: <Widget>[
         _buildHeadline(Strings.homeHeadline),
@@ -141,7 +145,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// TODO(@amerlo): To remove with a proper BlocProvider
 // TODO(@amerlo): Markdown visualization has to be fixed
 void Function() _fetchPoliferieArticle(BuildContext context, {CardInfo card}) {
   return PoliferieArticle(
