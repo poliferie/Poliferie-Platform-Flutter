@@ -152,6 +152,7 @@ void Function() _fetchPoliferieArticle(BuildContext context, {CardInfo card}) {
         id: card.id,
         title: card.title,
         subtitle: card.subtitle,
+        image: AssetImage(card.image),
         bodyMarkdownSource: card.text),
   ).bottomSheetCaller(context);
 }
