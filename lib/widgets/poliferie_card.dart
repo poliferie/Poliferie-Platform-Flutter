@@ -13,9 +13,12 @@ class PoliferieCard extends StatelessWidget {
   final CardInfo card;
   final Function onTap;
   final CardOrientation orientation;
+  final Color color;
 
   const PoliferieCard(this.card,
-      {this.onTap, this.orientation: CardOrientation.vertical});
+      {this.onTap,
+      this.orientation: CardOrientation.vertical,
+      this.color: Styles.poliferieWhite});
 
   Widget _buildCard(BuildContext context) {
     // Build child for vertical extended card
@@ -48,12 +51,17 @@ class PoliferieCard extends StatelessWidget {
                 flex: 3,
                 child: Column(
                   children: <Widget>[
-                    Text(card.title, style: Styles.cardHeadHorizontal),
+                    Text(card.title,
+                        style: color == Styles.poliferieRed
+                            ? Styles.cardHeadHorizontalWhite
+                            : Styles.cardHeadHorizontal),
                     Text(
                         card.subtitle == null
                             ? Strings.cardDefaultSubTitle
                             : card.subtitle,
-                        style: Styles.cardSubHeading),
+                        style: color == Styles.poliferieRed
+                            ? Styles.cardSubHeadingWhite
+                            : Styles.cardSubHeading),
                   ],
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -72,6 +80,7 @@ class PoliferieCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
+        color: color,
         elevation: 8.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),

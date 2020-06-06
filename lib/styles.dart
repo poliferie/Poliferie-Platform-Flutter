@@ -267,10 +267,25 @@ abstract class Styles {
     fontSize: 18.0,
     height: 1.2,
     fontFamily: 'Montserrat',
+    fontWeight: FontWeight.bold,
+  );
+
+  static const cardHeadHorizontalWhite = TextStyle(
+    color: Styles.poliferieWhite,
+    fontSize: 18.0,
+    height: 1.2,
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.bold,
   );
 
   static const cardSubHeading = TextStyle(
     color: Styles.poliferieLightBlack,
+    fontSize: 14.0,
+    fontFamily: 'Lato',
+  );
+
+  static const cardSubHeadingWhite = TextStyle(
+    color: Styles.poliferieWhite,
     fontSize: 14.0,
     fontFamily: 'Lato',
   );

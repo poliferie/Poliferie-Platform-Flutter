@@ -19,9 +19,10 @@ import 'package:Poliferie.io/widgets/poliferie_article.dart';
 // TODO(@amerlo): Start onboarding on this PoliferieCard onTap
 final _howToCard = PoliferieCard(
   CardInfo(0,
-      image: 'assets/images/squadra.png', title: 'Come funziona l\'app?'),
+      image: 'assets/images/metodo.png', title: 'Come funziona l\'app?'),
   orientation: CardOrientation.horizontal,
   onTap: () {},
+  color: Styles.poliferieRed,
 );
 
 // Static cards
