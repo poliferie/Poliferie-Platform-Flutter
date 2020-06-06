@@ -1,16 +1,16 @@
 [
     {
         "id": 0,
-        "shortName": "Università in Lombardia",
-        "longName": "Migliori Università in Lombardia",
-        "imagePath": "assets/images/squadra.png",
-        "fullText": "Bla bla."
+        "title": "Le università in Lombardia",
+        "subtitle": "Le migliori università in Lombardia",
+        "image": "assets/images/squadra.png",
+        "text": "#Article1"
     },
     {
         "id": 1,
-        "shortName": "Università in Sicilia",
-        "longName": "Migliori Università in Sicilia",
-        "imagePath": "assets/images/squadra.png",
-        "fullText": "Bla bla."
+        "title": "Dove cercare una borsa di studio",
+        "subtitle": "Come finanziarsi gli studi",
+        "image": "assets/images/squadra.png",
+        "text": "#Article2"
     }
 ]

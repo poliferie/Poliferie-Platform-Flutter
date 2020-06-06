@@ -25,13 +25,13 @@ class PoliferieCard extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Image.asset(
-                  card.imagePath,
+                  card.image,
                   fit: BoxFit.cover,
                   height: _height * 0.50,
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 20.0),
-                  child: Text(card.shortName, style: Styles.cardHead),
+                  child: Text(card.title, style: Styles.cardHead),
                 ),
               ],
             ),

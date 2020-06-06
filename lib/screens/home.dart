@@ -29,14 +29,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenBody extends StatelessWidget {
-  final _coursesCard = CardInfo(
-      id: 42,
-      imagePath: 'assets/images/squadra.png',
-      shortName: Strings.cardCourses);
-  final _universitiesCard = CardInfo(
-      id: 43,
-      imagePath: 'assets/images/squadra.png',
-      shortName: Strings.cardUniversities);
+  final _coursesCard = CardInfo(42,
+      image: 'assets/images/squadra.png', title: Strings.cardCourses);
+  final _universitiesCard = CardInfo(43,
+      image: 'assets/images/squadra.png', title: Strings.cardUniversities);
 
   Widget _buildHeadline(String headline) {
     return Text(headline, style: Styles.headline);
@@ -87,9 +83,9 @@ class HomeScreenBody extends StatelessWidget {
         .map((index, card) {
           return MapEntry(
             index,
-            GestureDetector(
-              onTap: _tryPoliferieArticle(context, which: index),
-              child: PoliferieCard(card),
+            PoliferieCard(
+              card,
+              onTap: _fetchPoliferieArticle(context, card: card),
             ),
           );
         })
@@ -145,56 +141,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-void Function() _tryPoliferieArticle(BuildContext context, {int which: 1}) {
-  String md = """- asd
-- asd
-# adi2
-
-## Ciao
-
-> asdasdasdasdas dasdas das das da sd aasdasda s sdasda sdasd asdasd asd as d asdasda sdasd asd a s
-
-
-- a
-- b
-- c
-
-- d
-- e
-- f
-
-
-asd
-as
-dasdas
-
-
-[ ] todo
-[ ] todo 2
-
-1. das
-2. dsd
-
-as
-d
-as
-das
-da
-![Ciao](https://raw.githubusercontent.com/flutter-rus/flutter-rus.github.io/master/images/logo.png)
-sd
-as
-d
-as""";
-  Article article1 = Article(id: 1, title: "Titolo", bodyMarkdownSource: md);
-  Article article2 = Article(
-      id: 2,
-      title: "Titolo 2 un pò più lungo dai",
-      subtitle: "Anche col sottotitolo e l'immagine",
-      image: NetworkImage(
-          "https://raw.githubusercontent.com/flutter-rus/flutter-rus.github.io/master/images/logo.png",
-          scale: 1.0),
-      bodyMarkdownSource: md);
-  return which == 1
-      ? PoliferieArticle(article: article1).bottomSheetCaller(context)
-      : PoliferieArticle(article: article2).bottomSheetCaller(context);
+// TODO(@amerlo): To remove with a proper BlocProvider
+// TODO(@amerlo): Markdown visualization has to be fixed
+void Function() _fetchPoliferieArticle(BuildContext context, {CardInfo card}) {
+  return PoliferieArticle(
+    article: Article(
+        id: card.id,
+        title: card.title,
+        subtitle: card.subtitle,
+        bodyMarkdownSource: card.text),
+  ).bottomSheetCaller(context);
 }
