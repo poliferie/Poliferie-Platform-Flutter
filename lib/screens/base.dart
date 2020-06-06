@@ -9,11 +9,20 @@ import 'package:Poliferie.io/screens/screens.dart';
 
 class BaseScreen extends StatefulWidget {
   @override
-  _BaseScreenState createState() => new _BaseScreenState();
+  BaseScreenState createState() => new BaseScreenState();
 }
 
-class _BaseScreenState extends State<BaseScreen> {
+class BaseScreenState extends State<BaseScreen> {
   int _selectedScreenIndex = 0;
+
+  // TODO(@amerlo): This has to be used from outside this class
+  void changeScreen(int screen) {
+    if (screen != _selectedScreenIndex && screen < pages.length) {
+      setState(() {
+        _selectedScreenIndex = screen;
+      });
+    }
+  }
 
   // TODO(@amerlo): Is there a more elegant solution
   // to zip together screens and BottomNavigationBarItem?
