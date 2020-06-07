@@ -92,13 +92,13 @@ class _PoliferieItemCardState extends State<PoliferieItemCard> {
     // TODO(@amerlo): Fix infoMap for University
     // Build stats according to item type
     Map<String, dynamic> infoMap;
-    if (item.type == "course") {
+    if (item.type == ItemType.course) {
       infoMap = {
         item.duration.toString(): Icons.looks_one,
         item.language: Icons.language,
         item.students.toString(): Icons.people,
       };
-    } else if (item.type == "university") {
+    } else if (item.type == ItemType.university) {
       infoMap = {
         item.owner: Icons.lock,
         item.region: Icons.location_searching,

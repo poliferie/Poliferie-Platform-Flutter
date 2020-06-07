@@ -185,6 +185,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
     if (items.isNotEmpty) {
       itemsToShow = tabExpanded[type] ? items : [items[0]];
     }
+    print(itemsToShow);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10.0),
       child: Column(
