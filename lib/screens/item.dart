@@ -164,13 +164,10 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
   }
 
   Widget _buildStats(ItemModel item) {
-    // If item does not have stats, do not build it
-    if (item.type != "course" && item.type != "university") {
-      return Container();
-    }
+    // TODO(@amerlo): Move this data structure to ItemModel
     // Build stats according to item type
     Map<String, dynamic> infoMap;
-    if (item.type == "course") {
+    if (item.type == ItemType.course) {
       infoMap = {
         item.duration.toString(): Icons.looks_one,
         item.language: Icons.language,
@@ -179,8 +176,10 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
         item.access: Icons.check_circle,
         item.education: Icons.recent_actors,
       };
-    } else if (item.type == "university") {
+    } else if (item.type == ItemType.university) {
       infoMap = {item.owner: Icons.lock, item.region: Icons.location_searching};
+    } else {
+      return Container();
     }
     // TODO(@amerlo): How to scale height dynamically?
     return Container(
