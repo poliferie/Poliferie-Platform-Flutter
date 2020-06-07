@@ -17,8 +17,8 @@ class PoliferieApp extends StatelessWidget {
           primarySwatch: Colors.red,
           primaryColor: Styles.poliferieRed,
           fontFamily: 'Lato',
-          backgroundColor: Styles.poliferieBackground,
-          scaffoldBackgroundColor: Styles.poliferieBackground),
+          backgroundColor: Styles.poliferieWhite,
+          scaffoldBackgroundColor: Styles.poliferieWhite),
       home: BaseScreen(),
     );
   }
