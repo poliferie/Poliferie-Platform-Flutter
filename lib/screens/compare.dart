@@ -7,6 +7,7 @@ import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
 import 'package:Poliferie.io/models/item.dart';
 import 'package:Poliferie.io/models/suggestion.dart';
+import 'package:Poliferie.io/screens/compare_view.dart';
 
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/icons.dart';
@@ -94,6 +95,10 @@ class CompareScreen extends StatefulWidget {
 class _CompareScreenState extends State<CompareScreen> {
   // Selected items
   List<SearchSuggestion> _items = [null, null];
+  bool _readyToCompare() {
+    return !_items.any((i) => i == null);
+  }
+
   Widget _buildHeadline() {
     return Text(Strings.compareHeadline, style: Styles.headline);
   }
@@ -120,7 +125,15 @@ class _CompareScreenState extends State<CompareScreen> {
       child: PoliferieFloatingButton(
         text: Strings.compareAction,
         activeColor: Styles.poliferieBlue,
-        onPressed: () {},
+        isActive: _readyToCompare(),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CompareViewScreen(_items),
+            ),
+          );
+        },
       ),
     );
   }
