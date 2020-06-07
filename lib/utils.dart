@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'models/item.dart';
+
 void savePersistenceList(String key, List<int> list) async {
   final prefs = await SharedPreferences.getInstance();
   final String string = jsonEncode(list);
@@ -44,4 +46,9 @@ List<T> repeat<T>(List<T> list, int iteration) {
     newList.addAll(list);
   }
   return newList;
+}
+
+ItemType selectType(String type) {
+  if (type == 'course') return ItemType.course;
+  if (type == 'university') return ItemType.university;
 }

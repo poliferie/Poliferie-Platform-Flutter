@@ -2,11 +2,15 @@
     {
         "id": 1001,
         "type": "course",
-        "shortName": "Design del Prodotto Industriale"
+        "shortName": "Design del Prodotto Industriale",
+        "shortDescription": null,
+        "stats": []
     },
     {
         "id": 1002,
         "type": "university",
-        "shortName": "Università di Pisa"
+        "shortName": "Università di Pisa",
+        "shortDescription": null,
+        "stats": []
     }
 ]

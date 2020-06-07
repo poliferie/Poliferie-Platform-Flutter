@@ -36,7 +36,7 @@ class CompareItemBox extends StatelessWidget {
         : Styles.cardHeadHorizontal;
     _titleStyle = selected ? _titleStyle : Styles.cardHeadHorizontalGray;
     return Container(
-      // TODO(@amerlo): Fix card width
+      // TODO(@amerlo): Add item stats when selected
       height: MediaQuery.of(context).size.width * 0.3,
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       child: Row(
@@ -130,12 +130,11 @@ class _CompareScreenState extends State<CompareScreen> {
   void _searchAndSelect(int box, ItemType type) {
     setState(() {
       _items[box] = type == ItemType.university
-          ? SearchSuggestion(
-              id: 43,
+          ? SearchSuggestion(43,
               shortName: 'Università del Piemonte Orientale',
-              type: 'university')
-          : SearchSuggestion(
-              id: 42, shortName: 'Ingegneria Elettronica', type: 'course');
+              type: ItemType.university)
+          : SearchSuggestion(42,
+              shortName: 'Ingegneria Elettronica', type: ItemType.course);
     });
   }
 

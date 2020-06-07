@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import 'package:Poliferie.io/utils.dart';
+
 /// Type of items
 enum ItemType { course, university }
 
@@ -76,14 +78,9 @@ class ItemModel extends Equatable {
       }
     }
 
-    ItemType _selectType(String type) {
-      if (type == 'course') return ItemType.course;
-      if (type == 'university') return ItemType.university;
-    }
-
     return ItemModel(
         id: json['id'],
-        type: _selectType(json['type'] as String),
+        type: selectType(json['type'] as String),
         shortName: json['shortName'],
         longName: json['longName'],
         provider: json['provider'],
