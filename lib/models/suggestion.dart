@@ -8,10 +8,15 @@ class SearchSuggestion extends Equatable {
   final ItemType type;
   final String shortName;
   final String shortDescription;
+  final String provider;
   final Map<String, List<ItemStat>> stats;
 
   const SearchSuggestion(this.id,
-      {this.type, this.shortName, this.shortDescription, this.stats});
+      {this.type,
+      this.shortName,
+      this.shortDescription,
+      this.provider,
+      this.stats});
 
   @override
   List<Object> get props => [id, shortName, type];
@@ -41,6 +46,7 @@ class SearchSuggestion extends Equatable {
       type: selectType(json['type'] as String),
       shortName: json['shortName'],
       shortDescription: json['shortDescription'],
+      provider: json['provider'],
       stats: map,
     );
   }

@@ -51,6 +51,57 @@
         ]
     },
     {
+        "id": 1003,
+        "type": "course",
+        "shortName": "Fisica",
+        "longName": "Fisica",
+        "provider": "Università Federico II di Napoli",
+        "region": "Campania",
+        "city": "Napoli",
+        "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "longDescription": null,
+        "providerLogo": "assets/images/sapienza_logo.jpg",
+        "providerImage": "assets/images/polimi_image.png",
+        "isBookmarked": false,
+        "duration": 3,
+        "language": "Italiano",
+        "requirements": "Diploma",
+        "owner": "Pubblica",
+        "access": "Test",
+        "education": "In presenza",
+        "students": 120345,
+        "stats": [
+            {
+                "name": "Soddisfazione",
+                "desc": "Percentuale di studenti soddisfatti del corso di laurea",
+                "tag": "Opportunità",
+                "value": 92.5,
+                "type": "circle"
+            },
+            {
+                "name": "Stipendio",
+                "desc": "Stipendio mensile netto medio a 5 anni",
+                "tag": "Opportunità",
+                "value": 1200.0,
+                "type": "euro"
+            },
+            {
+                "name": "Tirocini",
+                "desc": "Percentuale di studenti che ha effettuato almeno un tirocinio",
+                "tag": "Mobilità",
+                "value": 2.2,
+                "type": "circle"
+            },
+            {
+                "name": "Soggiorno Estero",
+                "desc": "Percentuale di studenti che ha effettuato almeno un soggiorno estero",
+                "tag": "Mobilità",
+                "value": 39.2,
+                "type": "circle"
+            }
+        ]
+    },
+    {
         "id": 1002,
         "type": "university",
         "shortName": "Unipi",

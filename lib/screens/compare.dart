@@ -130,11 +130,9 @@ class _CompareScreenState extends State<CompareScreen> {
   void _searchAndSelect(int box, ItemType type) {
     setState(() {
       _items[box] = type == ItemType.university
-          ? SearchSuggestion(43,
-              shortName: 'Università del Piemonte Orientale',
-              type: ItemType.university)
-          : SearchSuggestion(42,
-              shortName: 'Ingegneria Elettronica', type: ItemType.course);
+          ? SearchSuggestion(1002,
+              shortName: 'Università di Pisa', type: ItemType.university)
+          : SearchSuggestion(1003, shortName: 'Fisica', type: ItemType.course);
     });
   }
 
