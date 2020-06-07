@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
+import 'package:Poliferie.io/widgets/poliferie_animated_list.dart';
 import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/bloc/item.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
@@ -9,7 +11,6 @@ import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
 
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/styles.dart';
-import 'package:Poliferie.io/strings.dart';
 
 // TODO(@amerlo): Include test to check that we receive at least two items.
 
@@ -43,7 +44,7 @@ class _CompareViewScreenBodyState extends State<CompareViewScreenBody> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20)),
           color: Styles.poliferieWhite),
-      padding: EdgeInsets.symmetric(vertical: 25.0, horizontal: 10.0),
+      padding: EdgeInsets.symmetric(vertical: 25.0, horizontal: 15.0),
       child: Text(
         item.shortName,
         style: Styles.cardHeadHorizontal,
@@ -156,7 +157,95 @@ class _CompareViewScreenBodyState extends State<CompareViewScreenBody> {
     );
   }
 
+  Widget _buildList(String title, List<Card> items) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          child: Text(title, style: Styles.tabHeading),
+          padding: EdgeInsets.only(bottom: 10.0),
+        ),
+        PoliferieAnimatedList(items: items, singleHeight: 130.0),
+      ],
+    );
+  }
+
+  // TODO(@amerlo): Handle list input
+  // TODO(@amerlo): Make this card standard in ItemModel
+  Card _buildCard(List<ItemStat> stats) {
+    // TODO(@amerlo): Check same type
+    String _type = stats[0].type;
+    List<Widget> _values;
+    if (_type == "euro") {
+      _values = stats
+          .map((s) =>
+              Text(s.value.toStringAsFixed(0) + '€', style: Styles.statsValue))
+          .toList();
+    } else if (_type == "circle") {
+      _values = stats
+          .map((s) => CircularPercentIndicator(
+                radius: 50.0,
+                lineWidth: 3.0,
+                percent: s.value / 100,
+                center: Text(
+                  s.value.toString(),
+                  style: Styles.statsValue,
+                ),
+                progressColor: Colors.green,
+              ))
+          .toList();
+    } else {
+      _values = stats
+          .map((s) => Text(s.value.toString(), style: Styles.statsValue))
+          .toList();
+    }
+    return Card(
+      elevation: 0.0,
+      child: Container(
+        // TODO(@amerlo): Fix card height
+        height: 120.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(stats[0].name, style: Styles.statsTitle),
+            Text(stats[0].desc, style: Styles.statsDescription),
+            Padding(
+              padding: EdgeInsets.only(top: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[..._values],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDivider() {
+    return Divider(
+      color: Styles.poliferieRed,
+      thickness: 2.0,
+      height: 40,
+    );
+  }
+
   Widget _buildCompareBody(BuildContext context, List<ItemModel> items) {
+    // TODO(@amerlo): List order matters, decide how to do it.
+    // TODO(@amerlo): Handle different stats here
+    List<Widget> itemStats = List<Widget>();
+    for (String statKey in items[0].stats.keys) {
+      List<Card> cards = items[0]
+          .stats[statKey]
+          .asMap()
+          .map((key, value) =>
+              MapEntry(key, _buildCard([value, items[1].stats[statKey][key]])))
+          .values
+          .toList();
+      itemStats.add(_buildList(statKey, cards));
+    }
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: AppDimensions.bodyPaddingLeft),
       width: double.infinity,
@@ -169,6 +258,8 @@ class _CompareViewScreenBodyState extends State<CompareViewScreenBody> {
           ),
           _buildRow(items, _buildInfo),
           _buildRow(items, _buildStats),
+          _buildDivider(),
+          ...itemStats,
         ],
       ),
     );
