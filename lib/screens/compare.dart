@@ -156,7 +156,6 @@ class _CompareScreenState extends State<CompareScreen> {
                 CompareItemBox(
                   title: s == null ? _nullString : s.shortName,
                   selector: () {
-                    print(index);
                     _searchAndSelect(index, type);
                   },
                   deselector: () {
