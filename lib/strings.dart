@@ -47,6 +47,7 @@ abstract class Strings {
   static const String compareSubHeadline = "Scegli due corsi o università e "
       "confrontali uno accanto all'altro per scoprire quello "
       "più adatto alle tue esigenze.";
+  static const String compareAction = 'Confronta';
 
   // User Screen
   static const String userFollowers = 'Followers';

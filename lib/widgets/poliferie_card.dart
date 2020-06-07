@@ -42,40 +42,41 @@ class PoliferieCard extends StatelessWidget {
     // Build child for horizontal extended card
     if (orientation == CardOrientation.horizontal) {
       _child = Container(
-          // TODO(@amerlo): Fix card width
-          height: MediaQuery.of(context).size.width * 0.33,
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                flex: 3,
-                child: Column(
-                  children: <Widget>[
-                    Text(card.title,
-                        style: color == Styles.poliferieRed
-                            ? Styles.cardHeadHorizontalWhite
-                            : Styles.cardHeadHorizontal),
-                    Text(
-                        card.subtitle == null
-                            ? Strings.cardDefaultSubTitle
-                            : card.subtitle,
-                        style: color == Styles.poliferieRed
-                            ? Styles.cardSubHeadingWhite
-                            : Styles.cardSubHeading),
-                  ],
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                ),
+        // TODO(@amerlo): Fix card width
+        height: MediaQuery.of(context).size.width * 0.33,
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              flex: 3,
+              child: Column(
+                children: <Widget>[
+                  Text(card.title,
+                      style: color == Styles.poliferieRed
+                          ? Styles.cardHeadHorizontalWhite
+                          : Styles.cardHeadHorizontal),
+                  Text(
+                      card.subtitle == null
+                          ? Strings.cardDefaultSubTitle
+                          : card.subtitle,
+                      style: color == Styles.poliferieRed
+                          ? Styles.cardSubHeadingWhite
+                          : Styles.cardSubHeading),
+                ],
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               ),
-              Expanded(
-                flex: 2,
-                child: Image.asset(
-                  card.image,
-                  fit: BoxFit.cover,
-                ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Image.asset(
+                card.image,
+                fit: BoxFit.cover,
               ),
-            ],
-          ));
+            ),
+          ],
+        ),
+      );
     }
     return GestureDetector(
       onTap: onTap,

@@ -1,11 +1,88 @@
+import 'package:Poliferie.io/models/suggestion.dart';
+import 'package:Poliferie.io/screens/results.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import "package:flutter/widgets.dart";
+
+import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
+import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
+import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
 
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/icons.dart';
 import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/styles.dart';
-import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
+
+// TODO(@amerlo): Move this to a widget
+class CompareItemBox extends StatelessWidget {
+  final String title;
+  final String subTitle;
+  final Color color;
+  final Function selector;
+  final Function deselector;
+  final bool selected;
+  CompareItemBox(
+      {this.title,
+      this.subTitle,
+      this.color,
+      this.selector,
+      this.deselector,
+      this.selected: false});
+
+  Widget _buildBody(BuildContext context) {
+    // TODO(@amerlo): Select style to use
+    TextStyle _titleStyle = color == Styles.poliferieRed
+        ? Styles.cardHeadHorizontalWhite
+        : Styles.cardHeadHorizontal;
+    _titleStyle = selected ? _titleStyle : Styles.cardHeadHorizontalGray;
+    return Container(
+      // TODO(@amerlo): Fix card width
+      height: MediaQuery.of(context).size.width * 0.3,
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            flex: 4,
+            child: Column(
+              children: <Widget>[
+                Text(title, style: _titleStyle),
+                Text(subTitle == null ? '' : subTitle,
+                    style: color == Styles.poliferieRed
+                        ? Styles.cardSubHeadingWhite
+                        : Styles.cardSubHeading),
+              ],
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: IconButton(
+              color: color == Styles.poliferieRed
+                  ? Styles.poliferieLightWhite
+                  : Styles.poliferieRed,
+              onPressed: selected ? deselector : selector,
+              iconSize: 32,
+              icon: Icon(selected ? Icons.remove_circle : Icons.add_box),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: color,
+      elevation: 8.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      child: _buildBody(context),
+    );
+  }
+}
 
 class CompareScreen extends StatefulWidget {
   CompareScreen({Key key}) : super(key: key);
@@ -15,23 +92,123 @@ class CompareScreen extends StatefulWidget {
 }
 
 class _CompareScreenState extends State<CompareScreen> {
-  /// UI Elements for this page
-  static const _headline =
-      Text(Strings.compareHeadline, style: Styles.headline);
-  static const _subHeadline = Text(
-    Strings.compareSubHeadline,
-    style: Styles.subHeadline,
-  );
+  // Selected items
+  List<SearchSuggestion> _items = [null, null];
+  Widget _buildHeadline() {
+    return Text(Strings.compareHeadline, style: Styles.headline);
+  }
+
+  Widget _buildSubHeadline() {
+    return Padding(
+      padding: AppDimensions.subHeadlinePadding,
+      child: Text(
+        Strings.compareSubHeadline,
+        style: Styles.subHeadline,
+      ),
+    );
+  }
+
+  Widget _buildTabBar() {
+    return Padding(
+        padding: EdgeInsets.only(bottom: 10.0), child: PoliferieTabBar());
+  }
+
+  Widget _buildFloatingButton(BuildContext context) {
+    return Padding(
+      padding: EdgeInsetsDirectional.only(
+          bottom: MediaQuery.of(context).padding.bottom + 5),
+      child: PoliferieFloatingButton(
+        text: Strings.compareAction,
+        activeColor: Styles.poliferieBlue,
+        onPressed: () {},
+      ),
+    );
+  }
+
+  // TODO(@amerlo): Update with real function
+  // Callback to select item
+  void _searchAndSelect(int box, TabType type) {
+    setState(() {
+      _items[box] = type == TabType.university
+          ? SearchSuggestion(
+              id: 43,
+              shortName: 'Università del Piemonte Orientale',
+              type: 'university')
+          : SearchSuggestion(
+              id: 42, shortName: 'Ingegneria Elettronica', type: 'course');
+    });
+  }
+
+  // Callback to deselect item
+  void _deselect(int box) {
+    setState(() {
+      _items[box] = null;
+    });
+  }
+
+  Widget _buildInputBoxes(BuildContext context, TabType type) {
+    String _nullString =
+        type == TabType.course ? 'Scegli un corso' : 'Scegli un\'università';
+    return Column(
+      children: <Widget>[
+        ..._items
+            .asMap()
+            .map(
+              (index, s) => MapEntry(
+                index,
+                CompareItemBox(
+                  title: s == null ? _nullString : s.shortName,
+                  selector: () {
+                    print(index);
+                    _searchAndSelect(index, type);
+                  },
+                  deselector: () {
+                    _deselect(index);
+                  },
+                  selected: s != null,
+                ),
+              ),
+            )
+            .values
+            .toList(),
+      ],
+    );
+  }
+
+  Widget _buildTabBarBody(BuildContext context) {
+    return Expanded(
+      child: Stack(
+        alignment: AlignmentDirectional.bottomCenter,
+        children: <Widget>[
+          TabBarView(
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              _buildInputBoxes(context, TabType.course),
+              _buildInputBoxes(context, TabType.university),
+            ],
+          ),
+          _buildFloatingButton(context),
+        ],
+      ),
+    );
+  }
 
   Widget _buildBody(BuildContext context) {
-    return Padding(
-      padding: AppDimensions.bodyPadding,
-      child: ListView(
-        scrollDirection: Axis.vertical,
-        children: <Widget>[
-          _headline,
-          _subHeadline,
-        ],
+    return DefaultTabController(
+      length: 2,
+      child: Container(
+        padding: AppDimensions.searchBodyPadding,
+        height: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            _buildHeadline(),
+            _buildSubHeadline(),
+            SizedBox(height: 20),
+            _buildTabBar(),
+            _buildTabBarBody(context),
+          ],
+        ),
       ),
     );
   }

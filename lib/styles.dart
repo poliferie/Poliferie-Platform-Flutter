@@ -22,7 +22,7 @@ abstract class Styles {
   static const headline = TextStyle(
     color: poliferieLightBlack,
     fontFamily: 'Montserrat',
-    fontSize: 64,
+    fontSize: 48,
     height: 1.3,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.bold,
@@ -272,6 +272,14 @@ abstract class Styles {
 
   static const cardHeadHorizontalWhite = TextStyle(
     color: Styles.poliferieWhite,
+    fontSize: 18.0,
+    height: 1.2,
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.bold,
+  );
+
+  static const cardHeadHorizontalGray = TextStyle(
+    color: Styles.poliferieLightGrey,
     fontSize: 18.0,
     height: 1.2,
     fontFamily: 'Montserrat',
