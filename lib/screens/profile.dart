@@ -1,4 +1,3 @@
-import 'package:Poliferie.io/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,9 +38,9 @@ class ProfileScreenBody extends StatefulWidget {
 
 class _ProfileScreenBodyState extends State<ProfileScreenBody> {
   // Items list are expanded
-  Map<TabType, bool> tabExpanded = {
-    TabType.course: false,
-    TabType.university: false
+  Map<ItemType, bool> tabExpanded = {
+    ItemType.course: false,
+    ItemType.university: false
   };
 
   // Favorite list
@@ -49,9 +48,9 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
 
   // Strings
   // TODO(@amerlo): Move from here to Strings.dart file
-  final Map<TabType, String> tabStrings = {
-    TabType.course: Strings.searchTabCourse,
-    TabType.university: Strings.searchTabUniversity,
+  final Map<ItemType, String> tabStrings = {
+    ItemType.course: Strings.searchTabCourse,
+    ItemType.university: Strings.searchTabUniversity,
   };
 
   @override
@@ -180,7 +179,8 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
   }
 
   // TODO(@amerlo): Animation is missing!
-  Widget _buildItemsList(String listName, List<ItemModel> items, TabType type) {
+  Widget _buildItemsList(
+      String listName, List<ItemModel> items, ItemType type) {
     List<ItemModel> itemsToShow = [];
     if (items.isNotEmpty) {
       itemsToShow = tabExpanded[type] ? items : [items[0]];
@@ -217,7 +217,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
     );
   }
 
-  Widget _buildList(BuildContext context, TabType type) {
+  Widget _buildList(BuildContext context, ItemType type) {
     if (favoriteList.isEmpty) {
       return _buildItemsList(tabStrings[type], [], type);
     }
@@ -249,8 +249,8 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
           color: Styles.poliferieWhite),
       child: Column(
         children: [
-          _buildList(context, TabType.course),
-          _buildList(context, TabType.university),
+          _buildList(context, ItemType.course),
+          _buildList(context, ItemType.university),
         ],
       ),
     );

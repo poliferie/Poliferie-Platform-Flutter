@@ -14,9 +14,6 @@ import 'package:Poliferie.io/bloc/search.dart';
 import 'package:Poliferie.io/models/models.dart';
 import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
 
-// TODO(@amerlo): Move under a common place
-enum TabType { course, university }
-
 // TODO(@amerlo): Where the repositories have to be declared?
 final SearchRepository searchRepository =
     SearchRepository(searchClient: SearchClient(useLocalJson: true));
@@ -140,7 +137,7 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
   }
 
   Widget _buildTabBody(
-      BuildContext context, List<ItemModel> results, TabType tabType) {
+      BuildContext context, List<ItemModel> results, ItemType tabType) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -165,11 +162,11 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
               _buildTabBody(
                   context,
                   results.where((item) => item.type == 'course').toList(),
-                  TabType.course),
+                  ItemType.course),
               _buildTabBody(
                   context,
                   results.where((item) => item.type == 'university').toList(),
-                  TabType.university),
+                  ItemType.university),
             ],
           )
         ],

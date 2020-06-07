@@ -1,5 +1,8 @@
 import 'package:equatable/equatable.dart';
 
+/// Type of items
+enum ItemType { course, university }
+
 /// Class which holds one [ItemModel] statistic
 class ItemStat {
   final String name;
@@ -13,7 +16,7 @@ class ItemStat {
 /// Class which holds an [ItemModel]
 class ItemModel extends Equatable {
   final int id;
-  final String type;
+  final ItemType type;
   final String shortName;
   final String longName;
   final String provider;
@@ -73,9 +76,14 @@ class ItemModel extends Equatable {
       }
     }
 
+    ItemType _selectType(String type) {
+      if (type == 'course') return ItemType.course;
+      if (type == 'university') return ItemType.university;
+    }
+
     return ItemModel(
         id: json['id'],
-        type: json['type'],
+        type: _selectType(json['type'] as String),
         shortName: json['shortName'],
         longName: json['longName'],
         provider: json['provider'],

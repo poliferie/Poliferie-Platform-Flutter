@@ -5,6 +5,7 @@ import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/dimensions.dart';
 
+import 'package:Poliferie.io/models/item.dart';
 import 'package:Poliferie.io/bloc/search_event.dart';
 import 'package:Poliferie.io/bloc/search_state.dart';
 import 'package:Poliferie.io/repositories/search_client.dart';
@@ -132,7 +133,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
   List<PoliferieFilter> universityFilters = courseFilterList;
 
   Widget _buildFilterList(
-      BuildContext context, List<PoliferieFilter> filters, TabType tabType) {
+      BuildContext context, List<PoliferieFilter> filters, ItemType tabType) {
     final double containerWidth = MediaQuery.of(context).size.width -
         AppDimensions.searchBodyPadding.left -
         AppDimensions.searchBodyPadding.right;
@@ -197,8 +198,8 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
           TabBarView(
             physics: NeverScrollableScrollPhysics(),
             children: [
-              _buildFilterList(context, courseFilterList, TabType.course),
-              _buildFilterList(context, courseFilterList, TabType.university),
+              _buildFilterList(context, courseFilterList, ItemType.course),
+              _buildFilterList(context, courseFilterList, ItemType.university),
             ],
           ),
           _buildFloatingButton(context),

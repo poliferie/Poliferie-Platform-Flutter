@@ -1,5 +1,3 @@
-import 'package:Poliferie.io/models/suggestion.dart';
-import 'package:Poliferie.io/screens/results.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import "package:flutter/widgets.dart";
@@ -7,6 +5,8 @@ import "package:flutter/widgets.dart";
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
+import 'package:Poliferie.io/models/item.dart';
+import 'package:Poliferie.io/models/suggestion.dart';
 
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/icons.dart';
@@ -127,9 +127,9 @@ class _CompareScreenState extends State<CompareScreen> {
 
   // TODO(@amerlo): Update with real function
   // Callback to select item
-  void _searchAndSelect(int box, TabType type) {
+  void _searchAndSelect(int box, ItemType type) {
     setState(() {
-      _items[box] = type == TabType.university
+      _items[box] = type == ItemType.university
           ? SearchSuggestion(
               id: 43,
               shortName: 'Università del Piemonte Orientale',
@@ -146,9 +146,9 @@ class _CompareScreenState extends State<CompareScreen> {
     });
   }
 
-  Widget _buildInputBoxes(BuildContext context, TabType type) {
+  Widget _buildInputBoxes(BuildContext context, ItemType type) {
     String _nullString =
-        type == TabType.course ? 'Scegli un corso' : 'Scegli un\'università';
+        type == ItemType.course ? 'Scegli un corso' : 'Scegli un\'università';
     return Column(
       children: <Widget>[
         ..._items
@@ -183,8 +183,8 @@ class _CompareScreenState extends State<CompareScreen> {
           TabBarView(
             physics: NeverScrollableScrollPhysics(),
             children: [
-              _buildInputBoxes(context, TabType.course),
-              _buildInputBoxes(context, TabType.university),
+              _buildInputBoxes(context, ItemType.course),
+              _buildInputBoxes(context, ItemType.university),
             ],
           ),
           _buildFloatingButton(context),
