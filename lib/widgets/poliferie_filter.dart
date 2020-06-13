@@ -311,11 +311,20 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
       confirmDismiss: (direction) => _doNotDismiss(),
       background: Container(
         color: Styles.poliferieRed,
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: 15),
         alignment: AlignmentDirectional.centerStart,
-        child: Icon(
-          Icons.delete,
-          color: Styles.poliferieLightWhite,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Icon(
+              Icons.delete,
+              color: Styles.poliferieLightWhite,
+            ),
+            Icon(
+              Icons.delete,
+              color: Styles.poliferieLightWhite,
+            ),
+          ],
         ),
       ),
       child: Card(
@@ -324,39 +333,25 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
           borderRadius:
               BorderRadius.circular(AppDimensions.filterCardBorderRadius),
         ),
-        /*child: FlatButton(onPressed: _onButtonPressed, child: Row(children: <Widget>[PoliferieIconBox(widget.icon), Expanded(child:Text(
-            widget.name,
-            style: Styles.filterName.copyWith(fontSize: 14),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
-          ))]),),*/
         child: FlatButton.icon(
           padding: EdgeInsets.all(10),
           onPressed: _onButtonPressed,
-          icon: PoliferieIconBox(widget.icon,
-              iconColor: selected ? Colors.white : Styles.poliferieRed,
-              iconBackgroundColor: selected ? Styles.poliferieRed : null),
-          label: Expanded(
-              child: AutoSizeText(
-            widget.name,
-            style: Styles.filterName,
-            wrapWords: false,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
-            minFontSize: 12,
-          )),
-        ),
-        /*child: ListTile(
-          onTap: _onButtonPressed,
-          leading: PoliferieIconBox(widget.icon),
-          selected: selected,
-          title: Text(
-            widget.name,
-            style: Styles.filterName,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
+          icon: PoliferieIconBox(
+            widget.icon,
+            iconColor: selected ? Colors.white : Styles.poliferieRed,
+            iconBackgroundColor: selected ? Styles.poliferieRed : null,
           ),
-        ),*/
+          label: Expanded(
+            child: AutoSizeText(
+              widget.name,
+              style: Styles.filterName,
+              wrapWords: false,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              minFontSize: 12,
+            ),
+          ),
+        ),
       ),
     );
   }
