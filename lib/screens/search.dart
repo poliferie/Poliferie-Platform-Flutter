@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/dimensions.dart';
+import 'package:Poliferie.io/icons.dart';
 
 import 'package:Poliferie.io/models/item.dart';
 import 'package:Poliferie.io/bloc/search_event.dart';
@@ -11,7 +12,6 @@ import 'package:Poliferie.io/bloc/search_state.dart';
 import 'package:Poliferie.io/repositories/search_client.dart';
 import 'package:Poliferie.io/bloc/search_bloc.dart';
 import 'package:Poliferie.io/repositories/search_repository.dart';
-import 'package:Poliferie.io/icons.dart';
 import 'package:Poliferie.io/screens/item.dart';
 import 'package:Poliferie.io/screens/results.dart';
 
@@ -58,7 +58,7 @@ class PoliferieSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO(@amerlo): Here we should include the whole search state and
+    // TODO(@ferrarodav): Here we should include the whole search state and
     //                provide it to the results screen
     return ResultsScreen(query);
   }
@@ -132,6 +132,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
   /// List of [PoliferieFilter] for universities
   List<PoliferieFilter> universityFilters = courseFilterList;
 
+  // TODO(@amerlo): Should we use the full width for the filters?
   Widget _buildFilterList(
       BuildContext context, List<PoliferieFilter> filters, ItemType tabType) {
     final double containerWidth = MediaQuery.of(context).size.width -
@@ -157,6 +158,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
     );
   }
 
+  // TODO(@amerlo): Input select state given filter states
   Widget _buildFloatingButton(BuildContext context) {
     return Padding(
       padding: EdgeInsetsDirectional.only(
@@ -178,7 +180,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
 
   Widget _buildFilterIntro() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 10.0),
+      padding: AppDimensions.subHeadlinePadding,
       child: Text(
         Strings.searchFilterIntro,
         style: Styles.tabDescription,
