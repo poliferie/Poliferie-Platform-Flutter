@@ -160,7 +160,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
   Widget _buildFloatingButton(BuildContext context) {
     return Padding(
       padding: EdgeInsetsDirectional.only(
-          bottom: MediaQuery.of(context).padding.bottom + 5),
+          bottom: MediaQuery.of(context).padding.bottom + 10),
       child: PoliferieFloatingButton(
         text: Strings.searchExplore,
         activeColor: Styles.poliferieBlue,
