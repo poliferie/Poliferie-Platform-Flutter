@@ -22,17 +22,19 @@ class _PoliferieItemCardState extends State<PoliferieItemCard> {
 
   @override
   void initState() {
+    super.initState();
     _isFavorite = widget.item.isBookmarked;
   }
 
   Widget _buildHeader(ItemModel item) {
-    String subHeader = null;
+    String subHeader;
     if (item.provider != null) {
-      subHeader = item.provider;
+      subHeader = item.provider + ', ' + item.city;
     } else if (item.region != null) {
-      subHeader = item.region;
+      subHeader = item.region + ', ' + item.city;
+    } else {
+      subHeader = item.city;
     }
-    subHeader = subHeader + ', ' + item.city;
     return Expanded(
       child: Padding(
         padding: EdgeInsets.only(left: 20.0),

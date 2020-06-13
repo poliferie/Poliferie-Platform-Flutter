@@ -20,7 +20,7 @@ class FetchStateSuccess extends ItemState {
   List<Object> get props => [item];
 
   @override
-  String toString() => 'FetchStateSuccess { item: $item}';
+  String toString() => 'FetchStateSuccess { item: ${item?.id}}';
 }
 
 class FetchStateError extends ItemState {
