@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:Poliferie.io/styles.dart';
@@ -6,6 +9,7 @@ import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/icons.dart';
 
+import 'package:Poliferie.io/models/filter.dart';
 import 'package:Poliferie.io/models/item.dart';
 import 'package:Poliferie.io/bloc/search_event.dart';
 import 'package:Poliferie.io/bloc/search_state.dart';
@@ -19,6 +23,15 @@ import 'package:Poliferie.io/widgets/poliferie_filter.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
+
+// TODO(@amerlo): Move from here
+// TODO(@amerlo): Add repository and client to filters
+Future<List<PoliferieFilter>> fetchFilters() async {
+  String filterData =
+      await rootBundle.loadString("assets/data/mockup/filters.json");
+  List<dynamic> suggestions = json.decode(filterData).toList();
+  return suggestions.map((e) => PoliferieFilter(Filter.fromJson(e))).toList();
+}
 
 /// [SearchDelegate] helper class.
 class PoliferieSearchDelegate extends SearchDelegate {
@@ -126,11 +139,27 @@ class SearchScreenBody extends StatefulWidget {
 }
 
 class _SearchScreenBodyState extends State<SearchScreenBody> {
-  /// List of [PoliferieFilter] for courses
-  List<PoliferieFilter> courseFilters = courseFilterList;
+  // TODO(@amerlo): Use BLoC approach
+  /// List of course [PoliferieFilter]
+  List<PoliferieFilter> courseFilters;
 
-  /// List of [PoliferieFilter] for universities
-  List<PoliferieFilter> universityFilters = courseFilterList;
+  /// List of course [PoliferieFilter]
+  List<PoliferieFilter> universityFilters;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchFilters().then((l) => setState(() {
+          courseFilters = l
+              .where(
+                  (element) => element.filter.applyTo.contains(ItemType.course))
+              .toList();
+          universityFilters = l
+              .where((element) =>
+                  element.filter.applyTo.contains(ItemType.university))
+              .toList();
+        }));
+  }
 
   // TODO(@amerlo): Should we use the full width for the filters?
   Widget _buildFilterList(
@@ -200,8 +229,8 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
           TabBarView(
             physics: NeverScrollableScrollPhysics(),
             children: [
-              _buildFilterList(context, courseFilterList, ItemType.course),
-              _buildFilterList(context, courseFilterList, ItemType.university),
+              _buildFilterList(context, courseFilters, ItemType.course),
+              _buildFilterList(context, universityFilters, ItemType.university),
             ],
           ),
           _buildFloatingButton(context),

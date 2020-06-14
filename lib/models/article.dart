@@ -9,13 +9,13 @@ class Article extends Equatable {
   final String subtitle;
   final String bodyMarkdownSource;
 
-  const Article({
-    @required this.id,
-    @required this.title, 
-    this.subtitle, 
-    this.image, 
-    @required this.bodyMarkdownSource // see https://github.github.com/gfm/
-  });
+  const Article(
+      {@required this.id,
+      @required this.title,
+      this.subtitle,
+      this.image,
+      @required this.bodyMarkdownSource // see https://github.github.com/gfm/
+      });
 
   @override
   List<Object> get props => [id, image, title, subtitle, bodyMarkdownSource];

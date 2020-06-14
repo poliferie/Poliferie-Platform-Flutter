@@ -47,8 +47,3 @@ List<T> repeat<T>(List<T> list, int iteration) {
   }
   return newList;
 }
-
-ItemType selectType(String type) {
-  if (type == 'course') return ItemType.course;
-  if (type == 'university') return ItemType.university;
-}

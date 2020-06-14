@@ -1,0 +1,157 @@
+[
+    {
+        "icon": "58716",
+        "name": "Regione",
+        "hint": "Inserisci una regione...",
+        "description": "Regione dell'università",
+        "type": "dropDown",
+        "applyTo": [
+            "course",
+            "university"
+        ],
+        "range": [
+            "Abruzzo",
+            "Basilicata",
+            "Calabria",
+            "Campania",
+            "Emilia-Romagna",
+            "Friuli-Venezia Giulia",
+            "Lazio",
+            "Liguria",
+            "Lombardia",
+            "Marche",
+            "Molise",
+            "Piemonte",
+            "Puglia",
+            "Sardegna",
+            "Sicilia",
+            "Toscana",
+            "Trentino-Alto Adige",
+            "Umbria",
+            "Valle d’Aosta",
+            "Veneto",
+            "Estero"
+        ]
+    },
+    {
+        "icon": "59705",
+        "name": "Studenti",
+        "hint": "Numero minimo di studenti...",
+        "description": "Numero di iscritti al corso",
+        "type": "selectRange",
+        "applyTo": [
+            "course"
+        ],
+        "range": [
+            0,
+            10000
+        ],
+        "unit": ""
+    },
+    {
+        "icon": "57948",
+        "name": "Tassa",
+        "hint": "Tassa massima annuale...",
+        "description": "Tassa universitaria annuale",
+        "type": "selectRange",
+        "applyTo": [
+            "university",
+            "course"
+        ],
+        "range": [
+            0,
+            10000
+        ],
+        "unit": "€"
+    },
+    {
+        "icon": "59411",
+        "name": "Soddisfazione",
+        "hint": "Grado di soddisfazione minimo...",
+        "description": "Grado di soddisfazione dei laureati",
+        "type": "selectRange",
+        "applyTo": [
+            "university",
+            "course"
+        ],
+        "range": [
+            0,
+            100
+        ],
+        "unit": "%"
+    },
+    {
+        "icon": "59493",
+        "name": "Area disciplianre",
+        "hint": "Area disciplinare...",
+        "description": "Area disciplinare del corso",
+        "type": "dropDown",
+        "applyTo": [
+            "course"
+        ],
+        "range": [
+            "Insegnamento",
+            "Arte e Design",
+            "Letterario-Umanistico",
+            "Linguistico",
+            "Politico-Sociale e Comunicazione",
+            "Psicologico",
+            "Economico",
+            "Giuridico",
+            "Scientifico",
+            "Informatica e Tecnologie ICT",
+            "Architettura e Ingegneria civile",
+            "Ingegneria industriale e dell'informazione",
+            "Agrario-Forestale e Veterinario",
+            "Medico-Sanitario e Farmaceutico",
+            "Scienze motorie e sportive",
+            "altro"
+        ],
+        "unit": ""
+    },
+    {
+        "icon": "59640",
+        "name": "Tirocini",
+        "hint": "Percentuale di tirocini...",
+        "description": "Percentuale di studenti che ha effettuato almeno un tirocinio formativo",
+        "type": "selectRange",
+        "applyTo": [
+            "course"
+        ],
+        "range": [
+            0,
+            100
+        ],
+        "unit": "%"
+    },
+    {
+        "icon": "59540",
+        "name": "Lingua",
+        "hint": "Lingua di insegnamento del corso",
+        "description": "Lingua di insegnamento del corso",
+        "type": "selectValue",
+        "applyTo": [
+            "course"
+        ],
+        "range": [
+            "ITA",
+            "ENG"
+        ],
+        "unit": ""
+    },
+    {
+        "icon": "57955",
+        "name": "Stipendio",
+        "hint": "Stipendio netto mensile",
+        "description": "Stipendio netto mensile",
+        "type": "selectRange",
+        "applyTo": [
+            "course"
+        ],
+        "range": [
+            0,
+            2000
+        ],
+        "unit": "€"
+    }
+]

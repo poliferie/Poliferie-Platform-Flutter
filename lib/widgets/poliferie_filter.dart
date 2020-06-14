@@ -1,115 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/dimensions.dart';
 
+import 'package:Poliferie.io/models/filter.dart';
 import 'package:Poliferie.io/widgets/poliferie_value_box.dart';
 import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
 import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
 
-import 'package:auto_size_text/auto_size_text.dart';
-
-enum FilterType { dropDown, selectRange, selectValue }
-
-final courseFilterList = <PoliferieFilter>[
-  PoliferieFilter(
-    icon: Icons.my_location,
-    name: 'Regione',
-    hint: 'Inserisci una regione...',
-    description: "Regione dell'università",
-    type: FilterType.dropDown,
-    range: [
-      "Lazio",
-      "Lombardia",
-      "Piemonte",
-      "Campania",
-      "Basilicata",
-      "Puglia",
-      "Molise"
-    ],
-  ),
-  PoliferieFilter(
-    icon: Icons.supervised_user_circle,
-    name: 'Studenti',
-    hint: 'Numero minimo di studenti...',
-    description: 'Numero di iscritti al corso',
-    type: FilterType.selectRange,
-    range: [0, 10000],
-  ),
-  PoliferieFilter(
-    icon: Icons.money_off,
-    name: 'Tassa',
-    hint: 'Tassa massima annuale...',
-    description: 'Tassa universitaria annuale',
-    type: FilterType.selectRange,
-    range: [0, 10000],
-    unit: "€",
-  ),
-  PoliferieFilter(
-    icon: Icons.sentiment_satisfied,
-    name: 'Soddisfazione',
-    hint: 'Grado di soddisfazione minimo...',
-    description: 'Grado di soddisfazione dei laureati',
-    type: FilterType.selectRange,
-    range: [0, 100],
-    unit: "%",
-  ),
-  PoliferieFilter(
-    icon: Icons.book,
-    name: 'Area Disciplinare',
-    hint: 'Area disciplinare...',
-    description: 'Area disciplinare del corso',
-    type: FilterType.dropDown,
-    range: ["Matematica", "Fisica"],
-  ),
-  PoliferieFilter(
-    icon: Icons.settings,
-    name: 'Tirocini',
-    hint: 'Percentuale di tirocini...',
-    description:
-        'Percentuale di studenti che ha effettuato almeno un tirocinio formativo',
-    type: FilterType.selectRange,
-    range: [0, 100],
-    unit: "%",
-  ),
-  PoliferieFilter(
-      icon: Icons.settings,
-      name: 'Lingua',
-      hint: '',
-      description: 'Lingua di insegnamento del corso',
-      type: FilterType.selectValue,
-      range: ["ITA", "ENG"]),
-  PoliferieFilter(
-      icon: Icons.monetization_on,
-      name: 'Stipendio',
-      hint: '',
-      description: 'Stipendio netto mensile',
-      type: FilterType.selectRange,
-      range: [0, 100]),
-];
-
 class PoliferieFilter extends StatefulWidget {
-  const PoliferieFilter({
-    Key key,
-    this.icon,
-    this.name,
-    this.hint,
-    this.description,
-    this.type,
-    this.range,
-    this.unit = "",
-  }) : super(key: key);
+  const PoliferieFilter(this.filter, {Key key}) : super(key: key);
 
-  final IconData icon;
-  final String name;
-  final String description;
-  final String hint;
-  final FilterType type;
-  final String unit;
-
-  /// Set of possible values, it depends on [FilterType]
-  final List range;
+  final Filter filter;
 
   @override
   _PoliferieFilterState createState() => new _PoliferieFilterState();
@@ -128,9 +32,9 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
   @override
   initState() {
     super.initState();
-    if (widget.type == FilterType.selectRange) {
-      double _min = widget.range[0].toDouble();
-      double _max = widget.range[1].toDouble();
+    if (widget.filter.type == FilterType.selectRange) {
+      double _min = widget.filter.range[0].toDouble();
+      double _max = widget.filter.range[1].toDouble();
       double _range = _max - _min;
       values = RangeValues(_min + 0.1 * _range, _max - _range * 0.1);
     }
@@ -158,10 +62,11 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
       children: <Widget>[
         Padding(
           padding: AppDimensions.bottomSheetPadding,
-          child: PoliferieIconBox(widget.icon, iconColor: Styles.poliferieRed),
+          child: PoliferieIconBox(widget.filter.icon,
+              iconColor: Styles.poliferieRed),
         ),
         Text(
-          widget.name,
+          widget.filter.name,
           style: Styles.filterHeadline,
           overflow: TextOverflow.ellipsis,
           maxLines: 2,
@@ -175,14 +80,14 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
       padding: EdgeInsets.fromLTRB(AppDimensions.bottomSheetPaddingHorizontal,
           10.0, AppDimensions.bottomSheetPaddingHorizontal, 10.0),
       child: Text(
-        widget.description,
+        widget.filter.description,
         style: Styles.tabDescription,
       ),
     );
   }
 
   Widget _buildSelector(StateSetter updateState) {
-    if (widget.type == FilterType.selectRange) {
+    if (widget.filter.type == FilterType.selectRange) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -192,23 +97,24 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
               updateBottomSheetState(
                   updateState, FilterType.selectRange, values);
             },
-            min: widget.range[0].toDouble(),
-            max: widget.range[1].toDouble(),
+            min: widget.filter.range[0].toDouble(),
+            max: widget.filter.range[1].toDouble(),
           ),
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 PoliferieValueBox("Minimo",
-                    values.start.toInt().toString() + " " + widget.unit),
+                    values.start.toInt().toString() + " " + widget.filter.unit),
                 PoliferieValueBox("Massimo",
-                    values.end.toInt().toString() + " " + widget.unit),
+                    values.end.toInt().toString() + " " + widget.filter.unit),
               ]),
         ],
       );
-    } else if (widget.type == FilterType.selectValue) {
+    } else if (widget.filter.type == FilterType.selectValue) {
       return Text("Value");
-    } else if (widget.type == FilterType.dropDown) {
-      List<String> _list = widget.range.map((e) => e.toString()).toList();
+    } else if (widget.filter.type == FilterType.dropDown) {
+      List<String> _list =
+          widget.filter.range.map((e) => e.toString()).toList();
       // TODO(@amerlo): Fix hack for Container height
       return Container(
         height: 300,
@@ -337,13 +243,13 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
           padding: EdgeInsets.all(10),
           onPressed: _onButtonPressed,
           icon: PoliferieIconBox(
-            widget.icon,
+            widget.filter.icon,
             iconColor: selected ? Colors.white : Styles.poliferieRed,
             iconBackgroundColor: selected ? Styles.poliferieRed : null,
           ),
           label: Expanded(
             child: AutoSizeText(
-              widget.name,
+              widget.filter.name,
               style: Styles.filterName,
               wrapWords: false,
               overflow: TextOverflow.ellipsis,
