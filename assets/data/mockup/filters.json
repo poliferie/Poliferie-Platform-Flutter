@@ -129,7 +129,7 @@
         "name": "Lingua",
         "hint": "Lingua di insegnamento del corso",
         "description": "Lingua di insegnamento del corso",
-        "type": "selectValue",
+        "type": "dropDown",
         "applyTo": [
             "course"
         ],

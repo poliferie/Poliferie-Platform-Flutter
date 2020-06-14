@@ -110,8 +110,6 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
               ]),
         ],
       );
-    } else if (widget.filter.type == FilterType.selectValue) {
-      return Text("Value");
     } else if (widget.filter.type == FilterType.dropDown) {
       List<String> _list =
           widget.filter.range.map((e) => e.toString()).toList();
