@@ -31,6 +31,16 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
   // RangeValues selected for selectRange type
   RangeValues values;
 
+  bool atLeastOne() {
+    if (widget.filter.type == FilterType.dropDown) {
+      return value.length != 0;
+    }
+    if (widget.filter.type == FilterType.selectRange) {
+      // For selectRange filter, we could always select the filter
+      return true;
+    }
+  }
+
   // Initialize filter state
   @override
   initState() {
@@ -47,6 +57,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
       child: PoliferieFloatingButton(
         text: Strings.filterSet,
         activeColor: Styles.poliferieGreen,
+        isActive: atLeastOne(),
         onPressed: () {
           Navigator.pop(context);
           widget.updateValue(null, true);
