@@ -128,7 +128,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
           widget.filter.range.map((e) => e.toString()).toList();
       // TODO(@amerlo): Fix hack for Container height
       return Container(
-        height: 300,
+        height: MediaQuery.of(context).size.height * 0.3,
         child: ListView.builder(
           itemCount: _list.length,
           itemBuilder: (context, index) {
@@ -184,7 +184,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
         AppDimensions.bodyPaddingLeft,
         AppDimensions.bottomSheetPaddingVertical,
         AppDimensions.bodyPaddingRight,
-        AppDimensions.bottomSheetPaddingVertical,
+        0.0,
       ),
       child: Stack(
         alignment: Alignment.bottomCenter,
