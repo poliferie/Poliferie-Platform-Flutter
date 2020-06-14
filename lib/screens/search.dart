@@ -222,7 +222,6 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
     return isActive;
   }
 
-  // TODO(@amerlo): Should we use the full width for the filters?
   Widget _buildFilterList(
       BuildContext context,
       Map<int, Filter> filters,
@@ -241,9 +240,11 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
           for (var i in filters.keys)
             ClipRect(
               child: SizedBox(
-                width: containerWidth > 280
-                    ? (containerWidth / 2).floor().toDouble()
-                    : containerWidth,
+                // TODO(@amerlo): Should we use the full width for the filters?
+                // width: containerWidth > 280
+                //     ? (containerWidth / 2).floor().toDouble()
+                //     : containerWidth,
+                width: containerWidth,
                 child: PoliferieFilter(filters[i], status[i],
                     updateValue: updates[i]),
               ),
