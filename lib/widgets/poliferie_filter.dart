@@ -11,12 +11,14 @@ import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
 import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
 
 class PoliferieFilter extends StatefulWidget {
-  const PoliferieFilter(this.filter, this.status, {this.updateValue, key})
+  const PoliferieFilter(this.filter, this.status,
+      {this.updateValue, this.color = Styles.poliferieRed, key})
       : super(key: key);
 
   final Filter filter;
   final FilterStatus status;
   final Function updateValue;
+  final Color color;
 
   @override
   _PoliferieFilterState createState() => new _PoliferieFilterState();
@@ -75,8 +77,10 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
       children: <Widget>[
         Padding(
           padding: AppDimensions.bottomSheetPadding,
-          child: PoliferieIconBox(widget.filter.icon,
-              iconColor: Styles.poliferieRed),
+          child: PoliferieIconBox(
+            widget.filter.icon,
+            iconColor: widget.color,
+          ),
         ),
         Text(
           widget.filter.name,
@@ -139,7 +143,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
                       updateState, FilterType.dropDown, _list[index]);
                 },
                 leading: widget.status.values.contains(_list[index])
-                    ? Icon(Icons.check_box, color: Styles.poliferieRed)
+                    ? Icon(Icons.check_box, color: widget.color)
                     : Icon(Icons.check_box_outline_blank,
                         color: Styles.poliferieVeryLightGrey),
                 title: Text(_list[index]),
@@ -247,7 +251,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
       key: GlobalKey(),
       confirmDismiss: (direction) => _doNotDismiss(widget.filter.type),
       background: Container(
-        color: Styles.poliferieRed,
+        color: widget.color,
         padding: EdgeInsets.symmetric(horizontal: 15),
         alignment: AlignmentDirectional.centerStart,
         child: Row(
@@ -275,10 +279,8 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
           onPressed: _onButtonPressed,
           icon: PoliferieIconBox(
             widget.filter.icon,
-            iconColor:
-                widget.status.selected ? Colors.white : Styles.poliferieRed,
-            iconBackgroundColor:
-                widget.status.selected ? Styles.poliferieRed : null,
+            iconColor: widget.status.selected ? Colors.white : widget.color,
+            iconBackgroundColor: widget.status.selected ? widget.color : null,
           ),
           label: Expanded(
             child: AutoSizeText(
