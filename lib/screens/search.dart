@@ -210,6 +210,18 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
         }));
   }
 
+  // TODO(@amerlo): Should we allow explore session with no filters selected?
+  bool couldWeSearch() {
+    bool isActive = false;
+    for (FilterStatus status in allStatus.values) {
+      if (status.selected == true) {
+        isActive = true;
+        break;
+      }
+    }
+    return isActive;
+  }
+
   // TODO(@amerlo): Should we use the full width for the filters?
   Widget _buildFilterList(
       BuildContext context,
@@ -247,6 +259,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
       padding: EdgeInsetsDirectional.only(
           bottom: MediaQuery.of(context).padding.bottom + 10),
       child: PoliferieFloatingButton(
+        isActive: couldWeSearch(),
         text: Strings.searchExplore,
         activeColor: Styles.poliferieBlue,
         onPressed: () {},
