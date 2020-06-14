@@ -11,9 +11,12 @@ import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
 import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
 
 class PoliferieFilter extends StatefulWidget {
-  const PoliferieFilter(this.filter, {Key key}) : super(key: key);
+  const PoliferieFilter(this.filter, this.status, {this.updateValue, key})
+      : super(key: key);
 
   final Filter filter;
+  final FilterStatus status;
+  final Function updateValue;
 
   @override
   _PoliferieFilterState createState() => new _PoliferieFilterState();
@@ -33,10 +36,8 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
   initState() {
     super.initState();
     if (widget.filter.type == FilterType.selectRange) {
-      double _min = widget.filter.range[0].toDouble();
-      double _max = widget.filter.range[1].toDouble();
-      double _range = _max - _min;
-      values = RangeValues(_min + 0.1 * _range, _max - _range * 0.1);
+      values = RangeValues(widget.status.values[0].toDouble(),
+          widget.status.values[1].toDouble());
     }
   }
 
@@ -48,6 +49,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
         activeColor: Styles.poliferieGreen,
         onPressed: () {
           Navigator.pop(context);
+          widget.updateValue(null, true);
           setState(() {
             selected = true;
           });
@@ -125,7 +127,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
                   updateBottomSheetState(
                       updateState, FilterType.dropDown, _list[index]);
                 },
-                leading: value.contains(_list[index])
+                leading: widget.status.values.contains(_list[index])
                     ? Icon(Icons.check_box, color: Styles.poliferieRed)
                     : Icon(Icons.check_box_outline_blank,
                         color: Styles.poliferieVeryLightGrey),
@@ -142,11 +144,21 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
 
   Future<Null> updateBottomSheetState(
       StateSetter updateState, FilterType type, dynamic newValue) async {
+    widget.updateValue(type, newValue);
+    // Deselect filter in case of dropDown and no selection
+    if (type == FilterType.dropDown &&
+        value.length == 1 &&
+        value[0] == newValue) {
+      widget.updateValue(null, false);
+    }
     updateState(() {
       if (type == FilterType.selectRange) {
         values = newValue;
       } else if (type == FilterType.dropDown) {
         if (value.contains(newValue)) {
+          if (value.length == 1 && value.contains(newValue)) {
+            selected = false;
+          }
           value.remove(newValue);
         } else {
           value.add(newValue);
@@ -201,9 +213,19 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
     );
   }
 
-  Future<bool> _doNotDismiss() async {
+  Future<bool> _doNotDismiss(FilterType type) async {
+    // Clear values
+    widget.updateValue(type, null);
+    widget.updateValue(null, false);
     setState(() {
       selected = false;
+      if (type == FilterType.selectRange) {
+        List<dynamic> newValues =
+            FilterStatus.initStatus(type, widget.filter.range).values;
+        values = RangeValues(newValues[0], newValues[1]);
+      } else if (type == FilterType.dropDown) {
+        value = [];
+      }
     });
     return false;
   }
@@ -212,7 +234,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
   Widget build(BuildContext context) {
     return Dismissible(
       key: GlobalKey(),
-      confirmDismiss: (direction) => _doNotDismiss(),
+      confirmDismiss: (direction) => _doNotDismiss(widget.filter.type),
       background: Container(
         color: Styles.poliferieRed,
         padding: EdgeInsets.symmetric(horizontal: 15),
@@ -242,8 +264,10 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
           onPressed: _onButtonPressed,
           icon: PoliferieIconBox(
             widget.filter.icon,
-            iconColor: selected ? Colors.white : Styles.poliferieRed,
-            iconBackgroundColor: selected ? Styles.poliferieRed : null,
+            iconColor:
+                widget.status.selected ? Colors.white : Styles.poliferieRed,
+            iconBackgroundColor:
+                widget.status.selected ? Styles.poliferieRed : null,
           ),
           label: Expanded(
             child: AutoSizeText(

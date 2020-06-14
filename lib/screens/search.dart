@@ -26,11 +26,11 @@ import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
 
 // TODO(@amerlo): Move from here
 // TODO(@amerlo): Add repository and client to filters
-Future<List<PoliferieFilter>> fetchFilters() async {
+Future<List<Filter>> fetchFilters() async {
   String filterData =
       await rootBundle.loadString("assets/data/mockup/filters.json");
   List<dynamic> suggestions = json.decode(filterData).toList();
-  return suggestions.map((e) => PoliferieFilter(Filter.fromJson(e))).toList();
+  return suggestions.map((e) => Filter.fromJson(e)).toList();
 }
 
 /// [SearchDelegate] helper class.
@@ -140,30 +140,83 @@ class SearchScreenBody extends StatefulWidget {
 
 class _SearchScreenBodyState extends State<SearchScreenBody> {
   // TODO(@amerlo): Use BLoC approach
-  /// List of course [PoliferieFilter]
-  List<PoliferieFilter> courseFilters;
+  /// Map of all [Filter]
+  Map<int, Filter> allFilters = Map();
+  Map<int, FilterStatus> allStatus = Map();
+  Map<int, Function> allUpdate = Map();
 
-  /// List of course [PoliferieFilter]
-  List<PoliferieFilter> universityFilters;
+  /// Map of course [Filter]
+  Map<int, Filter> courseFilters = Map();
+  Map<int, FilterStatus> courseStatus = Map();
+  Map<int, Function> courseUpdate = Map();
+
+  /// Map of university [Filter]
+  Map<int, Filter> universityFilters = Map();
+  Map<int, FilterStatus> universityStatus = Map();
+  Map<int, Function> universityUpdate = Map();
+
+  // TODO(@amerlo): Could we avoid to duplicate code between here and the
+  //                status inside PoliferieFilter?
+  void updateFilterStatus(int index, FilterType type, dynamic newValue) {
+    setState(() {
+      if (type == null) {
+        allStatus[index].selected = newValue as bool;
+      } else if (type == FilterType.dropDown) {
+        if (newValue == null) {
+          allStatus[index].values = [];
+        } else {
+          String newStringValue = newValue as String;
+          if (allStatus[index].values.contains(newStringValue)) {
+            allStatus[index].values.remove(newStringValue);
+          } else {
+            allStatus[index].values.add(newStringValue);
+          }
+        }
+      } else if (type == FilterType.selectRange) {
+        if (newValue == null) {
+          allStatus[index].values =
+              FilterStatus.initStatus(type, allFilters[index].range).values;
+        } else {
+          RangeValues newRangeValues = (newValue as RangeValues);
+          allStatus[index].values = [newRangeValues.start, newRangeValues.end];
+        }
+      }
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     fetchFilters().then((l) => setState(() {
-          courseFilters = l
-              .where(
-                  (element) => element.filter.applyTo.contains(ItemType.course))
-              .toList();
-          universityFilters = l
-              .where((element) =>
-                  element.filter.applyTo.contains(ItemType.university))
-              .toList();
+          allFilters = l.asMap();
+          allStatus = allFilters.map(
+              (i, f) => MapEntry(i, FilterStatus.initStatus(f.type, f.range)));
+          allUpdate = allStatus.map((i, s) => MapEntry(
+              i,
+              (FilterType type, dynamic newValue) =>
+                  updateFilterStatus(i, type, newValue)));
+          allFilters.forEach((key, value) {
+            if (value.applyTo.contains(ItemType.course)) {
+              courseFilters[key] = value;
+              courseStatus[key] = allStatus[key];
+              courseUpdate[key] = allUpdate[key];
+            }
+            if (value.applyTo.contains(ItemType.university)) {
+              universityFilters[key] = value;
+              universityStatus[key] = allStatus[key];
+              universityUpdate[key] = allUpdate[key];
+            }
+          });
         }));
   }
 
   // TODO(@amerlo): Should we use the full width for the filters?
   Widget _buildFilterList(
-      BuildContext context, List<PoliferieFilter> filters, ItemType tabType) {
+      BuildContext context,
+      Map<int, Filter> filters,
+      Map<int, FilterStatus> status,
+      Map<int, Function> updates,
+      ItemType tabType) {
     final double containerWidth = MediaQuery.of(context).size.width -
         AppDimensions.searchBodyPadding.left -
         AppDimensions.searchBodyPadding.right;
@@ -173,13 +226,14 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
           top: 10, bottom: MediaQuery.of(context).padding.bottom + 56),
       child: Wrap(
         children: <Widget>[
-          for (var f in filters)
+          for (var i in filters.keys)
             ClipRect(
               child: SizedBox(
                 width: containerWidth > 280
                     ? (containerWidth / 2).floor().toDouble()
                     : containerWidth,
-                child: f,
+                child: PoliferieFilter(filters[i], status[i],
+                    updateValue: updates[i]),
               ),
             )
         ],
@@ -229,8 +283,10 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
           TabBarView(
             physics: NeverScrollableScrollPhysics(),
             children: [
-              _buildFilterList(context, courseFilters, ItemType.course),
-              _buildFilterList(context, universityFilters, ItemType.university),
+              _buildFilterList(context, courseFilters, courseStatus,
+                  courseUpdate, ItemType.course),
+              _buildFilterList(context, universityFilters, universityStatus,
+                  universityUpdate, ItemType.university),
             ],
           ),
           _buildFloatingButton(context),

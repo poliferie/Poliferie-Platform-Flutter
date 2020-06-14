@@ -19,16 +19,15 @@ class Filter extends Equatable {
   /// Set of possible values, it depends on [FilterType]
   final List range;
 
-  const Filter({
-    this.icon,
-    this.name,
-    this.hint,
-    this.description,
-    this.type,
-    this.range,
-    this.applyTo,
-    this.unit = "",
-  });
+  Filter(
+      {this.icon,
+      this.name,
+      this.hint,
+      this.description,
+      this.type,
+      this.range,
+      this.applyTo,
+      this.unit = ""});
 
   @override
   List<Object> get props => [name];
@@ -57,5 +56,25 @@ class Filter extends Equatable {
             .map((e) => ItemModel.selectType(e))
             .toList(),
         unit: json['unit']);
+  }
+}
+
+class FilterStatus {
+  bool selected;
+  List<dynamic> values;
+
+  FilterStatus(this.values, {this.selected = false});
+
+  static FilterStatus initStatus(FilterType type, List<dynamic> range) {
+    if (type == FilterType.dropDown) {
+      return FilterStatus([]);
+    }
+    if (type == FilterType.selectRange) {
+      final List<int> rangeCasted = range.cast<int>();
+      double min = rangeCasted[0].toDouble();
+      double max = rangeCasted[1].toDouble();
+      double spread = max - min;
+      return FilterStatus([min + 0.1 * spread, max - spread * 0.1]);
+    }
   }
 }
