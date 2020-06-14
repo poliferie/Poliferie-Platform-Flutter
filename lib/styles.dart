@@ -37,6 +37,23 @@ abstract class Styles {
     fontWeight: FontWeight.w300,
   );
 
+  static const headlineWhite = TextStyle(
+    color: poliferieWhite,
+    fontFamily: 'Montserrat',
+    fontSize: 48,
+    height: 1.3,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const subHeadlineWhite = TextStyle(
+    color: poliferieWhite,
+    fontFamily: 'Montserrat',
+    fontSize: 18,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w300,
+  );
+
   static const articleHeadline = TextStyle(
     color: poliferieLightBlack,
     fontFamily: 'Montserrat',

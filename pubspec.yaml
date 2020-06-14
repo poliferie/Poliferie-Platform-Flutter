@@ -52,6 +52,9 @@ dependencies:
   # Small persistence data
   shared_preferences: ^0.5.7+2
 
+  # Dots indicator
+  dots_indicator: ^1.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
