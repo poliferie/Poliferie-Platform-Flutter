@@ -111,9 +111,9 @@ abstract class Styles {
 
   static const filterName = TextStyle(
     color: poliferieLightBlack,
-    fontFamily: 'Lato',
-    fontSize: 18.0,
-    fontWeight: FontWeight.w300,
+    fontFamily: 'Montserrat',
+    fontSize: 16.0,
+    fontWeight: FontWeight.w600,
   );
 
   static const filterHeadline = TextStyle(
