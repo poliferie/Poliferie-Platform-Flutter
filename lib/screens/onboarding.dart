@@ -60,6 +60,23 @@ List<OnBoardingPage> _pages = [
   )
 ];
 
+class FunctionClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.lineTo(size.width, 0);
+    path.lineTo(size.width, size.height * 0.8);
+    path.quadraticBezierTo(size.width / 2, 0, 0, size.height);
+    path.lineTo(0, 0);
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper oldClipper) {
+    return false;
+  }
+}
+
 class OnBoardingScreen extends StatefulWidget {
   OnBoardingScreen({Key key}) : super(key: key);
 
@@ -117,21 +134,25 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   }
 
   Widget _buildImage(String imagePath, Color color) {
+    final double _imageHeight = MediaQuery.of(context).size.height * 0.95;
     return Expanded(
       child: Stack(
-        alignment: Alignment.bottomCenter,
+        alignment: Alignment.topCenter,
         children: <Widget>[
           Container(color: color),
-          // TODO(@amerlo): Fix positioned here!
-          Positioned(
-            top: 0.0,
-            right: 100.0,
-            child: Container(height: 100, color: Styles.poliferieRed),
+          ClipPath(
+            clipper: FunctionClipper(),
+            child: Container(
+              color: Styles.poliferieRed,
+              height: _imageHeight * 0.2,
+            ),
           ),
-          Image(
-            // TODO(@amerlo): Fix height
-            height: 400,
-            image: AssetImage(imagePath),
+          Positioned(
+            bottom: -_imageHeight * 0.2,
+            child: Image(
+              height: _imageHeight,
+              image: AssetImage(imagePath),
+            ),
           ),
         ],
       ),
