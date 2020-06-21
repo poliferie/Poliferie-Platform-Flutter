@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:equatable/equatable.dart';
 
+import 'package:Poliferie.io/screens/base.dart';
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/styles.dart';
 
@@ -26,7 +27,7 @@ List<OnBoardingPage> _pages = [
     index: 0,
     title: 'Benvenuto',
     text:
-        'Poliferie.io è un App che mira a combattare le disuagualinze di opportunità in ambito scolatico',
+        'Poliferie.io è un App che mira a combattare le disuagualinze di opportunità in ambito scolatico.',
     color: Styles.poliferieWhite,
     imagePath: 'assets/images/onboarding/welcome.png',
   ),
@@ -95,7 +96,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     super.dispose();
   }
 
-  Widget _buildHeader(String title, text) {
+  Widget _buildHeader(String title, String text, int index) {
     return Container(
       padding: AppDimensions.bodyPadding,
       color: Styles.poliferieRed,
@@ -104,7 +105,30 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(title, style: Styles.headlineWhite),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(title, style: Styles.headlineWhite),
+              // TODO(@amerlo): This check could be moved up in the tree
+              if (index != 4)
+                IconButton(
+                  icon: Icon(
+                    Icons.cancel,
+                    color: Styles.poliferieWhite,
+                    size: 32,
+                  ),
+                  onPressed: () {
+                    setFinishedOnBoarding();
+                    Navigator.of(context, rootNavigator: true)
+                        .pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    BaseScreen()),
+                            (route) => false);
+                  },
+                ),
+            ],
+          ),
           Text(
             text,
             style: Styles.subHeadlineWhite,
@@ -163,7 +187,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        _buildHeader(page.title, page.text),
+        _buildHeader(page.title, page.text, page.index),
         _buildCounter(page.index),
         _buildImage(page.imagePath, page.color),
       ],
