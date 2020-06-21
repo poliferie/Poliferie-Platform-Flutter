@@ -74,6 +74,8 @@ flutter:
   # To add assets timport 'package:simple_progress_bar/progress_bar.dart';o your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/images/onboarding/
+    - assets/images/mockup/
     - assets/data/
     - assets/data/mockup/
 

@@ -99,7 +99,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
       width: double.infinity,
       child: Column(
         children: <Widget>[
-          _buildUserImage('assets/images/andrea_profile.png'),
+          _buildUserImage('assets/images/mockup/andrea_profile.png'),
           _buildUserName(user.name),
           _buildUserSubHeadline(user.school),
           _buildUserSubHeadline(user.city),

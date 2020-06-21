@@ -28,14 +28,35 @@ List<OnBoardingPage> _pages = [
     text:
         'Poliferie.io è un App che mira a combattare le disuagualinze di opportunità in ambito scolatico',
     color: Styles.poliferieWhite,
-    imagePath: 'assets/images/onboarding_0.png',
+    imagePath: 'assets/images/onboarding/welcome.png',
   ),
   OnBoardingPage(
     index: 1,
     title: 'Cerca',
     text: 'Lorem ipsum',
     color: Styles.poliferieBlue,
-    imagePath: 'assets/images/onboarding_0.png',
+    imagePath: 'assets/images/onboarding/search.png',
+  ),
+  OnBoardingPage(
+    index: 2,
+    title: 'Filtra',
+    text: 'Lorem ipsum',
+    color: Styles.poliferieBlue,
+    imagePath: 'assets/images/onboarding/filter.png',
+  ),
+  OnBoardingPage(
+    index: 3,
+    title: 'Comfronta',
+    text: 'Lorem ipsum',
+    color: Styles.poliferieBlue,
+    imagePath: 'assets/images/onboarding/compare.png',
+  ),
+  OnBoardingPage(
+    index: 4,
+    title: 'Inizia',
+    text: 'Lorem ipsum',
+    color: Styles.poliferieBlue,
+    imagePath: 'assets/images/onboarding/ready.png',
   )
 ];
 
