@@ -7,6 +7,8 @@ import 'package:Poliferie.io/screens/base.dart';
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/styles.dart';
 
+import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
+
 // TODO(@amerlo): Maybe move from here
 class OnBoardingPage extends Equatable {
   final String title;
@@ -96,7 +98,28 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     super.dispose();
   }
 
+  Widget _buildFloatingActionButton(double width) {
+    return Container(
+      color: Styles.poliferieRed,
+      width: double.infinity,
+      child: Padding(
+        padding:
+            EdgeInsets.only(left: width * 0.2, right: width * 0.2, top: 20),
+        child: PoliferieFloatingButton(
+          text: 'VAI',
+          isActive: true,
+          activeColor: Styles.poliferieYellow,
+          onPressed: () {
+            setFinishedOnBoarding();
+            pushToBaseScreen(context);
+          },
+        ),
+      ),
+    );
+  }
+
   Widget _buildHeader(String title, String text, int index) {
+    final _width = MediaQuery.of(context).size.width;
     return Container(
       padding: AppDimensions.bodyPadding,
       color: Styles.poliferieRed,
@@ -109,7 +132,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(title, style: Styles.headlineWhite),
-              // TODO(@amerlo): This check could be moved up in the tree
               if (index != 4)
                 IconButton(
                   icon: Icon(
@@ -119,12 +141,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   ),
                   onPressed: () {
                     setFinishedOnBoarding();
-                    Navigator.of(context, rootNavigator: true)
-                        .pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    BaseScreen()),
-                            (route) => false);
+                    pushToBaseScreen(context);
                   },
                 ),
             ],
@@ -133,6 +150,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             text,
             style: Styles.subHeadlineWhite,
           ),
+          if (index == 4) _buildFloatingActionButton(_width)
         ],
       ),
     );
@@ -140,10 +158,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   Widget _buildCounter(int index) {
     return Container(
-        color: Styles.poliferieRed,
-        width: double.maxFinite,
-        child: Center(
-            child: DotsIndicator(
+      color: Styles.poliferieRed,
+      width: double.maxFinite,
+      child: Center(
+        child: DotsIndicator(
           dotsCount: 5,
           position: index.toDouble(),
           decorator: DotsDecorator(
@@ -152,9 +170,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             size: const Size.square(9.0),
             activeSize: const Size(18.0, 9.0),
             activeShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0)),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
           ),
-        )));
+        ),
+      ),
+    );
   }
 
   Widget _buildImage(String imagePath, Color color) {
@@ -217,4 +238,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 Future<bool> setFinishedOnBoarding() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.setBool('onBoardingIsCompleted', true);
+}
+
+void pushToBaseScreen(BuildContext context) {
+  Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (BuildContext context) => BaseScreen()),
+      (route) => false);
 }
