@@ -66,6 +66,26 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
     });
   }
 
+  void _updateFavorite(int index) {
+    _updateFavoriteAsync(index);
+  }
+
+  // TODO(@amerlo): Could we avoid the duplcated state?
+  void _updateFavoriteAsync(int index) async {
+    if (favoriteList.contains(index)) {
+      removeFromPersistenceList('favorites', index);
+      setState(() {
+        favoriteList.remove(index);
+      });
+      print(favoriteList);
+    } else {
+      addToPersistenceList('favorites', index);
+      setState(() {
+        favoriteList.add(index);
+      });
+    }
+  }
+
   Widget _buildUserImage(String userImagePath) {
     return Hero(
       tag: userImagePath,
@@ -209,9 +229,16 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
               ),
             ],
           ),
-          ...itemsToShow.map((e) => Padding(
+          ...itemsToShow.map(
+            (e) => Padding(
               padding: EdgeInsets.symmetric(vertical: 6.0),
-              child: PoliferieItemCard(e))),
+              child: PoliferieItemCard(
+                e,
+                isFavorite: favoriteList.contains(e.id),
+                onSetFavorite: _updateFavorite,
+              ),
+            ),
+          ),
         ],
       ),
     );

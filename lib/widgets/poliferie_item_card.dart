@@ -7,26 +7,16 @@ import 'package:Poliferie.io/models/item.dart';
 import 'package:Poliferie.io/screens/item.dart';
 import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
 
-class PoliferieItemCard extends StatefulWidget {
-  const PoliferieItemCard(this.item);
+class PoliferieItemCard extends StatelessWidget {
+  const PoliferieItemCard(this.item,
+      {this.isFavorite: false, this.onSetFavorite});
 
   final ItemModel item;
-
-  @override
-  _PoliferieItemCardState createState() => new _PoliferieItemCardState();
-}
-
-class _PoliferieItemCardState extends State<PoliferieItemCard> {
-  // TODO(@amerlo): How to pass back info to persistance list?
-  bool _isFavorite = null;
-
-  @override
-  void initState() {
-    _isFavorite = widget.item.isBookmarked;
-  }
+  final bool isFavorite;
+  final Function onSetFavorite;
 
   Widget _buildHeader(ItemModel item) {
-    String subHeader = null;
+    String subHeader;
     if (item.provider != null) {
       subHeader = item.provider;
     } else if (item.region != null) {
@@ -53,13 +43,9 @@ class _PoliferieItemCardState extends State<PoliferieItemCard> {
 
   Widget _buildFavorite() {
     return IconButton(
-      icon: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border,
+      icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border,
           color: Styles.poliferieRed, size: 32),
-      onPressed: () {
-        setState(() {
-          _isFavorite = !_isFavorite;
-        });
-      },
+      onPressed: onSetFavorite(item.id),
     );
   }
 
@@ -137,7 +123,7 @@ class _PoliferieItemCardState extends State<PoliferieItemCard> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ItemScreen(widget.item.id),
+            builder: (context) => ItemScreen(item.id),
           ),
         );
       },
@@ -157,9 +143,9 @@ class _PoliferieItemCardState extends State<PoliferieItemCard> {
         ),
         child: Column(
           children: <Widget>[
-            _buildInfo(widget.item),
+            _buildInfo(item),
             _buildDivider(),
-            _buildStats(widget.item),
+            _buildStats(item),
           ],
         ),
       ),
