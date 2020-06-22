@@ -6,6 +6,7 @@ import 'package:Poliferie.io/bloc/card.dart';
 import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/models/card.dart';
 import 'package:Poliferie.io/models/article.dart';
+import 'package:Poliferie.io/screens/onboarding.dart';
 
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/strings.dart';
@@ -14,16 +15,6 @@ import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_card.dart';
 import 'package:Poliferie.io/widgets/poliferie_article.dart';
-
-// TODO(@amerlo): Where to locate these?
-// TODO(@amerlo): Start onboarding on this PoliferieCard onTap
-final _howToCard = PoliferieCard(
-  CardInfo(0,
-      image: 'assets/images/metodo.png', title: 'Come funziona l\'app?'),
-  orientation: CardOrientation.horizontal,
-  onTap: () {},
-  color: Styles.poliferieRed,
-);
 
 // Static cards
 final _coursesCard = CardInfo(42,
@@ -88,6 +79,21 @@ class HomeScreenBody extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context, List<CardInfo> cards) {
+    // Always present card
+    final _howToCard = PoliferieCard(
+      CardInfo(0,
+          image: 'assets/images/metodo.png', title: 'Come funziona l\'app?'),
+      orientation: CardOrientation.horizontal,
+      onTap: () {
+        Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (BuildContext context) => OnBoardingScreen(),
+            ),
+            (route) => false);
+      },
+      color: Styles.poliferieRed,
+    );
+
     List<PoliferieCard> _cards = cards
         .map((card) => PoliferieCard(
               card,
