@@ -3,6 +3,9 @@ abstract class Strings {
   // App
   static const String appTitle = 'Poliferie';
 
+  // Onboarding
+  static const String onboardingStartButton = 'Vai';
+
   // Home Screen
   static const String homeHeadline = 'Ciao!';
   static const String homeSubHeadline =

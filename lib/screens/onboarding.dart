@@ -1,3 +1,4 @@
+import 'package:Poliferie.io/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -9,7 +10,8 @@ import 'package:Poliferie.io/styles.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
 
-// TODO(@amerlo): Maybe move from here
+// TODO(@amerlo): Consider to move this into a model, even if this will be the only screen
+//                which makes use of it.
 class OnBoardingPage extends Equatable {
   final String title;
   final String text;
@@ -20,8 +22,7 @@ class OnBoardingPage extends Equatable {
   const OnBoardingPage(
       {this.index, this.title, this.text, this.color, this.imagePath});
   @override
-  // TODO: implement props
-  List<Object> get props => throw UnimplementedError();
+  List<Object> get props => [title, index];
 }
 
 List<OnBoardingPage> _pages = [
@@ -36,29 +37,31 @@ List<OnBoardingPage> _pages = [
   OnBoardingPage(
     index: 1,
     title: 'Cerca',
-    text: 'Lorem ipsum',
+    text:
+        'Potrai cercare il percorso di formazione post-diploma fra tutti quelli offerti in Italia.',
     color: Styles.poliferieBlue,
     imagePath: 'assets/images/onboarding/search.png',
   ),
   OnBoardingPage(
     index: 2,
     title: 'Filtra',
-    text: 'Lorem ipsum',
-    color: Styles.poliferieBlue,
+    text: 'Seleziona solo quelli che più ti interessano.',
+    color: Styles.poliferieGreen,
     imagePath: 'assets/images/onboarding/filter.png',
   ),
   OnBoardingPage(
     index: 3,
-    title: 'Comfronta',
-    text: 'Lorem ipsum',
-    color: Styles.poliferieBlue,
+    title: 'Confronta',
+    text: 'Confronta i percorsi per capire quello più adatto a te.',
+    color: Styles.poliferiePink,
     imagePath: 'assets/images/onboarding/compare.png',
   ),
   OnBoardingPage(
     index: 4,
     title: 'Inizia',
-    text: 'Lorem ipsum',
-    color: Styles.poliferieBlue,
+    text:
+        'Scopri il tuo futuro. Per ogni domanda contattci su Instagram @poliferie!',
+    color: Styles.poliferieWhite,
     imagePath: 'assets/images/onboarding/ready.png',
   )
 ];
@@ -103,10 +106,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       color: Styles.poliferieRed,
       width: double.infinity,
       child: Padding(
-        padding:
-            EdgeInsets.only(left: width * 0.2, right: width * 0.2, top: 20),
+        padding: EdgeInsets.only(
+          left: width * 0.2,
+          right: width * 0.2,
+          top: 10,
+        ),
         child: PoliferieFloatingButton(
-          text: 'VAI',
+          text: Strings.onboardingStartButton.toUpperCase(),
           isActive: true,
           activeColor: Styles.poliferieYellow,
           onPressed: () {
@@ -123,33 +129,39 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     return Container(
       padding: AppDimensions.bodyPadding,
       color: Styles.poliferieRed,
-      height: MediaQuery.of(context).size.height * 0.3,
+      height: MediaQuery.of(context).size.height * 0.33,
       width: double.maxFinite,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
             children: <Widget>[
-              Text(title, style: Styles.headlineWhite),
-              if (index != 4)
-                IconButton(
-                  icon: Icon(
-                    Icons.cancel,
-                    color: Styles.poliferieWhite,
-                    size: 32,
-                  ),
-                  onPressed: () {
-                    setFinishedOnBoarding();
-                    pushToBaseScreen(context);
-                  },
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(title, style: Styles.headlineWhite),
+                  if (index != 4)
+                    IconButton(
+                      icon: Icon(
+                        Icons.cancel,
+                        color: Styles.poliferieWhite,
+                        size: 32,
+                      ),
+                      onPressed: () {
+                        setFinishedOnBoarding();
+                        pushToBaseScreen(context);
+                      },
+                    ),
+                ],
+              ),
+              Text(
+                text,
+                style: Styles.subHeadlineWhite,
+              ),
             ],
           ),
-          Text(
-            text,
-            style: Styles.subHeadlineWhite,
-          ),
+          if (index != 4) _buildCounter(index),
           if (index == 4) _buildFloatingActionButton(_width)
         ],
       ),
@@ -209,7 +221,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         _buildHeader(page.title, page.text, page.index),
-        _buildCounter(page.index),
         _buildImage(page.imagePath, page.color),
       ],
     );
