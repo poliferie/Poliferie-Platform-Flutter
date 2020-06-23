@@ -43,7 +43,7 @@ class SearchSuggestion extends Equatable {
 
     return SearchSuggestion(
       json['id'],
-      type: selectType(json['type'] as String),
+      type: ItemModel.selectType(json['type'] as String),
       shortName: json['shortName'],
       shortDescription: json['shortDescription'],
       provider: json['provider'],

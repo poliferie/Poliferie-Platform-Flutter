@@ -10,7 +10,7 @@ class FavoritesRepository {
     : assert(localProvider != null);
 
   Future<List<int>> get() async {
-    final List<dynamic> returnedJson = await localProvider.get('favorites');
+    final List<dynamic> returnedJson = await localProvider.get('favorites', returnDefault: []);
     List<int> favorites = returnedJson.cast<int>();
     return favorites;
   }
@@ -26,4 +26,8 @@ class FavoritesRepository {
   Future<bool> remove(int id) async {
     return await localProvider.removeFromList('favorites', id);
   }  
+
+  Future<bool> toggle(int id) async {
+    return (await contains(id)) ? remove(id) : add(id);
+  } 
 }

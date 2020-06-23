@@ -11,7 +11,6 @@ import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/bloc/item.dart';
 import 'package:Poliferie.io/models/models.dart';
 import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
-import 'package:Poliferie.io/providers/local_provider.dart';
 
 class ItemScreen extends StatefulWidget {
   /// This [id] is the requested id from the frontend
@@ -26,8 +25,9 @@ class ItemScreen extends StatefulWidget {
 class ItemScreenBody extends StatefulWidget {
   // TODO(@amerlo): Could we avoid this?
   final int id;
+  final FavoritesRepository favoritesRepository;
 
-  ItemScreenBody(this.id);
+  ItemScreenBody(this.id, {@required this.favoritesRepository});
 
   @override
   _ItemScreenBodyState createState() => _ItemScreenBodyState();
@@ -39,28 +39,20 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
   @override
   void initState() {
     super.initState();
-    _setIsFavorite();
+    _updateIsFavorite();
   }
 
-  void _setIsFavorite() async {
-    // TODO(@ferrarodav): cannot use dependency injection to get the repository declared in `base.dart`. Better method?
-    final isFavorite = await FavoritesRepository(localProvider: LocalProvider()).contains(widget.id);
+  void _updateIsFavorite({bool toggle}) async {
+    bool isFavorite;
+    if (toggle != null && toggle) {
+      widget.favoritesRepository.toggle(widget.id);
+      isFavorite = !_isFavorite;
+    } else {
+      isFavorite = await widget.favoritesRepository.contains(widget.id);
+    }
     setState(() {
       _isFavorite = isFavorite;
     });
-  }
-
-  void Function() _toggleFavorite(BuildContext context) {
-    return () async {
-      setState(() {
-        _isFavorite = !_isFavorite;
-      });
-      if (_isFavorite) {
-        await RepositoryProvider.of<FavoritesRepository>(context).add(widget.id);
-      } else {
-        await RepositoryProvider.of<FavoritesRepository>(context).remove(widget.id);
-      }
-    };
   }
 
   Widget _buildBackButton(BuildContext context) {
@@ -111,7 +103,7 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
         padding: EdgeInsets.all(6.0),
         child: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border,
             color: Styles.poliferieRed, size: 40),
-        onPressed: _toggleFavorite(context),
+        onPressed: () => _updateIsFavorite(toggle: true),
       ),
     );
   }
@@ -334,7 +326,7 @@ class _ItemScreenState extends State<ItemScreen> {
     return Scaffold(
       body: BlocProvider<ItemBloc>(
         create: (context) => ItemBloc(itemRepository: RepositoryProvider.of<ItemRepository>(context)),
-        child: ItemScreenBody(widget.id),
+        child: ItemScreenBody(widget.id, favoritesRepository: RepositoryProvider.of<FavoritesRepository>(context)),
       ),
     );
   }

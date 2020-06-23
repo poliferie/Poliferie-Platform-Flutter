@@ -22,7 +22,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class ProfileScreenBody extends StatefulWidget {
-  ProfileScreenBody();
+  final FavoritesRepository favoritesRepository;
+
+  ProfileScreenBody({@required this.favoritesRepository});
 
   @override
   _ProfileScreenBodyState createState() => _ProfileScreenBodyState();
@@ -48,12 +50,13 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
   @override
   void initState() {
     super.initState();
-    _setFavoriteItems();
+    _updateFavorites();
   }
 
-  void _setFavoriteItems() async {
-    // TODO(@ferrarodav): cannot use dependency injection to get the repository declared in `base.dart`. Better method?
-    final List<int> favorites = await FavoritesRepository(localProvider: LocalProvider()).get();
+  // TODO(@amerlo): Could we avoid the duplcated state?
+  void _updateFavorites({int toggleIndex}) async {
+    if (toggleIndex != null) await widget.favoritesRepository.toggle(toggleIndex);
+    final List<int> favorites = await widget.favoritesRepository.get();
     setState(() {
       favoriteList = favorites;
     });
@@ -92,7 +95,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
       width: double.infinity,
       child: Column(
         children: <Widget>[
-          _buildUserImage('assets/images/andrea_profile.png'),
+          _buildUserImage('assets/images/mockup/andrea_profile.png'),
           _buildUserName(user.name),
           _buildUserSubHeadline(user.school),
           _buildUserSubHeadline(user.city),
@@ -202,9 +205,16 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
               ),
             ],
           ),
-          ...itemsToShow.map((e) => Padding(
+          ...itemsToShow.map(
+            (e) => Padding(
               padding: EdgeInsets.symmetric(vertical: 6.0),
-              child: PoliferieItemCard(e))),
+              child: PoliferieItemCard(
+                e,
+                isFavorite: favoriteList.contains(e.id),
+                onSetFavorite: () => _updateFavorites(toggleIndex: e.id),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -297,7 +307,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             create: (context) => itm.ItemBloc(itemRepository: RepositoryProvider.of<ItemRepository>(context)),
           ),
         ],
-        child: ProfileScreenBody(),
+        child: ProfileScreenBody(favoritesRepository: RepositoryProvider.of<FavoritesRepository>(context)),
       ),
     );
   }

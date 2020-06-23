@@ -11,6 +11,7 @@ abstract class Styles {
   static const Color poliferieGreen = Color.fromRGBO(113, 193, 179, 1.0);
   static const Color poliferieYellow = Color.fromRGBO(248, 192, 43, 1.0);
   static const Color poliferieGrey = Color.fromRGBO(226, 226, 226, 1.0);
+  static const Color poliferiePink = Color.fromRGBO(229, 99, 153, 1.0);
 
   // Colors used for texts.
   static const Color poliferieLightGrey = Color.fromRGBO(0, 0, 0, 0.25);
@@ -33,6 +34,23 @@ abstract class Styles {
     color: poliferieLightBlack,
     fontFamily: 'Montserrat',
     fontSize: 22,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w300,
+  );
+
+  static const headlineWhite = TextStyle(
+    color: poliferieWhite,
+    fontFamily: 'Montserrat',
+    fontSize: 48,
+    height: 1.3,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const subHeadlineWhite = TextStyle(
+    color: poliferieWhite,
+    fontFamily: 'Montserrat',
+    fontSize: 18,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.w300,
   );
@@ -111,9 +129,9 @@ abstract class Styles {
 
   static const filterName = TextStyle(
     color: poliferieLightBlack,
-    fontFamily: 'Lato',
-    fontSize: 18.0,
-    fontWeight: FontWeight.w300,
+    fontFamily: 'Montserrat',
+    fontSize: 16.0,
+    fontWeight: FontWeight.w600,
   );
 
   static const filterHeadline = TextStyle(

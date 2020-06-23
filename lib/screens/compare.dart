@@ -121,7 +121,7 @@ class _CompareScreenState extends State<CompareScreen> {
   Widget _buildFloatingButton(BuildContext context) {
     return Padding(
       padding: EdgeInsetsDirectional.only(
-          bottom: MediaQuery.of(context).padding.bottom + 5),
+          bottom: MediaQuery.of(context).padding.bottom + 10),
       child: PoliferieFloatingButton(
         text: Strings.compareAction,
         activeColor: Styles.poliferieBlue,

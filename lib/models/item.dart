@@ -63,6 +63,12 @@ class ItemModel extends Equatable {
   @override
   List<Object> get props => [id];
 
+  static ItemType selectType(String type) {
+    if (type == 'course') return ItemType.course;
+    if (type == 'university') return ItemType.university;
+    return ItemType.course;
+  }
+
   factory ItemModel.fromJson(Map<String, dynamic> json) {
     final List<dynamic> stats = json["stats"];
 

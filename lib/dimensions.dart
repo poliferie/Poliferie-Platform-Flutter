@@ -18,7 +18,7 @@ class AppDimensions {
   static const EdgeInsets bodyPadding = EdgeInsets.fromLTRB(
       bodyPaddingLeft, bodyPaddingTop, bodyPaddingRight, bodyPaddingBottom);
   static const EdgeInsets subHeadlinePadding =
-      EdgeInsets.fromLTRB(0, 20.0, 0, 20.0);
+      EdgeInsets.fromLTRB(0, 20.0, 0, 0.0);
 
   static const EdgeInsets searchBodyPadding =
       EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 1.0);
