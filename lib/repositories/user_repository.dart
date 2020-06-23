@@ -1,28 +1,27 @@
 import 'dart:async';
 import 'package:meta/meta.dart';
+import 'package:async/async.dart';
 
+import 'package:Poliferie.io/providers/api_provider.dart';
 import 'package:Poliferie.io/models/user.dart';
-import 'package:Poliferie.io/repositories/user_client.dart';
-import 'package:Poliferie.io/repositories/user_cache.dart';
 
 class UserRepository {
-  final UserClient userClient;
-  final UserCache userCache;
+  final ApiProvider apiProvider;
+  final AsyncCache<User> Function() cacheConstructor;
+  final Map<String, AsyncCache<User>> cache;
 
-  UserRepository({@required this.userClient, @required this.userCache})
-      : assert(userClient != null),
-        assert(userCache != null);
+  UserRepository({@required this.apiProvider, cacheDuration}) 
+    : cacheConstructor = (() => AsyncCache<User>(Duration(hours: cacheDuration ?? 12))),
+      cache = {}, 
+      assert(apiProvider != null);
 
-  // TODO(@amerlo): cache management:
-  // * use tag for cache version control
-  // * when something update the state, call flush function here
-  Future<User> fetch(String userName) async {
-    if (!userCache.isEmpty()) {
-      return userCache.get();
-    } else {
-      final _user = await userClient.fetch(userName);
-      userCache.set(_user);
-      return _user;
-    }
+  Future<User> _getByUsername(String username) async {
+    final returnedJson = await apiProvider.fetch('users/$username');
+    return User.fromJson(returnedJson);
+  }
+
+  Future<User> getByUsername(String username) async {
+    cache.putIfAbsent(username, cacheConstructor);
+    return await cache[username].fetch(() => _getByUsername(username));
   }
 }

@@ -1,8 +1,12 @@
+import 'package:Poliferie.io/bloc/article.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 import 'package:Poliferie.io/models/article.dart';
 import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/repositories/repositories.dart';
+import 'package:Poliferie.io/bloc/article_bloc.dart';
 
 class PoliferieArticle extends StatelessWidget {
   final Article article;
@@ -50,7 +54,7 @@ class PoliferieArticle extends StatelessWidget {
   Widget _buildArticle() {
     return MarkdownBody(
       data: article.bodyMarkdownSource,
-      styleSheet: MarkdownStyleSheet(textScaleFactor: 1.5),
+      styleSheet: MarkdownStyleSheet(textScaleFactor: 1.1),
       fitContent: false,
       // TODO(@ferrarodav): textScaleFactor = 1.5 is not too much? I would leave 1.0...
       // selectable: true, // TODO(@ferrarodav): understand why if selectable "textScaleFactor" doesn't work
@@ -74,7 +78,7 @@ class PoliferieArticle extends StatelessWidget {
     );
   }
 
-  void Function() bottomSheetCaller(BuildContext context) {
+  static void Function() _bottomSheetCaller(BuildContext context, Widget body) {
     return () {
       showModalBottomSheet(
           context: context,
@@ -88,9 +92,48 @@ class PoliferieArticle extends StatelessWidget {
                 minChildSize: 0.25,
                 builder: (BuildContext context, ScrollController controller) {
                   return SingleChildScrollView(
-                      controller: controller, child: this);
+                    controller: controller, 
+                    child: body,
+                  );
                 });
           });
     };
+  }
+
+  static Widget _lazyBodyBuilder(BuildContext context, int articleId) {
+    return BlocProvider<ArticleBloc>(
+      create: (context) {
+        final ArticleBloc bloc = ArticleBloc(articleRepository: RepositoryProvider.of<ArticleRepository>(context));
+        bloc.add(FetchArticle(articleId));
+        return bloc;
+      },
+      child: BlocBuilder<ArticleBloc, ArticleState>(
+        builder: (BuildContext context, ArticleState state) {
+          if (state is FetchStateLoading) {
+            return SizedBox(
+              height: MediaQuery.of(context).size.height*0.4,
+              child: Center(
+                child: CircularProgressIndicator()
+              ),
+            );
+          }
+          if (state is FetchStateError) {
+            return Text(state.error);
+          }
+          if (state is FetchStateSuccess) {
+            return PoliferieArticle(article: state.article);
+          }
+          return Text('This widge should never be reached');
+        },
+      ),
+    );
+  }
+
+  void Function() bottomSheetCaller(BuildContext context) {
+    return _bottomSheetCaller(context, this);
+  }
+
+  static void Function() lazyBottomSheetCaller(BuildContext context, int articleId) {
+    return _bottomSheetCaller(context, _lazyBodyBuilder(context, articleId));
   }
 }

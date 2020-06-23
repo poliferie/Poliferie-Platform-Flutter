@@ -18,13 +18,13 @@ class Article extends Equatable {
   });
 
   @override
-  List<Object> get props => [id, image, title, subtitle, bodyMarkdownSource];
+  List<Object> get props => [id];
 
   // Constructor from Json file
   factory Article.fromJson(Map<String, dynamic> json) {
     return Article(
       id: json['id'],
-      image: NetworkImage(json['imageUrl'], scale: 1.0),
+      image: json['image'].toString().startsWith('http') ? NetworkImage(json['image'], scale: 1.0) : AssetImage(json['image']),
       title: json['title'],
       subtitle: json['subtitle'],
       bodyMarkdownSource: json['body'],

@@ -39,7 +39,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
     if (event is FetchItem) {
       yield FetchStateLoading();
       try {
-        final ItemModel item = await itemRepository.fetch(event.itemId);
+        final ItemModel item = await itemRepository.getById(event.itemId);
         yield FetchStateSuccess(item);
       } catch (error) {
         yield FetchStateError(error.message);

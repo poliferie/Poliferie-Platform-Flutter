@@ -5,9 +5,9 @@ class CardInfo extends Equatable {
   final String image;
   final String title;
   final String subtitle;
-  final String text;
+  final String linksTo;
 
-  const CardInfo(this.id, {this.image, this.title, this.subtitle, this.text});
+  const CardInfo(this.id, {this.image, this.title, this.subtitle, this.linksTo});
 
   @override
   List<Object> get props => [id];
@@ -19,7 +19,7 @@ class CardInfo extends Equatable {
       image: json['image'],
       title: json['title'],
       subtitle: json['subtitle'],
-      text: json['text'],
+      linksTo: json['linksTo'],
     );
   }
 }

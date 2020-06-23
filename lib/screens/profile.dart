@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_item_card.dart';
 import 'package:Poliferie.io/bloc/user.dart';
+import 'package:Poliferie.io/providers/providers.dart';
 import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/bloc/item.dart' as itm;
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
@@ -12,15 +13,6 @@ import 'package:Poliferie.io/utils.dart';
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
-
-// TODO(@amerlo): Where the repositories have to be declared?
-final ItemRepository itemRepository =
-    ItemRepository(itemClient: ItemClient(useLocalJson: true));
-
-final UserRepository profileRepository = UserRepository(
-  userClient: UserClient(useLocalJson: true),
-  userCache: UserCache(),
-);
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key}) : super(key: key);
@@ -60,7 +52,8 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
   }
 
   void _setFavoriteItems() async {
-    final List<int> favorites = await getPersistenceList('favorites');
+    // TODO(@ferrarodav): cannot use dependency injection to get the repository declared in `base.dart`. Better method?
+    final List<int> favorites = await FavoritesRepository(localProvider: LocalProvider()).get();
     setState(() {
       favoriteList = favorites;
     });
@@ -271,7 +264,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
 
   Widget build(BuildContext context) {
     final UserBloc _userBloc = BlocProvider.of<UserBloc>(context);
-    _userBloc.add(FetchUser());
+    _userBloc.add(FetchUser(userName: 'test'));
 
     return BlocBuilder<UserBloc, UserState>(
       builder: (BuildContext context, UserState state) {
@@ -298,10 +291,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: MultiBlocProvider(
         providers: [
           BlocProvider<UserBloc>(
-            create: (context) => UserBloc(userRepository: profileRepository),
+            create: (context) => UserBloc(userRepository: RepositoryProvider.of<UserRepository>(context)),
           ),
           BlocProvider<itm.ItemBloc>(
-            create: (context) => itm.ItemBloc(itemRepository: itemRepository),
+            create: (context) => itm.ItemBloc(itemRepository: RepositoryProvider.of<ItemRepository>(context)),
           ),
         ],
         child: ProfileScreenBody(),

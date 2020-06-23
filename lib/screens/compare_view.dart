@@ -14,10 +14,6 @@ import 'package:Poliferie.io/styles.dart';
 
 // TODO(@amerlo): Include test to check that we receive at least two items.
 
-// TODO(@amerlo): Where the repositories have to be declared?
-final ItemRepository itemRepository =
-    ItemRepository(itemClient: ItemClient(useLocalJson: true));
-
 class CompareViewScreen extends StatefulWidget {
   // Items to compare
   final List<SearchSuggestion> queryItems;
@@ -304,7 +300,7 @@ class _CompareViewScreenState extends State<CompareViewScreen> {
       // TODO(@amerlo): We would like to remove the settings icon here
       appBar: PoliferieAppBar(),
       body: BlocProvider<ItemBloc>(
-        create: (context) => ItemBloc(itemRepository: itemRepository),
+        create: (context) => ItemBloc(itemRepository: RepositoryProvider.of<ItemRepository>(context)),
         child: CompareViewScreenBody(widget.queryItems),
       ),
     );

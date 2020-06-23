@@ -6,20 +6,48 @@ import 'package:Poliferie.io/strings.dart';
 
 import 'package:Poliferie.io/screens/base.dart';
 
+import 'package:Poliferie.io/providers/providers.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:Poliferie.io/repositories/repositories.dart';
+
 class PoliferieApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: Strings.appTitle,
-      theme: ThemeData(
-          primarySwatch: Colors.red,
-          primaryColor: Styles.poliferieRed,
-          fontFamily: 'Lato',
-          backgroundColor: Styles.poliferieWhite,
-          scaffoldBackgroundColor: Styles.poliferieWhite),
-      home: BaseScreen(),
+    final ApiProvider apiProvider = ApiProvider(mockup: true);
+    final LocalProvider localProvider = LocalProvider();
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<CardRepository>(
+          create: (context) => CardRepository(apiProvider: apiProvider),
+        ),
+        RepositoryProvider<ArticleRepository>(
+          create: (context) => ArticleRepository(apiProvider: apiProvider),
+        ),
+        RepositoryProvider<ItemRepository>(
+          create: (context) => ItemRepository(apiProvider: apiProvider),
+        ),
+        RepositoryProvider<SearchRepository>(
+          create: (context) => SearchRepository(apiProvider: apiProvider, localProvider: localProvider),
+        ),
+        RepositoryProvider<UserRepository>(
+          create: (context) => UserRepository(apiProvider: apiProvider),
+        ),
+        RepositoryProvider<FavoritesRepository>(
+          create: (context) => FavoritesRepository(localProvider: localProvider),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: Strings.appTitle,
+        theme: ThemeData(
+            primarySwatch: Colors.red,
+            primaryColor: Styles.poliferieRed,
+            fontFamily: 'Lato',
+            backgroundColor: Styles.poliferieWhite,
+            scaffoldBackgroundColor: Styles.poliferieWhite),
+        home: BaseScreen(),
+      ),
     );
   }
 }

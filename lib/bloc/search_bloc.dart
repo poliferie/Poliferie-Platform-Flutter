@@ -11,7 +11,7 @@ import 'package:Poliferie.io/models/item.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final SearchRepository searchRepository;
 
-  SearchBloc({this.searchRepository}) : assert(searchRepository != null);
+  SearchBloc({this.searchRepository});// : assert(searchRepository != null);
 
   @override
   Stream<SearchState> transformEvents(
@@ -43,7 +43,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       yield SearchStateLoading();
       try {
         final List<SearchSuggestion> suggestions =
-            await searchRepository.fetchSuggestions(searchText);
+            await searchRepository.suggest(searchText);
         yield SuggestionStateSuccess(suggestions);
       } catch (error) {
         yield SearchStateError(error.message);
@@ -53,7 +53,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       yield SearchStateLoading();
       try {
         final List<ItemModel> results =
-            await searchRepository.fetchSearch(searchText);
+            await searchRepository.search(searchText);
         yield SearchStateSuccess(results);
       } catch (error) {
         yield SearchStateError(error.message);

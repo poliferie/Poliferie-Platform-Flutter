@@ -1,4 +1,3 @@
-import 'package:Poliferie.io/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/styles.dart';
@@ -6,6 +5,7 @@ import 'package:Poliferie.io/icons.dart';
 import 'package:Poliferie.io/dimensions.dart';
 
 import 'package:Poliferie.io/screens/screens.dart';
+
 
 class BaseScreen extends StatefulWidget {
   @override

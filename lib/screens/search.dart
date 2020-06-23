@@ -8,7 +8,6 @@ import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/models/item.dart';
 import 'package:Poliferie.io/bloc/search_event.dart';
 import 'package:Poliferie.io/bloc/search_state.dart';
-import 'package:Poliferie.io/repositories/search_client.dart';
 import 'package:Poliferie.io/bloc/search_bloc.dart';
 import 'package:Poliferie.io/repositories/search_repository.dart';
 import 'package:Poliferie.io/icons.dart';
@@ -109,9 +108,6 @@ class PoliferieSearchDelegate extends SearchDelegate {
     );
   }
 }
-
-final SearchRepository searchRepository =
-    SearchRepository(searchClient: SearchClient(useLocalJson: true));
 
 class SearchScreen extends StatefulWidget {
   SearchScreen({Key key}) : super(key: key);
@@ -252,7 +248,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SearchBloc>(
-      create: (context) => SearchBloc(searchRepository: searchRepository),
+      create: (context) => SearchBloc(searchRepository: RepositoryProvider.of<SearchRepository>(context)),
       child: SearchScreenBody(),
     );
   }

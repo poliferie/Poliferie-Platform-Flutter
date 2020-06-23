@@ -1,4 +1,5 @@
 import 'package:Poliferie.io/bloc/search_bloc.dart';
+import 'package:Poliferie.io/providers/providers.dart';
 import 'package:Poliferie.io/widgets/poliferie_item_card.dart';
 import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
 import 'package:flutter/material.dart';
@@ -7,16 +8,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
-import 'package:Poliferie.io/utils.dart';
 
 import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/bloc/search.dart';
 import 'package:Poliferie.io/models/models.dart';
 import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
-
-// TODO(@amerlo): Where the repositories have to be declared?
-final SearchRepository searchRepository =
-    SearchRepository(searchClient: SearchClient(useLocalJson: true));
 
 class ResultsScreen extends StatefulWidget {
   // TODO(@amerlo): We should create a search state object and pass it here
@@ -40,7 +36,7 @@ class ResultsScreenBody extends StatefulWidget {
 }
 
 class _ResultsScreenBodyState extends State<ResultsScreenBody> {
-  List<dynamic> _favoriteItems = null;
+  List<dynamic> _favoriteItems;
 
   @override
   void initState() {
@@ -49,9 +45,10 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
   }
 
   void _setFavoriteItems() async {
-    final List<dynamic> storedFavorites = await getPersistenceList('favorites');
+    // TODO(@ferrarodav): cannot use dependency injection to get the repository declared in `base.dart`. Better method?
+    final List<int> favorites = await FavoritesRepository(localProvider: LocalProvider()).get();
     setState(() {
-      _favoriteItems = storedFavorites;
+      _favoriteItems = favorites;
     });
   }
 
@@ -84,16 +81,13 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
       padding: EdgeInsets.all(6.0),
       child: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border,
           color: Styles.poliferieRed, size: 40),
-      onPressed: () {
+      onPressed: () async {
         setState(() {
-          if (!_isFavorite) {
-            _favoriteItems.add(id);
-            addToPersistenceList('favorites', id);
-          } else {
-            _favoriteItems.remove(id);
-            removeFromPersistenceList('favorites', id);
-          }
+          if (!_isFavorite) _favoriteItems.add(id);
+          else _favoriteItems.remove(id);
         });
+        if (!_isFavorite) await RepositoryProvider.of<FavoritesRepository>(context).add(id);
+        else await RepositoryProvider.of<FavoritesRepository>(context).remove(id);
       },
     );
   }
@@ -223,7 +217,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider<SearchBloc>(
-        create: (context) => SearchBloc(searchRepository: searchRepository),
+        create: (context) => SearchBloc(searchRepository: RepositoryProvider.of<SearchRepository>(context)),
         child: ResultsScreenBody(widget.query),
       ),
     );

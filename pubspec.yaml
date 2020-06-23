@@ -73,6 +73,9 @@ flutter:
     - assets/images/
     - assets/data/
     - assets/data/mockup/
+    - assets/data/mockup/users/
+    - assets/data/mockup/items/
+    - assets/data/mockup/articles/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

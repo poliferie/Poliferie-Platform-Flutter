@@ -39,7 +39,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       final String _userName = event.userName;
       yield FetchStateLoading();
       try {
-        final User user = await userRepository.fetch(_userName);
+        final User user = await userRepository.getByUsername(_userName);
         yield FetchStateSuccess(user);
       } catch (error) {
         yield FetchStateError(error.message);

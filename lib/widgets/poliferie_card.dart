@@ -5,6 +5,8 @@ import 'package:Poliferie.io/models/card.dart';
 import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/styles.dart';
 
+import 'package:Poliferie.io/widgets/poliferie_article.dart';
+
 // TODO(@amerlo): Add support for card and text color
 
 enum CardOrientation { horizontal, vertical }
@@ -16,9 +18,26 @@ class PoliferieCard extends StatelessWidget {
   final Color color;
 
   const PoliferieCard(this.card,
-      {this.onTap,
-      this.orientation: CardOrientation.vertical,
-      this.color: Styles.poliferieWhite});
+    {this.onTap: _dummyTapFn,
+    this.orientation: CardOrientation.vertical,
+    this.color: Styles.poliferieWhite});
+
+  static void _dummyTapFn() {}
+
+  void Function() handleTap(BuildContext context) {
+    if (onTap == _dummyTapFn) {
+      if (card.linksTo.length > 0 && card.linksTo.split(':').length == 2) {
+        List link = card.linksTo.split(':');
+        if (link[0] == 'articles') {
+          return PoliferieArticle.lazyBottomSheetCaller(context, int.parse(link[1]));
+        } else if (link[0] == 'search') {
+          // navigate to search with some preset (ex. search:regione -> go to search with same regione filter)
+        }
+      }
+      return () {};
+    }
+    return onTap;
+  }
 
   Widget _buildCard(BuildContext context) {
     // Build child for vertical extended card
@@ -43,6 +62,7 @@ class PoliferieCard extends StatelessWidget {
     if (orientation == CardOrientation.horizontal) {
       _child = Container(
         // TODO(@amerlo): Fix card width
+        // TODO(@ferrarodav): Make scrollable horizontal? (like spotify app)
         height: MediaQuery.of(context).size.width * 0.33,
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
         child: Row(
@@ -79,7 +99,7 @@ class PoliferieCard extends StatelessWidget {
       );
     }
     return GestureDetector(
-      onTap: onTap,
+      onTap: handleTap(context),
       child: Card(
         color: color,
         elevation: 8.0,

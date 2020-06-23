@@ -1,4 +1,3 @@
-import 'package:Poliferie.io/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -12,10 +11,7 @@ import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/bloc/item.dart';
 import 'package:Poliferie.io/models/models.dart';
 import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
-
-// TODO(@amerlo): Where the repositories have to be declared?
-final ItemRepository itemRepository =
-    ItemRepository(itemClient: ItemClient(useLocalJson: true));
+import 'package:Poliferie.io/providers/local_provider.dart';
 
 class ItemScreen extends StatefulWidget {
   /// This [id] is the requested id from the frontend
@@ -38,19 +34,33 @@ class ItemScreenBody extends StatefulWidget {
 }
 
 class _ItemScreenBodyState extends State<ItemScreenBody> {
-  bool _isFavorite = false;
+  bool _isFavorite;
 
   @override
   void initState() {
     super.initState();
-    _setFavoriteItems();
+    _setIsFavorite();
   }
 
-  void _setFavoriteItems() async {
-    final List<int> storedFavorites = await getPersistenceList('favorites');
+  void _setIsFavorite() async {
+    // TODO(@ferrarodav): cannot use dependency injection to get the repository declared in `base.dart`. Better method?
+    final isFavorite = await FavoritesRepository(localProvider: LocalProvider()).contains(widget.id);
     setState(() {
-      _isFavorite = storedFavorites.contains(widget.id);
+      _isFavorite = isFavorite;
     });
+  }
+
+  void Function() _toggleFavorite(BuildContext context) {
+    return () async {
+      setState(() {
+        _isFavorite = !_isFavorite;
+      });
+      if (_isFavorite) {
+        await RepositoryProvider.of<FavoritesRepository>(context).add(widget.id);
+      } else {
+        await RepositoryProvider.of<FavoritesRepository>(context).remove(widget.id);
+      }
+    };
   }
 
   Widget _buildBackButton(BuildContext context) {
@@ -101,16 +111,7 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
         padding: EdgeInsets.all(6.0),
         child: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border,
             color: Styles.poliferieRed, size: 40),
-        onPressed: () {
-          setState(() {
-            _isFavorite = !_isFavorite;
-            if (_isFavorite) {
-              addToPersistenceList('favorites', widget.id);
-            } else {
-              removeFromPersistenceList('favorites', widget.id);
-            }
-          });
-        },
+        onPressed: _toggleFavorite(context),
       ),
     );
   }
@@ -332,7 +333,7 @@ class _ItemScreenState extends State<ItemScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider<ItemBloc>(
-        create: (context) => ItemBloc(itemRepository: itemRepository),
+        create: (context) => ItemBloc(itemRepository: RepositoryProvider.of<ItemRepository>(context)),
         child: ItemScreenBody(widget.id),
       ),
     );

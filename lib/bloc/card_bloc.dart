@@ -38,7 +38,7 @@ class CardBloc extends Bloc<CardEvent, CardState> {
     if (event is FetchCards) {
       yield FetchStateLoading();
       try {
-        final List<CardInfo> cards = await cardRepository.fetch();
+        final List<CardInfo> cards = await cardRepository.getAll();
         yield FetchStateSuccess(cards);
       } catch (error) {
         yield FetchStateError(error.message);

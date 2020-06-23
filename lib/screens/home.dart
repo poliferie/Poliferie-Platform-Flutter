@@ -31,11 +31,6 @@ final _coursesCard = CardInfo(42,
 final _universitiesCard = CardInfo(43,
     image: 'assets/images/squadra.png', title: Strings.cardUniversities);
 
-// TODO(@amerlo): Where the repository have to be declared?
-final CardRepository cardRepository = CardRepository(
-  cardClient: CardClient(useLocalJson: true),
-);
-
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
 
@@ -89,11 +84,7 @@ class HomeScreenBody extends StatelessWidget {
 
   Widget _buildBody(BuildContext context, List<CardInfo> cards) {
     List<PoliferieCard> _cards = cards
-        .map((card) => PoliferieCard(
-              card,
-              onTap: _fetchPoliferieArticle(context, card: card),
-              orientation: CardOrientation.horizontal,
-            ))
+        .map((card) => PoliferieCard(card, orientation: CardOrientation.horizontal))
         .toList();
     _cards.insertAll(0, [_howToCard]);
     final double _bottomPadding = MediaQuery.of(context).padding.bottom +
@@ -139,21 +130,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: PoliferieAppBar(),
       body: BlocProvider<CardBloc>(
-        create: (context) => CardBloc(cardRepository: cardRepository),
+        create: (context) => CardBloc(
+          cardRepository: RepositoryProvider.of<CardRepository>(context)
+        ),
         child: HomeScreenBody(),
       ),
     );
   }
-}
-
-// TODO(@amerlo): Markdown visualization has to be fixed
-void Function() _fetchPoliferieArticle(BuildContext context, {CardInfo card}) {
-  return PoliferieArticle(
-    article: Article(
-        id: card.id,
-        title: card.title,
-        subtitle: card.subtitle,
-        image: AssetImage(card.image),
-        bodyMarkdownSource: card.text),
-  ).bottomSheetCaller(context);
 }
