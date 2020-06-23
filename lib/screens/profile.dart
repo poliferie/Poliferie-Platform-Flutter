@@ -235,7 +235,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
               child: PoliferieItemCard(
                 e,
                 isFavorite: favoriteList.contains(e.id),
-                onSetFavorite: _updateFavorite,
+                onSetFavorite: () => _updateFavorite(e.id),
               ),
             ),
           ),

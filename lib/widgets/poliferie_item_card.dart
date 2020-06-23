@@ -45,7 +45,7 @@ class PoliferieItemCard extends StatelessWidget {
     return IconButton(
       icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border,
           color: Styles.poliferieRed, size: 32),
-      onPressed: onSetFavorite(item.id),
+      onPressed: onSetFavorite,
     );
   }
 
@@ -118,7 +118,7 @@ class PoliferieItemCard extends StatelessWidget {
 
   // TODO(@amerlo): We could add a longTap to show a bottom screen with a preview for that course
   Widget _buildCard(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
