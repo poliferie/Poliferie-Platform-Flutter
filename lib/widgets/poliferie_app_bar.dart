@@ -19,7 +19,8 @@ class PoliferieAppBar extends StatelessWidget implements PreferredSizeWidget {
       : super(key: key);
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight + (bottom?.preferredSize?.height ?? 0.0));
+  Size get preferredSize =>
+      Size.fromHeight(kToolbarHeight + (bottom?.preferredSize?.height ?? 0.0));
   /*{
     if (bottom == null) return Size.fromHeight(AppBar().preferredSize.height);
     return Size.fromHeight(AppBar().preferredSize.height * 2);
@@ -39,16 +40,12 @@ class PoliferieAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Styles.poliferieRed,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Image.asset(
-            'assets/images/PF_Logo_White.png',
-            fit: BoxFit.cover,
-            height: 35.0,
-          )
-        ],
+      title: Image.asset(
+        'assets/images/PF_Logo_White.png',
+        fit: BoxFit.cover,
+        height: 35.0,
       ),
+      automaticallyImplyLeading: false,
       bottom: bottom,
       actions: <Widget>[_actions(icon)],
     );
