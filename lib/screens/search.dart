@@ -159,7 +159,7 @@ class _FiltersBodyState extends State<FiltersBody> {
   Map<int, Filter> universityFilters = Map();
   Map<int, FilterStatus> universityStatus = Map();
   Map<int, Function> universityUpdate = Map();
-  
+
   // TODO(@amerlo): Could we avoid to duplicate code between here and the
   //                status inside PoliferieFilter?
   void updateFilterStatus(int index, FilterType type, dynamic newValue) {
@@ -184,7 +184,7 @@ class _FiltersBodyState extends State<FiltersBody> {
         } else {
           RangeValues newRangeValues = (newValue as RangeValues);
           allStatus[index].values = [newRangeValues.start, newRangeValues.end];
-         }
+        }
       }
     });
   }
@@ -194,8 +194,8 @@ class _FiltersBodyState extends State<FiltersBody> {
     super.initState();
     setState(() {
       allFilters = widget.filters.asMap();
-      allStatus = allFilters.map(
-          (i, f) => MapEntry(i, FilterStatus.initStatus(f.type, f.range)));
+      allStatus = allFilters
+          .map((i, f) => MapEntry(i, FilterStatus.initStatus(f.type, f.range)));
       allUpdate = allStatus.map((i, s) => MapEntry(
           i,
           (FilterType type, dynamic newValue) =>
@@ -234,8 +234,8 @@ class _FiltersBodyState extends State<FiltersBody> {
       Map<int, Function> updates,
       ItemType tabType) {
     final double containerWidth = MediaQuery.of(context).size.width -
-        AppDimensions.searchBodyPadding.left -
-        AppDimensions.searchBodyPadding.right;
+        AppDimensions.bodyPadding.left -
+        AppDimensions.bodyPadding.right;
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
       padding: EdgeInsets.only(
@@ -296,11 +296,10 @@ class _FiltersBodyState extends State<FiltersBody> {
 }
 
 class _SearchScreenBodyState extends State<SearchScreenBody> {
-
   Widget _buildFilterHeading() {
     return Text(
       Strings.searchFilterHeading,
-      style: Styles.tabHeading,
+      style: Styles.headline,
     );
   }
 
@@ -309,7 +308,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
       padding: AppDimensions.subHeadlinePadding,
       child: Text(
         Strings.searchFilterIntro,
-        style: Styles.tabDescription,
+        style: Styles.subHeadline,
       ),
     );
   }
@@ -340,7 +339,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
     return DefaultTabController(
       length: 2,
       child: Container(
-        padding: AppDimensions.searchBodyPadding,
+        padding: AppDimensions.bodyPadding,
         height: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -382,10 +381,14 @@ class _SearchScreenState extends State<SearchScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<SearchBloc>(
-          create: (BuildContext context) => SearchBloc(searchRepository: RepositoryProvider.of<SearchRepository>(context)),
+          create: (BuildContext context) => SearchBloc(
+              searchRepository:
+                  RepositoryProvider.of<SearchRepository>(context)),
         ),
         BlocProvider<FilterBloc>(
-          create: (BuildContext context) => FilterBloc(filterRepository: RepositoryProvider.of<FilterRepository>(context)),
+          create: (BuildContext context) => FilterBloc(
+              filterRepository:
+                  RepositoryProvider.of<FilterRepository>(context)),
         ),
       ],
       child: SearchScreenBody(),

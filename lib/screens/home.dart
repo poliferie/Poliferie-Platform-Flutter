@@ -90,7 +90,8 @@ class HomeScreenBody extends StatelessWidget {
     );
 
     List<PoliferieCard> _cards = cards
-        .map((card) => PoliferieCard(card, orientation: CardOrientation.horizontal))
+        .map((card) =>
+            PoliferieCard(card, orientation: CardOrientation.horizontal))
         .toList();
     _cards.insertAll(0, [_howToCard]);
     final double _bottomPadding = MediaQuery.of(context).padding.bottom +
@@ -137,8 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: PoliferieAppBar(),
       body: BlocProvider<CardBloc>(
         create: (context) => CardBloc(
-          cardRepository: RepositoryProvider.of<CardRepository>(context)
-        ),
+            cardRepository: RepositoryProvider.of<CardRepository>(context)),
         child: HomeScreenBody(),
       ),
     );

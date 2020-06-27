@@ -206,7 +206,7 @@ class _CompareScreenState extends State<CompareScreen> {
     return DefaultTabController(
       length: 2,
       child: Container(
-        padding: AppDimensions.searchBodyPadding,
+        padding: AppDimensions.bodyPadding,
         height: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

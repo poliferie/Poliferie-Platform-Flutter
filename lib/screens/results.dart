@@ -46,7 +46,8 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
 
   void _setFavoriteItems() async {
     // TODO(@ferrarodav): cannot use dependency injection to get the repository declared in `base.dart`. Better method?
-    final List<int> favorites = await FavoritesRepository(localProvider: LocalProvider()).get();
+    final List<int> favorites =
+        await FavoritesRepository(localProvider: LocalProvider()).get();
     setState(() {
       _favoriteItems = favorites;
     });
@@ -83,11 +84,15 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
           color: Styles.poliferieRed, size: 40),
       onPressed: () async {
         setState(() {
-          if (!_isFavorite) _favoriteItems.add(id);
-          else _favoriteItems.remove(id);
+          if (!_isFavorite)
+            _favoriteItems.add(id);
+          else
+            _favoriteItems.remove(id);
         });
-        if (!_isFavorite) await RepositoryProvider.of<FavoritesRepository>(context).add(id);
-        else await RepositoryProvider.of<FavoritesRepository>(context).remove(id);
+        if (!_isFavorite)
+          await RepositoryProvider.of<FavoritesRepository>(context).add(id);
+        else
+          await RepositoryProvider.of<FavoritesRepository>(context).remove(id);
       },
     );
   }
@@ -173,7 +178,7 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
     return DefaultTabController(
       length: 2,
       child: Container(
-        padding: AppDimensions.searchBodyPadding,
+        padding: AppDimensions.bodyPadding,
         height: double.infinity,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -217,7 +222,8 @@ class _ResultsScreenState extends State<ResultsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider<SearchBloc>(
-        create: (context) => SearchBloc(searchRepository: RepositoryProvider.of<SearchRepository>(context)),
+        create: (context) => SearchBloc(
+            searchRepository: RepositoryProvider.of<SearchRepository>(context)),
         child: ResultsScreenBody(widget.query),
       ),
     );
