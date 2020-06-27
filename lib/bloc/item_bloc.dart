@@ -11,18 +11,18 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
 
   ItemBloc({this.itemRepository}) : assert(itemRepository != null);
 
-  @override
-  Stream<ItemState> transformEvents(
-    Stream<ItemEvent> events,
-    Stream<ItemState> Function(ItemEvent event) next,
-  ) {
-    return super.transformEvents(
-      events.debounceTime(
-        Duration(milliseconds: 500),
-      ),
-      next,
-    );
-  }
+  // @override
+  // Stream<ItemState> transformEvents(
+  //   Stream<ItemEvent> events,
+  //   Stream<ItemState> Function(ItemEvent event) next,
+  // ) {
+  //   return super.transformEvents(
+  //     events.debounceTime(
+  //       Duration(milliseconds: 500),
+  //     ),
+  //     next,
+  //   );
+  // }
 
   // TODO(@amerlo): Include more details for the transition here,
   //                log them somewhere.

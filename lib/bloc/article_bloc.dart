@@ -11,18 +11,18 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
 
   ArticleBloc({this.articleRepository}) : assert(articleRepository != null);
 
-  @override
-  Stream<ArticleState> transformEvents(
-    Stream<ArticleEvent> events,
-    Stream<ArticleState> Function(ArticleEvent event) next,
-  ) {
-    return super.transformEvents(
-      events.debounceTime(
-        Duration(milliseconds: 500),
-      ),
-      next,
-    );
-  }
+  // @override
+  // Stream<ArticleState> transformEvents(
+  //   Stream<ArticleEvent> events,
+  //   Stream<ArticleState> Function(ArticleEvent event) next,
+  // ) {
+  //   return super.transformEvents(
+  //     events.debounceTime(
+  //       Duration(milliseconds: 500),
+  //     ),
+  //     next,
+  //   );
+  // }
 
   // TODO(@amerlo): Include more details for the transition here
   @override

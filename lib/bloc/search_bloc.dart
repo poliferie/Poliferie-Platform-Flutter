@@ -13,18 +13,18 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   SearchBloc({this.searchRepository});// : assert(searchRepository != null);
 
-  @override
-  Stream<SearchState> transformEvents(
-    Stream<SearchEvent> events,
-    Stream<SearchState> Function(SearchEvent event) next,
-  ) {
-    return super.transformEvents(
-      events.debounceTime(
-        Duration(milliseconds: 500),
-      ),
-      next,
-    );
-  }
+  // @override
+  // Stream<SearchState> transformEvents(
+  //   Stream<SearchEvent> events,
+  //   Stream<SearchState> Function(SearchEvent event) next,
+  // ) {
+  //   return super.transformEvents(
+  //     events.debounceTime(
+  //       Duration(milliseconds: 500),
+  //     ),
+  //     next,
+  //   );
+  // }
 
   // TODO(@amerlo): Hook for state transition
   @override

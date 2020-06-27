@@ -11,10 +11,10 @@ import 'package:Poliferie.io/icons.dart';
 
 import 'package:Poliferie.io/models/filter.dart';
 import 'package:Poliferie.io/models/item.dart';
-import 'package:Poliferie.io/bloc/search_event.dart';
-import 'package:Poliferie.io/bloc/search_state.dart';
-import 'package:Poliferie.io/bloc/search_bloc.dart';
+import 'package:Poliferie.io/bloc/search.dart';
+import 'package:Poliferie.io/bloc/filter.dart';
 import 'package:Poliferie.io/repositories/search_repository.dart';
+import 'package:Poliferie.io/repositories/filter_repository.dart';
 import 'package:Poliferie.io/screens/item.dart';
 import 'package:Poliferie.io/screens/results.dart';
 
@@ -134,7 +134,16 @@ class SearchScreenBody extends StatefulWidget {
   _SearchScreenBodyState createState() => _SearchScreenBodyState();
 }
 
-class _SearchScreenBodyState extends State<SearchScreenBody> {
+class FiltersBody extends StatefulWidget {
+  final List filters;
+
+  FiltersBody({@required this.filters});
+
+  @override
+  _FiltersBodyState createState() => _FiltersBodyState();
+}
+
+class _FiltersBodyState extends State<FiltersBody> {
   // TODO(@amerlo): Use BLoC approach
   /// Map of all [Filter]
   Map<int, Filter> allFilters = Map();
@@ -150,7 +159,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
   Map<int, Filter> universityFilters = Map();
   Map<int, FilterStatus> universityStatus = Map();
   Map<int, Function> universityUpdate = Map();
-
+  
   // TODO(@amerlo): Could we avoid to duplicate code between here and the
   //                status inside PoliferieFilter?
   void updateFilterStatus(int index, FilterType type, dynamic newValue) {
@@ -175,7 +184,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
         } else {
           RangeValues newRangeValues = (newValue as RangeValues);
           allStatus[index].values = [newRangeValues.start, newRangeValues.end];
-        }
+         }
       }
     });
   }
@@ -183,27 +192,27 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
   @override
   void initState() {
     super.initState();
-    fetchFilters().then((l) => setState(() {
-          allFilters = l.asMap();
-          allStatus = allFilters.map(
-              (i, f) => MapEntry(i, FilterStatus.initStatus(f.type, f.range)));
-          allUpdate = allStatus.map((i, s) => MapEntry(
-              i,
-              (FilterType type, dynamic newValue) =>
-                  updateFilterStatus(i, type, newValue)));
-          allFilters.forEach((key, value) {
-            if (value.applyTo.contains(ItemType.course)) {
-              courseFilters[key] = value;
-              courseStatus[key] = allStatus[key];
-              courseUpdate[key] = allUpdate[key];
-            }
-            if (value.applyTo.contains(ItemType.university)) {
-              universityFilters[key] = value;
-              universityStatus[key] = allStatus[key];
-              universityUpdate[key] = allUpdate[key];
-            }
-          });
-        }));
+    setState(() {
+      allFilters = widget.filters.asMap();
+      allStatus = allFilters.map(
+          (i, f) => MapEntry(i, FilterStatus.initStatus(f.type, f.range)));
+      allUpdate = allStatus.map((i, s) => MapEntry(
+          i,
+          (FilterType type, dynamic newValue) =>
+              updateFilterStatus(i, type, newValue)));
+      allFilters.forEach((key, value) {
+        if (value.applyTo.contains(ItemType.course)) {
+          courseFilters[key] = value;
+          courseStatus[key] = allStatus[key];
+          courseUpdate[key] = allUpdate[key];
+        }
+        if (value.applyTo.contains(ItemType.university)) {
+          universityFilters[key] = value;
+          universityStatus[key] = allStatus[key];
+          universityUpdate[key] = allUpdate[key];
+        }
+      });
+    });
   }
 
   // TODO(@amerlo): Should we allow explore session with no filters selected?
@@ -264,6 +273,30 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
     );
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Stack(
+        alignment: AlignmentDirectional.bottomCenter,
+        children: <Widget>[
+          TabBarView(
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              _buildFilterList(context, courseFilters, courseStatus,
+                  courseUpdate, ItemType.course),
+              _buildFilterList(context, universityFilters, universityStatus,
+                  universityUpdate, ItemType.university),
+            ],
+          ),
+          _buildFloatingButton(context),
+        ],
+      ),
+    );
+  }
+}
+
+class _SearchScreenBodyState extends State<SearchScreenBody> {
+
   Widget _buildFilterHeading() {
     return Text(
       Strings.searchFilterHeading,
@@ -286,22 +319,20 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
   }
 
   Widget _buildTabBarBody(BuildContext context) {
-    return Expanded(
-      child: Stack(
-        alignment: AlignmentDirectional.bottomCenter,
-        children: <Widget>[
-          TabBarView(
-            physics: NeverScrollableScrollPhysics(),
-            children: [
-              _buildFilterList(context, courseFilters, courseStatus,
-                  courseUpdate, ItemType.course),
-              _buildFilterList(context, universityFilters, universityStatus,
-                  universityUpdate, ItemType.university),
-            ],
-          ),
-          _buildFloatingButton(context),
-        ],
-      ),
+    BlocProvider.of<FilterBloc>(context).add(FetchFilters());
+    return BlocBuilder<FilterBloc, FilterState>(
+      builder: (BuildContext context, FilterState state) {
+        if (state is FetchStateLoading) {
+          return CircularProgressIndicator();
+        }
+        if (state is FetchStateSuccess) {
+          return FiltersBody(filters: state.filters);
+        }
+        if (state is FetchStateError) {
+          return Text(state.error);
+        }
+        return Text('This widget should never be reached');
+      },
     );
   }
 
@@ -348,8 +379,15 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
 class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SearchBloc>(
-      create: (context) => SearchBloc(searchRepository: RepositoryProvider.of<SearchRepository>(context)),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SearchBloc>(
+          create: (BuildContext context) => SearchBloc(searchRepository: RepositoryProvider.of<SearchRepository>(context)),
+        ),
+        BlocProvider<FilterBloc>(
+          create: (BuildContext context) => FilterBloc(filterRepository: RepositoryProvider.of<FilterRepository>(context)),
+        ),
+      ],
       child: SearchScreenBody(),
     );
   }

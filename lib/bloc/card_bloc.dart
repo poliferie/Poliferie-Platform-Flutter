@@ -11,18 +11,18 @@ class CardBloc extends Bloc<CardEvent, CardState> {
 
   CardBloc({this.cardRepository}) : assert(cardRepository != null);
 
-  @override
-  Stream<CardState> transformEvents(
-    Stream<CardEvent> events,
-    Stream<CardState> Function(CardEvent event) next,
-  ) {
-    return super.transformEvents(
-      events.debounceTime(
-        Duration(milliseconds: 500),
-      ),
-      next,
-    );
-  }
+  // @override
+  // Stream<CardState> transformEvents(
+  //   Stream<CardEvent> events,
+  //   Stream<CardState> Function(CardEvent event) next,
+  // ) {
+  //   return super.transformEvents(
+  //     events.debounceTime(
+  //       Duration(milliseconds: 500),
+  //     ),
+  //     next,
+  //   );
+  // }
 
   // TODO(@amerlo): Include more details for the transition here
   @override

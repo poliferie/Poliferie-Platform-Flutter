@@ -19,6 +19,7 @@ class ApiProvider {
     if (mockup) {
       final completeUrl = 'assets/data/mockup/' + url + '.json'; // url.replaceAll('/', '_') + '.json';
       final data = await rootBundle.loadString(completeUrl);
+      await Future.delayed(Duration(seconds: 1));
       return json.decode(data);
     } else {
       final completeUrl = baseUrl + url;

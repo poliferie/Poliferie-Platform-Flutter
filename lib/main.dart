@@ -1,3 +1,4 @@
+import 'package:Poliferie.io/repositories/filter_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,6 +37,9 @@ class PoliferieApp extends StatelessWidget {
         ),
         RepositoryProvider<SearchRepository>(
           create: (context) => SearchRepository(apiProvider: apiProvider, localProvider: localProvider),
+        ),
+        RepositoryProvider<FilterRepository>(
+          create: (context) => FilterRepository(apiProvider: apiProvider),
         ),
         RepositoryProvider<UserRepository>(
           create: (context) => UserRepository(apiProvider: apiProvider),

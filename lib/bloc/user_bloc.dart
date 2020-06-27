@@ -11,18 +11,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   UserBloc({this.userRepository}) : assert(userRepository != null);
 
-  @override
-  Stream<UserState> transformEvents(
-    Stream<UserEvent> events,
-    Stream<UserState> Function(UserEvent event) next,
-  ) {
-    return super.transformEvents(
-      events.debounceTime(
-        Duration(milliseconds: 500),
-      ),
-      next,
-    );
-  }
+  // @override
+  // Stream<UserState> transformEvents(
+  //   Stream<UserEvent> events,
+  //   Stream<UserState> Function(UserEvent event) next,
+  // ) {
+  //   return super.transformEvents(
+  //     events.debounceTime(
+  //       Duration(milliseconds: 500),
+  //     ),
+  //     next,
+  //   );
+  // }
 
   // TODO(@amerlo): Hook for state transition
   @override
