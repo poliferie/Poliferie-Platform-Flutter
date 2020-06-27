@@ -13,13 +13,13 @@ class PoliferieArticle extends StatelessWidget {
 
   const PoliferieArticle({Key key, this.article}) : super(key: key);
 
-  Widget _buildImage() {
+  Widget _buildImage(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 20.0),
+        padding: EdgeInsets.only(bottom: 15.0),
         child: Image(
           image: article.image,
-          height: 150,
+          width: MediaQuery.of(context).size.width * 0.6,
           fit: BoxFit.cover,
         ),
       ),
@@ -68,7 +68,7 @@ class PoliferieArticle extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          if (article.image != null) _buildImage(),
+          if (article.image != null) _buildImage(context),
           _buildTitle(),
           if (article.subtitle != null) _buildSubTitle(),
           _buildDivider(),
@@ -92,7 +92,7 @@ class PoliferieArticle extends StatelessWidget {
                 minChildSize: 0.25,
                 builder: (BuildContext context, ScrollController controller) {
                   return SingleChildScrollView(
-                    controller: controller, 
+                    controller: controller,
                     child: body,
                   );
                 });
@@ -103,7 +103,9 @@ class PoliferieArticle extends StatelessWidget {
   static Widget _lazyBodyBuilder(BuildContext context, int articleId) {
     return BlocProvider<ArticleBloc>(
       create: (context) {
-        final ArticleBloc bloc = ArticleBloc(articleRepository: RepositoryProvider.of<ArticleRepository>(context));
+        final ArticleBloc bloc = ArticleBloc(
+            articleRepository:
+                RepositoryProvider.of<ArticleRepository>(context));
         bloc.add(FetchArticle(articleId));
         return bloc;
       },
@@ -111,10 +113,8 @@ class PoliferieArticle extends StatelessWidget {
         builder: (BuildContext context, ArticleState state) {
           if (state is FetchStateLoading) {
             return SizedBox(
-              height: MediaQuery.of(context).size.height*0.4,
-              child: Center(
-                child: CircularProgressIndicator()
-              ),
+              height: MediaQuery.of(context).size.height * 0.4,
+              child: Center(child: CircularProgressIndicator()),
             );
           }
           if (state is FetchStateError) {
@@ -133,7 +133,8 @@ class PoliferieArticle extends StatelessWidget {
     return _bottomSheetCaller(context, this);
   }
 
-  static void Function() lazyBottomSheetCaller(BuildContext context, int articleId) {
+  static void Function() lazyBottomSheetCaller(
+      BuildContext context, int articleId) {
     return _bottomSheetCaller(context, _lazyBodyBuilder(context, articleId));
   }
 }

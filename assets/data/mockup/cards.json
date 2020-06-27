@@ -12,5 +12,12 @@
         "subtitle": "Come finanziarsi gli studi",
         "image": "assets/images/squadra.png",
         "linksTo": "articles:2"
+    },
+    {
+        "id": 3,
+        "title": "La didattica dell’emergenza in famiglia",
+        "subtitle": "La resilienza delle famiglie",
+        "image": "assets/images/squadra.png",
+        "linksTo": "articles:3"
     }
 ]
