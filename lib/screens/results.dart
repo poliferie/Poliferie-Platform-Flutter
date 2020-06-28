@@ -1,7 +1,3 @@
-import 'package:Poliferie.io/bloc/search_bloc.dart';
-import 'package:Poliferie.io/providers/providers.dart';
-import 'package:Poliferie.io/widgets/poliferie_item_card.dart';
-import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,10 +5,13 @@ import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
 
-import 'package:Poliferie.io/repositories/repositories.dart';
+import 'package:Poliferie.io/bloc/search_bloc.dart';
 import 'package:Poliferie.io/bloc/search.dart';
 import 'package:Poliferie.io/models/models.dart';
-import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
+import 'package:Poliferie.io/repositories/repositories.dart';
+
+import 'package:Poliferie.io/widgets/poliferie_item_card.dart';
+import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
 
 class ResultsScreen extends StatefulWidget {
   // TODO(@amerlo): We should create a search state object and pass it here
@@ -29,89 +28,48 @@ class ResultsScreenBody extends StatefulWidget {
   // TODO(@amerlo): Could we avoid this?
   final String query;
 
-  ResultsScreenBody(this.query);
+  final FavoritesRepository favoritesRepository;
+
+  ResultsScreenBody({this.query, @required this.favoritesRepository});
 
   @override
   _ResultsScreenBodyState createState() => _ResultsScreenBodyState();
 }
 
 class _ResultsScreenBodyState extends State<ResultsScreenBody> {
-  List<dynamic> _favoriteItems;
+  List<int> _favoriteItems;
 
   @override
   void initState() {
     super.initState();
-    _setFavoriteItems();
+    _updateFavorites();
   }
 
-  void _setFavoriteItems() async {
-    // TODO(@ferrarodav): cannot use dependency injection to get the repository declared in `base.dart`. Better method?
-    final List<int> favorites =
-        await FavoritesRepository(localProvider: LocalProvider()).get();
+  void _updateFavorites({int toggleIndex}) async {
+    if (toggleIndex != null)
+      await widget.favoritesRepository.toggle(toggleIndex);
+    final List<int> favorites = await widget.favoritesRepository.get();
     setState(() {
       _favoriteItems = favorites;
     });
   }
 
-  Widget _buildBackButton(BuildContext context) {
-    return Positioned(
-      top: 20.0,
-      left: -10.0,
-      child: MaterialButton(
-          color: Styles.poliferieWhite,
-          shape: CircleBorder(),
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: Styles.poliferieLightGrey,
-          ),
-          onPressed: () {
-            {
-              Navigator.pop(context);
-            }
-          }),
-    );
-  }
-
-  // TODO(@amerlo): This needs to be moved up in the stack
-  // TODO(@amerlo): How to avoid having redundant list
-  Widget _buildFavorite(int id) {
-    bool _isFavorite = _favoriteItems.contains(id);
-    return MaterialButton(
-      color: Styles.poliferieWhite,
-      shape: CircleBorder(),
-      padding: EdgeInsets.all(6.0),
-      child: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border,
-          color: Styles.poliferieRed, size: 40),
-      onPressed: () async {
-        setState(() {
-          if (!_isFavorite)
-            _favoriteItems.add(id);
-          else
-            _favoriteItems.remove(id);
-        });
-        if (!_isFavorite)
-          await RepositoryProvider.of<FavoritesRepository>(context).add(id);
-        else
-          await RepositoryProvider.of<FavoritesRepository>(context).remove(id);
-      },
-    );
-  }
-
   Widget _buildResultsList(List<ItemModel> results) {
-    List<Widget> items = List<Widget>();
-    for (ItemModel item in results) {
-      Widget card = Padding(
-        child: PoliferieItemCard(item),
-        padding: EdgeInsets.only(bottom: 10.0),
-      );
-      items.add(card);
-    }
-
     return Expanded(
       child: ListView(
         scrollDirection: Axis.vertical,
         children: <Widget>[
-          ...items,
+          ...results
+              .map((item) => Padding(
+                    child: PoliferieItemCard(
+                      item,
+                      isFavorite: _favoriteItems.contains(item.id),
+                      onSetFavorite: () =>
+                          _updateFavorites(toggleIndex: item.id),
+                    ),
+                    padding: EdgeInsets.only(bottom: 10.0),
+                  ))
+              .toList(),
         ],
       ),
     );
@@ -225,10 +183,19 @@ class _ResultsScreenState extends State<ResultsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider<SearchBloc>(
-        create: (context) => SearchBloc(
-            searchRepository: RepositoryProvider.of<SearchRepository>(context)),
-        child: ResultsScreenBody(widget.query),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider<SearchBloc>(
+            create: (context) => SearchBloc(
+              searchRepository:
+                  RepositoryProvider.of<SearchRepository>(context),
+            ),
+          )
+        ],
+        child: ResultsScreenBody(
+            query: widget.query,
+            favoritesRepository:
+                RepositoryProvider.of<FavoritesRepository>(context)),
       ),
     );
   }
