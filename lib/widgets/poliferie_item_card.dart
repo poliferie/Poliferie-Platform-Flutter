@@ -44,8 +44,11 @@ class PoliferieItemCard extends StatelessWidget {
 
   Widget _buildFavorite() {
     return IconButton(
-      icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border,
-          color: Styles.poliferieRed, size: 32),
+      icon: Icon(
+        isFavorite ? Icons.favorite : Icons.favorite_border,
+        color: Styles.poliferieRed,
+        size: 32,
+      ),
       onPressed: onSetFavorite,
     );
   }
