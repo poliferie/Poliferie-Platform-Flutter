@@ -16,6 +16,11 @@ import 'package:Poliferie.io/repositories/repositories.dart';
 class PoliferieApp extends StatelessWidget {
   final bool showOnBoarding;
 
+  static final Map<String, WidgetBuilder> routes = {
+    '/home': (context) => BaseScreen(),
+    '/onboarding': (context) => OnBoardingScreen(),
+  };
+
   const PoliferieApp({Key key, @required this.showOnBoarding})
       : super(key: key);
 
@@ -36,7 +41,8 @@ class PoliferieApp extends StatelessWidget {
           create: (context) => ItemRepository(apiProvider: apiProvider),
         ),
         RepositoryProvider<SearchRepository>(
-          create: (context) => SearchRepository(apiProvider: apiProvider, localProvider: localProvider),
+          create: (context) => SearchRepository(
+              apiProvider: apiProvider, localProvider: localProvider),
         ),
         RepositoryProvider<FilterRepository>(
           create: (context) => FilterRepository(apiProvider: apiProvider),
@@ -45,19 +51,23 @@ class PoliferieApp extends StatelessWidget {
           create: (context) => UserRepository(apiProvider: apiProvider),
         ),
         RepositoryProvider<FavoritesRepository>(
-          create: (context) => FavoritesRepository(localProvider: localProvider),
+          create: (context) =>
+              FavoritesRepository(localProvider: localProvider),
         ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: Strings.appTitle,
         theme: ThemeData(
-            primarySwatch: Colors.red,
-            primaryColor: Styles.poliferieRed,
-            fontFamily: 'Lato',
-            backgroundColor: Styles.poliferieWhite,
-            scaffoldBackgroundColor: Styles.poliferieWhite),
-        home: showOnBoarding ? OnBoardingScreen() : BaseScreen(),
+          primarySwatch: Colors.red,
+          primaryColor: Styles.poliferieRed,
+          fontFamily: 'Lato',
+          backgroundColor: Styles.poliferieWhite,
+          scaffoldBackgroundColor: Styles.poliferieWhite,
+        ),
+        routes: routes,
+        initialRoute: showOnBoarding ? '/onboarding' : '/home',
+        builder: (context, child) => child,
       ),
     );
   }
