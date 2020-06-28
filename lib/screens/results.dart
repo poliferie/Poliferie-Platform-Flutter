@@ -160,11 +160,15 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
             children: [
               _buildTabBody(
                   context,
-                  results.where((item) => item.type == 'course').toList(),
+                  results
+                      .where((item) => item.type == ItemType.course)
+                      .toList(),
                   ItemType.course),
               _buildTabBody(
                   context,
-                  results.where((item) => item.type == 'university').toList(),
+                  results
+                      .where((item) => item.type == ItemType.university)
+                      .toList(),
                   ItemType.university),
             ],
           )
