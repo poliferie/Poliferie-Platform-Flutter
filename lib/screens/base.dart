@@ -25,8 +25,6 @@ class BaseScreenState extends State<BaseScreen> {
     });
   }
 
-  // TODO(@amerlo): Is there a more elegant solution
-  // to zip together screens and BottomNavigationBarItem?
   var pages = [
     HomeScreen(),
     SearchScreen(),
@@ -34,11 +32,20 @@ class BaseScreenState extends State<BaseScreen> {
     ProfileScreen(),
   ];
 
-  // TODO(@amerlo): MOve this to AppDimensions
   BorderRadius navigationBarRadius = BorderRadius.only(
     topRight: Radius.circular(AppDimensions.bottomNavigationBarBorderRadius),
     topLeft: Radius.circular(AppDimensions.bottomNavigationBarBorderRadius),
   );
+
+  BottomNavigationBarItem _buildNavItem(IconData icon) {
+    return BottomNavigationBarItem(
+      title: Text(""),
+      icon: Icon(
+        icon,
+        size: AppDimensions.bottomNavigationBarIconSize,
+      ),
+    );
+  }
 
   /// Build the [BottomNavigationBar] which handles the screens.
   @override
@@ -63,34 +70,10 @@ class BaseScreenState extends State<BaseScreen> {
             borderRadius: navigationBarRadius,
             child: BottomNavigationBar(
               items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  title: Text(""),
-                  icon: Icon(
-                    AppIcons.home,
-                    size: AppDimensions.bottomNavigationBarIconSize,
-                  ),
-                ),
-                BottomNavigationBarItem(
-                  title: Text(""),
-                  icon: Icon(
-                    AppIcons.search,
-                    size: AppDimensions.bottomNavigationBarIconSize,
-                  ),
-                ),
-                BottomNavigationBarItem(
-                  title: Text(""),
-                  icon: Icon(
-                    AppIcons.compare,
-                    size: AppDimensions.bottomNavigationBarIconSize,
-                  ),
-                ),
-                BottomNavigationBarItem(
-                  title: Text(""),
-                  icon: Icon(
-                    AppIcons.profile,
-                    size: AppDimensions.bottomNavigationBarIconSize,
-                  ),
-                ),
+                _buildNavItem(AppIcons.home),
+                _buildNavItem(AppIcons.search),
+                _buildNavItem(AppIcons.compare),
+                _buildNavItem(AppIcons.profile),
               ],
               onTap: (index) {
                 setState(() {
