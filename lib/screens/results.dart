@@ -115,26 +115,19 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
 
   Widget _buildResultsBody(BuildContext context, List<ItemModel> results) {
     return Expanded(
-      child: Stack(
-        alignment: AlignmentDirectional.bottomCenter,
-        children: <Widget>[
-          TabBarView(
-            physics: NeverScrollableScrollPhysics(),
-            children: [
-              _buildTabBody(
-                  context,
-                  results
-                      .where((item) => item.type == ItemType.course)
-                      .toList(),
-                  ItemType.course),
-              _buildTabBody(
-                  context,
-                  results
-                      .where((item) => item.type == ItemType.university)
-                      .toList(),
-                  ItemType.university),
-            ],
-          )
+      child: TabBarView(
+        physics: NeverScrollableScrollPhysics(),
+        children: [
+          _buildTabBody(
+              context,
+              results.where((item) => item.type == ItemType.course).toList(),
+              ItemType.course),
+          _buildTabBody(
+              context,
+              results
+                  .where((item) => item.type == ItemType.university)
+                  .toList(),
+              ItemType.university),
         ],
       ),
     );
@@ -147,10 +140,7 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
       child: Container(
         padding: AppDimensions.bodyPadding,
         height: double.infinity,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            color: Styles.poliferieWhite),
+        color: Styles.poliferieWhite,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
