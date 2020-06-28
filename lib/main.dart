@@ -1,17 +1,16 @@
-import 'package:Poliferie.io/repositories/filter_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
 
+import 'package:Poliferie.io/providers/providers.dart';
+import 'package:Poliferie.io/repositories/filter_repository.dart';
+import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/screens/onboarding.dart';
 import 'package:Poliferie.io/screens/base.dart';
-
-import 'package:Poliferie.io/providers/providers.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Poliferie.io/repositories/repositories.dart';
 
 class PoliferieApp extends StatelessWidget {
   final bool showOnBoarding;
@@ -42,7 +41,9 @@ class PoliferieApp extends StatelessWidget {
         ),
         RepositoryProvider<SearchRepository>(
           create: (context) => SearchRepository(
-              apiProvider: apiProvider, localProvider: localProvider),
+            apiProvider: apiProvider,
+            localProvider: localProvider,
+          ),
         ),
         RepositoryProvider<FilterRepository>(
           create: (context) => FilterRepository(apiProvider: apiProvider),
