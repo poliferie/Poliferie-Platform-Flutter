@@ -1,3 +1,4 @@
+import 'package:Poliferie.io/dimensions.dart';
 import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/styles.dart';
@@ -6,7 +7,7 @@ import 'package:Poliferie.io/strings.dart';
 class PoliferieTabBar extends StatelessWidget implements PreferredSizeWidget {
   const PoliferieTabBar({Key key}) : super(key: key);
 
-  final double _borderRadius = 10.0;
+  final double _borderRadius = AppDimensions.widgetBorderRadius;
 
   @override
   Size get preferredSize {
@@ -22,7 +23,7 @@ class PoliferieTabBar extends StatelessWidget implements PreferredSizeWidget {
           color: Styles.poliferieVeryLightGrey,
           width: 2,
         ),
-      ), 
+      ),
       child: TabBar(
         labelColor: Styles.poliferieWhite,
         unselectedLabelColor: Styles.poliferieRed,

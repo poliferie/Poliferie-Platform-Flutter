@@ -9,10 +9,10 @@ import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/icons.dart';
 
-import 'package:Poliferie.io/models/filter.dart';
-import 'package:Poliferie.io/models/item.dart';
 import 'package:Poliferie.io/bloc/search.dart';
 import 'package:Poliferie.io/bloc/filter.dart';
+import 'package:Poliferie.io/models/filter.dart';
+import 'package:Poliferie.io/models/item.dart';
 import 'package:Poliferie.io/repositories/search_repository.dart';
 import 'package:Poliferie.io/repositories/filter_repository.dart';
 import 'package:Poliferie.io/screens/item.dart';
@@ -22,15 +22,6 @@ import 'package:Poliferie.io/widgets/poliferie_filter.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
-
-// TODO(@amerlo): Move from here
-// TODO(@amerlo): Add repository and client to filters
-Future<List<Filter>> fetchFilters() async {
-  String filterData =
-      await rootBundle.loadString("assets/data/mockup/filters.json");
-  List<dynamic> suggestions = json.decode(filterData).toList();
-  return suggestions.map((e) => Filter.fromJson(e)).toList();
-}
 
 /// [SearchDelegate] helper class.
 class PoliferieSearchDelegate extends SearchDelegate {
@@ -144,7 +135,6 @@ class FiltersBody extends StatefulWidget {
 }
 
 class _FiltersBodyState extends State<FiltersBody> {
-  // TODO(@amerlo): Use BLoC approach
   /// Map of all [Filter]
   Map<int, Filter> allFilters = Map();
   Map<int, FilterStatus> allStatus = Map();
@@ -239,7 +229,9 @@ class _FiltersBodyState extends State<FiltersBody> {
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
       padding: EdgeInsets.only(
-          top: 10, bottom: MediaQuery.of(context).padding.bottom + 56),
+        top: 10,
+        bottom: MediaQuery.of(context).padding.bottom + 56,
+      ),
       child: Wrap(
         children: <Widget>[
           for (var i in filters.keys)
@@ -250,8 +242,11 @@ class _FiltersBodyState extends State<FiltersBody> {
                 //     ? (containerWidth / 2).floor().toDouble()
                 //     : containerWidth,
                 width: containerWidth,
-                child: PoliferieFilter(filters[i], status[i],
-                    updateValue: updates[i]),
+                child: PoliferieFilter(
+                  filters[i],
+                  status[i],
+                  updateValue: updates[i],
+                ),
               ),
             )
         ],
@@ -259,11 +254,12 @@ class _FiltersBodyState extends State<FiltersBody> {
     );
   }
 
-  // TODO(@amerlo): Input select state given filter states
+  // TODO(@amerlo): Add search
   Widget _buildFloatingButton(BuildContext context) {
     return Padding(
       padding: EdgeInsetsDirectional.only(
-          bottom: MediaQuery.of(context).padding.bottom + 10),
+        bottom: MediaQuery.of(context).padding.bottom + 10,
+      ),
       child: PoliferieFloatingButton(
         isActive: couldWeSearch(),
         text: Strings.searchExplore,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/styles.dart';
 
 class PoliferieFloatingButton extends StatelessWidget {
@@ -18,7 +19,7 @@ class PoliferieFloatingButton extends StatelessWidget {
       child: FloatingActionButton.extended(
         backgroundColor: isActive ? activeColor : Styles.poliferieGrey,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(AppDimensions.widgetBorderRadius),
         ),
         onPressed: onPressed,
         label: Text(text, style: Styles.buttonTitle),
