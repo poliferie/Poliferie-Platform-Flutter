@@ -62,8 +62,11 @@ class HomeScreenBody extends StatelessWidget {
   Widget _buildBody(BuildContext context, List<CardInfo> cards) {
     // Always present card
     final _howToCard = PoliferieCard(
-      CardInfo(0,
-          image: 'assets/images/metodo.png', title: 'Come funziona l\'app?'),
+      CardInfo(
+        0,
+        image: 'assets/images/metodo.png',
+        title: Strings.cardHowItWorks,
+      ),
       orientation: CardOrientation.horizontal,
       onTap: () {
         Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(

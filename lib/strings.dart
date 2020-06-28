@@ -18,6 +18,7 @@ abstract class Strings {
   static const String cardCourses = 'Corsi';
   static const String cardUniversities = 'Università';
   static const String cardDefaultSubTitle = 'Scopri di più';
+  static const String cardHowItWorks = 'Come funziona l\'app?';
 
   // Search Screen
   static const String searchTabCourse = 'Corsi';
