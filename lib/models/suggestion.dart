@@ -1,22 +1,17 @@
 import 'package:equatable/equatable.dart';
 
 import 'package:Poliferie.io/models/item.dart';
-import 'package:Poliferie.io/utils.dart';
 
 class SearchSuggestion extends Equatable {
   final int id;
   final ItemType type;
   final String shortName;
-  final String shortDescription;
   final String provider;
+  final String location;
   final Map<String, List<ItemStat>> stats;
 
   const SearchSuggestion(this.id,
-      {this.type,
-      this.shortName,
-      this.shortDescription,
-      this.provider,
-      this.stats});
+      {this.type, this.shortName, this.provider, this.location, this.stats});
 
   @override
   List<Object> get props => [id, shortName, type];
@@ -45,7 +40,7 @@ class SearchSuggestion extends Equatable {
       json['id'],
       type: ItemModel.selectType(json['type'] as String),
       shortName: json['shortName'],
-      shortDescription: json['shortDescription'],
+      location: json['location'],
       provider: json['provider'],
       stats: map,
     );

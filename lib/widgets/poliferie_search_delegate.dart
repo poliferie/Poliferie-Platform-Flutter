@@ -5,6 +5,7 @@ import 'package:Poliferie.io/icons.dart';
 import 'package:Poliferie.io/styles.dart';
 
 import 'package:Poliferie.io/bloc/search.dart';
+import 'package:Poliferie.io/models/suggestion.dart';
 import 'package:Poliferie.io/screens/item.dart';
 import 'package:Poliferie.io/screens/results.dart';
 
@@ -47,8 +48,40 @@ class PoliferieSearchDelegate extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     // TODO(@ferrarodav): Here we should include the whole search state and
-    //                provide it to the results screen
+    //                    provide it to the results screen
     return ResultsScreen(query);
+  }
+
+  _buildSuggestionEntry(BuildContext context, SearchSuggestion suggestion) {
+    return ListTile(
+      leading: Icon(
+        suggestion.isCourse() ? AppIcons.course : AppIcons.university,
+        size: 28,
+      ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ItemScreen(suggestion.id),
+          ),
+        );
+      },
+      title: Text(suggestion.shortName),
+      subtitle: suggestion.isCourse()
+          ? Text(suggestion.provider)
+          : Text(suggestion.location),
+    );
+  }
+
+  Widget _buildSuggestionsList(List<SearchSuggestion> suggestions) {
+    return Container(
+      color: Styles.poliferieWhite,
+      child: ListView.builder(
+        itemCount: suggestions.length,
+        itemBuilder: (context, index) =>
+            _buildSuggestionEntry(context, suggestions[index]),
+      ),
+    );
   }
 
   // TODO(@amerlo): Add the feature to highlight with bold the search text
@@ -64,30 +97,10 @@ class PoliferieSearchDelegate extends SearchDelegate {
           return CircularProgressIndicator();
         }
         if (state is SuggestionStateSuccess) {
-          Widget list = Container(
-            color: Styles.poliferieWhite,
-            child: ListView.builder(
-              itemCount: state.suggestions.length,
-              itemBuilder: (context, index) {
-                var item = state.suggestions[index];
-                return ListTile(
-                  leading: Icon(
-                      item.isCourse() ? AppIcons.course : AppIcons.university),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ItemScreen(item.id),
-                      ),
-                    );
-                  },
-                  title: Text(item.shortName),
-                );
-              },
-            ),
-          );
+          Widget suggestionListWidget =
+              _buildSuggestionsList(state.suggestions);
           searchBloc.close();
-          return list;
+          return suggestionListWidget;
         }
         if (state is SearchStateError) {
           return Text(state.error);

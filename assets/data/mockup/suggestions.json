@@ -3,24 +3,24 @@
         "id": 1001,
         "type": "course",
         "shortName": "Design del Prodotto Industriale",
-        "shortDescription": null,
         "provider": "Politecnico di Milano",
+        "location": "Milano",
         "stats": []
     },
     {
         "id": 1003,
         "type": "course",
         "shortName": "Fisica",
-        "shortDescription": null,
         "provider": "Università Federico II di Napoli",
+        "location": "Napoli",
         "stats": []
     },
     {
         "id": 1002,
         "type": "university",
         "shortName": "Università di Pisa",
-        "shortDescription": null,
         "provider": null,
+        "location": "Pisa",
         "stats": []
     }
 ]
