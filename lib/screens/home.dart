@@ -3,10 +3,9 @@ import "package:flutter/widgets.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:Poliferie.io/bloc/card.dart';
-import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/models/card.dart';
-import 'package:Poliferie.io/models/article.dart';
 import 'package:Poliferie.io/screens/onboarding.dart';
+import 'package:Poliferie.io/repositories/repositories.dart';
 
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/strings.dart';
@@ -14,22 +13,19 @@ import 'package:Poliferie.io/styles.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_card.dart';
-import 'package:Poliferie.io/widgets/poliferie_article.dart';
-
-// Static cards
-final _coursesCard = CardInfo(42,
-    image: 'assets/images/squadra.png', title: Strings.cardCourses);
-final _universitiesCard = CardInfo(43,
-    image: 'assets/images/squadra.png', title: Strings.cardUniversities);
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key}) : super(key: key);
+  final List<PoliferieCard> staticCards;
+  HomeScreen({Key key, this.staticCards}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class HomeScreenBody extends StatelessWidget {
+  final List<PoliferieCard> staticCards;
+  HomeScreenBody({Key key, this.staticCards}) : super(key: key);
+
   Widget _buildHeadline(String headline) {
     return Text(headline, style: Styles.headline);
   }
@@ -54,21 +50,11 @@ class HomeScreenBody extends StatelessWidget {
     );
   }
 
-  // TODO(@amerlo): How to access HomeScreen and change selected screen?
   Widget _buildRowCards() {
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          PoliferieCard(
-            _coursesCard,
-            onTap: () {},
-          ),
-          PoliferieCard(
-            _universitiesCard,
-            onTap: () {},
-          ),
-        ],
+        children: <Widget>[if (staticCards.isNotEmpty) ...staticCards],
       ),
     );
   }
@@ -139,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: BlocProvider<CardBloc>(
         create: (context) => CardBloc(
             cardRepository: RepositoryProvider.of<CardRepository>(context)),
-        child: HomeScreenBody(),
+        child: HomeScreenBody(staticCards: widget.staticCards),
       ),
     );
   }

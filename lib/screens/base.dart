@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/icons.dart';
 import 'package:Poliferie.io/dimensions.dart';
 
+import 'package:Poliferie.io/models/card.dart';
 import 'package:Poliferie.io/screens/screens.dart';
+
+import 'package:Poliferie.io/widgets/poliferie_card.dart';
 
 class BaseScreen extends StatefulWidget {
   @override
@@ -12,30 +16,70 @@ class BaseScreen extends StatefulWidget {
 }
 
 class BaseScreenState extends State<BaseScreen> {
+  final int _numberOfScreens = 4;
+
+  /// Screens
+  List<Widget> screens;
+
+  /// Static cards
+  List<PoliferieCard> _staticCards;
+
+  /// Current screen
   int _selectedIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
+  /// Push [screenIndex] screen
+  void goToScreen(int screenIndex) {
+    if (screenIndex != _selectedIndex && screenIndex < _numberOfScreens) {
+      setState(() {
+        _selectedIndex = screenIndex;
+      });
+    }
   }
 
+  // By default go back to home screen on device back button
   Future<bool> _onWillPop() {
     setState(() {
       _selectedIndex = 0;
     });
   }
 
-  var pages = [
-    HomeScreen(),
-    SearchScreen(),
-    CompareScreen(),
-    ProfileScreen(),
-  ];
-
   BorderRadius navigationBarRadius = BorderRadius.only(
     topRight: Radius.circular(AppDimensions.bottomNavigationBarBorderRadius),
     topLeft: Radius.circular(AppDimensions.bottomNavigationBarBorderRadius),
   );
+
+  @override
+  void initState() {
+    super.initState();
+
+    _staticCards = [
+      PoliferieCard(
+        CardInfo(
+          -1,
+          image: 'assets/images/squadra.png',
+          title: Strings.cardCourses,
+        ),
+        onTap: () {
+          goToScreen(1);
+        },
+      ),
+      PoliferieCard(
+        CardInfo(-2,
+            image: 'assets/images/squadra.png',
+            title: Strings.cardUniversities),
+        onTap: () {
+          goToScreen(1);
+        },
+      ),
+    ];
+
+    screens = [
+      HomeScreen(staticCards: _staticCards),
+      SearchScreen(),
+      CompareScreen(),
+      ProfileScreen(),
+    ];
+  }
 
   BottomNavigationBarItem _buildNavItem(IconData icon) {
     return BottomNavigationBarItem(
@@ -54,7 +98,7 @@ class BaseScreenState extends State<BaseScreen> {
       onWillPop: _onWillPop,
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: pages[_selectedIndex],
+        body: screens[_selectedIndex],
         extendBody: true,
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
