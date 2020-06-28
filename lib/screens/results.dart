@@ -37,12 +37,17 @@ class ResultsScreenBody extends StatefulWidget {
 }
 
 class _ResultsScreenBodyState extends State<ResultsScreenBody> {
+  /// List of favorite items
   List<int> _favoriteItems;
+
+  /// Hack to flag first loading
+  bool _initialized;
 
   @override
   void initState() {
     super.initState();
     _updateFavorites();
+    _initialized = false;
   }
 
   void _updateFavorites({int toggleIndex}) async {
@@ -159,8 +164,14 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<SearchBloc>(context)
-        .add(FetchSearch(searchText: widget.query));
+    // This is an hack not to re-fetch results once done once
+    if (!_initialized) {
+      BlocProvider.of<SearchBloc>(context)
+          .add(FetchSearch(searchText: widget.query));
+      setState(() {
+        _initialized = true;
+      });
+    }
 
     return BlocBuilder<SearchBloc, SearchState>(
       builder: (BuildContext context, SearchState state) {

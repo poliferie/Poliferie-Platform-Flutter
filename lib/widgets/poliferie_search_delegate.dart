@@ -52,6 +52,7 @@ class PoliferieSearchDelegate extends SearchDelegate {
     return ResultsScreen(query);
   }
 
+  // TODO(@amerlo): Make bold substring possible in all string
   _buildSuggestionEntry(
       BuildContext context, SearchSuggestion suggestion, String query) {
     Widget _title = Text(suggestion.shortName, style: Styles.suggestionTitle);
