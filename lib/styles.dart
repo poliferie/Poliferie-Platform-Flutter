@@ -172,6 +172,22 @@ abstract class Styles {
     fontWeight: FontWeight.w400,
   );
 
+  static const suggestionTitleBold = TextStyle(
+    color: poliferieBlack,
+    fontFamily: 'Lato',
+    fontSize: 16,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w700,
+  );
+
+  static const suggestionTitle = TextStyle(
+    color: poliferieBlack,
+    fontFamily: 'Lato',
+    fontSize: 16,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w400,
+  );
+
   static const badgeHeading = TextStyle(
     color: poliferieWhite,
     fontFamily: 'Montserrat',

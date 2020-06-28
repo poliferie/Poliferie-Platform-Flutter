@@ -52,7 +52,25 @@ class PoliferieSearchDelegate extends SearchDelegate {
     return ResultsScreen(query);
   }
 
-  _buildSuggestionEntry(BuildContext context, SearchSuggestion suggestion) {
+  _buildSuggestionEntry(
+      BuildContext context, SearchSuggestion suggestion, String query) {
+    Widget _title = Text(suggestion.shortName, style: Styles.suggestionTitle);
+    if (suggestion.shortName.startsWith(query) && query != '') {
+      _title = RichText(
+        text: TextSpan(
+          children: <TextSpan>[
+            TextSpan(
+              text: query,
+              style: Styles.suggestionTitleBold,
+            ),
+            TextSpan(
+              text: suggestion.shortName.split(query)[1],
+              style: Styles.suggestionTitle,
+            ),
+          ],
+        ),
+      );
+    }
     return ListTile(
       leading: Icon(
         suggestion.isCourse() ? AppIcons.course : AppIcons.university,
@@ -66,20 +84,21 @@ class PoliferieSearchDelegate extends SearchDelegate {
           ),
         );
       },
-      title: Text(suggestion.shortName),
+      title: _title,
       subtitle: suggestion.isCourse()
           ? Text(suggestion.provider)
           : Text(suggestion.location),
     );
   }
 
-  Widget _buildSuggestionsList(List<SearchSuggestion> suggestions) {
+  Widget _buildSuggestionsList(
+      List<SearchSuggestion> suggestions, String query) {
     return Container(
       color: Styles.poliferieWhite,
       child: ListView.builder(
         itemCount: suggestions.length,
         itemBuilder: (context, index) =>
-            _buildSuggestionEntry(context, suggestions[index]),
+            _buildSuggestionEntry(context, suggestions[index], query),
       ),
     );
   }
@@ -98,7 +117,7 @@ class PoliferieSearchDelegate extends SearchDelegate {
         }
         if (state is SuggestionStateSuccess) {
           Widget suggestionListWidget =
-              _buildSuggestionsList(state.suggestions);
+              _buildSuggestionsList(state.suggestions, query);
           searchBloc.close();
           return suggestionListWidget;
         }
