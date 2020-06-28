@@ -223,9 +223,11 @@ class _FiltersBodyState extends State<FiltersBody> {
       Map<int, FilterStatus> status,
       Map<int, Function> updates,
       ItemType tabType) {
-    final double containerWidth = MediaQuery.of(context).size.width -
-        AppDimensions.bodyPadding.left -
-        AppDimensions.bodyPadding.right;
+    // TODO(@amerlo): To check as below
+    // final double containerWidth = MediaQuery.of(context).size.width -
+    //     AppDimensions.bodyPadding.left -
+    //     AppDimensions.bodyPadding.right;
+    final double _filterHeight = 80;
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
       padding: EdgeInsets.only(
@@ -234,22 +236,35 @@ class _FiltersBodyState extends State<FiltersBody> {
       ),
       child: Wrap(
         children: <Widget>[
-          for (var i in filters.keys)
-            ClipRect(
-              child: SizedBox(
-                // TODO(@amerlo): Should we use the full width for the filters?
-                // width: containerWidth > 280
-                //     ? (containerWidth / 2).floor().toDouble()
-                //     : containerWidth,
-                width: containerWidth,
-                child: PoliferieFilter(
-                  filters[i],
-                  status[i],
-                  updateValue: updates[i],
+          ...filters.keys
+              .toList()
+              .map(
+                (key) => PoliferieFilter(
+                  filters[key],
+                  status[key],
+                  updateValue: updates[key],
+                  height: _filterHeight,
                 ),
-              ),
-            )
+              )
+              .toList()
         ],
+        // TODO(@amerlo): Should we use the full width for the filters?
+        // width: containerWidth > 280
+        // children: <Widget>[
+        //   for (var i in filters.keys)
+        //     ClipRect(
+        //       child: SizedBox(
+        //         //     ? (containerWidth / 2).floor().toDouble()
+        //         //     : containerWidth,
+        //         width: containerWidth,
+        //         child: PoliferieFilter(
+        //           filters[i],
+        //           status[i],
+        //           updateValue: updates[i],
+        //         ),
+        //       ),
+        //     )
+        // ],
       ),
     );
   }

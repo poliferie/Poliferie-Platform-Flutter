@@ -12,25 +12,27 @@ import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
 
 class PoliferieFilter extends StatefulWidget {
   const PoliferieFilter(this.filter, this.status,
-      {this.updateValue, this.color = Styles.poliferieRed, key})
+      {this.updateValue, this.height, this.color = Styles.poliferieRed, key})
       : super(key: key);
 
   final Filter filter;
   final FilterStatus status;
   final Function updateValue;
   final Color color;
+  final double height;
 
   @override
   _PoliferieFilterState createState() => new _PoliferieFilterState();
 }
 
 class _PoliferieFilterState extends State<PoliferieFilter> {
+  /// Is filter selected
   bool selected = false;
 
-  // String values selected for dropDown and selectValue types
+  /// String values selected for dropDown and selectValue types
   List<String> value = [];
 
-  // RangeValues selected for selectRange type
+  /// RangeValues selected for selectRange type
   RangeValues values;
 
   bool atLeastOne() {
@@ -259,37 +261,42 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
           children: <Widget>[
             Icon(
               Icons.delete,
+              size: AppDimensions.filterIconSize,
               color: Styles.poliferieLightWhite,
             ),
             Icon(
               Icons.delete,
+              size: AppDimensions.filterIconSize,
               color: Styles.poliferieLightWhite,
             ),
           ],
         ),
       ),
-      child: Card(
-        elevation: 3.0,
-        shape: RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.circular(AppDimensions.filterCardBorderRadius),
-        ),
-        child: FlatButton.icon(
-          padding: EdgeInsets.all(10),
-          onPressed: _onButtonPressed,
-          icon: PoliferieIconBox(
-            widget.filter.icon,
-            iconColor: widget.status.selected ? Colors.white : widget.color,
-            iconBackgroundColor: widget.status.selected ? widget.color : null,
+      child: Container(
+        height: widget.height,
+        child: Card(
+          elevation: 3.0,
+          shape: RoundedRectangleBorder(
+            borderRadius:
+                BorderRadius.circular(AppDimensions.filterCardBorderRadius),
           ),
-          label: Expanded(
-            child: AutoSizeText(
-              widget.filter.name,
-              style: Styles.filterName,
-              wrapWords: false,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-              minFontSize: 12,
+          child: FlatButton.icon(
+            onPressed: _onButtonPressed,
+            icon: PoliferieIconBox(
+              widget.filter.icon,
+              iconSize: AppDimensions.filterIconSize,
+              iconColor: widget.status.selected ? Colors.white : widget.color,
+              iconBackgroundColor: widget.status.selected ? widget.color : null,
+            ),
+            label: Expanded(
+              child: AutoSizeText(
+                widget.filter.name,
+                style: Styles.filterName,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                minFontSize: 18,
+              ),
             ),
           ),
         ),
