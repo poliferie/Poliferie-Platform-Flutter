@@ -158,7 +158,7 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
 
   Widget _buildStats(ItemModel item) {
     // TODO(@amerlo): Move this data structure to ItemModel
-    // Build stats according to item type
+    // Include this in a function like ItemModel.buildInfoMap()
     Map<String, dynamic> infoMap;
     if (item.type == ItemType.course) {
       infoMap = {
@@ -325,8 +325,11 @@ class _ItemScreenState extends State<ItemScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider<ItemBloc>(
-        create: (context) => ItemBloc(itemRepository: RepositoryProvider.of<ItemRepository>(context)),
-        child: ItemScreenBody(widget.id, favoritesRepository: RepositoryProvider.of<FavoritesRepository>(context)),
+        create: (context) => ItemBloc(
+            itemRepository: RepositoryProvider.of<ItemRepository>(context)),
+        child: ItemScreenBody(widget.id,
+            favoritesRepository:
+                RepositoryProvider.of<FavoritesRepository>(context)),
       ),
     );
   }
