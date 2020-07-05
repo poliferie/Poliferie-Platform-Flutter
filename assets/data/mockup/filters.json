@@ -82,7 +82,7 @@
     },
     {
         "icon": "59493",
-        "name": "Area disciplianre",
+        "name": "Area disciplinare",
         "hint": "Area disciplinare...",
         "description": "Area disciplinare del corso",
         "type": "dropDown",
