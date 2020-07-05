@@ -318,15 +318,13 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
           iconColor: widget.status.selected ? Colors.white : widget.color,
           iconBackgroundColor: widget.status.selected ? widget.color : null,
         ),
-        title: Expanded(
-          child: AutoSizeText(
-            widget.filter.name,
-            style: Styles.filterName,
-            wrapWords: false,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
-            minFontSize: AppDimensions.filterTitleFontSize,
-          ),
+        title: AutoSizeText(
+          widget.filter.name,
+          style: Styles.filterName,
+          wrapWords: false,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 2,
+          minFontSize: AppDimensions.filterTitleFontSize,
         ),
         trailing: _buildPreview(),
       ),
