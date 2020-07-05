@@ -328,8 +328,7 @@ Widget buildCardTraling(ItemStat stat) {
         stat.value.toString(),
         style: Styles.statsValue,
       ),
-      // TODO(@amerlo): Build color based on stat value
-      progressColor: Colors.green,
+      progressColor: Color.lerp(Colors.red, Colors.green, stat.value / 100),
     );
   } else if (stat.unit == "€") {
     return Text(stat.value.toStringAsFixed(0) + ' ' + stat.unit,
