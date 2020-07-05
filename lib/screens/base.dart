@@ -58,18 +58,16 @@ class BaseScreenState extends State<BaseScreen> {
           -1,
           image: 'assets/images/squadra.png',
           title: Strings.cardCourses,
+          linksTo: 'search:{itemType:course}',
         ),
-        onTap: () {
-          goToScreen(1);
-        },
       ),
       PoliferieCard(
-        CardInfo(-2,
-            image: 'assets/images/squadra.png',
-            title: Strings.cardUniversities),
-        onTap: () {
-          goToScreen(1);
-        },
+        CardInfo(
+          -2,
+          image: 'assets/images/squadra.png',
+          title: Strings.cardUniversities,
+          linksTo: 'search:{itemType:provider}',
+        ),
       ),
     ];
 

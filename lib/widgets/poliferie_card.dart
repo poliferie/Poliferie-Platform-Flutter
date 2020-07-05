@@ -18,20 +18,32 @@ class PoliferieCard extends StatelessWidget {
   final Color color;
 
   const PoliferieCard(this.card,
-    {this.onTap: _dummyTapFn,
-    this.orientation: CardOrientation.vertical,
-    this.color: Styles.poliferieWhite});
+      {this.onTap: _dummyTapFn,
+      this.orientation: CardOrientation.vertical,
+      this.color: Styles.poliferieWhite});
 
   static void _dummyTapFn() {}
 
   void Function() handleTap(BuildContext context) {
     if (onTap == _dummyTapFn) {
-      if (card.linksTo.length > 0 && card.linksTo.split(':').length == 2) {
-        List link = card.linksTo.split(':');
+      if (card.linksTo.length > 0) {
+        // TODO(@ferrarodav): Could you check if this is in line with your idea?
+        // Hack to split only on first occurrence of ':'
+        int indexToSplit = card.linksTo.indexOf(':');
+        List link = [
+          card.linksTo.substring(0, indexToSplit),
+          card.linksTo.substring(indexToSplit + 1)
+        ];
         if (link[0] == 'articles') {
-          return PoliferieArticle.lazyBottomSheetCaller(context, int.parse(link[1]));
+          return PoliferieArticle.lazyBottomSheetCaller(
+              context, int.parse(link[1]));
         } else if (link[0] == 'search') {
-          // navigate to search with some preset (ex. search:regione -> go to search with same regione filter)
+          // navigate to search with filter status specified as json string. As for example:
+          //
+          // search:{itemType:course,satisfaction:{from:80, to:100}}
+          // Then pass the json string directly to the ResultsScreen, like:
+          // ResultsScreen(link[1])
+          return () {};
         }
       }
       return () {};
