@@ -1,3 +1,4 @@
+import 'package:Poliferie.io/screens/item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -167,34 +168,7 @@ class _CompareViewScreenBodyState extends State<CompareViewScreenBody> {
   }
 
   // TODO(@amerlo): Handle list input
-  // TODO(@amerlo): Make this card standard in ItemModel
   Card _buildCard(List<ItemStat> stats) {
-    // TODO(@amerlo): Check same type
-    String _type = stats[0].type;
-    List<Widget> _values;
-    if (_type == "euro") {
-      _values = stats
-          .map((s) =>
-              Text(s.value.toStringAsFixed(0) + '€', style: Styles.statsValue))
-          .toList();
-    } else if (_type == "circle") {
-      _values = stats
-          .map((s) => CircularPercentIndicator(
-                radius: 50.0,
-                lineWidth: 3.0,
-                percent: s.value / 100,
-                center: Text(
-                  s.value.toString(),
-                  style: Styles.statsValue,
-                ),
-                progressColor: Colors.green,
-              ))
-          .toList();
-    } else {
-      _values = stats
-          .map((s) => Text(s.value.toString(), style: Styles.statsValue))
-          .toList();
-    }
     return Card(
       elevation: 0.0,
       child: Container(
@@ -210,7 +184,9 @@ class _CompareViewScreenBodyState extends State<CompareViewScreenBody> {
               padding: EdgeInsets.only(top: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[..._values],
+                children: <Widget>[
+                  ...stats.map((s) => buildCardTraling(s)).toList()
+                ],
               ),
             )
           ],

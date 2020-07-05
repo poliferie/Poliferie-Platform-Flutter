@@ -232,24 +232,6 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
   }
 
   Card _buildCard(ItemStat stat) {
-    var trailing;
-    if (stat.type == "euro") {
-      trailing =
-          Text(stat.value.toStringAsFixed(0) + '€', style: Styles.statsValue);
-    } else if (stat.type == "circle") {
-      trailing = CircularPercentIndicator(
-        radius: 50.0,
-        lineWidth: 3.0,
-        percent: stat.value / 100,
-        center: Text(
-          stat.value.toString(),
-          style: Styles.statsValue,
-        ),
-        progressColor: Colors.green,
-      );
-    } else {
-      trailing = Text(stat.value.toString(), style: Styles.statsValue);
-    }
     return Card(
       elevation: 0.0,
       child: Container(
@@ -257,7 +239,7 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
         child: ListTile(
           title: Text(stat.name, style: Styles.statsTitle),
           subtitle: Text(stat.desc, style: Styles.statsDescription),
-          trailing: trailing,
+          trailing: buildCardTraling(stat),
           contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
         ),
       ),
@@ -332,5 +314,28 @@ class _ItemScreenState extends State<ItemScreen> {
                 RepositoryProvider.of<FavoritesRepository>(context)),
       ),
     );
+  }
+}
+
+/// Build [ItemStat] value widget based in value unit
+Widget buildCardTraling(ItemStat stat) {
+  if (stat.unit == "%") {
+    return CircularPercentIndicator(
+      radius: 50.0,
+      lineWidth: 3.0,
+      percent: stat.value / 100,
+      center: Text(
+        stat.value.toString(),
+        style: Styles.statsValue,
+      ),
+      // TODO(@amerlo): Build color based on stat value
+      progressColor: Colors.green,
+    );
+  } else if (stat.unit == "€") {
+    return Text(stat.value.toStringAsFixed(0) + ' ' + stat.unit,
+        style: Styles.statsValue);
+  } else {
+    return Text(stat.value.toString() + ' ' + stat.unit,
+        style: Styles.statsValue);
   }
 }

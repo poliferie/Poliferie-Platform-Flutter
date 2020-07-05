@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-import 'package:Poliferie.io/utils.dart';
-
 /// Type of items
 enum ItemType { course, university }
 
@@ -10,9 +8,9 @@ class ItemStat {
   final String name;
   final String desc;
   final dynamic value;
-  final String type;
+  final String unit;
 
-  const ItemStat(this.name, this.desc, this.value, this.type);
+  const ItemStat(this.name, this.desc, this.value, this.unit);
 }
 
 /// Class which holds an [ItemModel]
@@ -76,10 +74,10 @@ class ItemModel extends Equatable {
     for (Map<String, dynamic> stat in stats) {
       if (map.containsKey(stat["tag"])) {
         map[stat["tag"]].add(
-            ItemStat(stat["name"], stat["desc"], stat["value"], stat["type"]));
+            ItemStat(stat["name"], stat["desc"], stat["value"], stat["unit"]));
       } else {
         map[stat["tag"]] = [
-          ItemStat(stat["name"], stat["desc"], stat["value"], stat["type"])
+          ItemStat(stat["name"], stat["desc"], stat["value"], stat["unit"])
         ];
       }
     }

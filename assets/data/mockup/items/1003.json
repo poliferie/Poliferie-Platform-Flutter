@@ -24,28 +24,28 @@
             "desc": "Percentuale di studenti soddisfatti del corso di laurea",
             "tag": "Opportunità",
             "value": 92.5,
-            "type": "circle"
+            "unit": "%"
         },
         {
             "name": "Stipendio",
             "desc": "Stipendio mensile netto medio a 5 anni",
             "tag": "Opportunità",
             "value": 1200.0,
-            "type": "euro"
+            "unit": "€"
         },
         {
             "name": "Tirocini",
             "desc": "Percentuale di studenti che ha effettuato almeno un tirocinio",
             "tag": "Mobilità",
             "value": 2.2,
-            "type": "circle"
+            "unit": "%"
         },
         {
             "name": "Soggiorno Estero",
             "desc": "Percentuale di studenti che ha effettuato almeno un soggiorno estero",
             "tag": "Mobilità",
             "value": 39.2,
-            "type": "circle"
+            "unit": "%"
         }
     ]
 }
