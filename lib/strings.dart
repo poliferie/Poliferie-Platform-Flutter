@@ -11,7 +11,7 @@ abstract class Strings {
   static const String homeSubHeadline =
       "Inizia scoprendo le università e i corsi. "
       "Puoi cercare per tematica, università o corso.";
-  static const String homeSearch = 'Cerca';
+  static const String homeSearch = 'Esplora';
   static const String homeDiscover = 'Scopri';
 
   // Cards
@@ -23,7 +23,7 @@ abstract class Strings {
   // Search Screen
   static const String searchTabCourse = 'Corsi';
   static const String searchTabUniversity = 'Università';
-  static const String searchFilterHeading = 'Filtri';
+  static const String searchFilterHeading = 'Cerca';
   static const String searchFilterIntro =
       "Se non sai precisamente quello che stai cercando, "
       "imposta solo qualche filtro e inizia ad esplorare l'offerta.";
