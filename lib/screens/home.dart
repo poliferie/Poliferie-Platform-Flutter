@@ -16,16 +16,14 @@ import 'package:Poliferie.io/widgets/poliferie_card.dart';
 import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
 
 class HomeScreen extends StatefulWidget {
-  final List<PoliferieCard> staticCards;
-  HomeScreen({Key key, this.staticCards}) : super(key: key);
+  HomeScreen({Key key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class HomeScreenBody extends StatelessWidget {
-  final List<PoliferieCard> staticCards;
-  HomeScreenBody({Key key, this.staticCards}) : super(key: key);
+  HomeScreenBody({Key key}) : super(key: key);
 
   Widget _buildHeadline(String headline) {
     return Text(headline, style: Styles.headline);
@@ -51,18 +49,27 @@ class HomeScreenBody extends StatelessWidget {
     );
   }
 
-  Widget _buildRowCards() {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[if (staticCards.isNotEmpty) ...staticCards],
-      ),
+  Widget _buildRowCards(List<CardInfo> cards) {
+    // Hack to fit in child height
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        new SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: new Row(
+            children: <Widget>[
+              if (cards.isNotEmpty)
+                ...cards.map((c) => PoliferieCard(c)).toList()
+            ],
+          ),
+        ),
+      ],
     );
   }
 
   Widget _buildBody(BuildContext context, List<CardInfo> cards) {
     // Always present card
-    final _howToCard = PoliferieCard(
+    final PoliferieCard _howToCard = PoliferieCard(
       CardInfo(
         0,
         image: 'assets/images/metodo.png',
@@ -79,7 +86,18 @@ class HomeScreenBody extends StatelessWidget {
       color: Styles.poliferieRed,
     );
 
-    List<PoliferieCard> _cards = cards
+    // Filter out cards
+    final List<CardInfo> _searchCards = [];
+    final List<CardInfo> _articleCards = [];
+    for (CardInfo card in cards) {
+      if (card.linksTo.startsWith('search:')) {
+        _searchCards.add(card);
+      } else {
+        _articleCards.add(card);
+      }
+    }
+
+    List<PoliferieCard> _cards = _articleCards
         .map((card) =>
             PoliferieCard(card, orientation: CardOrientation.horizontal))
         .toList();
@@ -93,7 +111,7 @@ class HomeScreenBody extends StatelessWidget {
         _buildHeadline(Strings.homeHeadline),
         _buildSubHeadline(Strings.homeSubHeadline),
         _buildRowHeading(Strings.homeSearch),
-        _buildRowCards(),
+        _buildRowCards(_searchCards),
         _buildRowHeading(Strings.homeDiscover),
         ..._cards,
       ],
@@ -129,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: BlocProvider<CardBloc>(
         create: (context) => CardBloc(
             cardRepository: RepositoryProvider.of<CardRepository>(context)),
-        child: HomeScreenBody(staticCards: widget.staticCards),
+        child: HomeScreenBody(),
       ),
     );
   }

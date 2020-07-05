@@ -19,5 +19,26 @@
         "subtitle": "La resilienza delle famiglie",
         "image": "assets/images/squadra.png",
         "linksTo": "articles:3"
+    },
+    {
+        "id": 4,
+        "title": "Corsi",
+        "subtitle": "Tutti i corsi",
+        "image": "assets/images/squadra.png",
+        "linksTo": "search:{itemType:course}"
+    },
+    {
+        "id": 5,
+        "title": "Università",
+        "subtitle": "Tutti le università",
+        "image": "assets/images/squadra.png",
+        "linksTo": "search:{itemType:provider}"
+    },
+    {
+        "id": 6,
+        "title": "Sotto i 1000€",
+        "subtitle": "Le università con una tassa annuale sotto i 1000 €",
+        "image": "assets/images/squadra.png",
+        "linksTo": "search:{}"
     }
 ]

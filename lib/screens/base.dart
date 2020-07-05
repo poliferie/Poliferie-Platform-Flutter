@@ -21,9 +21,6 @@ class BaseScreenState extends State<BaseScreen> {
   /// Screens
   List<Widget> screens;
 
-  /// Static cards
-  List<PoliferieCard> _staticCards;
-
   /// Current screen
   int _selectedIndex = 0;
 
@@ -52,27 +49,8 @@ class BaseScreenState extends State<BaseScreen> {
   void initState() {
     super.initState();
 
-    _staticCards = [
-      PoliferieCard(
-        CardInfo(
-          -1,
-          image: 'assets/images/squadra.png',
-          title: Strings.cardCourses,
-          linksTo: 'search:{itemType:course}',
-        ),
-      ),
-      PoliferieCard(
-        CardInfo(
-          -2,
-          image: 'assets/images/squadra.png',
-          title: Strings.cardUniversities,
-          linksTo: 'search:{itemType:provider}',
-        ),
-      ),
-    ];
-
     screens = [
-      HomeScreen(staticCards: _staticCards),
+      HomeScreen(),
       SearchScreen(),
       CompareScreen(),
       ProfileScreen(),

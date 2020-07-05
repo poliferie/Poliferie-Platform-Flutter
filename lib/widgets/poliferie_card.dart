@@ -53,10 +53,11 @@ class PoliferieCard extends StatelessWidget {
 
   Widget _buildCard(BuildContext context) {
     // Build child for vertical extended card
+    final double _width = MediaQuery.of(context).size.width * 0.33;
     Widget _child = Container(
-      // TODO(@amerlo): Fix width with the number of horizontal cards
-      width: MediaQuery.of(context).size.width * 0.4,
-      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+      width: _width,
+      height: _width * 1.33,
+      padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
       child: Column(
         children: <Widget>[
           Image.asset(
@@ -64,8 +65,13 @@ class PoliferieCard extends StatelessWidget {
             fit: BoxFit.cover,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 20.0),
-            child: Text(card.title, style: Styles.cardHeadVertical),
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            // TODO(@amerlo): Multi-lines text has to be centered
+            child: Text(
+              card.title,
+              style: Styles.cardHeadVertical,
+              maxLines: 2,
+            ),
           ),
         ],
       ),
