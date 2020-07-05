@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
@@ -208,7 +210,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
     );
   }
 
-  _onButtonPressed() {
+  void _onButtonPressed() {
     showModalBottomSheet(
       context: context,
       backgroundColor: Theme.of(context).canvasColor,
@@ -276,6 +278,31 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
     );
   }
 
+  Widget _buildPreview() {
+    // TODO(@amerlo): Find a better copy
+    TextStyle previewStyle = TextStyle(color: widget.color);
+    if (selected) {
+      if (widget.filter.type == FilterType.dropDown) {
+        if (value.length > 1) {
+          return Text('Selezione multiple');
+        } else if (value.length == 1) {
+          return Text(
+            value[0],
+            style: previewStyle,
+          );
+        }
+      } else if (widget.filter.type == FilterType.selectRange) {
+        return Text(
+          values.start.toStringAsFixed(0) +
+              ' - ' +
+              values.end.toStringAsFixed(0),
+          style: previewStyle,
+        );
+      }
+    }
+    return Text("");
+  }
+
   Widget _buildDismissibleCard() {
     return Card(
       elevation: 3.0,
@@ -284,6 +311,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
             BorderRadius.circular(AppDimensions.filterCardBorderRadius),
       ),
       child: ListTile(
+        onTap: _onButtonPressed,
         leading: PoliferieIconBox(
           widget.filter.icon,
           iconSize: AppDimensions.filterIconSize,
@@ -300,6 +328,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
             minFontSize: AppDimensions.filterTitleFontSize,
           ),
         ),
+        trailing: _buildPreview(),
       ),
     );
   }
