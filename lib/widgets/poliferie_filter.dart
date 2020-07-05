@@ -247,25 +247,31 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
   }
 
   Widget _buildDismissibleBackgroud() {
-    return Container(
+    return Card(
+      elevation: 0.0,
       color: widget.color,
-      padding: EdgeInsets.symmetric(horizontal: 15),
-      alignment: AlignmentDirectional.centerStart,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        // TODO(@amerlo): Select left or right swipe, not both
-        children: <Widget>[
-          Icon(
-            Icons.delete,
-            size: AppDimensions.filterIconSize,
-            color: Styles.poliferieLightWhite,
-          ),
-          Icon(
-            Icons.delete,
-            size: AppDimensions.filterIconSize,
-            color: Styles.poliferieLightWhite,
-          ),
-        ],
+      shape: RoundedRectangleBorder(
+        borderRadius:
+            BorderRadius.circular(AppDimensions.filterCardBorderRadius),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // TODO(@amerlo): Select left or right swipe, not both
+          children: <Widget>[
+            Icon(
+              Icons.delete,
+              size: AppDimensions.filterIconSize,
+              color: Styles.poliferieLightWhite,
+            ),
+            Icon(
+              Icons.delete,
+              size: AppDimensions.filterIconSize,
+              color: Styles.poliferieLightWhite,
+            ),
+          ],
+        ),
       ),
     );
   }
