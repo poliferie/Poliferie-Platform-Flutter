@@ -194,9 +194,13 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
                     iconSize: 18.0,
                   ),
                 ),
-                Text(
-                  text,
-                  style: Styles.courseInfoStats,
+                Expanded(
+                  child: Text(
+                    text,
+                    style: Styles.courseInfoStats,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
                 ),
               ],
             ),
