@@ -12,14 +12,13 @@ import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
 
 class PoliferieFilter extends StatefulWidget {
   const PoliferieFilter(this.filter, this.status,
-      {this.updateValue, this.height, this.color = Styles.poliferieRed, key})
+      {this.updateValue, this.color = Styles.poliferieRed, key})
       : super(key: key);
 
   final Filter filter;
   final FilterStatus status;
   final Function updateValue;
   final Color color;
-  final double height;
 
   @override
   _PoliferieFilterState createState() => new _PoliferieFilterState();
@@ -247,60 +246,65 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
     return false;
   }
 
+  Widget _buildDismissibleBackgroud() {
+    return Container(
+      color: widget.color,
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      alignment: AlignmentDirectional.centerStart,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // TODO(@amerlo): Select left or right swipe, not both
+        children: <Widget>[
+          Icon(
+            Icons.delete,
+            size: AppDimensions.filterIconSize,
+            color: Styles.poliferieLightWhite,
+          ),
+          Icon(
+            Icons.delete,
+            size: AppDimensions.filterIconSize,
+            color: Styles.poliferieLightWhite,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDismissibleCard() {
+    return Card(
+      elevation: 3.0,
+      shape: RoundedRectangleBorder(
+        borderRadius:
+            BorderRadius.circular(AppDimensions.filterCardBorderRadius),
+      ),
+      child: ListTile(
+        leading: PoliferieIconBox(
+          widget.filter.icon,
+          iconSize: AppDimensions.filterIconSize,
+          iconColor: widget.status.selected ? Colors.white : widget.color,
+          iconBackgroundColor: widget.status.selected ? widget.color : null,
+        ),
+        title: Expanded(
+          child: AutoSizeText(
+            widget.filter.name,
+            style: Styles.filterName,
+            wrapWords: false,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+            minFontSize: AppDimensions.filterTitleFontSize,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dismissible(
       key: GlobalKey(),
       confirmDismiss: (direction) => _doNotDismiss(widget.filter.type),
-      background: Container(
-        color: widget.color,
-        padding: EdgeInsets.symmetric(horizontal: 15),
-        alignment: AlignmentDirectional.centerStart,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Icon(
-              Icons.delete,
-              size: AppDimensions.filterIconSize,
-              color: Styles.poliferieLightWhite,
-            ),
-            Icon(
-              Icons.delete,
-              size: AppDimensions.filterIconSize,
-              color: Styles.poliferieLightWhite,
-            ),
-          ],
-        ),
-      ),
-      child: Container(
-        height: widget.height,
-        child: Card(
-          elevation: 3.0,
-          shape: RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(AppDimensions.filterCardBorderRadius),
-          ),
-          child: FlatButton.icon(
-            onPressed: _onButtonPressed,
-            icon: PoliferieIconBox(
-              widget.filter.icon,
-              iconSize: AppDimensions.filterIconSize,
-              iconColor: widget.status.selected ? Colors.white : widget.color,
-              iconBackgroundColor: widget.status.selected ? widget.color : null,
-            ),
-            label: Expanded(
-              child: AutoSizeText(
-                widget.filter.name,
-                style: Styles.filterName,
-                wrapWords: false,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-                minFontSize: 18,
-              ),
-            ),
-          ),
-        ),
-      ),
+      background: _buildDismissibleBackgroud(),
+      child: _buildDismissibleCard(),
     );
   }
 }

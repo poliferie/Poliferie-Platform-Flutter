@@ -133,7 +133,6 @@ class _FiltersBodyState extends State<FiltersBody> {
     // final double containerWidth = MediaQuery.of(context).size.width -
     //     AppDimensions.bodyPadding.left -
     //     AppDimensions.bodyPadding.right;
-    final double _filterHeight = 80;
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
       padding: EdgeInsets.only(
@@ -149,7 +148,6 @@ class _FiltersBodyState extends State<FiltersBody> {
                   filters[key],
                   status[key],
                   updateValue: updates[key],
-                  height: _filterHeight,
                 ),
               )
               .toList()

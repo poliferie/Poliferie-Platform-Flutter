@@ -37,7 +37,8 @@ class AppDimensions {
   static const double itemCardHeight = 60.0;
   static const double itemCardPaddingVertical = 10.0;
 
-  static const double filterIconSize = 36;
+  static const double filterIconSize = 28;
+  static const double filterTitleFontSize = 16;
   static const double filterCardBorderRadius = 10.0;
 
   static const double bottomNavigationBarBorderRadius = 30.0;
