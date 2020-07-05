@@ -40,7 +40,7 @@ class PoliferieCard extends StatelessWidget {
         } else if (link[0] == 'search') {
           // navigate to search with filter status specified as json string. As for example:
           //
-          // search:{itemType:course,satisfaction:{from:80, to:100}}
+          // search:{"itemType":"course","satisfaction":{"from":80,"to":100}}
           // Then pass the json string directly to the ResultsScreen, like:
           // ResultsScreen(link[1])
           return () {};

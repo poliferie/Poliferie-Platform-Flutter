@@ -7,15 +7,15 @@ import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/bloc/search.dart';
 import 'package:Poliferie.io/models/suggestion.dart';
 import 'package:Poliferie.io/screens/item.dart';
-import 'package:Poliferie.io/screens/results.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
 
 /// [SearchDelegate] helper class.
 class PoliferieSearchDelegate extends SearchDelegate {
   final SearchBloc searchBloc;
+  final Widget Function(String) onSearch;
 
-  PoliferieSearchDelegate({this.searchBloc});
+  PoliferieSearchDelegate({this.searchBloc, this.onSearch});
 
   @override
   ThemeData appBarTheme(BuildContext context) {
@@ -51,7 +51,7 @@ class PoliferieSearchDelegate extends SearchDelegate {
   Widget buildResults(BuildContext context) {
     // TODO(@ferrarodav): Here we should include the whole search state and
     //                    provide it to the results screen
-    return ResultsScreen(query);
+    return onSearch(query);
   }
 
   // TODO(@amerlo): Make bold substring possible in all string

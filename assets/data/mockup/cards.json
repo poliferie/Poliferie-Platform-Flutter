@@ -25,14 +25,14 @@
         "title": "Corsi",
         "subtitle": "Tutti i corsi",
         "image": "assets/images/squadra.png",
-        "linksTo": "search:{itemType:course}"
+        "linksTo": "search:{\"itemType\":\"course\"}"
     },
     {
         "id": 5,
         "title": "Università",
         "subtitle": "Tutti le università",
         "image": "assets/images/squadra.png",
-        "linksTo": "search:{itemType:provider}"
+        "linksTo": "search:{\"itemType\":\"provider\"}"
     },
     {
         "id": 6,
