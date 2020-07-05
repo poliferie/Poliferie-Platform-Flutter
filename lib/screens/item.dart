@@ -179,7 +179,6 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
       height: 60.0 * (infoMap.length / 3).ceil(),
       child: GridView.count(
         physics: NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.all(0.0),
         crossAxisCount: 3,
         childAspectRatio: 2,
         children: infoMap.keys.map((String text) {
