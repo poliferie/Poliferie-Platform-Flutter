@@ -13,6 +13,7 @@ import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/widgets/poliferie_item_card.dart';
 import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
+import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
 
 final List<String> ordersResults = ['Popolare', 'Nuovo'];
 
@@ -281,7 +282,7 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
     return BlocBuilder<SearchBloc, SearchState>(
       builder: (BuildContext context, SearchState state) {
         if (state is SearchStateLoading) {
-          return CircularProgressIndicator();
+          return PoliferieProgressIndicator();
         }
         if (state is SearchStateError) {
           return Text(state.error);

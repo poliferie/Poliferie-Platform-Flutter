@@ -1,17 +1,18 @@
-import 'package:Poliferie.io/screens/item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
-import 'package:Poliferie.io/widgets/poliferie_animated_list.dart';
 import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/bloc/item.dart';
-import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/models/models.dart';
-import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
+import 'package:Poliferie.io/screens/item.dart';
 
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/styles.dart';
+
+import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
+import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
+import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
+import 'package:Poliferie.io/widgets/poliferie_animated_list.dart';
 
 // TODO(@amerlo): Include test to check that we receive at least two items.
 
@@ -255,7 +256,7 @@ class _CompareViewScreenBodyState extends State<CompareViewScreenBody> {
     return BlocBuilder<ItemBloc, ItemState>(
       builder: (BuildContext context, ItemState state) {
         if (state is FetchStateLoading) {
-          return CircularProgressIndicator();
+          return PoliferieProgressIndicator();
         }
         if (state is FetchStateError) {
           return Text(state.error);

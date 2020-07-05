@@ -13,6 +13,7 @@ import 'package:Poliferie.io/styles.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_card.dart';
+import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
 
 class HomeScreen extends StatefulWidget {
   final List<PoliferieCard> staticCards;
@@ -106,7 +107,7 @@ class HomeScreenBody extends StatelessWidget {
     return BlocBuilder<CardBloc, CardState>(
       builder: (BuildContext context, CardState state) {
         if (state is FetchStateLoading) {
-          return CircularProgressIndicator();
+          return PoliferieProgressIndicator();
         }
         if (state is FetchStateError) {
           return Text(state.error);

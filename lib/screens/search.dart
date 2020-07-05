@@ -18,6 +18,7 @@ import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
 import 'package:Poliferie.io/widgets/poliferie_search_delegate.dart';
+import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
 
 class SearchScreen extends StatefulWidget {
   SearchScreen({Key key}) : super(key: key);
@@ -237,7 +238,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
     return BlocBuilder<FilterBloc, FilterState>(
       builder: (BuildContext context, FilterState state) {
         if (state is FetchStateLoading) {
-          return CircularProgressIndicator();
+          return PoliferieProgressIndicator();
         }
         if (state is FetchStateSuccess) {
           return FiltersBody(filters: state.filters);

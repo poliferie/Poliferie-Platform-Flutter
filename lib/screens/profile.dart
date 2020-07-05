@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:Poliferie.io/widgets/poliferie_item_card.dart';
 import 'package:Poliferie.io/bloc/user.dart';
-import 'package:Poliferie.io/providers/providers.dart';
 import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/bloc/item.dart' as itm;
-import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/models/models.dart';
 import 'package:Poliferie.io/utils.dart';
 
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
+
+import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
+import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
+import 'package:Poliferie.io/widgets/poliferie_item_card.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key}) : super(key: key);
@@ -55,7 +56,8 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
 
   // TODO(@amerlo): Could we avoid the duplcated state?
   void _updateFavorites({int toggleIndex}) async {
-    if (toggleIndex != null) await widget.favoritesRepository.toggle(toggleIndex);
+    if (toggleIndex != null)
+      await widget.favoritesRepository.toggle(toggleIndex);
     final List<int> favorites = await widget.favoritesRepository.get();
     setState(() {
       favoriteList = favorites;
@@ -229,7 +231,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
     return BlocBuilder<itm.ItemBloc, itm.ItemState>(
       builder: (BuildContext context, itm.ItemState state) {
         if (state is itm.FetchStateLoading) {
-          return CircularProgressIndicator();
+          return PoliferieProgressIndicator();
         }
         if (state is itm.FetchStateSuccess) {
           // TODO(@amerlo): Fake multiple ids fetched from client
@@ -279,7 +281,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
     return BlocBuilder<UserBloc, UserState>(
       builder: (BuildContext context, UserState state) {
         if (state is FetchStateLoading) {
-          return CircularProgressIndicator();
+          return PoliferieProgressIndicator();
         }
         if (state is FetchStateError) {
           return Text(state.error);
@@ -301,13 +303,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: MultiBlocProvider(
         providers: [
           BlocProvider<UserBloc>(
-            create: (context) => UserBloc(userRepository: RepositoryProvider.of<UserRepository>(context)),
+            create: (context) => UserBloc(
+                userRepository: RepositoryProvider.of<UserRepository>(context)),
           ),
           BlocProvider<itm.ItemBloc>(
-            create: (context) => itm.ItemBloc(itemRepository: RepositoryProvider.of<ItemRepository>(context)),
+            create: (context) => itm.ItemBloc(
+                itemRepository: RepositoryProvider.of<ItemRepository>(context)),
           ),
         ],
-        child: ProfileScreenBody(favoritesRepository: RepositoryProvider.of<FavoritesRepository>(context)),
+        child: ProfileScreenBody(
+            favoritesRepository:
+                RepositoryProvider.of<FavoritesRepository>(context)),
       ),
     );
   }

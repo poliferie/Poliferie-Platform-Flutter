@@ -9,6 +9,8 @@ import 'package:Poliferie.io/models/suggestion.dart';
 import 'package:Poliferie.io/screens/item.dart';
 import 'package:Poliferie.io/screens/results.dart';
 
+import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
+
 /// [SearchDelegate] helper class.
 class PoliferieSearchDelegate extends SearchDelegate {
   final SearchBloc searchBloc;
@@ -114,7 +116,7 @@ class PoliferieSearchDelegate extends SearchDelegate {
       bloc: searchBloc,
       builder: (BuildContext context, SearchState state) {
         if (state is SearchStateLoading) {
-          return CircularProgressIndicator();
+          return PoliferieProgressIndicator();
         }
         if (state is SuggestionStateSuccess) {
           Widget suggestionListWidget =

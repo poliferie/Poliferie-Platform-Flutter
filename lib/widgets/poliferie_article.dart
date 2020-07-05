@@ -1,12 +1,15 @@
-import 'package:Poliferie.io/bloc/article.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 import 'package:Poliferie.io/models/article.dart';
-import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/bloc/article_bloc.dart';
+import 'package:Poliferie.io/bloc/article.dart';
+
+import 'package:Poliferie.io/styles.dart';
+
+import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
 
 class PoliferieArticle extends StatelessWidget {
   final Article article;
@@ -112,10 +115,7 @@ class PoliferieArticle extends StatelessWidget {
       child: BlocBuilder<ArticleBloc, ArticleState>(
         builder: (BuildContext context, ArticleState state) {
           if (state is FetchStateLoading) {
-            return SizedBox(
-              height: MediaQuery.of(context).size.height * 0.4,
-              child: Center(child: CircularProgressIndicator()),
-            );
+            return PoliferieProgressIndicator();
           }
           if (state is FetchStateError) {
             return Text(state.error);

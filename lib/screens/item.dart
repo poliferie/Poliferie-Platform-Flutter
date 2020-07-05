@@ -6,11 +6,13 @@ import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
 
-import 'package:Poliferie.io/widgets/poliferie_animated_list.dart';
 import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/bloc/item.dart';
 import 'package:Poliferie.io/models/models.dart';
+
+import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
 import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
+import 'package:Poliferie.io/widgets/poliferie_animated_list.dart';
 
 class ItemScreen extends StatefulWidget {
   /// This [id] is the requested id from the frontend
@@ -293,7 +295,7 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
     return BlocBuilder<ItemBloc, ItemState>(
       builder: (BuildContext context, ItemState state) {
         if (state is FetchStateLoading) {
-          return CircularProgressIndicator();
+          return PoliferieProgressIndicator();
         }
         if (state is FetchStateError) {
           return Text(state.error);
