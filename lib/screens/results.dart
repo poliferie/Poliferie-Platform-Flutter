@@ -12,6 +12,9 @@ import 'package:Poliferie.io/repositories/repositories.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_item_card.dart';
 import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
+import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
+
+final List<String> ordersResults = ['Popolare', 'Nuovo'];
 
 class ResultsScreen extends StatefulWidget {
   // TODO(@amerlo): We should create a search state object and pass it here
@@ -43,11 +46,15 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
   /// Hack to flag first loading
   bool _initialized;
 
+  /// Results order
+  String _selectedOrder;
+
   @override
   void initState() {
     super.initState();
     _updateFavorites();
     _initialized = false;
+    _selectedOrder = ordersResults[0];
   }
 
   void _updateFavorites({int toggleIndex}) async {
@@ -80,6 +87,111 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
     );
   }
 
+  // TODO(@amerlo): Can we re-use the code from poliferie_filter.dart?
+  Widget _buildActionHeading() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: AppDimensions.bottomSheetPadding,
+          child: PoliferieIconBox(
+            Icons.filter_list,
+            iconColor: Styles.poliferieRed,
+          ),
+        ),
+        Text(
+          Strings.resultsOrderHeading,
+          style: Styles.filterHeadline,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 2,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildActionDescription() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(AppDimensions.bottomSheetPaddingHorizontal,
+          10.0, AppDimensions.bottomSheetPaddingHorizontal, 10.0),
+      child: Text(
+        Strings.resultsOrderDescription,
+        style: Styles.tabDescription,
+      ),
+    );
+  }
+
+  Future<Null> updateBottomSheetState(
+      StateSetter updateState, dynamic newOrder) async {
+    updateState(() {
+      _selectedOrder = newOrder;
+    });
+  }
+
+  Widget _buildActionSelector(StateSetter updateState) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.3,
+      child: ListView.builder(
+        itemCount: ordersResults.length,
+        itemBuilder: (context, index) {
+          return Card(
+            child: ListTile(
+              onTap: () {
+                updateBottomSheetState(updateState, ordersResults[index]);
+              },
+              leading: _selectedOrder == ordersResults[index]
+                  ? Icon(Icons.check_box, color: Styles.poliferieRed)
+                  : Icon(
+                      Icons.check_box_outline_blank,
+                      color: Styles.poliferieVeryLightGrey,
+                    ),
+              title: Text(ordersResults[index]),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildBottomSheet(StateSetter updateState) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+        AppDimensions.bodyPaddingLeft,
+        AppDimensions.bottomSheetPaddingVertical,
+        AppDimensions.bodyPaddingRight,
+        0.0,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _buildActionHeading(),
+          _buildActionDescription(),
+          _buildActionSelector(updateState),
+        ],
+      ),
+    );
+  }
+
+  void _onActionPressed() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Theme.of(context).canvasColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20.0),
+        ),
+      ),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, state) {
+            return Container(
+              child: _buildBottomSheet(state),
+            );
+          },
+        );
+      },
+    );
+  }
+
   Widget _buildSearchActions() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,8 +202,8 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
         ),
         Row(
           children: <Widget>[
-            IconButton(icon: Icon(Icons.filter_list), onPressed: null),
-            IconButton(icon: Icon(Icons.format_list_bulleted), onPressed: null)
+            IconButton(
+                icon: Icon(Icons.filter_list), onPressed: _onActionPressed),
           ],
         ),
       ],
@@ -156,6 +268,9 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
   Widget build(BuildContext context) {
     // This is an hack not to re-fetch results once done once
     if (!_initialized) {
+      // TODO(@amerlo): Add search parameters to query:
+      // * all filter status
+      // * results order
       BlocProvider.of<SearchBloc>(context)
           .add(FetchSearch(searchText: widget.query));
       setState(() {

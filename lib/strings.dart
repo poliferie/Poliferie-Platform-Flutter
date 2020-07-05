@@ -32,6 +32,9 @@ abstract class Strings {
 
   // Results Screen
   static const String resultsHeading = 'Ricerca';
+  static const String resultsOrderHeading = 'Ordina';
+  static const String resultsOrderDescription =
+      'Scegli come ordinare i risultati';
 
   // Course Screen
   static const String courseDescription = 'Descrizione';
