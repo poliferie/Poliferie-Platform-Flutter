@@ -31,14 +31,14 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
   bool selected = false;
 
   /// String values selected for dropDown and selectValue types
-  List<String> value = [];
+  List<String> selectedValues = [];
 
   /// RangeValues selected for selectRange type
-  RangeValues values;
+  RangeValues rangeValues;
 
   bool atLeastOne() {
     if (widget.filter.type == FilterType.dropDown) {
-      return value.length != 0;
+      return selectedValues.length != 0;
     }
     if (widget.filter.type == FilterType.selectRange) {
       // For selectRange filter, we could always select the filter
@@ -51,7 +51,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
   initState() {
     super.initState();
     if (widget.filter.type == FilterType.selectRange) {
-      values = RangeValues(widget.status.values[0].toDouble(),
+      rangeValues = RangeValues(widget.status.values[0].toDouble(),
           widget.status.values[1].toDouble());
     }
   }
@@ -112,7 +112,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           RangeSlider(
-            values: values,
+            values: rangeValues,
             onChanged: (RangeValues values) {
               updateBottomSheetState(
                   updateState, FilterType.selectRange, values);
@@ -123,10 +123,16 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                PoliferieValueBox("Minimo",
-                    values.start.toInt().toString() + " " + widget.filter.unit),
-                PoliferieValueBox("Massimo",
-                    values.end.toInt().toString() + " " + widget.filter.unit),
+                PoliferieValueBox(
+                    "Minimo",
+                    rangeValues.start.toInt().toString() +
+                        " " +
+                        widget.filter.unit),
+                PoliferieValueBox(
+                    "Massimo",
+                    rangeValues.end.toInt().toString() +
+                        " " +
+                        widget.filter.unit),
               ]),
         ],
       );
@@ -165,21 +171,21 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
     widget.updateValue(type, newValue);
     // Deselect filter in case of dropDown and no selection
     if (type == FilterType.dropDown &&
-        value.length == 1 &&
-        value[0] == newValue) {
+        selectedValues.length == 1 &&
+        selectedValues[0] == newValue) {
       widget.updateValue(null, false);
     }
     updateState(() {
       if (type == FilterType.selectRange) {
-        values = newValue;
+        rangeValues = newValue;
       } else if (type == FilterType.dropDown) {
-        if (value.contains(newValue)) {
-          if (value.length == 1 && value.contains(newValue)) {
+        if (selectedValues.contains(newValue)) {
+          if (selectedValues.length == 1 && selectedValues.contains(newValue)) {
             selected = false;
           }
-          value.remove(newValue);
+          selectedValues.remove(newValue);
         } else {
-          value.add(newValue);
+          selectedValues.add(newValue);
         }
       }
     });
@@ -240,9 +246,9 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
       if (type == FilterType.selectRange) {
         List<dynamic> newValues =
             FilterStatus.initStatus(type, widget.filter.range).values;
-        values = RangeValues(newValues[0], newValues[1]);
+        rangeValues = RangeValues(newValues[0], newValues[1]);
       } else if (type == FilterType.dropDown) {
-        value = [];
+        selectedValues = [];
       }
     });
     return false;
@@ -283,19 +289,19 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
     TextStyle previewStyle = TextStyle(color: widget.color);
     if (selected) {
       if (widget.filter.type == FilterType.dropDown) {
-        if (value.length > 1) {
+        if (selectedValues.length > 1) {
           return Text('Selezione multiple');
-        } else if (value.length == 1) {
+        } else if (selectedValues.length == 1) {
           return Text(
-            value[0],
+            selectedValues[0],
             style: previewStyle,
           );
         }
       } else if (widget.filter.type == FilterType.selectRange) {
         return Text(
-          values.start.toStringAsFixed(0) +
+          rangeValues.start.toStringAsFixed(0) +
               ' - ' +
-              values.end.toStringAsFixed(0),
+              rangeValues.end.toStringAsFixed(0),
           style: previewStyle,
         );
       }
