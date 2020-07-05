@@ -182,22 +182,24 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
         crossAxisCount: 3,
         childAspectRatio: 2,
         children: infoMap.keys.map((String text) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(right: 6.0),
-                child: PoliferieIconBox(
-                  infoMap[text],
-                  iconColor: Styles.poliferieRed,
-                  iconSize: 18.0,
+          return Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(right: 6.0),
+                  child: PoliferieIconBox(
+                    infoMap[text],
+                    iconColor: Styles.poliferieRed,
+                    iconSize: 18.0,
+                  ),
                 ),
-              ),
-              Text(
-                text,
-                style: Styles.courseInfoStats,
-              ),
-            ],
+                Text(
+                  text,
+                  style: Styles.courseInfoStats,
+                ),
+              ],
+            ),
           );
         }).toList(),
       ),
