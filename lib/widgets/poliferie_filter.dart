@@ -182,7 +182,6 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
             ),
           ),
           onSubmitted: (value) {
-            print(value);
             updateBottomSheetState(updateState, FilterType.selectValue, value);
           },
         ),

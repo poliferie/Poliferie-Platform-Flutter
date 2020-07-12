@@ -77,7 +77,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
   Map<int, Function> filterUpdates = Map();
 
   // TODO(@amerlo): Could we share this function with the search screen?
-  void updateFilterStatus(int index, FilterType type, dynamic newValue) {
+  void updateFilterStatus(int index, FilterType type, dynamic newValue) async {
     setState(() {
       if (type == FilterType.selectValue) {
         if (newValue == null) {
@@ -85,6 +85,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
         } else {
           String newStringValue = newValue as String;
           filterStatus[index].values = [newStringValue];
+          setPrefereceKey(filters[index].name, newStringValue);
         }
       } else {
         Text(
@@ -93,10 +94,16 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
     });
   }
 
-  void _initFilters() {
+  void _initFilters() async {
     filters = preferenceFilters.asMap();
-    filterStatus = filters
-        .map((i, f) => MapEntry(i, FilterStatus.initStatus(f.type, f.range)));
+    for (int i in filters.keys) {
+      String storeValue = await getPrefereceKey(filters[i].name);
+      if (storeValue != null) {
+        filterStatus[i] = FilterStatus([storeValue]);
+      } else {
+        filterStatus[i] = FilterStatus([]);
+      }
+    }
     filterUpdates = filterStatus.map((i, s) => MapEntry(
         i,
         (FilterType type, dynamic newValue) =>
