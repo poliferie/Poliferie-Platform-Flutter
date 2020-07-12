@@ -3,42 +3,42 @@
         "id": 1,
         "title": "Le università in Lombardia",
         "subtitle": "Le migliori università in Lombardia",
-        "image": "assets/images/squadra.png",
+        "image": "https://poliferie.org/wp-content/uploads/2019/10/squadra.png",
         "linksTo": "articles:1"
     },
     {
         "id": 2,
         "title": "Dove cercare una borsa di studio",
         "subtitle": "Come finanziarsi gli studi",
-        "image": "assets/images/squadra.png",
+        "image": "https://poliferie.org/wp-content/uploads/2019/10/squadra.png",
         "linksTo": "articles:2"
     },
     {
         "id": 3,
         "title": "La didattica dell’emergenza in famiglia",
         "subtitle": "La resilienza delle famiglie",
-        "image": "assets/images/squadra.png",
+        "image": "https://poliferie.org/wp-content/uploads/2019/10/squadra.png",
         "linksTo": "articles:3"
     },
     {
         "id": 4,
         "title": "Corsi",
         "subtitle": "Tutti i corsi",
-        "image": "assets/images/squadra.png",
+        "image": "https://poliferie.org/wp-content/uploads/2019/10/squadra.png",
         "linksTo": "search:{\"itemType\":\"course\"}"
     },
     {
         "id": 5,
         "title": "Università",
         "subtitle": "Tutti le università",
-        "image": "assets/images/squadra.png",
+        "image": "https://poliferie.org/wp-content/uploads/2019/10/squadra.png",
         "linksTo": "search:{\"itemType\":\"provider\"}"
     },
     {
         "id": 6,
         "title": "Sotto i 1000€",
         "subtitle": "Le università con una tassa annuale sotto i 1000 €",
-        "image": "assets/images/squadra.png",
+        "image": "https://poliferie.org/wp-content/uploads/2019/10/squadra.png",
         "linksTo": "search:{}"
     }
 ]
