@@ -44,6 +44,9 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
       // For selectRange filter, we could always select the filter
       return true;
     }
+    if (widget.filter.type == FilterType.selectValue) {
+      return selectedValues.isNotEmpty && selectedValues[0] != "";
+    }
   }
 
   // Initialize filter state
@@ -159,6 +162,31 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
           },
         ),
       );
+    } else if (widget.filter.type == FilterType.selectValue) {
+      TextEditingController _controller = TextEditingController(
+          text: (selectedValues.isNotEmpty) ? selectedValues[0] : '');
+      // TODO(@amerlo): We must check the type of inserted value
+      return Container(
+        child: TextField(
+          controller: _controller,
+          textAlign: TextAlign.center,
+          maxLines: 1,
+          decoration: InputDecoration(
+            hintText: widget.filter.hint,
+            suffixText: widget.filter.unit,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide(
+                style: BorderStyle.solid,
+              ),
+            ),
+          ),
+          onSubmitted: (value) {
+            print(value);
+            updateBottomSheetState(updateState, FilterType.selectValue, value);
+          },
+        ),
+      );
     } else {
       throw Exception("Filter type is not defined!");
     }
@@ -176,6 +204,8 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
     updateState(() {
       if (type == FilterType.selectRange) {
         rangeValues = newValue;
+      } else if (type == FilterType.selectValue) {
+        selectedValues = [newValue];
       } else if (type == FilterType.dropDown) {
         if (selectedValues.contains(newValue)) {
           if (selectedValues.length == 1 && selectedValues.contains(newValue)) {
@@ -247,6 +277,8 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
         rangeValues = RangeValues(newValues[0], newValues[1]);
       } else if (type == FilterType.dropDown) {
         selectedValues = [];
+      } else if (type == FilterType.selectValue) {
+        selectedValues = [];
       }
     });
     return false;
@@ -302,6 +334,11 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
               ' - ' +
               rangeValues.end.toStringAsFixed(0) +
               widget.filter.unit,
+          style: previewStyle,
+        );
+      } else if (widget.filter.type == FilterType.selectValue) {
+        return Text(
+          selectedValues[0] + widget.filter.unit,
           style: previewStyle,
         );
       }

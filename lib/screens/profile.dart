@@ -14,6 +14,29 @@ import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_item_card.dart';
+import 'package:Poliferie.io/widgets/poliferie_filter.dart';
+
+// TODO(@amerlo): Evaluate where to locate this variable
+List<Filter> preferenceFilters = [
+  Filter(
+    unit: "€",
+    name: "ISEE",
+    hint: "Inserisci il tuo ISEE",
+    description: "L'indicatore della situazione economica equivalente...",
+    icon: IconData(59692, fontFamily: 'MaterialIcons'),
+    type: FilterType.selectValue,
+    range: [],
+  ),
+  Filter(
+    unit: "",
+    name: "Codice Postale",
+    hint: "Inserisci il tuo CAP di residenza",
+    description: "Il CAP è numero di 5 cifre...",
+    icon: IconData(58728, fontFamily: 'MaterialIcons'),
+    type: FilterType.selectValue,
+    range: [],
+  ),
+];
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key}) : super(key: key);
@@ -48,10 +71,43 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
     ItemType.university: Strings.searchTabUniversity,
   };
 
+  /// Map of all [Filter]
+  Map<int, Filter> filters = Map();
+  Map<int, FilterStatus> filterStatus = Map();
+  Map<int, Function> filterUpdates = Map();
+
+  // TODO(@amerlo): Could we share this function with the search screen?
+  void updateFilterStatus(int index, FilterType type, dynamic newValue) {
+    setState(() {
+      if (type == FilterType.selectValue) {
+        if (newValue == null) {
+          filterStatus[index].values = [];
+        } else {
+          String newStringValue = newValue as String;
+          filterStatus[index].values = [newStringValue];
+        }
+      } else {
+        Text(
+            "Error: this type of filter is not supported in the profile screen");
+      }
+    });
+  }
+
+  void _initFilters() {
+    filters = preferenceFilters.asMap();
+    filterStatus = filters
+        .map((i, f) => MapEntry(i, FilterStatus.initStatus(f.type, f.range)));
+    filterUpdates = filterStatus.map((i, s) => MapEntry(
+        i,
+        (FilterType type, dynamic newValue) =>
+            updateFilterStatus(i, type, newValue)));
+  }
+
   @override
   void initState() {
     super.initState();
     _updateFavorites();
+    _initFilters();
   }
 
   // TODO(@amerlo): Could we avoid the duplcated state?
@@ -227,6 +283,31 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
     );
   }
 
+  Widget _buildFilters(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(Strings.userSettings, style: Styles.tabHeading),
+            ],
+          ),
+          ...filters.keys.map(
+            (k) => PoliferieFilter(
+              filters[k],
+              filterStatus[k],
+              updateValue: filterUpdates[k],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildList(BuildContext context, ItemType type) {
     if (favoriteList.isEmpty) {
       return _buildItemsList(tabStrings[type], [], type);
@@ -259,6 +340,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
           color: Styles.poliferieWhite),
       child: Column(
         children: [
+          _buildFilters(context),
           _buildList(context, ItemType.course),
           _buildList(context, ItemType.university),
         ],

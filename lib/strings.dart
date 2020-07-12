@@ -57,6 +57,7 @@ abstract class Strings {
   static const String compareAction = 'Confronta';
 
   // User Screen
+  static const String userSettings = 'Impostazioni';
   static const String userFollowers = 'Followers';
   static const String listExpand = 'Vedi tutto';
   static const String listCollapse = 'Chiudi';

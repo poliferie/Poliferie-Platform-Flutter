@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/models/item.dart';
 
-enum FilterType { dropDown, selectRange }
+enum FilterType { dropDown, selectRange, selectValue }
 
 class Filter extends Equatable {
   final IconData icon;
@@ -39,6 +39,9 @@ class Filter extends Equatable {
     if (type == 'selectRange') {
       return FilterType.selectRange;
     }
+    if (type == 'selectValue') {
+      return FilterType.selectValue;
+    }
     return FilterType.selectRange;
   }
 
@@ -67,6 +70,9 @@ class FilterStatus {
 
   static FilterStatus initStatus(FilterType type, List<dynamic> range) {
     if (type == FilterType.dropDown) {
+      return FilterStatus([]);
+    }
+    if (type == FilterType.selectValue) {
       return FilterStatus([]);
     }
     if (type == FilterType.selectRange) {
