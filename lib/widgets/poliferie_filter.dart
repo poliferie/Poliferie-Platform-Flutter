@@ -124,15 +124,13 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 PoliferieValueBox(
-                    "Minimo",
-                    rangeValues.start.toInt().toString() +
-                        " " +
-                        widget.filter.unit),
+                  "Minimo",
+                  rangeValues.start.toInt().toString() + widget.filter.unit,
+                ),
                 PoliferieValueBox(
-                    "Massimo",
-                    rangeValues.end.toInt().toString() +
-                        " " +
-                        widget.filter.unit),
+                  "Massimo",
+                  rangeValues.end.toInt().toString() + widget.filter.unit,
+                ),
               ]),
         ],
       );
