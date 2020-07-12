@@ -179,9 +179,10 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
   // TODO(@amerlo): Animation is missing!
   Widget _buildItemsList(
       String listName, List<ItemModel> items, ItemType type) {
+    List<ItemModel> itemsOfType = items.where((e) => e.type == type).toList();
     List<ItemModel> itemsToShow = [];
-    if (items.isNotEmpty) {
-      itemsToShow = tabExpanded[type] ? items : [items[0]];
+    if (itemsOfType.isNotEmpty) {
+      itemsToShow = tabExpanded[type] ? itemsOfType : [itemsOfType[0]];
     }
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10.0),
