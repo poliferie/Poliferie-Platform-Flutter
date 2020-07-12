@@ -300,8 +300,10 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
       } else if (widget.filter.type == FilterType.selectRange) {
         return Text(
           rangeValues.start.toStringAsFixed(0) +
+              widget.filter.unit +
               ' - ' +
-              rangeValues.end.toStringAsFixed(0),
+              rangeValues.end.toStringAsFixed(0) +
+              widget.filter.unit,
           style: previewStyle,
         );
       }
