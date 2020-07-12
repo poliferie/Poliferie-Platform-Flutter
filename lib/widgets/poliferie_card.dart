@@ -7,8 +7,6 @@ import 'package:Poliferie.io/styles.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_article.dart';
 
-// TODO(@amerlo): Add support for card and text color
-
 enum CardOrientation { horizontal, vertical }
 
 class PoliferieCard extends StatelessWidget {
@@ -60,10 +58,7 @@ class PoliferieCard extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
       child: Column(
         children: <Widget>[
-          Image.asset(
-            card.image,
-            fit: BoxFit.cover,
-          ),
+          getImage(card.image),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 10.0),
             // TODO(@amerlo): Multi-lines text has to be centered
@@ -107,10 +102,7 @@ class PoliferieCard extends StatelessWidget {
             ),
             Expanded(
               flex: 2,
-              child: Image.asset(
-                card.image,
-                fit: BoxFit.cover,
-              ),
+              child: getImage(card.image),
             ),
           ],
         ),
@@ -132,5 +124,13 @@ class PoliferieCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _buildCard(context);
+  }
+}
+
+Image getImage(String src) {
+  if (src.startsWith("http")) {
+    return Image.network(src, fit: BoxFit.cover);
+  } else {
+    return Image.asset(src, fit: BoxFit.cover);
   }
 }
