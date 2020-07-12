@@ -197,7 +197,9 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
               InkWell(
                 onTap: () {
                   setState(() {
-                    tabExpanded[type] = !tabExpanded[type];
+                    if (itemsOfType.length > 1) {
+                      tabExpanded[type] = !tabExpanded[type];
+                    }
                   });
                 },
                 child: Text(
