@@ -194,19 +194,21 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(listName, style: Styles.tabHeading),
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    if (itemsOfType.length > 1) {
-                      tabExpanded[type] = !tabExpanded[type];
-                    }
-                  });
-                },
-                child: Text(
-                    tabExpanded[type]
-                        ? Strings.listCollapse
-                        : Strings.listExpand,
-                    style: Styles.profileExpandAll),
+              Material(
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      if (itemsOfType.length > 1) {
+                        tabExpanded[type] = !tabExpanded[type];
+                      }
+                    });
+                  },
+                  child: Text(
+                      tabExpanded[type]
+                          ? Strings.listCollapse
+                          : Strings.listExpand,
+                      style: Styles.profileExpandAll),
+                ),
               ),
             ],
           ),
