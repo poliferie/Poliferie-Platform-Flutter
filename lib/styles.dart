@@ -103,7 +103,7 @@ abstract class Styles {
   static const tabDescription = TextStyle(
     color: poliferieLightBlack,
     fontFamily: 'Lato',
-    fontSize: 18.0,
+    fontSize: 14.0,
     fontWeight: FontWeight.w300,
   );
 
