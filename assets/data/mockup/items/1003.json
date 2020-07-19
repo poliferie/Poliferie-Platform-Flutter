@@ -3,48 +3,132 @@
     "type": "course",
     "shortName": "Fisica",
     "longName": "Fisica",
-    "provider": "Università Federico II di Napoli",
-    "region": "Campania",
-    "city": "Napoli",
+    "provider": "Università La Sapienza",
+    "region": "Lazio",
+    "city": "Roma",
     "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     "longDescription": null,
     "providerLogo": "assets/images/mockup/sapienza_logo.jpg",
-    "providerImage": "assets/images/mockup/polimi_image.png",
+    "providerImage": "assets/images/mockup/sapienza_image.jpg",
     "isBookmarked": false,
     "duration": 3,
     "language": "Italiano",
     "requirements": "Diploma",
     "owner": "Pubblica",
-    "access": "Test",
+    "access": "Libero",
     "education": "In presenza",
     "students": 120345,
     "stats": [
         {
-            "name": "Soddisfazione",
-            "desc": "Percentuale di studenti soddisfatti del corso di laurea",
+            "name": "Tasso di disoccupazione",
+            "desc": "Tasso di disoccupazione (def. Istat)",
             "tag": "Opportunità",
-            "value": 92.5,
+            "value": 4.3,
+            "unit": "%"
+        },
+        {
+            "name": "Borse di studio",
+            "desc": "Percentuale di studenti che ha usufruito del servizio di borse di studio",
+            "tag": "Opportunità",
+            "value": 12.3,
+            "unit": "%"
+        },
+        {
+            "name": "Tirocini",
+            "desc": "Percentuale di studenti che ha svolto tirocini",
+            "tag": "Opportunità",
+            "value": 82.2,
             "unit": "%"
         },
         {
             "name": "Stipendio",
             "desc": "Stipendio mensile netto medio a 5 anni",
             "tag": "Opportunità",
-            "value": 1200.0,
+            "value": 2200.0,
             "unit": "€"
         },
         {
-            "name": "Tirocini",
-            "desc": "Percentuale di studenti che ha effettuato almeno un tirocinio",
-            "tag": "Mobilità",
-            "value": 2.2,
-            "unit": "%"
+            "name": "Ricerca prima occupazione",
+            "desc": "Tempo dall'inizio della ricerca al reperimento del primo lavoro",
+            "tag": "Opportunità",
+            "value": 4,
+            "unit": "mesi"
         },
         {
             "name": "Soggiorno Estero",
             "desc": "Percentuale di studenti che ha effettuato almeno un soggiorno estero",
             "tag": "Mobilità",
-            "value": 39.2,
+            "value": 19.2,
+            "unit": "%"
+        },
+        {
+            "name": "Internazionalità",
+            "desc": "Percentuale di studenti stranieri iscritti",
+            "tag": "Mobilità",
+            "value": 9.2,
+            "unit": "%"
+        },
+        {
+            "name": "Luogo di lavoro",
+            "desc": "Principale regione di lavoro",
+            "tag": "Mobilità",
+            "value": "Nord",
+            "unit": ""
+        },
+        {
+            "name": "Regolarità negli studi",
+            "desc": "Percentuale di studenti in corso",
+            "tag": "Continuità",
+            "value": 41.2,
+            "unit": "%"
+        },
+        {
+            "name": "Presenza in aula",
+            "desc": "Percentuale di studenti che hanno frequentato almeno i 3/4 delle lezioni",
+            "tag": "Continuità",
+            "value": 72.2,
+            "unit": "%"
+        },
+        {
+            "name": "Carico di studio",
+            "desc": "Percentuale di studenti che ritengono il carico di studio adeguato",
+            "tag": "Continuità",
+            "value": 92.2,
+            "unit": "%"
+        },
+        {
+            "name": "Gradimento corso",
+            "desc": "Percentuale di studenti che sono complessivamente soddisfatti del corso di laurea (%)",
+            "tag": "Soddisfazione",
+            "value": 22.2,
+            "unit": "%"
+        },
+        {
+            "name": "Competenze acquisite",
+            "desc": "Percentuale di studenti che nel lavoro utilizzano in misura elevata le competenze acquisite",
+            "tag": "Soddisfazione",
+            "value": 65.2,
+            "unit": "%"
+        },
+        {
+            "name": "Gradimento lavoro",
+            "desc": "Soddisfazione per il lavoro svolto (scala 1-10)",
+            "tag": "Soddisfazione",
+            "value": 22.2,
+            "unit": ""
+        },
+        {
+            "name": "Gradimento docenti",
+            "desc": "Percentuale di studenti che sono soddisfatti dei rapporti con i docenti in generale",
+            "tag": "Soddisfazione",
+            "value": 22.2,
+            "unit": "%"
+        },
+        {
+            "name": "Proseguimento",
+            "desc": "Percentuale di studenti che intendono proseguire gli studi",
+            "tag": "Soddisfazione",
+            "value": 22.2,
             "unit": "%"
         }
     ]
