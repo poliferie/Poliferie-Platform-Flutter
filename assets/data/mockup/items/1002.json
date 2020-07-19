@@ -6,10 +6,10 @@
     "provider": null,
     "region": "Toscana",
     "city": "Pisa",
-    "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "shortDescription": "L’Università di Pisa, fondata nel 1343, è tra le più antiche e prestigiose istituzioni accademiche d’Europa. Hanno insegnato o studiato a Pisa Galileo Galilei, il fondatore della scienza moderna, e i Premi Nobel Enrico Fermi e Carlo Rubbia, oltre a illustri personalità quali i poeti Giosuè Carducci (anche lui Premio Nobel) e Giovanni Pascoli, lo scienziato Antonio Pacinotti, gli ex presidenti della Repubblica, Carlo Azeglio Ciampi, e del Consiglio, Giuliano Amato, i registi Mario Monicelli e Paolo e Vittorio Taviani, lo scrittore Antonio Tabucchi, il giornalista Tiziano Terzani, il tenore Andrea Bocelli.",
     "longDescription": null,
-    "providerLogo": "assets/images/mockup/sapienza_logo.jpg",
-    "providerImage": "assets/images/mockup/polimi_image.png",
+    "providerLogo": "assets/images/mockup/unipi_logo.jpg",
+    "providerImage": "assets/images/mockup/unipi_image.png",
     "isBookmarked": false,
     "duration": null,
     "language": null,
@@ -48,6 +48,27 @@
             "unit": "%"
         },
         {
+            "name": "Borse di studio",
+            "desc": "Percentuale di studenti che hanno usufruito del servizio di borse di studio",
+            "tag": "Opportunità",
+            "value": 19.2,
+            "unit": "%"
+        },
+        {
+            "name": "Internazionalità",
+            "desc": "Percentuale di studenti stranieri iscritti",
+            "tag": "Mobilità",
+            "value": 19.2,
+            "unit": "%"
+        },
+        {
+            "name": "Raggiungibilità",
+            "desc": "Percentuale di studenti che hanno alloggiato a meno di un'ora di viaggio",
+            "tag": "Mobilità",
+            "value": 91.2,
+            "unit": "%"
+        },
+        {
             "name": "Retta universitaria",
             "desc": "Importo medio annuale delle tasse universitarie",
             "tag": "Costi",
@@ -77,7 +98,7 @@
         },
         {
             "name": "Studente meritevole",
-            "desc": "Sostegno economico aggiuntivo per un profilo di studente meritevole",
+            "desc": "Sostegno economico aggiuntivo per studente meritevole",
             "tag": "Sostegni Economici",
             "value": 890.0,
             "unit": "€"
