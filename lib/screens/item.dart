@@ -172,7 +172,11 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
         item.education: Icons.recent_actors,
       };
     } else if (item.type == ItemType.university) {
-      infoMap = {item.owner: Icons.lock, item.region: Icons.location_searching};
+      infoMap = {
+        item.owner: Icons.lock,
+        item.region: Icons.location_searching,
+        item.students.toString(): Icons.people,
+      };
     } else {
       return Container();
     }
