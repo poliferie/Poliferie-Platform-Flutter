@@ -109,95 +109,237 @@
         "provider": null,
         "region": "Toscana",
         "city": "Pisa",
-        "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "shortDescription": "L’Università di Pisa, fondata nel 1343, è tra le più antiche e prestigiose istituzioni accademiche d’Europa. Hanno insegnato o studiato a Pisa Galileo Galilei, il fondatore della scienza moderna, e i Premi Nobel Enrico Fermi e Carlo Rubbia, oltre a illustri personalità quali i poeti Giosuè Carducci (anche lui Premio Nobel) e Giovanni Pascoli, lo scienziato Antonio Pacinotti, gli ex presidenti della Repubblica, Carlo Azeglio Ciampi, e del Consiglio, Giuliano Amato, i registi Mario Monicelli e Paolo e Vittorio Taviani, lo scrittore Antonio Tabucchi, il giornalista Tiziano Terzani, il tenore Andrea Bocelli.",
         "longDescription": null,
-        "providerLogo": "assets/images/mockup/sapienza_logo.jpg",
-        "providerImage": "assets/images/mockup/polimi_image.png",
+        "providerLogo": "assets/images/mockup/unipi_logo.jpg",
+        "providerImage": "assets/images/mockup/unipi_image.png",
         "isBookmarked": false,
         "duration": null,
         "language": null,
         "requirements": null,
-        "owner": "Privata",
+        "owner": "Pubblica",
         "access": null,
         "education": null,
-        "students": 12098,
+        "students": 44900,
         "stats": [
             {
                 "name": "Soddisfazione",
                 "desc": "Percentuale di studenti soddisfatti dell'ateneo",
                 "tag": "Soddisfazione",
                 "value": 51.0,
-                "type": "circle"
+                "unit": "%"
             },
             {
                 "name": "Professori",
                 "desc": "Percentuale di studenti soddisfatti del rapporto con i professori",
                 "tag": "Soddisfazione",
                 "value": 80.1,
-                "type": "circle"
+                "unit": "%"
             },
             {
                 "name": "Biblioteche",
                 "desc": "Percentuale di studenti soddisfatti delle biblioteche",
                 "tag": "Soddisfazione",
                 "value": 92.1,
-                "type": "circle"
+                "unit": "%"
             },
             {
                 "name": "Aule studio",
                 "desc": "Percentuale di studenti soddisfatti dell'aule studio",
                 "tag": "Soddisfazione",
                 "value": 10.2,
-                "type": "circle"
+                "unit": "%"
+            },
+            {
+                "name": "Borse di studio",
+                "desc": "Percentuale di studenti che hanno usufruito del servizio di borse di studio",
+                "tag": "Opportunità",
+                "value": 19.2,
+                "unit": "%"
+            },
+            {
+                "name": "Internazionalità",
+                "desc": "Percentuale di studenti stranieri iscritti",
+                "tag": "Mobilità",
+                "value": 19.2,
+                "unit": "%"
+            },
+            {
+                "name": "Raggiungibilità",
+                "desc": "Percentuale di studenti che hanno alloggiato a meno di un'ora di viaggio",
+                "tag": "Mobilità",
+                "value": 91.2,
+                "unit": "%"
             },
             {
                 "name": "Retta universitaria",
                 "desc": "Importo medio annuale delle tasse universitarie",
                 "tag": "Costi",
                 "value": 1980.0,
-                "type": "euro"
+                "unit": "€"
             },
             {
                 "name": "Tassa regionale",
                 "desc": "Tassa per il diritto allo studio e bollo d'iscrizione",
                 "tag": "Costi",
                 "value": 156.0,
-                "type": "euro"
+                "unit": "€"
             },
             {
                 "name": "Altro",
                 "desc": "Altri costi",
                 "tag": "Costi",
                 "value": 34.0,
-                "type": "euro"
+                "unit": "€"
             },
             {
                 "name": "Borsa di studio",
                 "desc": "Sostegno economico per reddito",
                 "tag": "Sostegni Economici",
                 "value": 1000.0,
-                "type": "euro"
+                "unit": "€"
             },
             {
                 "name": "Studente meritevole",
-                "desc": "Sostegno economico aggiuntivo per un profilo di studente meritevole",
+                "desc": "Sostegno economico aggiuntivo per studente meritevole",
                 "tag": "Sostegni Economici",
                 "value": 890.0,
-                "type": "euro"
+                "unit": "€"
             },
             {
                 "name": "Sostegno alloggio",
                 "desc": "Costo agevolato per camera in studentato",
                 "tag": "Sostegni Economici",
                 "value": 140.0,
-                "type": "euro"
+                "unit": "€"
             },
             {
                 "name": "Sostegno mensa",
                 "desc": "Numero di pasti gratuiti al giorno",
                 "tag": "Sostegni Economici",
                 "value": 2,
-                "type": "string"
+                "unit": ""
+            }
+        ]
+    },
+    {
+        "id": 1004,
+        "type": "university",
+        "shortName": "Sapienza",
+        "longName": "Università La Sapienza",
+        "provider": null,
+        "region": "Lazio",
+        "city": "Roma",
+        "shortDescription": "La Sapienza, con 113mila studenti, è la più grande università d’Europa. Fondata nel 1303 da Bonifacio VIII, si caratterizza oggi come una research university dove si può fare ricerca e studiare in tutti i settori disciplinari. Gli studenti possono scegliere tra oltre 280 corsi di laurea e di laurea magistrale e oltre 200 master. Oltre 50 corsi sono tenuti in inglese, tra cui Medicina, Informatica, Economia, Scienze infermieristiche, Archeologia, Studi classici.",
+        "longDescription": null,
+        "providerLogo": "assets/images/mockup/sapienza_logo.jpg",
+        "providerImage": "assets/images/mockup/sapienza_image.jpg",
+        "isBookmarked": false,
+        "duration": null,
+        "language": null,
+        "requirements": null,
+        "owner": "Pubblica",
+        "access": null,
+        "education": null,
+        "students": 102049,
+        "stats": [
+            {
+                "name": "Soddisfazione",
+                "desc": "Percentuale di studenti soddisfatti dell'ateneo",
+                "tag": "Soddisfazione",
+                "value": 51.0,
+                "unit": "%"
+            },
+            {
+                "name": "Professori",
+                "desc": "Percentuale di studenti soddisfatti del rapporto con i professori",
+                "tag": "Soddisfazione",
+                "value": 80.1,
+                "unit": "%"
+            },
+            {
+                "name": "Biblioteche",
+                "desc": "Percentuale di studenti soddisfatti delle biblioteche",
+                "tag": "Soddisfazione",
+                "value": 92.1,
+                "unit": "%"
+            },
+            {
+                "name": "Aule studio",
+                "desc": "Percentuale di studenti soddisfatti dell'aule studio",
+                "tag": "Soddisfazione",
+                "value": 10.2,
+                "unit": "%"
+            },
+            {
+                "name": "Borse di studio",
+                "desc": "Percentuale di studenti che hanno usufruito del servizio di borse di studio",
+                "tag": "Opportunità",
+                "value": 19.2,
+                "unit": "%"
+            },
+            {
+                "name": "Internazionalità",
+                "desc": "Percentuale di studenti stranieri iscritti",
+                "tag": "Mobilità",
+                "value": 19.2,
+                "unit": "%"
+            },
+            {
+                "name": "Raggiungibilità",
+                "desc": "Percentuale di studenti che hanno alloggiato a meno di un'ora di viaggio",
+                "tag": "Mobilità",
+                "value": 91.2,
+                "unit": "%"
+            },
+            {
+                "name": "Retta universitaria",
+                "desc": "Importo medio annuale delle tasse universitarie",
+                "tag": "Costi",
+                "value": 1980.0,
+                "unit": "€"
+            },
+            {
+                "name": "Tassa regionale",
+                "desc": "Tassa per il diritto allo studio e bollo d'iscrizione",
+                "tag": "Costi",
+                "value": 156.0,
+                "unit": "€"
+            },
+            {
+                "name": "Altro",
+                "desc": "Altri costi",
+                "tag": "Costi",
+                "value": 34.0,
+                "unit": "€"
+            },
+            {
+                "name": "Borsa di studio",
+                "desc": "Sostegno economico per reddito",
+                "tag": "Sostegni Economici",
+                "value": 1000.0,
+                "unit": "€"
+            },
+            {
+                "name": "Studente meritevole",
+                "desc": "Sostegno economico aggiuntivo per studente meritevole",
+                "tag": "Sostegni Economici",
+                "value": 890.0,
+                "unit": "€"
+            },
+            {
+                "name": "Sostegno alloggio",
+                "desc": "Costo agevolato per camera in studentato",
+                "tag": "Sostegni Economici",
+                "value": 140.0,
+                "unit": "€"
+            },
+            {
+                "name": "Sostegno mensa",
+                "desc": "Numero di pasti gratuiti al giorno",
+                "tag": "Sostegni Economici",
+                "value": 2,
+                "unit": ""
             }
         ]
     }

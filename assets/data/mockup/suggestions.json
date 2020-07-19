@@ -22,5 +22,13 @@
         "provider": null,
         "location": "Pisa",
         "stats": []
+    },
+    {
+        "id": 1004,
+        "type": "university",
+        "shortName": "Università La Sapienza",
+        "provider": null,
+        "location": "Roma",
+        "stats": []
     }
 ]
