@@ -138,14 +138,24 @@ class _CompareScreenState extends State<CompareScreen> {
     );
   }
 
-  // TODO(@amerlo): Update with real function
+  // TODO(@amerlo): Move mockup selection to data layer
   // Callback to select item
   void _searchAndSelect(int box, ItemType type) {
     setState(() {
-      _items[box] = type == ItemType.university
-          ? SearchSuggestion(1002,
-              shortName: 'Università di Pisa', type: ItemType.university)
-          : SearchSuggestion(1003, shortName: 'Fisica', type: ItemType.course);
+      if (box == 0) {
+        _items[box] = type == ItemType.university
+            ? SearchSuggestion(1002,
+                shortName: 'Università di Pisa', type: ItemType.university)
+            : SearchSuggestion(1003,
+                shortName: 'Fisica', type: ItemType.course);
+      } else {
+        _items[box] = type == ItemType.university
+            ? SearchSuggestion(1004,
+                shortName: 'Università La Sapienza', type: ItemType.university)
+            : SearchSuggestion(1001,
+                shortName: 'Design del prodotto industriale',
+                type: ItemType.course);
+      }
     });
   }
 
