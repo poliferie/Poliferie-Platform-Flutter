@@ -13,7 +13,7 @@ It is written in Dart using [Flutter](https://flutter.io).
 
 Check out the `CONTRIBUTING.md` file on what it has to be done.
 
-## Usage
+## Developing
 Make sure you have Flutter installed on your local machine.
 For more instructions on how to install flutter, look [here](https://flutter.io/docs/get-started/install).
 
@@ -64,7 +64,18 @@ sudo adb usb
 
 Then run flutter again.
 
-## Known issues
-Flutter does not play well with the Linux kernel 5.5 and above,
-as the flutter run process will get stuck on 'syncing files to device'.
-Please get updates via the GitHub [issue](https://github.com/flutter/flutter/issues/49185).
+## Build
+
+Build the appbundle with the following arguments.
+
+```sh
+flutter build appbundle --no-tree-shake-icons
+```
+
+Then generate the target `*.apk` with [bundletool](https://github.com/google/bundletool).
+
+Alternatively you could build the apks direclty via Flutter.
+
+```sh
+flutter build apk --split-per-abi --no-tree-shake-icons
+```
