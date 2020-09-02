@@ -45,10 +45,34 @@ class Filter extends Equatable {
     return FilterType.selectRange;
   }
 
+  static IconData getIconFromString(String icon) {
+    if (icon == 'location_city') {
+      return Icons.location_city;
+    }
+    if (icon == 'supervisor_account') {
+      return Icons.supervisor_account;
+    }
+    if (icon == 'attach_money') {
+      return Icons.attach_money;
+    }
+    if (icon == 'plus_one') {
+      return Icons.plus_one;
+    }
+    if (icon == 'bookmark') {
+      return Icons.bookmark;
+    }
+    if (icon == 'work') {
+      return Icons.work;
+    }
+    if (icon == 'language') {
+      return Icons.language;
+    }
+  }
+
   // Constructor from Json file
   factory Filter.fromJson(Map<String, dynamic> json) {
     return Filter(
-        icon: IconData(int.parse(json['icon']), fontFamily: 'MaterialIcons'),
+        icon: getIconFromString(json['icon']),
         name: json['name'],
         hint: json['hint'],
         description: json['description'],

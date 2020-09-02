@@ -1,6 +1,6 @@
 [
     {
-        "icon": "58716",
+        "icon": "location_city",
         "name": "Regione",
         "hint": "Inserisci una regione...",
         "description": "Regione dell'università",
@@ -34,7 +34,7 @@
         ]
     },
     {
-        "icon": "59705",
+        "icon": "supervisor_account",
         "name": "Studenti",
         "hint": "Numero minimo di studenti...",
         "description": "Numero di iscritti al corso",
@@ -49,7 +49,7 @@
         "unit": ""
     },
     {
-        "icon": "57948",
+        "icon": "attach_money",
         "name": "Tassa",
         "hint": "Tassa massima annuale...",
         "description": "Tassa universitaria annuale",
@@ -65,7 +65,7 @@
         "unit": "€"
     },
     {
-        "icon": "59411",
+        "icon": "plus_one",
         "name": "Soddisfazione",
         "hint": "Grado di soddisfazione minimo...",
         "description": "Grado di soddisfazione dei laureati",
@@ -81,7 +81,7 @@
         "unit": "%"
     },
     {
-        "icon": "59493",
+        "icon": "bookmark",
         "name": "Area disciplinare",
         "hint": "Area disciplinare...",
         "description": "Area disciplinare del corso",
@@ -110,7 +110,7 @@
         "unit": ""
     },
     {
-        "icon": "59640",
+        "icon": "work",
         "name": "Tirocini",
         "hint": "Percentuale di tirocini...",
         "description": "Percentuale di studenti che ha effettuato almeno un tirocinio formativo",
@@ -125,7 +125,7 @@
         "unit": "%"
     },
     {
-        "icon": "59540",
+        "icon": "language",
         "name": "Lingua",
         "hint": "Lingua di insegnamento del corso",
         "description": "Lingua di insegnamento del corso",
@@ -140,7 +140,7 @@
         "unit": ""
     },
     {
-        "icon": "57955",
+        "icon": "attach_money",
         "name": "Stipendio",
         "hint": "Stipendio netto mensile",
         "description": "Stipendio netto mensile",
