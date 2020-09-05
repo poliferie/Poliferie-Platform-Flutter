@@ -14,8 +14,20 @@ import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
 class PoliferieSearchDelegate extends SearchDelegate {
   final SearchBloc searchBloc;
   final Widget Function(String) onSearch;
+  final dynamic Function(SearchSuggestion) onSuggestionTap;
 
-  PoliferieSearchDelegate({this.searchBloc, this.onSearch});
+  dynamic _onSuggestionTapDefault(
+      BuildContext context, SearchSuggestion suggestion) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ItemScreen(suggestion.id),
+      ),
+    );
+  }
+
+  PoliferieSearchDelegate(
+      {this.searchBloc, this.onSearch, this.onSuggestionTap});
 
   @override
   ThemeData appBarTheme(BuildContext context) {
@@ -51,7 +63,13 @@ class PoliferieSearchDelegate extends SearchDelegate {
   Widget buildResults(BuildContext context) {
     // TODO(@ferrarodav): Here we should include the whole search state and
     //                    provide it to the results screen
-    return onSearch(query);
+    // TODO(@amerlo): This is a very dirty hack to not update the view in case of
+    //                null onSearch() function
+    if (onSearch != null) {
+      return onSearch(query);
+    } else {
+      return buildSuggestions(context);
+    }
   }
 
   // TODO(@amerlo): Make bold substring possible in all string
@@ -80,12 +98,13 @@ class PoliferieSearchDelegate extends SearchDelegate {
         size: 28,
       ),
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ItemScreen(suggestion.id),
-          ),
-        );
+        if (onSuggestionTap != null) {
+          onSuggestionTap(suggestion);
+          // TODO(@amerlo): This close() call should be located in onSuggestionTap
+          close(context, null);
+        } else {
+          _onSuggestionTapDefault(context, suggestion);
+        }
       },
       title: _title,
       subtitle: suggestion.isCourse()

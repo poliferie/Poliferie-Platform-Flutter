@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import "package:flutter/widgets.dart";
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:Poliferie.io/bloc/search_bloc.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
+import 'package:Poliferie.io/widgets/poliferie_search_delegate.dart';
 import 'package:Poliferie.io/models/item.dart';
 import 'package:Poliferie.io/models/suggestion.dart';
 import 'package:Poliferie.io/screens/compare_view.dart';
+import 'package:Poliferie.io/screens/results.dart';
+import 'package:Poliferie.io/repositories/search_repository.dart';
 
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/icons.dart';
@@ -92,7 +97,12 @@ class CompareScreen extends StatefulWidget {
   _CompareScreenState createState() => _CompareScreenState();
 }
 
-class _CompareScreenState extends State<CompareScreen> {
+class CompareScreenBody extends StatefulWidget {
+  @override
+  _CompareScreenBodyState createState() => _CompareScreenBodyState();
+}
+
+class _CompareScreenBodyState extends State<CompareScreenBody> {
   // Selected items
   List<SearchSuggestion> _items = [null, null];
   bool _readyToCompare() {
@@ -138,25 +148,21 @@ class _CompareScreenState extends State<CompareScreen> {
     );
   }
 
-  // TODO(@amerlo): Move mockup selection to data layer
   // Callback to select item
   void _searchAndSelect(int box, ItemType type) {
-    setState(() {
-      if (box == 0) {
-        _items[box] = type == ItemType.university
-            ? SearchSuggestion(1002,
-                shortName: 'Università di Pisa', type: ItemType.university)
-            : SearchSuggestion(1003,
-                shortName: 'Fisica', type: ItemType.course);
-      } else {
-        _items[box] = type == ItemType.university
-            ? SearchSuggestion(1004,
-                shortName: 'Università La Sapienza', type: ItemType.university)
-            : SearchSuggestion(1001,
-                shortName: 'Design del prodotto industriale',
-                type: ItemType.course);
-      }
-    });
+    showSearch(
+      context: context,
+      delegate: PoliferieSearchDelegate(
+        searchBloc: BlocProvider.of<SearchBloc>(context),
+        onSuggestionTap: (SearchSuggestion suggestion) => {
+          setState(
+            () {
+              _items[box] = suggestion;
+            },
+          )
+        },
+      ),
+    );
   }
 
   // Callback to deselect item
@@ -238,6 +244,22 @@ class _CompareScreenState extends State<CompareScreen> {
     return Scaffold(
       appBar: PoliferieAppBar(icon: AppIcons.settings),
       body: _buildBody(context),
+    );
+  }
+}
+
+class _CompareScreenState extends State<CompareScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SearchBloc>(
+          create: (BuildContext context) => SearchBloc(
+              searchRepository:
+                  RepositoryProvider.of<SearchRepository>(context)),
+        ),
+      ],
+      child: CompareScreenBody(),
     );
   }
 }
