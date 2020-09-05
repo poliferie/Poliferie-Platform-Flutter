@@ -320,17 +320,14 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
       return _buildItemsList(tabStrings[type], [], type);
     }
     // TODO(@amerlo): Fetch multiple ids
-    BlocProvider.of<itm.ItemBloc>(context)
-        .add(itm.FetchItems([favoriteList[0]]));
+    BlocProvider.of<itm.ItemBloc>(context).add(itm.FetchItems(favoriteList));
     return BlocBuilder<itm.ItemBloc, itm.ItemState>(
       builder: (BuildContext context, itm.ItemState state) {
         if (state is itm.FetchStateLoading) {
           return PoliferieProgressIndicator();
         }
         if (state is itm.FetchStateSuccess) {
-          // TODO(@amerlo): Fake multiple ids fetched from client
-          return _buildItemsList(
-              tabStrings[type], repeat([state.items[0]], 5), type);
+          return _buildItemsList(tabStrings[type], state.items, type);
         }
         return Text('This widge should never be reached');
       },
