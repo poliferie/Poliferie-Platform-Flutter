@@ -23,56 +23,56 @@
             "name": "Soddisfazione",
             "desc": "Percentuale di studenti soddisfatti dell'ateneo",
             "tag": "Soddisfazione",
-            "value": 51.0,
+            "value": 49.9,
             "unit": "%"
         },
         {
             "name": "Professori",
             "desc": "Percentuale di studenti soddisfatti del rapporto con i professori",
             "tag": "Soddisfazione",
-            "value": 80.1,
+            "value": 89.9,
             "unit": "%"
         },
         {
             "name": "Biblioteche",
             "desc": "Percentuale di studenti soddisfatti delle biblioteche",
             "tag": "Soddisfazione",
-            "value": 92.1,
+            "value": 78.4,
             "unit": "%"
         },
         {
             "name": "Aule studio",
             "desc": "Percentuale di studenti soddisfatti dell'aule studio",
             "tag": "Soddisfazione",
-            "value": 10.2,
+            "value": 7.3,
             "unit": "%"
         },
         {
             "name": "Borse di studio",
             "desc": "Percentuale di studenti che hanno usufruito del servizio di borse di studio",
             "tag": "Opportunità",
-            "value": 19.2,
+            "value": 29.5,
             "unit": "%"
         },
         {
             "name": "Internazionalità",
             "desc": "Percentuale di studenti stranieri iscritti",
             "tag": "Mobilità",
-            "value": 19.2,
+            "value": 11.2,
             "unit": "%"
         },
         {
             "name": "Raggiungibilità",
             "desc": "Percentuale di studenti che hanno alloggiato a meno di un'ora di viaggio",
             "tag": "Mobilità",
-            "value": 91.2,
+            "value": 94.2,
             "unit": "%"
         },
         {
             "name": "Retta universitaria",
             "desc": "Importo medio annuale delle tasse universitarie",
             "tag": "Costi",
-            "value": 1980.0,
+            "value": 2080.0,
             "unit": "€"
         },
         {
@@ -93,21 +93,21 @@
             "name": "Borsa di studio",
             "desc": "Sostegno economico per reddito",
             "tag": "Sostegni Economici",
-            "value": 1000.0,
+            "value": 1200.0,
             "unit": "€"
         },
         {
             "name": "Studente meritevole",
             "desc": "Sostegno economico aggiuntivo per studente meritevole",
             "tag": "Sostegni Economici",
-            "value": 890.0,
+            "value": 780.0,
             "unit": "€"
         },
         {
             "name": "Sostegno alloggio",
             "desc": "Costo agevolato per camera in studentato",
             "tag": "Sostegni Economici",
-            "value": 140.0,
+            "value": 180.0,
             "unit": "€"
         },
         {
