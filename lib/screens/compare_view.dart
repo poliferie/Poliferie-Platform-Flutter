@@ -35,16 +35,19 @@ class CompareViewScreenBody extends StatefulWidget {
 
 class _CompareViewScreenBodyState extends State<CompareViewScreenBody> {
   final double _widthRatio = 0.45;
+  final double _heightRatio = 0.33;
   Widget _buildInfoBox(BuildContext context, ItemModel item) {
     return Container(
-      // TODO(@amerlo): Fix width
+      // TODO(@amerlo): Fix height relative to the content
       width: MediaQuery.of(context).size.width * _widthRatio,
+      height: MediaQuery.of(context).size.width * _heightRatio,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20)),
           color: Styles.poliferieWhite),
       padding: EdgeInsets.symmetric(vertical: 25.0, horizontal: 15.0),
       child: Text(
         item.shortName,
+        textAlign: TextAlign.center,
         style: Styles.cardHeadHorizontal,
       ),
     );
