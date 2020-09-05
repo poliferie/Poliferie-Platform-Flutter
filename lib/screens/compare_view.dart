@@ -181,15 +181,12 @@ class _CompareViewScreenBodyState extends State<CompareViewScreenBody> {
           children: <Widget>[
             Text(stats[0].name, style: Styles.statsTitle),
             Text(stats[0].desc, style: Styles.statsDescription),
-            Padding(
-              padding: EdgeInsets.only(top: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  ...stats.map((s) => buildCardTraling(s)).toList()
-                ],
-              ),
-            )
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                ...stats.map((s) => buildCardTraling(s)).toList()
+              ],
+            ),
           ],
         ),
       ),
