@@ -160,7 +160,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
       width: double.infinity,
       child: Column(
         children: <Widget>[
-          _buildUserImage('assets/images/mockup/andrea_profile.png'),
+          _buildUserImage(user.image),
           _buildUserName(user.name),
           _buildUserSubHeadline(user.school),
           _buildUserSubHeadline(user.city),
@@ -223,7 +223,8 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
         children: <Widget>[
           // TODO(@amerlo): Add separate counter (to do this we need to move
           //                the fetch items procedure in the the initializeState)
-          _buildUserStatsCard('Preferiti', favoriteList.length.toString()),
+          _buildUserStatsCard(
+              Strings.favorites, favoriteList.length.toString()),
         ],
       ),
     );

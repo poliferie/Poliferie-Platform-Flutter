@@ -61,4 +61,5 @@ abstract class Strings {
   static const String userFollowers = 'Followers';
   static const String listExpand = 'Vedi tutto';
   static const String listCollapse = 'Chiudi';
+  static const String favorites = 'Preferiti';
 }

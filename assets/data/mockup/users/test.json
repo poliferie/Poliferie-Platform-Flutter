@@ -1,10 +1,7 @@
 {
-    "name": "Andrea Zorzetto",
-    "school": "Istituto di Istruzione Superiore Cesare Balbo",
-    "city": "Casale Monferrato, AL",
-    "followers": 42,
-    "badges": [
-        "Esploratore",
-        "Camminatore"
-    ]
+    "name": "Mario Rossi",
+    "image": "assets/images/mockup/andrea_profile.png",
+    "school": "Istituto Tecnico Industriale Enrico Fermi",
+    "city": "Roma, RM",
+    "followers": 42
 }
