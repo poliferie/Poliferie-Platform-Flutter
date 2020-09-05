@@ -294,7 +294,7 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<ItemBloc>(context).add(FetchItem(widget.id));
+    BlocProvider.of<ItemBloc>(context).add(FetchItems([widget.id]));
 
     return BlocBuilder<ItemBloc, ItemState>(
       builder: (BuildContext context, ItemState state) {
@@ -305,7 +305,7 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
           return Text(state.error);
         }
         if (state is FetchStateSuccess) {
-          return _buildBody(context, state.item);
+          return _buildBody(context, state.items[0]);
         }
         return Text('This widge should never be reached');
       },

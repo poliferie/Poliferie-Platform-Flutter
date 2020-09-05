@@ -251,8 +251,8 @@ class _CompareViewScreenBodyState extends State<CompareViewScreenBody> {
   @override
   Widget build(BuildContext context) {
     // TODO(@amerlo): Fetch two results
-    BlocProvider.of<ItemBloc>(context).add(FetchItem(widget.queryItems[0].id));
-
+    BlocProvider.of<ItemBloc>(context)
+        .add(FetchItems(widget.queryItems.map((item) => item.id).toList()));
     return BlocBuilder<ItemBloc, ItemState>(
       builder: (BuildContext context, ItemState state) {
         if (state is FetchStateLoading) {
@@ -262,7 +262,7 @@ class _CompareViewScreenBodyState extends State<CompareViewScreenBody> {
           return Text(state.error);
         }
         if (state is FetchStateSuccess) {
-          return _buildBody(context, [state.item, state.item]);
+          return _buildBody(context, state.items);
         }
         return Text('This widge should never be reached');
       },

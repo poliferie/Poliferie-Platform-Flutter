@@ -4,11 +4,11 @@ abstract class ItemEvent extends Equatable {
   const ItemEvent([List props = const []]) : super();
 }
 
-class FetchItem extends ItemEvent {
-  final int itemId;
+class FetchItems extends ItemEvent {
+  final List<int> itemIds;
 
-  const FetchItem(this.itemId);
+  const FetchItems(this.itemIds);
 
   @override
-  List<Object> get props => [itemId];
+  List<Object> get props => [itemIds];
 }

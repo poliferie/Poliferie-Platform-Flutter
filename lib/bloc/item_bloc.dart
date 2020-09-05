@@ -36,11 +36,14 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
 
   @override
   Stream<ItemState> mapEventToState(ItemEvent event) async* {
-    if (event is FetchItem) {
+    if (event is FetchItems) {
       yield FetchStateLoading();
       try {
-        final ItemModel item = await itemRepository.getById(event.itemId);
-        yield FetchStateSuccess(item);
+        List<ItemModel> items = <ItemModel>[];
+        for (int id in event.itemIds) {
+          items.add(await itemRepository.getById(id));
+        }
+        yield FetchStateSuccess(items);
       } catch (error) {
         yield FetchStateError(error.message);
       }

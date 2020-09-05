@@ -12,15 +12,15 @@ abstract class ItemState extends Equatable {
 class FetchStateLoading extends ItemState {}
 
 class FetchStateSuccess extends ItemState {
-  final ItemModel item;
+  final List<ItemModel> items;
 
-  const FetchStateSuccess(this.item);
-
-  @override
-  List<Object> get props => [item];
+  const FetchStateSuccess(this.items);
 
   @override
-  String toString() => 'FetchStateSuccess { item: ${item?.id}}';
+  List<Object> get props => [items];
+
+  @override
+  String toString() => 'FetchStateSuccess { item: $items}';
 }
 
 class FetchStateError extends ItemState {

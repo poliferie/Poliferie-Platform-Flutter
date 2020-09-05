@@ -320,7 +320,8 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
       return _buildItemsList(tabStrings[type], [], type);
     }
     // TODO(@amerlo): Fetch multiple ids
-    BlocProvider.of<itm.ItemBloc>(context).add(itm.FetchItem(favoriteList[0]));
+    BlocProvider.of<itm.ItemBloc>(context)
+        .add(itm.FetchItems([favoriteList[0]]));
     return BlocBuilder<itm.ItemBloc, itm.ItemState>(
       builder: (BuildContext context, itm.ItemState state) {
         if (state is itm.FetchStateLoading) {
@@ -329,7 +330,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
         if (state is itm.FetchStateSuccess) {
           // TODO(@amerlo): Fake multiple ids fetched from client
           return _buildItemsList(
-              tabStrings[type], repeat([state.item], 5), type);
+              tabStrings[type], repeat([state.items[0]], 5), type);
         }
         return Text('This widge should never be reached');
       },
