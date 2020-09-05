@@ -29,7 +29,7 @@ class _PoliferieAnimatedListState extends State<PoliferieAnimatedList> {
   @override
   void initState() {
     _length = 1;
-    _height = widget.singleHeight * _length;
+    _height = widget.singleHeight * _length * 1.1;
     _icon = Icons.expand_more;
   }
 
