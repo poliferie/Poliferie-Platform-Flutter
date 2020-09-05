@@ -215,15 +215,15 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
           ],
           color: Styles.poliferieWhite),
       // TODO(@amerlo): How to properly scale this?
-      // TODO(@amerlo): Add university and courses values
       width: 200,
       padding: EdgeInsets.all(10.0),
       margin: EdgeInsets.symmetric(vertical: 2.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          _buildUserStatsCard(Strings.searchTabUniversity, '31'),
-          _buildUserStatsCard(Strings.searchTabCourse, '21'),
+          // TODO(@amerlo): Add separate counter (to do this we need to move
+          //                the fetch items procedure in the the initializeState)
+          _buildUserStatsCard('Preferiti', favoriteList.length.toString()),
         ],
       ),
     );
@@ -319,7 +319,6 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
     if (favoriteList.isEmpty) {
       return _buildItemsList(tabStrings[type], [], type);
     }
-    // TODO(@amerlo): Fetch multiple ids
     BlocProvider.of<itm.ItemBloc>(context).add(itm.FetchItems(favoriteList));
     return BlocBuilder<itm.ItemBloc, itm.ItemState>(
       builder: (BuildContext context, itm.ItemState state) {
