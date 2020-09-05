@@ -114,7 +114,7 @@
             "name": "Gradimento lavoro",
             "desc": "Soddisfazione per il lavoro svolto (scala 1-10)",
             "tag": "Soddisfazione",
-            "value": 16.2,
+            "value": 2.2,
             "unit": ""
         },
         {
