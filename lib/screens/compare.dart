@@ -136,14 +136,16 @@ class _CompareScreenBodyState extends State<CompareScreenBody> {
         text: Strings.compareAction,
         activeColor: Styles.poliferieBlue,
         isActive: _readyToCompare(),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CompareViewScreen(_items),
-            ),
-          );
-        },
+        onPressed: _readyToCompare()
+            ? () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CompareViewScreen(_items),
+                  ),
+                );
+              }
+            : () {},
       ),
     );
   }
