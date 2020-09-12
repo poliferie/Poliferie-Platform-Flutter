@@ -85,7 +85,7 @@ void main() async {
 
   bool showOnBoarding = !(await isOnBoardingCompleted());
   // Comment line below for deploying
-  showOnBoarding = false;
+  // showOnBoarding = false;
 
   return runApp(PoliferieApp(showOnBoarding: showOnBoarding));
 }
