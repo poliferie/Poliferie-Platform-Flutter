@@ -31,9 +31,13 @@ class BaseScreenState extends State<BaseScreen> {
 
   // By default go back to home screen on device back button
   Future<bool> _onWillPop() {
+    if (_selectedIndex == 0) {
+      return Future.value(true);
+    }
     setState(() {
       _selectedIndex = 0;
     });
+    return Future.value(false);
   }
 
   BorderRadius navigationBarRadius = BorderRadius.only(
