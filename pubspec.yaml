@@ -131,4 +131,4 @@ flutter:
 flutter_icons:
   android: true 
   ios: true
-  image_path: "assets/images/PF-Logo_Icon.png"
+  image_path: "assets/images/logo-launcher.png"
