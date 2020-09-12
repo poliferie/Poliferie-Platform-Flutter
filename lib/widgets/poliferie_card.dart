@@ -1,16 +1,11 @@
-import 'package:Poliferie.io/bloc/search_bloc.dart';
-import 'package:Poliferie.io/models/suggestion.dart';
-import 'package:Poliferie.io/screens/results.dart';
-import 'package:Poliferie.io/widgets/poliferie_search_delegate.dart';
 import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/models/card.dart';
+import 'package:Poliferie.io/widgets/poliferie_article.dart';
+import 'package:Poliferie.io/screens/results.dart';
 
 import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/styles.dart';
-
-import 'package:Poliferie.io/widgets/poliferie_article.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 enum CardOrientation { horizontal, vertical }
 
@@ -54,8 +49,7 @@ class PoliferieCard extends StatelessWidget {
                 .replaceAll("}", "")
                 .split(",")
                 .asMap()
-                .map((k, v) => MapEntry(v.split(":")[0].replaceAll("\"", ""),
-                    v.split(":")[1].replaceAll("\"", "")));
+                .map((k, v) => MapEntry(v.split(":")[0], v.split(":")[1]));
             if (keys.containsKey("query")) {
               // TODO(@amerlo): Here we should pass the SearchDelegate, taking the SearchBloc from the home.
               return () {
