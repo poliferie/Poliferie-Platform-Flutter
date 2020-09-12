@@ -292,7 +292,7 @@ abstract class Styles {
 
   static const cardHeadVertical = TextStyle(
     color: Styles.poliferieLightBlack,
-    fontSize: 20.0,
+    fontSize: 15.0,
     height: 1.2,
     fontFamily: 'Montserrat',
   );

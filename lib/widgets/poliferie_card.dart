@@ -1,3 +1,7 @@
+import 'package:Poliferie.io/bloc/search_bloc.dart';
+import 'package:Poliferie.io/models/suggestion.dart';
+import 'package:Poliferie.io/screens/results.dart';
+import 'package:Poliferie.io/widgets/poliferie_search_delegate.dart';
 import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/models/card.dart';
@@ -6,6 +10,7 @@ import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/styles.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_article.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 enum CardOrientation { horizontal, vertical }
 
@@ -28,7 +33,7 @@ class PoliferieCard extends StatelessWidget {
         // TODO(@ferrarodav): Could you check if this is in line with your idea?
         // Hack to split only on first occurrence of ':'
         int indexToSplit = card.linksTo.indexOf(':');
-        List link = [
+        List<String> link = [
           card.linksTo.substring(0, indexToSplit),
           card.linksTo.substring(indexToSplit + 1)
         ];
@@ -36,12 +41,33 @@ class PoliferieCard extends StatelessWidget {
           return PoliferieArticle.lazyBottomSheetCaller(
               context, int.parse(link[1]));
         } else if (link[0] == 'search') {
-          // navigate to search with filter status specified as json string. As for example:
-          //
-          // search:{"itemType":"course","satisfaction":{"from":80,"to":100}}
-          // Then pass the json string directly to the ResultsScreen, like:
-          // ResultsScreen(link[1])
-          return () {};
+          if (link[1] != "{}") {
+            // navigate to search with filter status specified as json string. As for example:
+            //
+            // search:{"itemType":"course","satisfaction":{"from":80,"to":100}}
+            // Then pass the json string directly to the ResultsScreen, like:
+            // ResultsScreen(link[1])
+            // TODO(@amerlo): At the moment, redirect to ResultsScreen with just the keyword arg.
+            // TODO(@amerlo): All these "\""" are really needed?
+            Map<String, String> keys = link[1]
+                .replaceAll("{", "")
+                .replaceAll("}", "")
+                .split(",")
+                .asMap()
+                .map((k, v) => MapEntry(v.split(":")[0].replaceAll("\"", ""),
+                    v.split(":")[1].replaceAll("\"", "")));
+            if (keys.containsKey("query")) {
+              // TODO(@amerlo): Here we should pass the SearchDelegate, taking the SearchBloc from the home.
+              return () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ResultsScreen(keys["query"]),
+                  ),
+                );
+              };
+            }
+          }
         }
       }
       return () {};
@@ -66,6 +92,7 @@ class PoliferieCard extends StatelessWidget {
               card.title,
               style: Styles.cardHeadVertical,
               maxLines: 2,
+              textAlign: TextAlign.left,
             ),
           ),
         ],
