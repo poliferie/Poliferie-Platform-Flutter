@@ -41,3 +41,6 @@ lib/generated_plugin_registrant.dart
 
 # Misc folder
 misc/*
+
+# Android sign app
+android/key.properties
