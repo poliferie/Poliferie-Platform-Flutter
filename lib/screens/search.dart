@@ -1,3 +1,4 @@
+import 'package:Poliferie.io/icons.dart';
 import 'package:Poliferie.io/screens/results.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/dimensions.dart';
-import 'package:Poliferie.io/icons.dart';
 
 import 'package:Poliferie.io/bloc/search.dart';
 import 'package:Poliferie.io/bloc/filter.dart';
@@ -216,17 +216,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
   Widget _buildFilterHeading() {
     return Text(
       Strings.searchFilterHeading,
-      style: Styles.headline,
-    );
-  }
-
-  Widget _buildFilterIntro() {
-    return Padding(
-      padding: AppDimensions.subHeadlinePadding,
-      child: Text(
-        Strings.searchFilterIntro,
-        style: Styles.subHeadline,
-      ),
+      style: Styles.tabHeading,
     );
   }
 
@@ -262,8 +252,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             _buildFilterHeading(),
-            _buildFilterIntro(),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             _buildTabBar(),
             _buildTabBarBody(context),
           ],
@@ -284,10 +273,30 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
       );
     }
 
+    Widget _buildSearchBar() {
+      return Padding(
+        padding: EdgeInsets.fromLTRB(AppDimensions.bodyPaddingLeft, 0.0,
+            AppDimensions.bodyPaddingRight, 10.0),
+        child: PoliferieFloatingButton(
+          onPressed: _onPressedSearch,
+          text: Strings.searchBarCopy,
+          textStyle: Styles.buttonText,
+          activeColor: Styles.poliferieWhite,
+          isActive: true,
+          leading: Icon(
+            AppIcons.search,
+            color: Styles.poliferieBlack,
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: PoliferieAppBar(
-        icon: AppIcons.search,
-        onPressed: _onPressedSearch,
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(60),
+          child: _buildSearchBar(),
+        ),
       ),
       body: _buildSearchScreenBody(context),
     );

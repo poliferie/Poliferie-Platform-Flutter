@@ -23,12 +23,13 @@ abstract class Strings {
   // Search Screen
   static const String searchTabCourse = 'Corsi';
   static const String searchTabUniversity = 'Università';
-  static const String searchFilterHeading = 'Cerca';
+  static const String searchFilterHeading = 'Filtri';
   static const String searchFilterIntro =
       "Se non sai precisamente quello che stai cercando, "
       "imposta solo qualche filtro e inizia ad esplorare l'offerta.";
   static const String searchExplore = 'Esplora';
   static const String filterSet = 'Imposta';
+  static const String searchBarCopy = "Corsi, università o istituti";
 
   // Results Screen
   static const String resultsHeading = 'Ricerca';

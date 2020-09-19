@@ -127,6 +127,13 @@ abstract class Styles {
     fontSize: 22.0,
   );
 
+  static const buttonText = TextStyle(
+    fontWeight: FontWeight.bold,
+    color: poliferieBlack,
+    fontFamily: 'Montserrat',
+    fontSize: 14.0,
+  );
+
   static const filterName = TextStyle(
     color: poliferieLightBlack,
     fontFamily: 'Montserrat',

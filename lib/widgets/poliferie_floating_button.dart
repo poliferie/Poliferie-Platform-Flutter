@@ -8,21 +8,36 @@ class PoliferieFloatingButton extends StatelessWidget {
   final bool isActive;
   final Color activeColor;
   final Function onPressed;
+  final Widget leading;
+  final double borderRadius;
+  final TextStyle textStyle;
 
   PoliferieFloatingButton(
-      {this.text = "", this.onPressed, this.isActive: false, this.activeColor});
+      {this.onPressed,
+      this.leading,
+      this.text = "",
+      this.isActive: false,
+      this.activeColor,
+      this.borderRadius: AppDimensions.widgetBorderRadius,
+      this.textStyle: Styles.buttonTitle});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: FloatingActionButton.extended(
+        heroTag: null,
         backgroundColor: isActive ? activeColor : Styles.poliferieGrey,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.widgetBorderRadius),
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
         onPressed: onPressed,
-        label: Text(text, style: Styles.buttonTitle),
+        label: Row(
+          children: [
+            if (leading != null) leading,
+            Text(text, style: textStyle)
+          ],
+        ),
       ),
     );
   }
