@@ -23,12 +23,14 @@ class _PoliferieAnimatedListState extends State<PoliferieAnimatedList> {
   // TODO(@amerlo): Single heigth should be in sync with card height,
   //                and height expansion should scale with it.
   int _length;
+  bool _isExpanded;
   double _height;
   IconData _icon;
 
   @override
   void initState() {
     _length = 1;
+    _isExpanded = false;
     _height = widget.singleHeight * _length * 1.1;
     _icon = Icons.expand_more;
   }
@@ -67,22 +69,34 @@ class _PoliferieAnimatedListState extends State<PoliferieAnimatedList> {
           });
         },
       ),
-      IconButton(
-        icon: Icon(_icon),
-        color: Styles.poliferieYellow,
-        onPressed: () {
-          setState(() {
-            if (_length == 1) {
-              _height = widget.singleHeight * widget.items.length;
-              _icon = Icons.expand_less;
-            } else {
-              _length = 1;
-              _height = widget.singleHeight;
-              _icon = Icons.expand_more;
-            }
-          });
-        },
-      )
+      if (widget.items.length != 1)
+        IconButton(
+          icon: Icon(_icon),
+          color: Styles.poliferieYellow,
+          onPressed: () {
+            setState(
+              () {
+                if (!_isExpanded) {
+                  _isExpanded = true;
+                  _height = widget.singleHeight * widget.items.length;
+                  _icon = Icons.expand_less;
+                } else {
+                  _length = 1;
+                  _isExpanded = false;
+                  _height = widget.singleHeight;
+                  _icon = Icons.expand_more;
+                }
+              },
+            );
+          },
+        )
+      else
+        // Proxy for the same height of empty space
+        IconButton(
+          icon: Icon(_icon),
+          color: Styles.poliferieWhite,
+          onPressed: () {},
+        )
     ]);
   }
 
