@@ -32,7 +32,7 @@ List<OnBoardingPage> _pages = [
     text:
         'Poliferie.io è un App che mira a combattare le disuagualinze di opportunità in ambito scolatico.',
     color: Styles.poliferieWhite,
-    imagePath: 'assets/images/onboarding/welcome.png',
+    imagePath: 'assets/images/onboarding/home.png',
   ),
   OnBoardingPage(
     index: 1,
@@ -62,7 +62,7 @@ List<OnBoardingPage> _pages = [
     text:
         'Scopri il tuo futuro. Per ogni domanda contattci su Instagram @poliferie!',
     color: Styles.poliferieWhite,
-    imagePath: 'assets/images/onboarding/ready.png',
+    imagePath: 'assets/images/onboarding/profile.png',
   )
 ];
 
@@ -191,7 +191,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   }
 
   Widget _buildImage(String imagePath, Color color) {
-    final double _imageHeight = MediaQuery.of(context).size.height * 0.95;
+    final double _imageHeight = MediaQuery.of(context).size.height * 0.8;
     return Expanded(
       child: Stack(
         alignment: Alignment.topCenter,
@@ -205,7 +205,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             ),
           ),
           Positioned(
-            bottom: -_imageHeight * 0.2,
+            bottom: -_imageHeight * 0.17,
             child: Image(
               height: _imageHeight,
               image: AssetImage(imagePath),
