@@ -15,4 +15,5 @@ class AppIcons {
   // General
   static const IconData university = Icons.school;
   static const IconData course = Icons.book;
+  static const IconData back = Icons.arrow_back;
 }

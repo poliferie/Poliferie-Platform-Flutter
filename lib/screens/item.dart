@@ -5,6 +5,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
+import 'package:Poliferie.io/icons.dart';
 
 import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/bloc/item.dart';
@@ -62,17 +63,18 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
       top: 20.0,
       left: -10.0,
       child: MaterialButton(
-          color: Styles.poliferieWhite,
-          shape: CircleBorder(),
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: Styles.poliferieLightGrey,
-          ),
-          onPressed: () {
-            {
-              Navigator.pop(context);
-            }
-          }),
+        color: Styles.poliferieWhite,
+        shape: CircleBorder(),
+        child: Icon(
+          AppIcons.back,
+          color: Styles.poliferieLightGrey,
+        ),
+        onPressed: () {
+          {
+            Navigator.pop(context);
+          }
+        },
+      ),
     );
   }
 
