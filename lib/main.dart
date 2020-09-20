@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
@@ -12,19 +13,62 @@ import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/screens/onboarding.dart';
 import 'package:Poliferie.io/screens/base.dart';
 
-class PoliferieApp extends StatelessWidget {
-  final bool showOnBoarding;
+import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
+
+class PoliferieApp extends StatefulWidget {
+  _PoliferieAppState createState() => _PoliferieAppState();
+}
+
+class _PoliferieAppState extends State<PoliferieApp> {
+  bool _initialized = false;
+  bool _error = false;
+  bool _showOnBoarding = true;
 
   static final Map<String, WidgetBuilder> routes = {
     '/home': (context) => BaseScreen(),
     '/onboarding': (context) => OnBoardingScreen(),
   };
 
-  const PoliferieApp({Key key, @required this.showOnBoarding})
-      : super(key: key);
+  void initializeFlutterFire() async {
+    try {
+      await Firebase.initializeApp();
+      setState(() {
+        _initialized = true;
+      });
+    } catch (e) {
+      setState(() {
+        _error = true;
+      });
+    }
+  }
+
+  void checkOnboarding() async {
+    bool onBoardingIsCompleted = await SharedPreferences.getInstance()
+            .then((p) => p.getBool('onBoardingIsCompleted')) ??
+        false;
+    setState(() {
+      _showOnBoarding = !onBoardingIsCompleted;
+    });
+  }
+
+  @override
+  void initState() {
+    initializeFlutterFire();
+    checkOnboarding();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (_error) {
+      return Text("Error during initialization of the app");
+    }
+
+    // TODO(@amerlo): Provide a widget where to host the progress indicator
+    // if (!_initialized) {
+    //   return PoliferieProgressIndicator();
+    // }
+
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     final ApiProvider apiProvider = ApiProvider(mockup: true);
     final LocalProvider localProvider = LocalProvider();
@@ -67,25 +111,13 @@ class PoliferieApp extends StatelessWidget {
           scaffoldBackgroundColor: Styles.poliferieWhite,
         ),
         routes: routes,
-        initialRoute: showOnBoarding ? '/onboarding' : '/home',
+        initialRoute: _showOnBoarding ? '/onboarding' : '/home',
         builder: (context, child) => child,
       ),
     );
   }
 }
 
-Future<bool> isOnBoardingCompleted() async {
-  return (await SharedPreferences.getInstance())
-          .getBool('onBoardingIsComplted') ??
-      false;
-}
-
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  bool showOnBoarding = !(await isOnBoardingCompleted());
-  // Comment line below for deploying
-  // showOnBoarding = false;
-
-  return runApp(PoliferieApp(showOnBoarding: showOnBoarding));
+  return runApp(PoliferieApp());
 }
