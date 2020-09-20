@@ -74,10 +74,7 @@ class BaseScreenState extends State<BaseScreen> {
       onWillPop: _onWillPop,
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: IndexedStack(
-          index: _selectedIndex,
-          children: screens,
-        ),
+        body: screens[_selectedIndex],
         extendBody: true,
         bottomNavigationBar: Container(
           decoration: BoxDecoration(

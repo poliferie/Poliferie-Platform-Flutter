@@ -26,7 +26,8 @@ class PoliferieFilter extends StatefulWidget {
   _PoliferieFilterState createState() => new _PoliferieFilterState();
 }
 
-class _PoliferieFilterState extends State<PoliferieFilter> {
+class _PoliferieFilterState extends State<PoliferieFilter>
+    with AutomaticKeepAliveClientMixin {
   /// Is filter selected
   bool selected = false;
 
@@ -35,6 +36,9 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
 
   /// RangeValues selected for selectRange type
   RangeValues rangeValues;
+
+  @override
+  bool get wantKeepAlive => true;
 
   bool atLeastOne() {
     if (widget.filter.type == FilterType.dropDown) {
@@ -375,6 +379,7 @@ class _PoliferieFilterState extends State<PoliferieFilter> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Dismissible(
       key: GlobalKey(),
       confirmDismiss: (direction) => _doNotDismiss(widget.filter.type),
