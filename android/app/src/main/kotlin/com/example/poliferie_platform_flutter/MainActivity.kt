@@ -1,4 +1,4 @@
-package com.example.poliferie_platform_flutter
+package org.poliferie.app
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
