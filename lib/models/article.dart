@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 class Article extends Equatable {
-  final int id;
+  final String id;
   final ImageProvider image;
   final String title;
   final String subtitle;
@@ -24,7 +24,9 @@ class Article extends Equatable {
   factory Article.fromJson(Map<String, dynamic> json) {
     return Article(
       id: json['id'],
-      image: json['image'].toString().startsWith('http') ? NetworkImage(json['image'], scale: 1.0) : AssetImage(json['image']),
+      image: json['image'].toString().startsWith('http')
+          ? NetworkImage(json['image'], scale: 1.0)
+          : AssetImage(json['image']),
       title: json['title'],
       subtitle: json['subtitle'],
       bodyMarkdownSource: json['body'],

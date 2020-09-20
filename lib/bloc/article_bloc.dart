@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:rxdart/rxdart.dart';
 
 import 'package:Poliferie.io/bloc/article_event.dart';
 import 'package:Poliferie.io/bloc/article_state.dart';
@@ -38,7 +37,8 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
     if (event is FetchArticle) {
       yield FetchStateLoading();
       try {
-        final Article article = await articleRepository.getById(event.articleId);
+        final Article article =
+            await articleRepository.getById(event.articleId);
         yield FetchStateSuccess(article);
       } catch (error) {
         yield FetchStateError(error.message);

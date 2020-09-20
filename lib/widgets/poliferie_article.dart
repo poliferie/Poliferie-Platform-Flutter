@@ -103,7 +103,7 @@ class PoliferieArticle extends StatelessWidget {
     };
   }
 
-  static Widget _lazyBodyBuilder(BuildContext context, int articleId) {
+  static Widget _lazyBodyBuilder(BuildContext context, String articleId) {
     return BlocProvider<ArticleBloc>(
       create: (context) {
         final ArticleBloc bloc = ArticleBloc(
@@ -134,7 +134,7 @@ class PoliferieArticle extends StatelessWidget {
   }
 
   static void Function() lazyBottomSheetCaller(
-      BuildContext context, int articleId) {
+      BuildContext context, String articleId) {
     return _bottomSheetCaller(context, _lazyBodyBuilder(context, articleId));
   }
 }

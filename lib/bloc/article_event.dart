@@ -5,7 +5,7 @@ abstract class ArticleEvent extends Equatable {
 }
 
 class FetchArticle extends ArticleEvent {
-  final int articleId;
+  final String articleId;
 
   const FetchArticle(this.articleId);
 

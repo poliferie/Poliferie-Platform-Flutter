@@ -13,8 +13,6 @@ import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/screens/onboarding.dart';
 import 'package:Poliferie.io/screens/base.dart';
 
-import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
-
 class PoliferieApp extends StatefulWidget {
   _PoliferieAppState createState() => _PoliferieAppState();
 }
@@ -61,13 +59,12 @@ class _PoliferieAppState extends State<PoliferieApp> {
   @override
   Widget build(BuildContext context) {
     if (_error) {
-      return Text("Error during initialization of the app");
+      print("Error during initialization of the app");
     }
 
-    // TODO(@amerlo): Provide a widget where to host the progress indicator
-    // if (!_initialized) {
-    //   return PoliferieProgressIndicator();
-    // }
+    if (!_initialized) {
+      print("Firebase has not been initialized yet...");
+    }
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     final ApiProvider apiProvider = ApiProvider(mockup: true);
@@ -119,5 +116,7 @@ class _PoliferieAppState extends State<PoliferieApp> {
 }
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   return runApp(PoliferieApp());
 }

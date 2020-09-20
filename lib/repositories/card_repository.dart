@@ -9,9 +9,10 @@ class CardRepository {
   final ApiProvider apiProvider;
   final AsyncCache<List<CardInfo>> cache;
 
-  CardRepository({@required this.apiProvider, cacheDuration}) 
-    : cache = AsyncCache<List<CardInfo>>(Duration(hours: cacheDuration ?? 12)), 
-      assert(apiProvider != null);
+  CardRepository({@required this.apiProvider, cacheDuration})
+      : cache =
+            AsyncCache<List<CardInfo>>(Duration(hours: cacheDuration ?? 12)),
+        assert(apiProvider != null);
 
   Future<List<CardInfo>> _getAll() async {
     final allCards = await apiProvider.fetch('cards');

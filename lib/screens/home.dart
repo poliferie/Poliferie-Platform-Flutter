@@ -71,7 +71,7 @@ class HomeScreenBody extends StatelessWidget {
     // Always present card
     final PoliferieCard _howToCard = PoliferieCard(
       CardInfo(
-        0,
+        "-1",
         image: 'assets/images/metodo.png',
         title: Strings.cardHowItWorks,
       ),
@@ -90,7 +90,7 @@ class HomeScreenBody extends StatelessWidget {
     final List<CardInfo> _searchCards = [];
     final List<CardInfo> _articleCards = [];
     for (CardInfo card in cards) {
-      if (card.linksTo.startsWith('search:')) {
+      if (card.linksTo.startsWith('items/')) {
         _searchCards.add(card);
       } else {
         _articleCards.add(card);

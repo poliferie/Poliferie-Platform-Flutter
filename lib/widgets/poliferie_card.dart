@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/models/card.dart';
-import 'package:Poliferie.io/widgets/poliferie_article.dart';
 import 'package:Poliferie.io/screens/results.dart';
 
 import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/styles.dart';
+
+import 'package:Poliferie.io/widgets/poliferie_article.dart';
 
 enum CardOrientation { horizontal, vertical }
 
@@ -25,25 +26,21 @@ class PoliferieCard extends StatelessWidget {
   void Function() handleTap(BuildContext context) {
     if (onTap == _dummyTapFn) {
       if (card.linksTo.length > 0) {
-        // TODO(@ferrarodav): Could you check if this is in line with your idea?
-        // Hack to split only on first occurrence of ':'
-        int indexToSplit = card.linksTo.indexOf(':');
+        int indexToSplit = card.linksTo.indexOf('/');
         List<String> link = [
           card.linksTo.substring(0, indexToSplit),
           card.linksTo.substring(indexToSplit + 1)
         ];
         if (link[0] == 'articles') {
-          return PoliferieArticle.lazyBottomSheetCaller(
-              context, int.parse(link[1]));
-        } else if (link[0] == 'search') {
+          return PoliferieArticle.lazyBottomSheetCaller(context, link[1]);
+        } else if (link[0] == 'items') {
           if (link[1] != "{}") {
             // navigate to search with filter status specified as json string. As for example:
             //
-            // search:{"itemType":"course","satisfaction":{"from":80,"to":100}}
+            // items:{"itemType":"course","satisfaction":{"from":80,"to":100}}
             // Then pass the json string directly to the ResultsScreen, like:
             // ResultsScreen(link[1])
             // TODO(@amerlo): At the moment, redirect to ResultsScreen with just the keyword arg.
-            // TODO(@amerlo): All these "\""" are really needed?
             Map<String, String> keys = link[1]
                 .replaceAll("{", "")
                 .replaceAll("}", "")

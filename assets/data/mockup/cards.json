@@ -1,51 +1,51 @@
 [
     {
-        "id": 1,
+        "id": "1",
         "title": "Le università in Lombardia",
         "subtitle": "Le migliori università in Lombardia",
         "image": "https://poliferie.org/wp-content/uploads/2019/10/squadra.png",
-        "linksTo": "articles:1"
+        "linksTo": "articles/1"
     },
     {
-        "id": 2,
+        "id": "2",
         "title": "Dove cercare una borsa di studio",
         "subtitle": "Come finanziarsi gli studi",
         "image": "https://poliferie.org/wp-content/uploads/2019/10/squadra.png",
-        "linksTo": "articles:2"
+        "linksTo": "articles/2"
     },
     {
-        "id": 3,
+        "id": "3",
         "title": "La didattica dell’emergenza in famiglia",
         "subtitle": "La resilienza delle famiglie",
         "image": "https://poliferie.org/wp-content/uploads/2019/10/squadra.png",
-        "linksTo": "articles:3"
+        "linksTo": "articles/3"
     },
     {
-        "id": 4,
+        "id": "4",
         "title": "La Facoltà di Fisica",
         "subtitle": "La Facoltà di Fisica",
         "image": "https://poliferie.org/wp-content/uploads/2019/10/squadra.png",
-        "linksTo": "search:{itemType:course,query:Fisica}"
+        "linksTo": "items/{itemType:course,query:Fisica}"
     },
     {
-        "id": 7,
+        "id": "7",
         "title": "Tutti i Corsi",
         "subtitle": "Tutti i corsi",
         "image": "https://poliferie.org/wp-content/uploads/2019/10/squadra.png",
-        "linksTo": "search:{itemType:course,query:}"
+        "linksTo": "items/{itemType:course,query:}"
     },
     {
-        "id": 6,
+        "id": "6",
         "title": "Le rette sotto i 1000€",
         "subtitle": "Le università con una tassa annuale sotto i 1000 €",
         "image": "https://poliferie.org/wp-content/uploads/2019/10/squadra.png",
-        "linksTo": "search:{itemType:provider,query:}"
+        "linksTo": "items/{itemType:provider,query:}"
     },
     {
-        "id": 5,
+        "id": "5",
         "title": "Tutte le Università",
         "subtitle": "Tutte le università",
         "image": "https://poliferie.org/wp-content/uploads/2019/10/squadra.png",
-        "linksTo": "search:{itemType:provider,query:}"
+        "linksTo": "items/{itemType:provider,query:}"
     }
 ]
