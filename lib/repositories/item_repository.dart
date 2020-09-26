@@ -10,10 +10,11 @@ class ItemRepository {
   final AsyncCache<ItemModel> Function() cacheConstructor;
   final Map<int, AsyncCache<ItemModel>> cache;
 
-  ItemRepository({@required this.apiProvider, cacheDuration}) 
-    : cacheConstructor = (() => AsyncCache<ItemModel>(Duration(hours: cacheDuration ?? 12))),
-      cache = {}, 
-      assert(apiProvider != null);
+  ItemRepository({@required this.apiProvider, cacheDuration})
+      : cacheConstructor =
+            (() => AsyncCache<ItemModel>(Duration(hours: cacheDuration ?? 12))),
+        cache = {},
+        assert(apiProvider != null);
 
   Future<ItemModel> _getById(int id) async {
     final returnedJson = await apiProvider.fetch('items/$id');
