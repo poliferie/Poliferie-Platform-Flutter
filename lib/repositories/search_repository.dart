@@ -5,8 +5,8 @@ import 'package:Poliferie.io/providers/api_provider.dart';
 import 'package:Poliferie.io/providers/local_provider.dart';
 import 'package:Poliferie.io/models/suggestion.dart';
 import 'package:Poliferie.io/models/item.dart';
-
 import 'package:Poliferie.io/utils.dart';
+import 'package:Poliferie.io/configs.dart';
 
 class SearchRepository {
   final ApiProvider apiProvider;
@@ -18,7 +18,7 @@ class SearchRepository {
   Future<List<SearchSuggestion>> suggest(String searchText) async {
     // TODO(@ferrarodav): how will this be with the complete api?
     final returnedJson =
-        await apiProvider.fetch('suggestions'); // just for mockup
+        await apiProvider.fetch(Configs.firebaseSuggestionsCollection);
     List<SearchSuggestion> suggestions = returnedJson
         .map((el) => SearchSuggestion.fromJson(el))
         .toList()
@@ -31,7 +31,8 @@ class SearchRepository {
 
   Future<List<ItemModel>> search(String searchText) async {
     // TODO(@ferrarodav): how will this be with the complete api?
-    final returnedJson = await apiProvider.fetch('items'); // just for mockup
+    final returnedJson = await apiProvider
+        .fetch(Configs.firebaseItemsCollection); // just for mockup
     List<ItemModel> results = returnedJson
         .map((el) => ItemModel.fromJson(el))
         .toList()

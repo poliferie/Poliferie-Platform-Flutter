@@ -10,6 +10,7 @@ import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/configs.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_card.dart';
@@ -90,7 +91,7 @@ class HomeScreenBody extends StatelessWidget {
     final List<CardInfo> _searchCards = [];
     final List<CardInfo> _articleCards = [];
     for (CardInfo card in cards) {
-      if (card.linksTo.startsWith('items/')) {
+      if (card.linksTo.startsWith(Configs.firebaseItemsCollection + '/')) {
         _searchCards.add(card);
       } else {
         _articleCards.add(card);

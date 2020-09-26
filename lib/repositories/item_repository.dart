@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:Poliferie.io/configs.dart';
 import 'package:meta/meta.dart';
 import 'package:async/async.dart';
 
@@ -17,7 +18,8 @@ class ItemRepository {
         assert(apiProvider != null);
 
   Future<ItemModel> _getById(int id) async {
-    final returnedJson = await apiProvider.fetch('items/$id');
+    final returnedJson =
+        await apiProvider.fetch(Configs.firebaseItemsCollection + '/$id');
     return ItemModel.fromJson(returnedJson);
   }
 
