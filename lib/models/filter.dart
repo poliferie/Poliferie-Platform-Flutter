@@ -7,6 +7,7 @@ enum FilterType { dropDown, selectRange, selectValue }
 
 class Filter extends Equatable {
   final IconData icon;
+  final String field;
   final String name;
   final String description;
   final String hint;
@@ -19,7 +20,7 @@ class Filter extends Equatable {
   /// Set of possible values, it depends on [FilterType]
   final List range;
 
-  Filter(
+  Filter(this.field,
       {this.icon,
       this.name,
       this.hint,
@@ -71,7 +72,7 @@ class Filter extends Equatable {
 
   // Constructor from Json file
   factory Filter.fromJson(Map<String, dynamic> json) {
-    return Filter(
+    return Filter(json['field'],
         icon: getIconFromString(json['icon']),
         name: json['name'],
         hint: json['hint'],
@@ -114,7 +115,7 @@ class FilterStatus {
 Map<String, dynamic> getFirebaseFilter(Filter filter, FilterStatus status) {
   if (filter.type == FilterType.selectRange) {
     return {
-      filter.name: {
+      filter.field: {
         "op": "<=>=",
         "values": status.values,
       }
@@ -122,7 +123,7 @@ Map<String, dynamic> getFirebaseFilter(Filter filter, FilterStatus status) {
   }
   if (filter.type == FilterType.selectValue) {
     return {
-      filter.name: {
+      filter.field: {
         "op": "==",
         "values": status.values,
       }
@@ -130,7 +131,7 @@ Map<String, dynamic> getFirebaseFilter(Filter filter, FilterStatus status) {
   }
   if (filter.type == FilterType.dropDown) {
     return {
-      filter.name: {
+      filter.field: {
         "op": "in",
         "values": status.values,
       }

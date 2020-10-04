@@ -1,6 +1,7 @@
 [
     {
         "icon": "location_city",
+        "field": "region",
         "name": "Regione",
         "hint": "Inserisci una regione...",
         "description": "Regione dell'università",
@@ -35,6 +36,7 @@
     },
     {
         "icon": "supervisor_account",
+        "field": "students",
         "name": "Studenti",
         "hint": "Numero minimo di studenti...",
         "description": "Numero di iscritti al corso",
@@ -50,6 +52,7 @@
     },
     {
         "icon": "attach_money",
+        "field": "tassa_annuale",
         "name": "Tassa",
         "hint": "Tassa massima annuale...",
         "description": "Tassa universitaria annuale",
@@ -66,6 +69,7 @@
     },
     {
         "icon": "plus_one",
+        "field": "soddisfazione",
         "name": "Soddisfazione",
         "hint": "Grado di soddisfazione minimo...",
         "description": "Grado di soddisfazione dei laureati",
@@ -82,6 +86,7 @@
     },
     {
         "icon": "bookmark",
+        "field": "area_disciplinare",
         "name": "Area disciplinare",
         "hint": "Area disciplinare...",
         "description": "Area disciplinare del corso",
@@ -111,6 +116,7 @@
     },
     {
         "icon": "work",
+        "field": "tirocini",
         "name": "Tirocini",
         "hint": "Percentuale di tirocini...",
         "description": "Percentuale di studenti che ha effettuato almeno un tirocinio formativo",
@@ -126,6 +132,7 @@
     },
     {
         "icon": "language",
+        "field": "lingua",
         "name": "Lingua",
         "hint": "Lingua di insegnamento del corso",
         "description": "Lingua di insegnamento del corso",
@@ -141,6 +148,7 @@
     },
     {
         "icon": "attach_money",
+        "field": "stipendio",
         "name": "Stipendio",
         "hint": "Stipendio netto mensile",
         "description": "Stipendio netto mensile",
