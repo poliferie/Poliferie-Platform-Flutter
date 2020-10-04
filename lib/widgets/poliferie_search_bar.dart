@@ -123,10 +123,10 @@ class _PoliferieSearchBarState extends State<PoliferieSearchBar> {
                 // if we have a label property, and getSelectedValue function
                 // send getSelectedValue to parent widget using the label property
                 if (widget.suggestionCallback != null) {
-                  widget.controller.text = suggestions[i].longName +
-                      (suggestions[i].isCourse()
-                          ? " " + suggestions[i].provider
-                          : "");
+                  // widget.controller.text = suggestions[i].longName +
+                  //     (suggestions[i].isCourse()
+                  //         ? " " + suggestions[i].provider
+                  //         : "");
                   widget.suggestionCallback(suggestions[i]);
                 } else {
                   widget.controller.text = suggestions[i];
