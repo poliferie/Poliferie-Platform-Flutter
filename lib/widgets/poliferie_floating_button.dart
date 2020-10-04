@@ -31,7 +31,7 @@ class PoliferieFloatingButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
         ),
-        onPressed: onPressed,
+        onPressed: isActive ? onPressed : null,
         label: Row(
           children: [
             if (leading != null) leading,
