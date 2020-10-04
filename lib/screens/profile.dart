@@ -19,6 +19,7 @@ import 'package:Poliferie.io/widgets/poliferie_filter.dart';
 // TODO(@amerlo): Evaluate where to locate this variable
 List<Filter> preferenceFilters = [
   Filter(
+    "isee",
     unit: "€",
     name: "ISEE",
     hint: "Inserisci il tuo ISEE",
@@ -28,6 +29,7 @@ List<Filter> preferenceFilters = [
     range: [],
   ),
   Filter(
+    "cap",
     unit: "",
     name: "Codice Postale",
     hint: "Inserisci il tuo CAP di residenza",
