@@ -1,19 +1,23 @@
+import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
+import 'package:Poliferie.io/utils.dart';
 
 import 'package:Poliferie.io/bloc/search_bloc.dart';
 import 'package:Poliferie.io/bloc/search.dart';
 import 'package:Poliferie.io/models/models.dart';
 import 'package:Poliferie.io/repositories/repositories.dart';
+import 'package:Poliferie.io/screens/item.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_item_card.dart';
 import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
 import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
+import 'package:Poliferie.io/widgets/poliferie_search_bar.dart';
 
 final List<String> ordersResults = ['Popolare', 'Nuovo'];
 
@@ -293,6 +297,43 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
 }
 
 class _ResultsScreenState extends State<ResultsScreen> {
+  final TextEditingController searchController = TextEditingController();
+
+  Widget _buildSearchBar(BuildContext context) {
+    searchController.text = widget.search.query;
+    return Padding(
+      padding: EdgeInsets.only(bottom: 10),
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width - 30,
+        child: PoliferieSearchBar(
+          label: Strings.searchBarCopy,
+          controller: searchController,
+          loadSuggestions: () async {
+            return await RepositoryProvider.of<SearchRepository>(context)
+                .suggest(searchController.text);
+          },
+          suggestionCallback: (suggestion) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ItemScreen(suggestion.id),
+              ),
+            );
+          },
+          onSearch: (query) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ResultsScreen(ItemSearch(query: query)),
+              ),
+            );
+            searchController.text = widget.search.query;
+          },
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -305,10 +346,21 @@ class _ResultsScreenState extends State<ResultsScreen> {
             ),
           )
         ],
-        child: ResultsScreenBody(
-            search: widget.search,
-            favoritesRepository:
-                RepositoryProvider.of<FavoritesRepository>(context)),
+        child: keyboardDismisser(
+          context: context,
+          child: Scaffold(
+            appBar: PoliferieAppBar(
+              bottom: PreferredSize(
+                preferredSize: Size.fromHeight(kToolbarHeight + 10),
+                child: _buildSearchBar(context),
+              ),
+            ),
+            body: ResultsScreenBody(
+                search: widget.search,
+                favoritesRepository:
+                    RepositoryProvider.of<FavoritesRepository>(context)),
+          ),
+        ),
       ),
     );
   }

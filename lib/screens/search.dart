@@ -5,6 +5,7 @@ import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/icons.dart';
+import 'package:Poliferie.io/utils.dart';
 
 import 'package:Poliferie.io/bloc/search.dart';
 import 'package:Poliferie.io/bloc/filter.dart';
@@ -235,18 +236,7 @@ class _FiltersBodyState extends State<FiltersBody> {
 }
 
 class _SearchScreenBodyState extends State<SearchScreenBody> {
-  String text;
   final TextEditingController searchController = TextEditingController();
-
-  void initState() {
-    super.initState();
-    text = "Select an option from the search bar";
-    searchController.addListener(() {
-      setState(() {
-        text = searchController.text;
-      });
-    });
-  }
 
   Widget _buildFilterHeading() {
     return Text(
@@ -296,16 +286,6 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
     );
   }
 
-  Widget keyboardDismisser({BuildContext context, Widget child}) {
-    final gesture = GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(new FocusNode());
-      },
-      child: child,
-    );
-    return gesture;
-  }
-
   Widget _buildSearchBar(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(bottom: 10),
@@ -333,6 +313,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
                 builder: (context) => ResultsScreen(ItemSearch(query: query)),
               ),
             );
+            searchController.text = "";
           },
         ),
       ),
@@ -345,7 +326,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
         child: Scaffold(
           appBar: PoliferieAppBar(
             bottom: PreferredSize(
-              preferredSize: Size.fromHeight(60),
+              preferredSize: Size.fromHeight(kToolbarHeight + 10),
               //child: _buildSearchBar(),
               child: _buildSearchBar(context),
             ),
