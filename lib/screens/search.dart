@@ -174,17 +174,24 @@ class _FiltersBodyState extends State<FiltersBody> {
       }
     });
 
-    // Call search delegate
-    showSearch(
-      context: context,
-      delegate: PoliferieSearchDelegate(
-        searchBloc: BlocProvider.of<SearchBloc>(context),
-        onSearch: (ItemSearch search) {
-          // Overwrites search filters and order.
-          search =
-              ItemSearch(query: search.query, filters: filters, order: order);
-          return ResultsScreen(search);
-        },
+    // // Call search delegate
+    // showSearch(
+    //   context: context,
+    //   delegate: PoliferieSearchDelegate(
+    //     searchBloc: BlocProvider.of<SearchBloc>(context),
+    //     onSearch: (ItemSearch search) {
+    //       // Overwrites search filters and order.
+    //       search =
+    //           ItemSearch(query: search.query, filters: filters, order: order);
+    //       return ResultsScreen(search);
+    //     },
+    //   ),
+    // );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResultsScreen(
+            ItemSearch(query: "", filters: filters, order: order)),
       ),
     );
   }
