@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>506595981062-5q0hdumi0v7oq4hruk42i0e27mh4qgql.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.506595981062-5q0hdumi0v7oq4hruk42i0e27mh4qgql</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBfEqXgiwvIC_6-_KueQ-ybEUoNbZiMUAk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>506595981062</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.poliferie.app</string>
+	<key>PROJECT_ID</key>
+	<string>poliferie-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>poliferie-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:506595981062:ios:ac3799ea0722220e791087</string>
+	<key>DATABASE_URL</key>
+	<string>https://poliferie-app.firebaseio.com</string>
+</dict>
+</plist>

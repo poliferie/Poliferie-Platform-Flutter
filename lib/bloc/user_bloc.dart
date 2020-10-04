@@ -42,7 +42,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         final User user = await userRepository.getByUsername(_userName);
         yield FetchStateSuccess(user);
       } catch (error) {
-        yield FetchStateError(error.message);
+        yield FetchStateError('$error');
       }
     }
   }
