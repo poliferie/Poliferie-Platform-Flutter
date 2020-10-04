@@ -37,7 +37,8 @@ class _PoliferieAppState extends State<PoliferieApp> {
   }
 
   Future<bool> isOnboardingCompleted() async {
-    return await LocalProvider().get('onBoardingIsCompleted');
+    return await LocalProvider()
+        .get('onBoardingIsCompleted', returnDefault: false);
   }
 
   @override
@@ -87,7 +88,7 @@ class _PoliferieAppState extends State<PoliferieApp> {
           AsyncSnapshot<List<bool>> snapshot,
         ) {
           if (!snapshot.hasData) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
           return MaterialApp(
             debugShowCheckedModeBanner: false,
