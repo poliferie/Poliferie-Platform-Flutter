@@ -1,18 +1,19 @@
-import 'package:Poliferie.io/icons.dart';
-import 'package:Poliferie.io/screens/results.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/dimensions.dart';
+import 'package:Poliferie.io/icons.dart';
 
 import 'package:Poliferie.io/bloc/search.dart';
 import 'package:Poliferie.io/bloc/filter.dart';
 import 'package:Poliferie.io/models/filter.dart';
 import 'package:Poliferie.io/models/item.dart';
+import 'package:Poliferie.io/models/item_search.dart';
 import 'package:Poliferie.io/repositories/search_repository.dart';
 import 'package:Poliferie.io/repositories/filter_repository.dart';
+import 'package:Poliferie.io/screens/results.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_filter.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
@@ -131,10 +132,6 @@ class _FiltersBodyState extends State<FiltersBody> {
       Map<int, FilterStatus> status,
       Map<int, Function> updates,
       ItemType tabType) {
-    // TODO(@amerlo): To check as below
-    // final double containerWidth = MediaQuery.of(context).size.width -
-    //     AppDimensions.bodyPadding.left -
-    //     AppDimensions.bodyPadding.right;
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
       padding: EdgeInsets.only(
@@ -154,28 +151,38 @@ class _FiltersBodyState extends State<FiltersBody> {
               )
               .toList()
         ],
-        // TODO(@amerlo): Should we use the full width for the filters?
-        // width: containerWidth > 280
-        // children: <Widget>[
-        //   for (var i in filters.keys)
-        //     ClipRect(
-        //       child: SizedBox(
-        //         //     ? (containerWidth / 2).floor().toDouble()
-        //         //     : containerWidth,
-        //         width: containerWidth,
-        //         child: PoliferieFilter(
-        //           filters[i],
-        //           status[i],
-        //           updateValue: updates[i],
-        //         ),
-        //       ),
-        //     )
-        // ],
       ),
     );
   }
 
-  // TODO(@amerlo): Add search
+  /// Call search delegate with selected filters and order query
+  void _onPressedExplore() {
+    Map<String, dynamic> filters = Map();
+    Map<String, dynamic> order = Map();
+
+    // Build Firebase filters map
+    allStatus.forEach((i, status) {
+      if (status.selected) {
+        filters.putIfAbsent(
+            allFilters[i].name, () => getFirebaseFilter(allFilters[i], status));
+      }
+    });
+
+    // Call search delegate
+    showSearch(
+      context: context,
+      delegate: PoliferieSearchDelegate(
+        searchBloc: BlocProvider.of<SearchBloc>(context),
+        onSearch: (ItemSearch search) {
+          // Overwrites search filters and order.
+          search =
+              ItemSearch(query: search.query, filters: filters, order: order);
+          return ResultsScreen(search);
+        },
+      ),
+    );
+  }
+
   Widget _buildFloatingButton(BuildContext context) {
     return Padding(
       padding: EdgeInsetsDirectional.only(
@@ -185,7 +192,7 @@ class _FiltersBodyState extends State<FiltersBody> {
         isActive: couldWeSearch(),
         text: Strings.searchExplore,
         activeColor: Styles.poliferieBlue,
-        onPressed: () {},
+        onPressed: _onPressedExplore,
       ),
     );
   }
@@ -268,7 +275,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
         context: context,
         delegate: PoliferieSearchDelegate(
           searchBloc: BlocProvider.of<SearchBloc>(context),
-          onSearch: (String query) => ResultsScreen(query),
+          onSearch: (ItemSearch search) => ResultsScreen(search),
         ),
       );
     }

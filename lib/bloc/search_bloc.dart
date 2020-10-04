@@ -1,6 +1,5 @@
 import 'package:Poliferie.io/models/models.dart';
 import 'package:bloc/bloc.dart';
-import 'package:rxdart/rxdart.dart';
 
 import 'package:Poliferie.io/bloc/search_event.dart';
 import 'package:Poliferie.io/bloc/search_state.dart';
@@ -11,28 +10,14 @@ import 'package:Poliferie.io/models/item.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final SearchRepository searchRepository;
 
-  SearchBloc({this.searchRepository});// : assert(searchRepository != null);
+  SearchBloc({this.searchRepository}) : assert(searchRepository != null);
 
-  // @override
-  // Stream<SearchState> transformEvents(
-  //   Stream<SearchEvent> events,
-  //   Stream<SearchState> Function(SearchEvent event) next,
-  // ) {
-  //   return super.transformEvents(
-  //     events.debounceTime(
-  //       Duration(milliseconds: 500),
-  //     ),
-  //     next,
-  //   );
-  // }
-
-  // TODO(@amerlo): Hook for state transition
+  // TODO(@amerlo): Format all transition.
   @override
   void onTransition(Transition<SearchEvent, SearchState> transition) {
     print(transition);
   }
 
-  // TODO(@amerlo): Possibly add search cache and include here latest items
   @override
   SearchState get initialState => SearchStateLoading();
 
@@ -41,6 +26,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     if (event is FetchSuggestions) {
       final String searchText = event.searchText;
       yield SearchStateLoading();
+
       try {
         final List<SearchSuggestion> suggestions =
             await searchRepository.suggest(searchText);
@@ -50,10 +36,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       }
     } else if (event is FetchSearch) {
       final String searchText = event.searchText;
+      final Map<String, dynamic> filters = event.filters;
+      final Map<String, dynamic> order = event.order;
       yield SearchStateLoading();
+
       try {
-        final List<ItemModel> results =
-            await searchRepository.search(searchText);
+        final List<ItemModel> results = await searchRepository
+            .search(searchText, filters: filters, order: order);
         yield SearchStateSuccess(results);
       } catch (error) {
         yield SearchStateError(error.message);

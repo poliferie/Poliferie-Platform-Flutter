@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/models/card.dart';
+import 'package:Poliferie.io/models/item_search.dart';
 import 'package:Poliferie.io/screens/results.dart';
 
 import 'package:Poliferie.io/strings.dart';
@@ -54,7 +55,8 @@ class PoliferieCard extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ResultsScreen(keys["query"]),
+                    builder: (context) =>
+                        ResultsScreen(ItemSearch(query: keys["query"])),
                   ),
                 );
               };

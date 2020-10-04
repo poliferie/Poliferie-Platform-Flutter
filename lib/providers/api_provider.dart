@@ -67,10 +67,18 @@ Query _setFilter(Query query, String field, Map<String, dynamic> filter) {
   if (operation == "in") query = query.where(field, whereIn: values);
   if (operation == ">") query = query.where(field, isGreaterThan: values);
   if (operation == "<") query = query.where(field, isLessThan: values);
+  if (operation == "<>")
+    query = query
+        .where(field, isGreaterThan: values[0])
+        .where(field, isLessThan: values[1]);
   if (operation == ">=")
     query = query.where(field, isGreaterThanOrEqualTo: values);
   if (operation == "<=")
     query = query.where(field, isLessThanOrEqualTo: values);
+  if (operation == "<=>=")
+    query = query
+        .where(field, isGreaterThanOrEqualTo: values[0])
+        .where(field, isLessThanOrEqualTo: values[1]);
   if (operation == "null") query = query.where(field, isNull: values);
   if (operation == "array-contains")
     query = query.where(field, arrayContains: values);

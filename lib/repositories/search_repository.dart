@@ -24,22 +24,45 @@ class SearchRepository {
         .toList()
         .cast<SearchSuggestion>();
 
-    suggestions = repeat(suggestions, 20); // Repeat list to mimic real data
+    suggestions = repeat(suggestions, 20);
     suggestions.shuffle();
     return suggestions;
   }
 
-  Future<List<ItemModel>> search(String searchText) async {
-    // TODO(@ferrarodav): how will this be with the complete api?
+  /// Returns the results for the Firebase query given the [searchText].
+  ///
+  /// A set of [filters] and a specifc [order] could be optionally given.
+  Future<List<ItemModel>> search(String searchText,
+      {Map<String, dynamic> filters, Map<String, dynamic> order}) async {
+    // Builds the Firebase search query based on [searchText].
+    // TODO(@amerlo): Evaluate how to order back the results if performed in this way.
+    if (searchText != null && searchText != "") {
+      // Sanitize filters in case of null map.
+      filters = filters != null ? filters : Map();
+      filters.putIfAbsent(
+          "search",
+          () => {
+                "op": "array-contains-any",
+                "values": searchText.contains(" ")
+                    ? searchText.split(" ")
+                    : [searchText]
+              });
+    }
+
+    print(filters);
+
     final returnedJson = await apiProvider
-        .fetch(Configs.firebaseItemsCollection); // just for mockup
+        .fetch(Configs.firebaseItemsCollection, filters: filters, order: order);
     List<ItemModel> results = returnedJson
         .map((el) => ItemModel.fromJson(el))
         .toList()
         .cast<ItemModel>();
 
-    results = repeat(results, 20); // Repeat list to mimic real data
+    // TODO(@amerlo): Remove this.
+    // Repeats results list in order to mimic real data.
+    results = repeat(results, 20);
     results.shuffle();
+
     return results;
   }
 }
