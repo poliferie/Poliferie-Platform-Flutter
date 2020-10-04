@@ -115,26 +115,20 @@ class FilterStatus {
 Map<String, dynamic> getFirebaseFilter(Filter filter, FilterStatus status) {
   if (filter.type == FilterType.selectRange) {
     return {
-      filter.field: {
-        "op": "<=>=",
-        "values": status.values,
-      }
+      "op": "<=>=",
+      "values": status.values,
     };
   }
   if (filter.type == FilterType.selectValue) {
     return {
-      filter.field: {
-        "op": "==",
-        "values": status.values,
-      }
+      "op": "==",
+      "values": status.values,
     };
   }
   if (filter.type == FilterType.dropDown) {
     return {
-      filter.field: {
-        "op": "in",
-        "values": status.values,
-      }
+      "op": "in",
+      "values": status.values,
     };
   }
 }

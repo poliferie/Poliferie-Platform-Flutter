@@ -166,13 +166,13 @@ class _FiltersBodyState extends State<FiltersBody> {
   /// Call search delegate with selected filters and order query
   void _onPressedExplore() {
     Map<String, dynamic> filters = Map();
-    Map<String, dynamic> order = Map();
+    Map<String, dynamic> order;
 
     // Build Firebase filters map
     allStatus.forEach((i, status) {
       if (status.selected) {
-        filters.putIfAbsent(
-            allFilters[i].name, () => getFirebaseFilter(allFilters[i], status));
+        filters.putIfAbsent(allFilters[i].field,
+            () => getFirebaseFilter(allFilters[i], status));
       }
     });
 
