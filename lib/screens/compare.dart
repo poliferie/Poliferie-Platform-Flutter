@@ -185,7 +185,7 @@ class _CompareScreenBodyState extends State<CompareScreenBody> {
               (index, s) => MapEntry(
                 index,
                 CompareItemBox(
-                  title: s == null ? _nullString : s.shortName,
+                  title: s == null ? _nullString : s.longName,
                   selector: () {
                     _searchAndSelect(index, type);
                   },

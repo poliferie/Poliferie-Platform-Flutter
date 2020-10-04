@@ -5,15 +5,15 @@ import 'package:Poliferie.io/models/item.dart';
 class SearchSuggestion extends Equatable {
   final int id;
   final ItemType type;
-  final String shortName;
+  final String longName;
   final String provider;
   final String city;
 
   const SearchSuggestion(this.id,
-      {this.type, this.shortName, this.provider, this.city});
+      {this.type, this.longName, this.provider, this.city});
 
   @override
-  List<Object> get props => [id, shortName, type];
+  List<Object> get props => [id, longName, type];
 
   bool isCourse() => type == ItemType.course;
 
@@ -24,7 +24,7 @@ class SearchSuggestion extends Equatable {
     return SearchSuggestion(
       json['id'],
       type: ItemModel.selectType(json['type'] as String),
-      shortName: json['shortName'],
+      longName: json['longName'],
       city: json['city'],
       provider: json['provider'],
     );

@@ -74,8 +74,8 @@ class PoliferieSearchDelegate extends SearchDelegate {
   // TODO(@amerlo): Make bold substring possible in all string
   _buildSuggestionEntry(
       BuildContext context, SearchSuggestion suggestion, String query) {
-    Widget _title = Text(suggestion.shortName, style: Styles.suggestionTitle);
-    if (suggestion.shortName.startsWith(query) && query != '') {
+    Widget _title = Text(suggestion.longName, style: Styles.suggestionTitle);
+    if (suggestion.longName.startsWith(query) && query != '') {
       _title = RichText(
         text: TextSpan(
           children: <TextSpan>[
@@ -84,7 +84,7 @@ class PoliferieSearchDelegate extends SearchDelegate {
               style: Styles.suggestionTitleBold,
             ),
             TextSpan(
-              text: suggestion.shortName.split(query)[1],
+              text: suggestion.longName.split(query)[1],
               style: Styles.suggestionTitle,
             ),
           ],
