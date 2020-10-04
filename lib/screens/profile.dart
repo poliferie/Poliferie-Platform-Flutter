@@ -157,8 +157,15 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(20),
               bottomRight: Radius.circular(20)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                spreadRadius: 0,
+                blurRadius: 3,
+                offset: Offset(0, 1)),
+          ],
           color: Styles.poliferieRed),
-      padding: EdgeInsets.symmetric(vertical: 25.0),
+      padding: EdgeInsets.only(top: kToolbarHeight + 25, bottom: 25.0),
       width: double.infinity,
       child: Column(
         children: <Widget>[
@@ -206,6 +213,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
 
   Widget _buildUserStats(User user) {
     return Container(
+      height: 60,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           boxShadow: <BoxShadow>[
@@ -233,12 +241,15 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
   }
 
   Widget _buildUserInfo(BuildContext context, User user) {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: <Widget>[
-        _buildUserHero(context, user),
-        _buildUserStats(user),
-      ],
+    return Container(
+      color: Styles.poliferieWhite,
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: <Widget>[
+          _buildUserHero(context, user),
+          _buildUserStats(user),
+        ],
+      ),
     );
   }
 
@@ -355,18 +366,18 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
     );
   }
 
-  Widget _buildBody(BuildContext context, User user) {
-    return ListView(
-      children: <Widget>[
-        Column(
-          children: <Widget>[
-            _buildUserInfo(context, user),
-            _buildUserBody(context),
-          ],
-        )
-      ],
-    );
-  }
+  // Widget _buildBody(BuildContext context, User user) {
+  //   return ListView(
+  //     children: <Widget>[
+  //       Column(
+  //         children: <Widget>[
+  //           //_buildUserInfo(context, user),
+  //           _buildUserBody(context),
+  //         ],
+  //       )
+  //     ],
+  //   );
+  // }
 
   Widget build(BuildContext context) {
     final UserBloc _userBloc = BlocProvider.of<UserBloc>(context);
@@ -375,15 +386,35 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
     return BlocBuilder<UserBloc, UserState>(
       builder: (BuildContext context, UserState state) {
         if (state is FetchStateLoading) {
-          return PoliferieProgressIndicator();
+          return Scaffold(
+            appBar: PoliferieAppBar(),
+            body: PoliferieProgressIndicator(),
+          );
         }
         if (state is FetchStateError) {
-          return Text(state.error);
+          return Scaffold(
+            appBar: PoliferieAppBar(),
+            body: Text(state.error),
+          );
         }
         if (state is FetchStateSuccess) {
-          return _buildBody(context, state.user);
+          return Scaffold(
+            body: CustomScrollView(slivers: <Widget>[
+              PoliferieAppBar(
+                bottom: PreferredSize(
+                  preferredSize: Size.fromHeight(0),
+                  child: _buildUserInfo(context, state.user),
+                ),
+                bottomHeight: 300,
+                sliverBar: true,
+              ),
+              SliverFillRemaining(
+                child: _buildUserBody(context),
+              ),
+            ]),
+          );
         }
-        return Text('This widge should never be reached');
+        return Text('This should never be reached');
       },
     );
   }
@@ -392,23 +423,20 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PoliferieAppBar(),
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider<UserBloc>(
-            create: (context) => UserBloc(
-                userRepository: RepositoryProvider.of<UserRepository>(context)),
-          ),
-          BlocProvider<itm.ItemBloc>(
-            create: (context) => itm.ItemBloc(
-                itemRepository: RepositoryProvider.of<ItemRepository>(context)),
-          ),
-        ],
-        child: ProfileScreenBody(
-            favoritesRepository:
-                RepositoryProvider.of<FavoritesRepository>(context)),
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<UserBloc>(
+          create: (context) => UserBloc(
+              userRepository: RepositoryProvider.of<UserRepository>(context)),
+        ),
+        BlocProvider<itm.ItemBloc>(
+          create: (context) => itm.ItemBloc(
+              itemRepository: RepositoryProvider.of<ItemRepository>(context)),
+        ),
+      ],
+      child: ProfileScreenBody(
+          favoritesRepository:
+              RepositoryProvider.of<FavoritesRepository>(context)),
     );
   }
 }

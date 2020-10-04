@@ -6,7 +6,9 @@ import 'package:Poliferie.io/styles.dart';
 class PoliferieAppBar extends StatelessWidget implements PreferredSizeWidget {
   final IconData icon;
   final PreferredSizeWidget bottom;
+  final double bottomHeight;
   final void Function() onPressed;
+  final bool sliverBar;
 
   // TODO(@amerlo): Add call to settings screen here
   static void emptyOnTap() {}
@@ -14,7 +16,9 @@ class PoliferieAppBar extends StatelessWidget implements PreferredSizeWidget {
   const PoliferieAppBar(
       {Key key,
       this.icon = AppIcons.settings,
-      this.bottom = null,
+      this.bottom,
+      this.bottomHeight = 0,
+      this.sliverBar = false,
       this.onPressed = emptyOnTap})
       : super(key: key);
 
@@ -38,16 +42,32 @@ class PoliferieAppBar extends StatelessWidget implements PreferredSizeWidget {
   // TODO(@amerlo): Set logo dimensions and padding
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      backgroundColor: Styles.poliferieRed,
-      title: Image.asset(
-        'assets/images/PF_Logo_White.png',
-        fit: BoxFit.cover,
-        height: 35.0,
-      ),
-      automaticallyImplyLeading: false,
-      bottom: bottom,
-      actions: <Widget>[_actions(icon)],
+    final titleWidget = Image.asset(
+      'assets/images/PF_Logo_White.png',
+      fit: BoxFit.cover,
+      height: 35.0,
     );
+    if (bottom == null || sliverBar == false) {
+      return AppBar(
+        backgroundColor: Styles.poliferieRed,
+        title: titleWidget,
+        automaticallyImplyLeading: false,
+        bottom: bottom,
+        actions: <Widget>[_actions(icon)],
+      );
+    } else {
+      return SliverAppBar(
+        pinned: true,
+        expandedHeight: bottomHeight,
+        backgroundColor: Styles.poliferieRed,
+        title: titleWidget,
+        automaticallyImplyLeading: false,
+        flexibleSpace: FlexibleSpaceBar(
+          background: bottom,
+          collapseMode: CollapseMode.parallax,
+        ),
+        actions: <Widget>[_actions(icon)],
+      );
+    }
   }
 }
