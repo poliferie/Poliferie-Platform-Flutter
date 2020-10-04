@@ -14,6 +14,7 @@ import 'package:Poliferie.io/models/item_search.dart';
 import 'package:Poliferie.io/repositories/search_repository.dart';
 import 'package:Poliferie.io/repositories/filter_repository.dart';
 import 'package:Poliferie.io/screens/results.dart';
+import 'package:Poliferie.io/screens/item.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_filter.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
@@ -21,6 +22,7 @@ import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
 import 'package:Poliferie.io/widgets/poliferie_search_delegate.dart';
 import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
+import 'package:Poliferie.io/widgets/poliferie_search_bar.dart';
 
 class SearchScreen extends StatefulWidget {
   SearchScreen({Key key}) : super(key: key);
@@ -233,6 +235,19 @@ class _FiltersBodyState extends State<FiltersBody> {
 }
 
 class _SearchScreenBodyState extends State<SearchScreenBody> {
+  String text;
+  final TextEditingController searchController = TextEditingController();
+
+  void initState() {
+    super.initState();
+    text = "Select an option from the search bar";
+    searchController.addListener(() {
+      setState(() {
+        text = searchController.text;
+      });
+    });
+  }
+
   Widget _buildFilterHeading() {
     return Text(
       Strings.searchFilterHeading,
@@ -281,45 +296,63 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    void _onPressedSearch() {
-      showSearch(
-        context: context,
-        delegate: PoliferieSearchDelegate(
-          searchBloc: BlocProvider.of<SearchBloc>(context),
-          onSearch: (ItemSearch search) => ResultsScreen(search),
-        ),
-      );
-    }
+  Widget keyboardDismisser({BuildContext context, Widget child}) {
+    final gesture = GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(new FocusNode());
+      },
+      child: child,
+    );
+    return gesture;
+  }
 
-    Widget _buildSearchBar() {
-      return Padding(
-        padding: EdgeInsets.fromLTRB(AppDimensions.bodyPaddingLeft, 0.0,
-            AppDimensions.bodyPaddingRight, 10.0),
-        child: PoliferieFloatingButton(
-          onPressed: _onPressedSearch,
-          text: Strings.searchBarCopy,
-          textStyle: Styles.buttonText,
-          activeColor: Styles.poliferieWhite,
-          isActive: true,
-          leading: Icon(
-            AppIcons.search,
-            color: Styles.poliferieBlack,
-          ),
-        ),
-      );
-    }
-
-    return Scaffold(
-      appBar: PoliferieAppBar(
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(60),
-          child: _buildSearchBar(),
+  Widget _buildSearchBar(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 10),
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width - 30,
+        child: PoliferieSearchBar(
+          label: Strings.searchBarCopy,
+          controller: searchController,
+          loadSuggestions: () async {
+            return await RepositoryProvider.of<SearchRepository>(context)
+                .suggest(searchController.text);
+          },
+          suggestionCallback: (suggestion) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ItemScreen(suggestion.id),
+              ),
+            );
+          },
+          onSearch: (query) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ResultsScreen(ItemSearch(query: query)),
+              ),
+            );
+          },
         ),
       ),
-      body: _buildSearchScreenBody(context),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return keyboardDismisser(
+        child: Scaffold(
+          appBar: PoliferieAppBar(
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(60),
+              //child: _buildSearchBar(),
+              child: _buildSearchBar(context),
+            ),
+          ),
+          body: _buildSearchScreenBody(context),
+        ),
+        context: context);
   }
 }
 
