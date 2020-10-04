@@ -108,7 +108,7 @@ class PoliferieSearchDelegate extends SearchDelegate {
       title: _title,
       subtitle: suggestion.isCourse()
           ? Text(suggestion.provider)
-          : Text(suggestion.location),
+          : Text(suggestion.city),
     );
   }
 
