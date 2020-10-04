@@ -226,6 +226,7 @@ class _PoliferieSearchBarState extends State<PoliferieSearchBar> {
           controller: widget.controller,
           focusNode: this._focusNode,
           textInputAction: TextInputAction.search,
+          style: Styles.buttonText,
           decoration: InputDecoration(
             hintText: widget.label,
             border: InputBorder.none,

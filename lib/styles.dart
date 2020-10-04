@@ -131,7 +131,7 @@ abstract class Styles {
     fontWeight: FontWeight.bold,
     color: poliferieBlack,
     fontFamily: 'Montserrat',
-    fontSize: 14.0,
+    fontSize: 16.0,
   );
 
   static const filterName = TextStyle(
