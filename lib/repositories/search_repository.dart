@@ -49,8 +49,6 @@ class SearchRepository {
               });
     }
 
-    print(filters);
-
     final returnedJson = await apiProvider
         .fetch(Configs.firebaseItemsCollection, filters: filters, order: order);
     List<ItemModel> results = returnedJson

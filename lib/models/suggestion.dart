@@ -7,11 +7,10 @@ class SearchSuggestion extends Equatable {
   final ItemType type;
   final String shortName;
   final String provider;
-  final String location;
-  final Map<String, List<ItemStat>> stats;
+  final String city;
 
   const SearchSuggestion(this.id,
-      {this.type, this.shortName, this.provider, this.location, this.stats});
+      {this.type, this.shortName, this.provider, this.city});
 
   @override
   List<Object> get props => [id, shortName, type];
@@ -22,27 +21,12 @@ class SearchSuggestion extends Equatable {
 
   // Constructor from Json file
   factory SearchSuggestion.fromJson(Map<String, dynamic> json) {
-    final List<dynamic> stats = json["stats"];
-
-    Map<String, List<ItemStat>> map = Map<String, List<ItemStat>>();
-    for (Map<String, dynamic> stat in stats) {
-      if (map.containsKey(stat["tag"])) {
-        map[stat["tag"]].add(
-            ItemStat(stat["name"], stat["desc"], stat["value"], stat["type"]));
-      } else {
-        map[stat["tag"]] = [
-          ItemStat(stat["name"], stat["desc"], stat["value"], stat["type"])
-        ];
-      }
-    }
-
     return SearchSuggestion(
       json['id'],
       type: ItemModel.selectType(json['type'] as String),
       shortName: json['shortName'],
-      location: json['location'],
+      city: json['city'],
       provider: json['provider'],
-      stats: map,
     );
   }
 }
