@@ -35,11 +35,13 @@ class ApiProvider {
       Query query = db.collection(endPoint);
 
       // Build filters
-      if (filters != null)
+      if (filters != null && filters != {}) {
         query = _setFilters(query, _sanitizeFilters(filters));
+      }
 
       // Set order
-      if (order != null) query = _setOrder(query, _sanitizeOrder(order));
+      if (order != null && order != {})
+        query = _setOrder(query, _sanitizeOrder(order));
 
       // Limit results
       if (_isLimitValid(limit)) query = query.limit(limit);
