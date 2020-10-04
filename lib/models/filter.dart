@@ -120,6 +120,14 @@ Map<String, dynamic> getFirebaseFilter(Filter filter, FilterStatus status) {
       }
     };
   }
+  if (filter.type == FilterType.selectValue) {
+    return {
+      filter.name: {
+        "op": "==",
+        "values": status.values,
+      }
+    };
+  }
   if (filter.type == FilterType.dropDown) {
     return {
       filter.name: {

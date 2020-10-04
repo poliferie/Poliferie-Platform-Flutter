@@ -76,6 +76,12 @@ class _FiltersBodyState extends State<FiltersBody> {
             allStatus[index].values.add(newStringValue);
           }
         }
+      } else if (type == FilterType.selectValue) {
+        if (newValue == null) {
+          allStatus[index].values = [];
+        } else {
+          allStatus[index].values.replaceRange(0, 1, newValue);
+        }
       } else if (type == FilterType.selectRange) {
         if (newValue == null) {
           allStatus[index].values =
