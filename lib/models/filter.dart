@@ -108,3 +108,32 @@ class FilterStatus {
     }
   }
 }
+
+/// Build Firebase filter Map
+/// TODO(@amerlo): Evaluate to put Filter and FilterStatus class together
+Map<String, dynamic> getFirebaseFilter(Filter filter, FilterStatus status) {
+  if (filter.type == FilterType.selectRange) {
+    return {
+      filter.name: {
+        "op": "<=>=",
+        "values": status.values,
+      }
+    };
+  }
+  if (filter.type == FilterType.selectValue) {
+    return {
+      filter.name: {
+        "op": "==",
+        "values": status.values,
+      }
+    };
+  }
+  if (filter.type == FilterType.dropDown) {
+    return {
+      filter.name: {
+        "op": "in",
+        "values": status.values,
+      }
+    };
+  }
+}

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:Poliferie.io/styles.dart';
@@ -18,52 +17,33 @@ class PoliferieApp extends StatefulWidget {
 }
 
 class _PoliferieAppState extends State<PoliferieApp> {
-  bool _initialized = false;
-  bool _error = false;
-  bool _showOnBoarding = true;
+  String _error;
 
   static final Map<String, WidgetBuilder> routes = {
     '/home': (context) => BaseScreen(),
     '/onboarding': (context) => OnBoardingScreen(),
   };
 
-  void initializeFlutterFire() async {
+  Future<bool> initializeFlutterFire() async {
     try {
       await Firebase.initializeApp();
-      setState(() {
-        _initialized = true;
-      });
+      return true;
     } catch (e) {
       setState(() {
-        _error = true;
+        _error = e;
       });
+      return false;
     }
   }
 
-  void checkOnboarding() async {
-    bool onBoardingIsCompleted = await SharedPreferences.getInstance()
-            .then((p) => p.getBool('onBoardingIsCompleted')) ??
-        false;
-    setState(() {
-      _showOnBoarding = !onBoardingIsCompleted;
-    });
-  }
-
-  @override
-  void initState() {
-    initializeFlutterFire();
-    checkOnboarding();
-    super.initState();
+  Future<bool> isOnboardingCompleted() async {
+    return await LocalProvider().get('onBoardingIsCompleted');
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_error) {
-      print("Error during initialization of the app");
-    }
-
-    if (!_initialized) {
-      print("Firebase has not been initialized yet...");
+    if (_error != null) {
+      print("Error in flutter initialize: " + _error);
     }
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -97,19 +77,33 @@ class _PoliferieAppState extends State<PoliferieApp> {
               FavoritesRepository(localProvider: localProvider),
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: Strings.appTitle,
-        theme: ThemeData(
-          primarySwatch: Colors.red,
-          primaryColor: Styles.poliferieRed,
-          fontFamily: 'Lato',
-          backgroundColor: Styles.poliferieWhite,
-          scaffoldBackgroundColor: Styles.poliferieWhite,
-        ),
-        routes: routes,
-        initialRoute: _showOnBoarding ? '/onboarding' : '/home',
-        builder: (context, child) => child,
+      child: FutureBuilder(
+        future: Future.wait([
+          initializeFlutterFire(),
+          isOnboardingCompleted(),
+        ]),
+        builder: (
+          context,
+          AsyncSnapshot<List<bool>> snapshot,
+        ) {
+          if (!snapshot.hasData) {
+            return CircularProgressIndicator();
+          }
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: Strings.appTitle,
+            theme: ThemeData(
+              primarySwatch: Colors.red,
+              primaryColor: Styles.poliferieRed,
+              fontFamily: 'Lato',
+              backgroundColor: Styles.poliferieWhite,
+              scaffoldBackgroundColor: Styles.poliferieWhite,
+            ),
+            routes: routes,
+            initialRoute: !snapshot.data[1] ? '/onboarding' : '/home',
+            builder: (context, child) => child,
+          );
+        },
       ),
     );
   }

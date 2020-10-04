@@ -1,0 +1,37 @@
+{
+    "id": 1005,
+    "type": "course",
+    "shortName": "Agraria",
+    "longName": "Agraria",
+    "provider": "Università di Pisa",
+    "region": "Toscana",
+    "city": "Pisa",
+    "shortDescription": "Il Corso di Laurea in Scienze Agrarie, anche se con denominazioni diverse, è presente a Pisa dal 1841 quando fu attivato dal Marchese Cosimo Ridolfi. L'attuale corso di studi (CdS) in Scienze Agrarie, classe L25 (Scienze e Tecnologie Agrarie e Forestali) ha durata triennale ed è articolato in due curricula: competenze tecnico-scientifiche e competenze tecnico-professionali.",
+    "longDescription": null,
+    "providerLogo": "assets/images/mockup/unipi_logo.jpg",
+    "providerImage": "assets/images/mockup/unipi_image.png",
+    "isBookmarked": false,
+    "duration": 3,
+    "language": "Italiano",
+    "requirements": "Diploma",
+    "owner": "Pubblica",
+    "access": "Test",
+    "education": "In presenza",
+    "students": 43,
+    "stats": {
+        "occupazione": {
+            "name": "Tasso di disoccupazione",
+            "desc": "Tasso di disoccupazione (def. Istat)",
+            "tag": "Opportunità",
+            "value": 4.3,
+            "unit": "%"
+        },
+        "borse_di_studio": {
+            "name": "Borse di studio",
+            "desc": "Percentuale di studenti che ha usufruito del servizio di borse di studio",
+            "tag": "Opportunità",
+            "value": 12.3,
+            "unit": "%"
+        }
+    }
+}

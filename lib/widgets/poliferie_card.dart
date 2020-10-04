@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/models/card.dart';
+import 'package:Poliferie.io/models/item_search.dart';
 import 'package:Poliferie.io/screens/results.dart';
 
 import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/configs.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_article.dart';
 
@@ -33,7 +35,7 @@ class PoliferieCard extends StatelessWidget {
         ];
         if (link[0] == 'articles') {
           return PoliferieArticle.lazyBottomSheetCaller(context, link[1]);
-        } else if (link[0] == 'items') {
+        } else if (link[0] == Configs.firebaseItemsCollection) {
           if (link[1] != "{}") {
             // navigate to search with filter status specified as json string. As for example:
             //
@@ -53,7 +55,8 @@ class PoliferieCard extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ResultsScreen(keys["query"]),
+                    builder: (context) =>
+                        ResultsScreen(ItemSearch(query: keys["query"])),
                   ),
                 );
               };

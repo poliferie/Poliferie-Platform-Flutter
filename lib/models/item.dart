@@ -68,7 +68,13 @@ class ItemModel extends Equatable {
   }
 
   factory ItemModel.fromJson(Map<String, dynamic> json) {
-    final List<dynamic> stats = json["stats"];
+    // Support both list and map data structure
+    List<dynamic> stats;
+    if (json["stats"] is List) {
+      stats = json["stats"];
+    } else {
+      stats = (json["stats"] as Map<String, dynamic>).values.toList();
+    }
 
     Map<String, List<ItemStat>> map = Map<String, List<ItemStat>>();
     for (Map<String, dynamic> stat in stats) {

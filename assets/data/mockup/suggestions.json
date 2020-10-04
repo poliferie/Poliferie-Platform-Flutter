@@ -30,5 +30,13 @@
         "provider": null,
         "location": "Roma",
         "stats": []
+    },
+    {
+        "id": 1005,
+        "type": "course",
+        "shortName": "Agraria",
+        "provider": "Università di Pisa",
+        "location": "Pisa",
+        "stats": []
     }
 ]

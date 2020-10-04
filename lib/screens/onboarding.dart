@@ -1,13 +1,13 @@
-import 'package:Poliferie.io/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:Poliferie.io/screens/base.dart';
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/strings.dart';
 
+import 'package:Poliferie.io/providers/local_provider.dart';
 import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
 
 // TODO(@amerlo): Consider to move this into a model, even if this will be the only screen
@@ -247,8 +247,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 }
 
 Future<bool> setFinishedOnBoarding() async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.setBool('onBoardingIsCompleted', true);
+  final LocalProvider localProvider = LocalProvider();
+  return localProvider.save('onBoardingIsCompleted', true);
 }
 
 void pushToBaseScreen(BuildContext context) {

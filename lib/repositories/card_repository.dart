@@ -4,6 +4,7 @@ import 'package:async/async.dart';
 
 import 'package:Poliferie.io/providers/api_provider.dart';
 import 'package:Poliferie.io/models/card.dart';
+import 'package:Poliferie.io/configs.dart';
 
 class CardRepository {
   final ApiProvider apiProvider;
@@ -15,7 +16,7 @@ class CardRepository {
         assert(apiProvider != null);
 
   Future<List<CardInfo>> _getAll() async {
-    final allCards = await apiProvider.fetch('cards');
+    final allCards = await apiProvider.fetch(Configs.firebaseCardsCollection);
     return [for (var card in (allCards as List)) CardInfo.fromJson(card)];
   }
 

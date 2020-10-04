@@ -4,6 +4,7 @@ import 'package:async/async.dart';
 
 import 'package:Poliferie.io/providers/api_provider.dart';
 import 'package:Poliferie.io/models/article.dart';
+import 'package:Poliferie.io/configs.dart';
 
 class ArticleRepository {
   final ApiProvider apiProvider;
@@ -17,7 +18,8 @@ class ArticleRepository {
         assert(apiProvider != null);
 
   Future<Article> _getById(String id) async {
-    final returnedJson = await apiProvider.fetch('articles/$id');
+    final returnedJson =
+        await apiProvider.fetch(Configs.firebaseArticlesCollection + '/$id');
     return Article.fromJson(returnedJson);
   }
 

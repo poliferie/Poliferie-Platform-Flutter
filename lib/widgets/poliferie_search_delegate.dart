@@ -6,6 +6,7 @@ import 'package:Poliferie.io/styles.dart';
 
 import 'package:Poliferie.io/bloc/search.dart';
 import 'package:Poliferie.io/models/suggestion.dart';
+import 'package:Poliferie.io/models/item_search.dart';
 import 'package:Poliferie.io/screens/item.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
@@ -13,7 +14,7 @@ import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
 /// [SearchDelegate] helper class.
 class PoliferieSearchDelegate extends SearchDelegate {
   final SearchBloc searchBloc;
-  final Widget Function(String) onSearch;
+  final Widget Function(ItemSearch) onSearch;
   final dynamic Function(SearchSuggestion) onSuggestionTap;
 
   dynamic _onSuggestionTapDefault(
@@ -61,12 +62,10 @@ class PoliferieSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO(@ferrarodav): Here we should include the whole search state and
-    //                    provide it to the results screen
     // TODO(@amerlo): This is a very dirty hack to not update the view in case of
-    //                null onSearch() function
+    //                null onSearch() function.
     if (onSearch != null) {
-      return onSearch(query);
+      return onSearch(ItemSearch(query: query));
     } else {
       return buildSuggestions(context);
     }

@@ -18,23 +18,20 @@ import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
 final List<String> ordersResults = ['Popolare', 'Nuovo'];
 
 class ResultsScreen extends StatefulWidget {
-  // TODO(@amerlo): We should create a search state object and pass it here
-  /// This represents the search state request
-  final String query;
+  final ItemSearch search;
 
-  const ResultsScreen(this.query, {Key key}) : super(key: key);
+  const ResultsScreen(this.search, {Key key}) : super(key: key);
 
   @override
   _ResultsScreenState createState() => _ResultsScreenState();
 }
 
 class ResultsScreenBody extends StatefulWidget {
-  // TODO(@amerlo): Could we avoid this?
-  final String query;
+  final ItemSearch search;
 
   final FavoritesRepository favoritesRepository;
 
-  ResultsScreenBody({this.query, @required this.favoritesRepository});
+  ResultsScreenBody({this.search, @required this.favoritesRepository});
 
   @override
   _ResultsScreenBodyState createState() => _ResultsScreenBodyState();
@@ -267,13 +264,12 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    // This is an hack not to re-fetch results once done once
+    // This is an hack not to re-fetch results once done once.
     if (!_initialized) {
-      // TODO(@amerlo): Add search parameters to query:
-      // * all filter status
-      // * results order
-      BlocProvider.of<SearchBloc>(context)
-          .add(FetchSearch(searchText: widget.query));
+      BlocProvider.of<SearchBloc>(context).add(FetchSearch(
+          searchText: widget.search.query,
+          filters: widget.search.filters,
+          order: widget.search.order));
       setState(() {
         _initialized = true;
       });
@@ -310,7 +306,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
           )
         ],
         child: ResultsScreenBody(
-            query: widget.query,
+            search: widget.search,
             favoritesRepository:
                 RepositoryProvider.of<FavoritesRepository>(context)),
       ),

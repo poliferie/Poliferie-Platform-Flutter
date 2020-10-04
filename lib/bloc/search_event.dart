@@ -15,8 +15,10 @@ class FetchSuggestions extends SearchEvent {
 
 class FetchSearch extends SearchEvent {
   final String searchText;
+  final Map<String, dynamic> filters;
+  final Map<String, dynamic> order;
 
-  const FetchSearch({this.searchText});
+  const FetchSearch({this.searchText, this.filters, this.order});
 
   @override
   List<Object> get props => [searchText];

@@ -35,7 +35,6 @@ class SuggestionStateSuccess extends SearchState {
   String toString() => 'SuggestionsStateSuccess { suggestions: $suggestions}';
 }
 
-// Generic search state error
 class SearchStateError extends SearchState {
   final String error;
 
