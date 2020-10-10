@@ -29,10 +29,18 @@ class SearchRepository {
         .toList()
         .cast<SearchSuggestion>();
 
-    // TODO(@amerlo): Remove this.
-    // Repeats results list in order to mimic real data.
-    suggestions = repeat(suggestions, 20);
-    suggestions.shuffle();
+    // Orders results based on number of matched keywords.
+    Set<String> searchKeywords = Set.from(
+        searchText.contains(" ") ? searchText.split(" ") : [searchText]);
+    int _countMatches(List<String> keywords, String searchText) {
+      return Set.from(keywords).intersection(searchKeywords).length;
+    }
+
+    // Keeps ascending order.
+    suggestions.sort((a, b) => -_countMatches(a.search, searchText)
+        .compareTo(_countMatches(b.search, searchText)));
+    print(suggestions);
+
     return suggestions;
   }
 

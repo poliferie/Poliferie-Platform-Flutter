@@ -4,34 +4,39 @@
         "type": "course",
         "longName": "Design del Prodotto Industriale",
         "provider": "Politecnico di Milano",
-        "city": "Milano"
+        "city": "Milano",
+        "search": []
     },
     {
         "id": "1003",
         "type": "course",
         "longName": "Fisica",
         "provider": "Università La Sapienza",
-        "city": "Roma"
+        "city": "Roma",
+        "search": []
     },
     {
         "id": "1002",
         "type": "university",
         "longName": "Università di Pisa",
         "provider": null,
-        "city": "Pisa"
+        "city": "Pisa",
+        "search": []
     },
     {
         "id": "1004",
         "type": "university",
         "longName": "Università La Sapienza",
         "provider": null,
-        "city": "Roma"
+        "city": "Roma",
+        "search": []
     },
     {
         "id": "1005",
         "type": "course",
         "longName": "Agraria",
         "provider": "Università di Pisa",
-        "city": "Pisa"
+        "city": "Pisa",
+        "search": []
     }
 ]

@@ -8,9 +8,10 @@ class SearchSuggestion extends Equatable {
   final String longName;
   final String provider;
   final String city;
+  final List<String> search;
 
   const SearchSuggestion(this.id,
-      {this.type, this.longName, this.provider, this.city});
+      {this.type, this.longName, this.provider, this.city, this.search});
 
   @override
   List<Object> get props => [id, longName, type];
@@ -21,12 +22,13 @@ class SearchSuggestion extends Equatable {
 
   // Constructor from Json file
   factory SearchSuggestion.fromJson(Map<String, dynamic> json) {
-    return SearchSuggestion(
-      json['id'],
-      type: ItemModel.selectType(json['type'] as String),
-      longName: json['longName'],
-      city: json['city'],
-      provider: json['provider'],
-    );
+    return SearchSuggestion(json['id'],
+        type: ItemModel.selectType(json['type'] as String),
+        longName: json['longName'],
+        city: json['city'],
+        provider: json['provider'],
+        search: (json['search'] as List<dynamic>)
+            .map((e) => e.toString())
+            .toList());
   }
 }
