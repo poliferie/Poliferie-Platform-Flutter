@@ -16,9 +16,14 @@ class SearchRepository {
       : assert(apiProvider != null);
 
   Future<List<SearchSuggestion>> suggest(String searchText) async {
-    // TODO(@ferrarodav): how will this be with the complete api?
-    final returnedJson =
-        await apiProvider.fetch(Configs.firebaseSuggestionsCollection);
+    // Builds the Firebase search query based on [searchText].
+    final Map<String, dynamic> filters = _addSearchText(null, searchText);
+    final int limit = Configs.firebaseSuggestionsLimit;
+
+    final returnedJson = await apiProvider.fetch(
+        Configs.firebaseSuggestionsCollection,
+        filters: filters,
+        limit: limit);
     List<SearchSuggestion> suggestions = returnedJson
         .map((e) => SearchSuggestion.fromJson(e))
         .toList()
@@ -39,19 +44,7 @@ class SearchRepository {
       Map<String, dynamic> order,
       int limit}) async {
     // Builds the Firebase search query based on [searchText].
-    // TODO(@amerlo): Evaluate how to order back the results if performed in this way.
-    if (searchText != null && searchText != "") {
-      // Sanitize filters in case of null map.
-      filters = filters != null ? filters : Map();
-      filters.putIfAbsent(
-          "search",
-          () => {
-                "op": "array-contains-any",
-                "values": searchText.contains(" ")
-                    ? searchText.split(" ")
-                    : [searchText]
-              });
-    }
+    filters = _addSearchText(filters, searchText);
 
     final returnedJson = await apiProvider.fetch(
         Configs.firebaseItemsCollection,
@@ -70,4 +63,26 @@ class SearchRepository {
 
     return results;
   }
+}
+
+/// Adds [searchText] as additional filter values to [filters].
+///
+/// At the moment it performs a naive text split and search against all words present in [searchText].
+// TODO(@amerlo): Evaluate how to order back the results if performed in this way.
+Map<String, dynamic> _addSearchText(
+    Map<String, dynamic> filters, String searchText) {
+  if (searchText != null && searchText != "") {
+    // Sanitize filters in case of null map.
+    filters = filters != null ? filters : Map();
+    filters.putIfAbsent(
+        "search",
+        () => {
+              "op": "array-contains-any",
+              "values": searchText.contains(" ")
+                  ? searchText.split(" ")
+                  : [searchText]
+            });
+  }
+
+  return filters;
 }
