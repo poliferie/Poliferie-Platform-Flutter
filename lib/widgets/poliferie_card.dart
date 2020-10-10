@@ -61,7 +61,6 @@ class PoliferieCard extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  // TODO(@amerlo): To be migrated to string id.
                   builder: (context) => ResultsScreen(ItemSearch()),
                 ),
               );
@@ -75,13 +74,19 @@ class PoliferieCard extends StatelessWidget {
               search.containsKey("filters") ? search["filters"] : null;
           final Map<String, dynamic> order =
               search.containsKey("order") ? search["order"] : null;
+          final int limit = search.containsKey("limit")
+              ? search["limit"]
+              : Configs.firebaseItemsLimit;
 
           return () {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ResultsScreen(
-                    ItemSearch(query: query, filters: filters, order: order)),
+                builder: (context) => ResultsScreen(ItemSearch(
+                    query: query,
+                    filters: filters,
+                    order: order,
+                    limit: limit)),
               ),
             );
           };

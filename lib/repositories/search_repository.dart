@@ -20,10 +20,12 @@ class SearchRepository {
     final returnedJson =
         await apiProvider.fetch(Configs.firebaseSuggestionsCollection);
     List<SearchSuggestion> suggestions = returnedJson
-        .map((el) => SearchSuggestion.fromJson(el))
+        .map((e) => SearchSuggestion.fromJson(e))
         .toList()
         .cast<SearchSuggestion>();
 
+    // TODO(@amerlo): Remove this.
+    // Repeats results list in order to mimic real data.
     suggestions = repeat(suggestions, 20);
     suggestions.shuffle();
     return suggestions;
@@ -33,7 +35,9 @@ class SearchRepository {
   ///
   /// A set of [filters] and a specifc [order] could be optionally given.
   Future<List<ItemModel>> search(String searchText,
-      {Map<String, dynamic> filters, Map<String, dynamic> order}) async {
+      {Map<String, dynamic> filters,
+      Map<String, dynamic> order,
+      int limit}) async {
     // Builds the Firebase search query based on [searchText].
     // TODO(@amerlo): Evaluate how to order back the results if performed in this way.
     if (searchText != null && searchText != "") {
@@ -49,8 +53,11 @@ class SearchRepository {
               });
     }
 
-    final returnedJson = await apiProvider
-        .fetch(Configs.firebaseItemsCollection, filters: filters, order: order);
+    final returnedJson = await apiProvider.fetch(
+        Configs.firebaseItemsCollection,
+        filters: filters,
+        order: order,
+        limit: limit);
     List<ItemModel> results = returnedJson
         .map((el) => ItemModel.fromJson(el))
         .toList()

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:Poliferie.io/icons.dart';
 import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/configs.dart';
 
 import 'package:Poliferie.io/bloc/search.dart';
 import 'package:Poliferie.io/models/suggestion.dart';
@@ -65,7 +66,12 @@ class PoliferieSearchDelegate extends SearchDelegate {
     // TODO(@amerlo): This is a very dirty hack to not update the view in case of
     //                null onSearch() function.
     if (onSearch != null) {
-      return onSearch(ItemSearch(query: query));
+      return onSearch(
+        ItemSearch(
+          query: query,
+          limit: Configs.firebaseItemsLimit,
+        ),
+      );
     } else {
       return buildSuggestions(context);
     }

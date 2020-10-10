@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/dimensions.dart';
-import 'package:Poliferie.io/icons.dart';
 import 'package:Poliferie.io/utils.dart';
+import 'package:Poliferie.io/configs.dart';
 
 import 'package:Poliferie.io/bloc/search.dart';
 import 'package:Poliferie.io/bloc/filter.dart';
@@ -21,7 +21,6 @@ import 'package:Poliferie.io/widgets/poliferie_filter.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
-import 'package:Poliferie.io/widgets/poliferie_search_delegate.dart';
 import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
 import 'package:Poliferie.io/widgets/poliferie_search_bar.dart';
 
@@ -177,24 +176,17 @@ class _FiltersBodyState extends State<FiltersBody> {
       }
     });
 
-    // // Call search delegate
-    // showSearch(
-    //   context: context,
-    //   delegate: PoliferieSearchDelegate(
-    //     searchBloc: BlocProvider.of<SearchBloc>(context),
-    //     onSearch: (ItemSearch search) {
-    //       // Overwrites search filters and order.
-    //       search =
-    //           ItemSearch(query: search.query, filters: filters, order: order);
-    //       return ResultsScreen(search);
-    //     },
-    //   ),
-    // );
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ResultsScreen(
-            ItemSearch(query: "", filters: filters, order: order)),
+          ItemSearch(
+            query: "",
+            filters: filters,
+            order: order,
+            limit: Configs.firebaseItemsLimit,
+          ),
+        ),
       ),
     );
   }
@@ -310,7 +302,12 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ResultsScreen(ItemSearch(query: query)),
+                builder: (context) => ResultsScreen(
+                  ItemSearch(
+                    query: query,
+                    limit: Configs.firebaseItemsLimit,
+                  ),
+                ),
               ),
             );
             searchController.text = "";

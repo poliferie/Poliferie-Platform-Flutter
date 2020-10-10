@@ -11,7 +11,10 @@ class ItemSearch extends Equatable {
   /// The order selected for this search.
   final Map<String, dynamic> order;
 
-  ItemSearch({this.query, this.filters, this.order});
+  /// The maximum number of results to return.
+  final int limit;
+
+  ItemSearch({this.query, this.filters, this.order, this.limit});
 
   @override
   List<Object> get props => [query, filters, order];

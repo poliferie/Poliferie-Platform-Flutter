@@ -38,11 +38,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       final String searchText = event.searchText;
       final Map<String, dynamic> filters = event.filters;
       final Map<String, dynamic> order = event.order;
+      final int limit = event.limit;
       yield SearchStateLoading();
 
       try {
         final List<ItemModel> results = await searchRepository
-            .search(searchText, filters: filters, order: order);
+            .search(searchText, filters: filters, order: order, limit: limit);
         yield SearchStateSuccess(results);
       } catch (error) {
         yield SearchStateError(error.message);

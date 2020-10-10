@@ -1,3 +1,4 @@
+import 'package:Poliferie.io/configs.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -273,7 +274,8 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
       BlocProvider.of<SearchBloc>(context).add(FetchSearch(
           searchText: widget.search.query,
           filters: widget.search.filters,
-          order: widget.search.order));
+          order: widget.search.order,
+          limit: widget.search.limit));
       setState(() {
         _initialized = true;
       });
@@ -324,7 +326,9 @@ class _ResultsScreenState extends State<ResultsScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ResultsScreen(ItemSearch(query: query)),
+                builder: (context) => ResultsScreen(
+                  ItemSearch(query: query, limit: Configs.firebaseItemsLimit),
+                ),
               ),
             );
             searchController.text = widget.search.query;

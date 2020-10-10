@@ -17,8 +17,9 @@ class FetchSearch extends SearchEvent {
   final String searchText;
   final Map<String, dynamic> filters;
   final Map<String, dynamic> order;
+  final int limit;
 
-  const FetchSearch({this.searchText, this.filters, this.order});
+  const FetchSearch({this.searchText, this.filters, this.order, this.limit});
 
   @override
   List<Object> get props => [searchText];
