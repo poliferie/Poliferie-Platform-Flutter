@@ -5,7 +5,7 @@ abstract class ItemEvent extends Equatable {
 }
 
 class FetchItems extends ItemEvent {
-  final List<int> itemIds;
+  final List<String> itemIds;
 
   const FetchItems(this.itemIds);
 

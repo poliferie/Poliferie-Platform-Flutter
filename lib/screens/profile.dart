@@ -64,7 +64,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
   };
 
   // Favorite list
-  List<int> favoriteList = [];
+  List<String> favoriteList = [];
 
   // Strings
   // TODO(@amerlo): Move from here to Strings.dart file
@@ -120,10 +120,10 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
   }
 
   // TODO(@amerlo): Could we avoid the duplcated state?
-  void _updateFavorites({int toggleIndex}) async {
+  void _updateFavorites({String toggleIndex}) async {
     if (toggleIndex != null)
       await widget.favoritesRepository.toggle(toggleIndex);
-    final List<int> favorites = await widget.favoritesRepository.get();
+    final List<String> favorites = await widget.favoritesRepository.get();
     setState(() {
       favoriteList = favorites;
     });

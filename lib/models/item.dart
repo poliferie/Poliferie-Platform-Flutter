@@ -15,7 +15,7 @@ class ItemStat {
 
 /// Class which holds an [ItemModel]
 class ItemModel extends Equatable {
-  final int id;
+  final String id;
   final ItemType type;
   final String shortName;
   final String longName;

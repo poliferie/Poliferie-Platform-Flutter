@@ -49,7 +49,7 @@ class PoliferieCard extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   // TODO(@amerlo): To be migrated to string id.
-                  builder: (context) => ItemScreen(int.parse(link[1])),
+                  builder: (context) => ItemScreen(link[1]),
                 ),
               );
             };

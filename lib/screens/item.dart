@@ -17,7 +17,7 @@ import 'package:Poliferie.io/widgets/poliferie_animated_list.dart';
 
 class ItemScreen extends StatefulWidget {
   /// This [id] is the requested id from the frontend
-  final int id;
+  final String id;
 
   const ItemScreen(this.id, {Key key}) : super(key: key);
 
@@ -27,7 +27,7 @@ class ItemScreen extends StatefulWidget {
 
 class ItemScreenBody extends StatefulWidget {
   // TODO(@amerlo): Could we avoid this?
-  final int id;
+  final String id;
   final FavoritesRepository favoritesRepository;
 
   ItemScreenBody(this.id, {@required this.favoritesRepository});

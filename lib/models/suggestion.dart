@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:Poliferie.io/models/item.dart';
 
 class SearchSuggestion extends Equatable {
-  final int id;
+  final String id;
   final ItemType type;
   final String longName;
   final String provider;

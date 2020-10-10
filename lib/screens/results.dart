@@ -43,7 +43,7 @@ class ResultsScreenBody extends StatefulWidget {
 
 class _ResultsScreenBodyState extends State<ResultsScreenBody> {
   /// List of favorite items
-  List<int> _favoriteItems;
+  List<String> _favoriteItems;
 
   /// Hack to flag first loading
   bool _initialized;
@@ -59,10 +59,10 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
     _selectedOrder = ordersResults[0];
   }
 
-  void _updateFavorites({int toggleIndex}) async {
+  void _updateFavorites({String toggleIndex}) async {
     if (toggleIndex != null)
       await widget.favoritesRepository.toggle(toggleIndex);
-    final List<int> favorites = await widget.favoritesRepository.get();
+    final List<String> favorites = await widget.favoritesRepository.get();
     setState(() {
       _favoriteItems = favorites;
     });

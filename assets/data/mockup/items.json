@@ -1,6 +1,6 @@
 [
     {
-        "id": 1001,
+        "id": "1001",
         "type": "course",
         "shortName": "Design del prodotto industriale",
         "longName": "Design del prodotto industriale",
@@ -135,7 +135,7 @@
         ]
     },
     {
-        "id": 1003,
+        "id": "1003",
         "type": "course",
         "shortName": "Fisica",
         "longName": "Fisica",
@@ -270,7 +270,7 @@
         ]
     },
     {
-        "id": 1002,
+        "id": "1002",
         "type": "university",
         "shortName": "Unipi",
         "longName": "Università di Pisa",
@@ -391,7 +391,7 @@
         ]
     },
     {
-        "id": 1004,
+        "id": "1004",
         "type": "university",
         "shortName": "Sapienza",
         "longName": "Università La Sapienza",
@@ -512,7 +512,7 @@
         ]
     },
     {
-        "id": 1005,
+        "id": "1005",
         "type": "course",
         "shortName": "Agraria",
         "longName": "Agraria",

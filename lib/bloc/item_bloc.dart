@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:rxdart/rxdart.dart';
 
 import 'package:Poliferie.io/bloc/item_event.dart';
 import 'package:Poliferie.io/bloc/item_state.dart';
@@ -10,19 +9,6 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
   final ItemRepository itemRepository;
 
   ItemBloc({this.itemRepository}) : assert(itemRepository != null);
-
-  // @override
-  // Stream<ItemState> transformEvents(
-  //   Stream<ItemEvent> events,
-  //   Stream<ItemState> Function(ItemEvent event) next,
-  // ) {
-  //   return super.transformEvents(
-  //     events.debounceTime(
-  //       Duration(milliseconds: 500),
-  //     ),
-  //     next,
-  //   );
-  // }
 
   // TODO(@amerlo): Include more details for the transition here,
   //                log them somewhere.
@@ -40,7 +26,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
       yield FetchStateLoading();
       try {
         List<ItemModel> items = <ItemModel>[];
-        for (int id in event.itemIds) {
+        for (String id in event.itemIds) {
           items.add(await itemRepository.getById(id));
         }
         yield FetchStateSuccess(items);

@@ -9,7 +9,7 @@ import 'package:Poliferie.io/models/item.dart';
 class ItemRepository {
   final ApiProvider apiProvider;
   final AsyncCache<ItemModel> Function() cacheConstructor;
-  final Map<int, AsyncCache<ItemModel>> cache;
+  final Map<String, AsyncCache<ItemModel>> cache;
 
   ItemRepository({@required this.apiProvider, cacheDuration})
       : cacheConstructor =
@@ -17,13 +17,13 @@ class ItemRepository {
         cache = {},
         assert(apiProvider != null);
 
-  Future<ItemModel> _getById(int id) async {
+  Future<ItemModel> _getById(String id) async {
     final returnedJson =
         await apiProvider.fetch(Configs.firebaseItemsCollection + '/$id');
     return ItemModel.fromJson(returnedJson);
   }
 
-  Future<ItemModel> getById(int id) async {
+  Future<ItemModel> getById(String id) async {
     cache.putIfAbsent(id, cacheConstructor);
     return await cache[id].fetch(() => _getById(id));
   }
