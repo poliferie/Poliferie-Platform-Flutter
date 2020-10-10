@@ -25,27 +25,27 @@
         "title": "La Facoltà di Fisica",
         "subtitle": "La Facoltà di Fisica",
         "image": "https://poliferie.org/wp-content/uploads/2019/10/squadra.png",
-        "linksTo": "items/{itemType:course,query:Fisica}"
-    },
-    {
-        "id": "7",
-        "title": "Tutti i Corsi",
-        "subtitle": "Tutti i corsi",
-        "image": "https://poliferie.org/wp-content/uploads/2019/10/squadra.png",
-        "linksTo": "items/{itemType:course,query:}"
-    },
-    {
-        "id": "6",
-        "title": "Le rette sotto i 1000€",
-        "subtitle": "Le università con una tassa annuale sotto i 1000 €",
-        "image": "https://poliferie.org/wp-content/uploads/2019/10/squadra.png",
-        "linksTo": "items/{itemType:provider,query:}"
+        "linksTo": "items/{\"search\":\"Fisica\"}"
     },
     {
         "id": "5",
+        "title": "Tutti i Corsi",
+        "subtitle": "Tutti i corsi",
+        "image": "https://poliferie.org/wp-content/uploads/2019/10/squadra.png",
+        "linksTo": "items/{\"filters\":{\"type\":{\"op\":\"==\",\"values\":\"course\"}}}"
+    },
+    {
+        "id": "6",
         "title": "Tutte le Università",
         "subtitle": "Tutte le università",
         "image": "https://poliferie.org/wp-content/uploads/2019/10/squadra.png",
-        "linksTo": "items/{itemType:provider,query:}"
+        "linksTo": "items/{\"filters\":{\"type\":{\"op\":\"==\",\"values\":\"university\"}}}"
+    },
+    {
+        "id": "7",
+        "title": "Le piccole università",
+        "subtitle": "Tutte le università con meno di 1000 studenti",
+        "image": "https://poliferie.org/wp-content/uploads/2019/10/squadra.png",
+        "linksTo": "items/{\"filters\":{\"type\":{\"op\":\"==\",\"values\":\"university\"},\"students\":{\"op\":\"<=\",\"values\":\"1000\"}}}"
     }
 ]

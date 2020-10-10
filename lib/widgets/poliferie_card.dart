@@ -1,8 +1,10 @@
+import 'dart:convert' show json;
 import 'package:flutter/material.dart';
 
 import 'package:Poliferie.io/models/card.dart';
 import 'package:Poliferie.io/models/item_search.dart';
 import 'package:Poliferie.io/screens/results.dart';
+import 'package:Poliferie.io/screens/item.dart';
 
 import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/styles.dart';
@@ -33,35 +35,56 @@ class PoliferieCard extends StatelessWidget {
           card.linksTo.substring(0, indexToSplit),
           card.linksTo.substring(indexToSplit + 1)
         ];
+
+        // Links to article.
         if (link[0] == 'articles') {
           return PoliferieArticle.lazyBottomSheetCaller(context, link[1]);
-        } else if (link[0] == Configs.firebaseItemsCollection) {
-          if (link[1] != "{}") {
-            // navigate to search with filter status specified as json string. As for example:
-            //
-            // items:{"itemType":"course","satisfaction":{"from":80,"to":100}}
-            // Then pass the json string directly to the ResultsScreen, like:
-            // ResultsScreen(link[1])
-            // TODO(@amerlo): At the moment, redirect to ResultsScreen with just the keyword arg.
-            Map<String, String> keys = link[1]
-                .replaceAll("{", "")
-                .replaceAll("}", "")
-                .split(",")
-                .asMap()
-                .map((k, v) => MapEntry(v.split(":")[0], v.split(":")[1]));
-            if (keys.containsKey("query")) {
-              // TODO(@amerlo): Here we should pass the SearchDelegate, taking the SearchBloc from the home.
-              return () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        ResultsScreen(ItemSearch(query: keys["query"])),
-                  ),
-                );
-              };
-            }
+        }
+
+        if (link[0] == Configs.firebaseItemsCollection) {
+          // Links to item.
+          if (!link[1].contains("{")) {
+            return () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  // TODO(@amerlo): To be migrated to string id.
+                  builder: (context) => ItemScreen(int.parse(link[1])),
+                ),
+              );
+            };
           }
+
+          // Links to all collections.
+          if (link[1] == "{}") {
+            return () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  // TODO(@amerlo): To be migrated to string id.
+                  builder: (context) => ResultsScreen(ItemSearch()),
+                ),
+              );
+            };
+          }
+
+          // Perform search.
+          final Map<String, dynamic> search = json.decode(link[1]);
+          String query = search.containsKey("query") ? search["query"] : null;
+          final Map<String, dynamic> filters =
+              search.containsKey("filters") ? search["filters"] : null;
+          final Map<String, dynamic> order =
+              search.containsKey("order") ? search["order"] : null;
+
+          return () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ResultsScreen(
+                    ItemSearch(query: query, filters: filters, order: order)),
+              ),
+            );
+          };
         }
       }
       return () {};
