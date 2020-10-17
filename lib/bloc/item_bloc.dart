@@ -31,7 +31,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
         }
         yield FetchStateSuccess(items);
       } catch (error) {
-        yield FetchStateError(error.message);
+        yield FetchStateError('$error');
       }
     }
   }

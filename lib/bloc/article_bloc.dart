@@ -41,7 +41,7 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
             await articleRepository.getById(event.articleId);
         yield FetchStateSuccess(article);
       } catch (error) {
-        yield FetchStateError(error.message);
+        yield FetchStateError('$error');
       }
     }
   }

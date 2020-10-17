@@ -32,7 +32,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             await searchRepository.suggest(searchText);
         yield SuggestionStateSuccess(suggestions);
       } catch (error) {
-        yield SearchStateError(error.message);
+        yield SearchStateError('$error');
       }
     } else if (event is FetchSearch) {
       final String searchText = event.searchText;
@@ -46,7 +46,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             .search(searchText, filters: filters, order: order, limit: limit);
         yield SearchStateSuccess(results);
       } catch (error) {
-        yield SearchStateError(error.message);
+        yield SearchStateError('$error');
       }
     }
   }

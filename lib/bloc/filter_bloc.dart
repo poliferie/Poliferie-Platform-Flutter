@@ -41,7 +41,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         final List<Filter> filters = await filterRepository.getAll();
         yield FetchStateSuccess(filters);
       } catch (error) {
-        yield FetchStateError(error.message);
+        yield FetchStateError('$error');
       }
     }
   }

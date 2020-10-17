@@ -41,7 +41,7 @@ class CardBloc extends Bloc<CardEvent, CardState> {
         final List<CardInfo> cards = await cardRepository.getAll();
         yield FetchStateSuccess(cards);
       } catch (error) {
-        yield FetchStateError(error.message);
+        yield FetchStateError('$error');
       }
     }
   }
