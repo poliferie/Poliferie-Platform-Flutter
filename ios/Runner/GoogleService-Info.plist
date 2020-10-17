@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>506595981062-5q0hdumi0v7oq4hruk42i0e27mh4qgql.apps.googleusercontent.com</string>
+	<string>506595981062-iliv3uieebj8khnul4b7nea5nvgsp17p.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.506595981062-5q0hdumi0v7oq4hruk42i0e27mh4qgql</string>
+	<string>com.googleusercontent.apps.506595981062-iliv3uieebj8khnul4b7nea5nvgsp17p</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBfEqXgiwvIC_6-_KueQ-ybEUoNbZiMUAk</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,23 +13,23 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.poliferie.app</string>
+	<string>org.poliferie.poliferie</string>
 	<key>PROJECT_ID</key>
 	<string>poliferie-app</string>
 	<key>STORAGE_BUCKET</key>
 	<string>poliferie-app.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:506595981062:ios:ac3799ea0722220e791087</string>
+	<string>1:506595981062:ios:d2898e5fa5f0ea3e791087</string>
 	<key>DATABASE_URL</key>
 	<string>https://poliferie-app.firebaseio.com</string>
 </dict>
