@@ -26,7 +26,6 @@ class ItemModel extends Equatable {
   final String longDescription;
   final String providerLogo;
   final String providerImage;
-  final bool isBookmarked;
   final int duration;
   final int students;
   final String language;
@@ -48,7 +47,6 @@ class ItemModel extends Equatable {
       this.longDescription,
       this.providerLogo,
       this.providerImage,
-      this.isBookmarked,
       this.duration,
       this.students,
       this.language,
@@ -100,7 +98,6 @@ class ItemModel extends Equatable {
         longDescription: json['longDescription'],
         providerLogo: json['providerLogo'],
         providerImage: json['providerImage'],
-        isBookmarked: json["isBookmarked"],
         duration: json["duration"],
         language: json["language"],
         requirements: json["requirements"],
