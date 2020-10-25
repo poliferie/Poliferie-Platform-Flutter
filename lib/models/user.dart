@@ -20,9 +20,13 @@ class User extends Equatable {
 
   // Constructor from Json file
   factory User.fromJson(Map<String, dynamic> json) {
+    // Use mockup profile picture if user profile picture is empty.
+    final String _image = json["image"] == ""
+        ? "assets/images/mockup/profile.png"
+        : json["image"];
     return User(
       name: json['name'],
-      image: json['image'],
+      image: _image,
       city: json['city'],
       school: json['school'],
       followers: json['followers'],
