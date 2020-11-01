@@ -43,7 +43,7 @@ class PoliferieAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final titleWidget = Image.asset(
-      'assets/images/PF_Logo_White.png',
+      'assets/images/logo-banner-white.png',
       fit: BoxFit.cover,
       height: 35.0,
     );
