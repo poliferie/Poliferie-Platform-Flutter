@@ -64,11 +64,6 @@ class SearchRepository {
         .toList()
         .cast<ItemModel>();
 
-    // TODO(@amerlo): Remove this.
-    // Repeats results list in order to mimic real data.
-    results = repeat(results, 20);
-    results.shuffle();
-
     return results;
   }
 }
