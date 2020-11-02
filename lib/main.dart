@@ -48,7 +48,7 @@ class _PoliferieAppState extends State<PoliferieApp> {
     }
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    final ApiProvider apiProvider = ApiProvider(mockup: true);
+    final ApiProvider apiProvider = ApiProvider(mockup: false);
     final LocalProvider localProvider = LocalProvider();
     return MultiRepositoryProvider(
       providers: [
