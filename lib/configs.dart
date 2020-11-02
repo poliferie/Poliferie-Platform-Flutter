@@ -6,6 +6,6 @@ abstract class Configs {
   static const String firebaseSuggestionsCollection = 'suggestions';
   static const String firebaseCardsCollection = 'cards';
   static const String firebaseArticlesCollection = 'articles';
-  static const int firebaseItemsLimit = 64;
-  static const int firebaseSuggestionsLimit = 32;
+  static const int firebaseItemsLimit = 32;
+  static const int firebaseSuggestionsLimit = 16;
 }
