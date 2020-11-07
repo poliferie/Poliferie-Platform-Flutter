@@ -10,13 +10,17 @@ class UserRepository {
   final AsyncCache<User> Function() cacheConstructor;
   final Map<String, AsyncCache<User>> cache;
 
-  UserRepository({@required this.apiProvider, cacheDuration}) 
-    : cacheConstructor = (() => AsyncCache<User>(Duration(hours: cacheDuration ?? 12))),
-      cache = {}, 
-      assert(apiProvider != null);
+  UserRepository({@required this.apiProvider, cacheDuration})
+      : cacheConstructor =
+            (() => AsyncCache<User>(Duration(hours: cacheDuration ?? 12))),
+        cache = {},
+        assert(apiProvider != null);
 
   Future<User> _getByUsername(String username) async {
     final returnedJson = await apiProvider.fetch('users/$username');
+    if (returnedJson == null) {
+      throw ("The profile does not exist");
+    }
     return User.fromJson(returnedJson);
   }
 

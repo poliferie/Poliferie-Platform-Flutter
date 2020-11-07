@@ -20,6 +20,9 @@ class ArticleRepository {
   Future<Article> _getById(String id) async {
     final returnedJson =
         await apiProvider.fetch(Configs.firebaseArticlesCollection + '/$id');
+    if (returnedJson == null) {
+      throw ("This article does not exist");
+    }
     return Article.fromJson(returnedJson);
   }
 

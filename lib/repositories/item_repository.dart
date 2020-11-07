@@ -20,6 +20,9 @@ class ItemRepository {
   Future<ItemModel> _getById(String id) async {
     final returnedJson =
         await apiProvider.fetch(Configs.firebaseItemsCollection + '/$id');
+    if (returnedJson == null) {
+      throw ("This item does not exist");
+    }
     return ItemModel.fromJson(returnedJson);
   }
 
