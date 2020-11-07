@@ -95,6 +95,5 @@ Map<String, dynamic> _addSearchText(
                   : [searchText]
             });
   }
-
   return filters;
 }

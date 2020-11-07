@@ -313,6 +313,9 @@ class _ResultsScreenState extends State<ResultsScreen> {
           loadSuggestions: () async {
             return await RepositoryProvider.of<SearchRepository>(context)
                 .suggest(searchController.text,
+                    order: {
+                      "type": {"descending": true}
+                    },
                     limit: Configs.firebaseSuggestionsLimit);
           },
           suggestionCallback: (suggestion) {

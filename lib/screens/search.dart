@@ -290,7 +290,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
             return await RepositoryProvider.of<SearchRepository>(context)
                 .suggest(searchController.text,
                     order: {
-                      "type": {"descending": false}
+                      "type": {"descending": true}
                     },
                     limit: Configs.firebaseSuggestionsLimit);
           },
