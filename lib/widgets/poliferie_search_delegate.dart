@@ -134,7 +134,8 @@ class PoliferieSearchDelegate extends SearchDelegate {
   //                in the suggestion name
   @override
   Widget buildSuggestions(BuildContext context) {
-    searchBloc.add(FetchSuggestions(searchText: query));
+    searchBloc.add(FetchSuggestions(
+        searchText: query, limit: Configs.firebaseSuggestionsLimit));
 
     return BlocBuilder<SearchBloc, SearchState>(
       bloc: searchBloc,

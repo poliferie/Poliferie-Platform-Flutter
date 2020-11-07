@@ -11,7 +11,6 @@ import 'package:Poliferie.io/widgets/poliferie_search_delegate.dart';
 import 'package:Poliferie.io/models/item.dart';
 import 'package:Poliferie.io/models/suggestion.dart';
 import 'package:Poliferie.io/screens/compare_view.dart';
-import 'package:Poliferie.io/screens/results.dart';
 import 'package:Poliferie.io/repositories/search_repository.dart';
 
 import 'package:Poliferie.io/dimensions.dart';

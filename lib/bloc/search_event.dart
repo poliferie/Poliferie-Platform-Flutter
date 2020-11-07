@@ -6,8 +6,12 @@ abstract class SearchEvent extends Equatable {
 
 class FetchSuggestions extends SearchEvent {
   final String searchText;
+  final Map<String, dynamic> filters;
+  final Map<String, dynamic> order;
+  final int limit;
 
-  const FetchSuggestions({this.searchText});
+  const FetchSuggestions(
+      {this.searchText, this.filters, this.order, this.limit});
 
   @override
   List<Object> get props => [searchText];
