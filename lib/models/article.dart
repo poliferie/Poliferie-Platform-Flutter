@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'dart:convert';
 
 class Article extends Equatable {
   final String id;
@@ -29,7 +30,11 @@ class Article extends Equatable {
           : AssetImage(json['image']),
       title: json['title'],
       subtitle: json['subtitle'],
-      bodyMarkdownSource: json['body'],
+      bodyMarkdownSource: rawToString(json['body']),
     );
   }
+}
+
+String rawToString(String raw) {
+  return json.decode(r'{ "data":"' + raw + r'"}')['data'];
 }
