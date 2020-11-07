@@ -8,6 +8,21 @@ import 'package:Poliferie.io/providers/local_provider.dart';
 import 'package:Poliferie.io/models/suggestion.dart';
 import 'package:Poliferie.io/models/item.dart';
 
+///Orders [results] based on number of matched keywords given [searchText].
+_orderResults(dynamic results, String searchText) {
+  Set<String> searchKeywords =
+      Set.from(searchText.contains(" ") ? searchText.split(" ") : [searchText]);
+  int _countMatches(List<String> keywords, String searchText) {
+    return Set.from(keywords).intersection(searchKeywords).length;
+  }
+
+  // Keeps ascending order.
+  results.sort((a, b) => -_countMatches(a.search, searchText)
+      .compareTo(_countMatches(b.search, searchText)));
+
+  return results;
+}
+
 class SearchRepository {
   final ApiProvider apiProvider;
   final LocalProvider localProvider;
@@ -39,16 +54,7 @@ class SearchRepository {
         .toList()
         .cast<SearchSuggestion>();
 
-    // Orders results based on number of matched keywords.
-    Set<String> searchKeywords = Set.from(
-        searchText.contains(" ") ? searchText.split(" ") : [searchText]);
-    int _countMatches(List<String> keywords, String searchText) {
-      return Set.from(keywords).intersection(searchKeywords).length;
-    }
-
-    // Keeps ascending order.
-    suggestions.sort((a, b) => -_countMatches(a.search, searchText)
-        .compareTo(_countMatches(b.search, searchText)));
+    suggestions = _orderResults(suggestions, searchText);
 
     return suggestions;
   }
@@ -72,6 +78,8 @@ class SearchRepository {
         .map((el) => ItemModel.fromJson(el))
         .toList()
         .cast<ItemModel>();
+
+    results = _orderResults(results, searchText);
 
     return results;
   }
