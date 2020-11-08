@@ -36,5 +36,8 @@ class Article extends Equatable {
 }
 
 String rawToString(String raw) {
-  return json.decode(r'{ "data":"' + raw + r'"}')['data'];
+  if (raw.contains(r'\n'))
+    return json.decode(r'{ "data":"' + raw + r'"}')['data'];
+  else
+    return raw;
 }
