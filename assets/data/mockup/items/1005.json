@@ -17,6 +17,9 @@
     "access": "Test",
     "education": "In presenza",
     "students": 43,
+    "search": [],
+    "groupName": "Agraria",
+    "groupLabel": "L-13",
     "stats": {
         "occupazione": {
             "name": "Tasso di disoccupazione",

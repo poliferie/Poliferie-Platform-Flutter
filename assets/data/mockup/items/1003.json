@@ -17,6 +17,9 @@
     "access": "Libero",
     "education": "In presenza",
     "students": 120345,
+    "search": [],
+    "groupName": "Science",
+    "groupLabel": "L-30",
     "stats": [
         {
             "name": "Tasso di disoccupazione",
