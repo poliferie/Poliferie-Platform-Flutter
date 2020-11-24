@@ -82,7 +82,7 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
                       onSetFavorite: () =>
                           _updateFavorites(toggleIndex: item.id),
                     ),
-                    padding: EdgeInsets.only(bottom: 10.0),
+                    padding: EdgeInsets.symmetric(horizontal: 1, vertical: 5),
                   ))
               .toList(),
         ],
