@@ -262,11 +262,13 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
   Widget _buildCourseBody(BuildContext context, ItemModel item) {
     // TODO(@amerlo): List order matters, decide how to do it.
     List<Widget> itemStats = List<Widget>();
-    for (String listName in item.stats.keys) {
-      List<Card> cards =
-          item.stats[listName].map((e) => _buildCard(e)).toList();
-      itemStats.add(_buildList(listName, cards));
-    }
+    item.stats.forEach((String listName, List<ItemStat> statList) {
+      List<Card> cards = [];
+      for (ItemStat stat in statList) {
+        if (stat.value != null) cards.add(_buildCard(stat));
+      }
+      if (cards.isNotEmpty) itemStats.add(_buildList(listName, cards));
+    });
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: AppDimensions.bodyPaddingLeft),
