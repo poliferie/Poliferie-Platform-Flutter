@@ -17,6 +17,9 @@
     "access": "Test",
     "education": "Remoto",
     "students": 1245,
+    "search": [],
+    "groupName": "Design",
+    "groupLabel": "L-1",
     "stats": [
         {
             "name": "Tasso di disoccupazione",

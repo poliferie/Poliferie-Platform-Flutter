@@ -26,6 +26,8 @@ class ItemModel extends Equatable {
   final String longDescription;
   final String providerLogo;
   final String providerImage;
+  final String groupName;
+  final String groupLabel;
   final int duration;
   final int students;
   final String language;
@@ -34,6 +36,7 @@ class ItemModel extends Equatable {
   final String access;
   final String education;
   final Map<String, List<ItemStat>> stats;
+  final List<String> search;
 
   const ItemModel(
       {this.id,
@@ -47,6 +50,8 @@ class ItemModel extends Equatable {
       this.longDescription,
       this.providerLogo,
       this.providerImage,
+      this.groupName,
+      this.groupLabel,
       this.duration,
       this.students,
       this.language,
@@ -54,7 +59,8 @@ class ItemModel extends Equatable {
       this.owner,
       this.access,
       this.education,
-      this.stats});
+      this.stats,
+      this.search});
 
   @override
   List<Object> get props => [id];
@@ -98,6 +104,8 @@ class ItemModel extends Equatable {
         longDescription: json['longDescription'],
         providerLogo: json['providerLogo'],
         providerImage: json['providerImage'],
+        groupName: json["groupName"],
+        groupLabel: json["groupLabel"],
         duration: json["duration"],
         language: json["language"],
         requirements: json["requirements"],
@@ -105,6 +113,9 @@ class ItemModel extends Equatable {
         access: json["access"],
         education: json["education"],
         students: json["students"],
-        stats: map);
+        stats: map,
+        search: (json['search'] as List<dynamic>)
+            .map((e) => e.toString())
+            .toList());
   }
 }

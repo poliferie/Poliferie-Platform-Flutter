@@ -25,11 +25,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   Stream<SearchState> mapEventToState(SearchEvent event) async* {
     if (event is FetchSuggestions) {
       final String searchText = event.searchText;
+      final Map<String, dynamic> filters = event.filters;
+      final Map<String, dynamic> order = event.order;
+      final int limit = event.limit;
       yield SearchStateLoading();
 
       try {
-        final List<SearchSuggestion> suggestions =
-            await searchRepository.suggest(searchText);
+        final List<SearchSuggestion> suggestions = await searchRepository
+            .suggest(searchText, filters: filters, order: order, limit: limit);
         yield SuggestionStateSuccess(suggestions);
       } catch (error) {
         yield SearchStateError('$error');

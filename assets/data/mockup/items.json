@@ -18,6 +18,9 @@
         "access": "Test",
         "education": "Remoto",
         "students": 1245,
+        "search": [],
+        "groupName": "Design",
+        "groupLabel": "L-1",
         "stats": [
             {
                 "name": "Tasso di disoccupazione",
@@ -152,6 +155,9 @@
         "access": "Libero",
         "education": "In presenza",
         "students": 120345,
+        "search": [],
+        "groupName": "Science",
+        "groupLabel": "L-30",
         "stats": [
             {
                 "name": "Tasso di disoccupazione",
@@ -286,6 +292,7 @@
         "access": null,
         "education": null,
         "students": 44900,
+        "search": [],
         "stats": [
             {
                 "name": "Soddisfazione",
@@ -406,6 +413,7 @@
         "access": null,
         "education": null,
         "students": 102049,
+        "search": [],
         "stats": [
             {
                 "name": "Soddisfazione",
@@ -526,6 +534,9 @@
         "access": "Test",
         "education": "In presenza",
         "students": 43,
+        "search": [],
+        "groupName": "Agraria",
+        "groupLabel": "L-13",
         "stats": {
             "occupazione": {
                 "name": "Tasso di disoccupazione",
