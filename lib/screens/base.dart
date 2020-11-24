@@ -59,7 +59,7 @@ class BaseScreenState extends State<BaseScreen> {
 
   BottomNavigationBarItem _buildNavItem(IconData icon) {
     return BottomNavigationBarItem(
-      title: Text(""),
+      label: "",
       icon: Icon(
         icon,
         size: AppDimensions.bottomNavigationBarIconSize,
@@ -74,7 +74,10 @@ class BaseScreenState extends State<BaseScreen> {
       onWillPop: _onWillPop,
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: screens[_selectedIndex],
+        body: IndexedStack(
+          children: screens,
+          index: _selectedIndex,
+        ),
         extendBody: true,
         bottomNavigationBar: Container(
           decoration: BoxDecoration(

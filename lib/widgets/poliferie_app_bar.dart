@@ -51,7 +51,7 @@ class PoliferieAppBar extends StatelessWidget implements PreferredSizeWidget {
       return AppBar(
         backgroundColor: Styles.poliferieRed,
         title: titleWidget,
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         bottom: bottom,
         actions: <Widget>[_actions(icon)],
       );
