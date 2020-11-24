@@ -288,24 +288,15 @@ class _PoliferieFilterState extends State<PoliferieFilter>
   }
 
   Widget _buildDismissibleBackgroud() {
-    return Card(
-      elevation: 0.0,
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
       color: widget.color,
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(AppDimensions.filterCardBorderRadius),
-      ),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          // TODO(@amerlo): Select left or right swipe, not both
+          mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            Icon(
-              Icons.delete,
-              size: AppDimensions.filterIconSize,
-              color: Styles.poliferieLightWhite,
-            ),
             Icon(
               Icons.delete,
               size: AppDimensions.filterIconSize,
@@ -349,42 +340,49 @@ class _PoliferieFilterState extends State<PoliferieFilter>
     return Text("");
   }
 
-  Widget _buildDismissibleCard() {
-    return Card(
-      elevation: 3.0,
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(AppDimensions.filterCardBorderRadius),
+  Widget _buildCardBody() {
+    return ListTile(
+      onTap: _onButtonPressed,
+      leading: PoliferieIconBox(
+        widget.filter.icon,
+        iconSize: AppDimensions.filterIconSize,
+        iconColor: widget.status.selected ? Colors.white : widget.color,
+        iconBackgroundColor: widget.status.selected ? widget.color : null,
       ),
-      child: ListTile(
-        onTap: _onButtonPressed,
-        leading: PoliferieIconBox(
-          widget.filter.icon,
-          iconSize: AppDimensions.filterIconSize,
-          iconColor: widget.status.selected ? Colors.white : widget.color,
-          iconBackgroundColor: widget.status.selected ? widget.color : null,
-        ),
-        title: AutoSizeText(
-          widget.filter.name,
-          style: Styles.filterName,
-          wrapWords: false,
-          overflow: TextOverflow.ellipsis,
-          maxLines: 2,
-          minFontSize: AppDimensions.filterTitleFontSize,
-        ),
-        trailing: _buildPreview(),
+      title: AutoSizeText(
+        widget.filter.name,
+        style: Styles.filterName,
+        wrapWords: false,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 2,
+        minFontSize: AppDimensions.filterTitleFontSize,
       ),
+      trailing: _buildPreview(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Dismissible(
-      key: GlobalKey(),
-      confirmDismiss: (direction) => _doNotDismiss(widget.filter.type),
-      background: _buildDismissibleBackgroud(),
-      child: _buildDismissibleCard(),
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      elevation: 3.0,
+      shape: RoundedRectangleBorder(
+        borderRadius:
+            BorderRadius.circular(AppDimensions.filterCardBorderRadius),
+      ),
+      child: ClipRect(
+        child: selected
+            ? Dismissible(
+                key: GlobalKey(),
+                confirmDismiss: (direction) =>
+                    _doNotDismiss(widget.filter.type),
+                direction: DismissDirection.endToStart,
+                background: _buildDismissibleBackgroud(),
+                child: _buildCardBody(),
+              )
+            : _buildCardBody(),
+      ),
     );
   }
 }
