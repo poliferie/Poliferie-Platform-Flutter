@@ -165,7 +165,9 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                 offset: Offset(0, 1)),
           ],
           color: Styles.poliferieRed),
-      padding: EdgeInsets.only(top: kToolbarHeight + 25, bottom: 25.0),
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).padding.top + kToolbarHeight,
+          bottom: 25.0),
       width: double.infinity,
       child: Column(
         children: <Widget>[
