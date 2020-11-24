@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:flutter/services.dart';
 
 import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/styles.dart';
@@ -79,8 +80,11 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
   }
 
   Widget _buildImage(ItemModel item) {
-    return Image(
-      image: AssetImage(item.providerImage),
+    return Container(
+      padding: EdgeInsets.only(bottom: 1),
+      child: Image(
+        image: AssetImage(item.providerImage),
+      ),
     );
   }
 
@@ -324,9 +328,12 @@ class _ItemScreenState extends State<ItemScreen> {
       body: BlocProvider<ItemBloc>(
         create: (context) => ItemBloc(
             itemRepository: RepositoryProvider.of<ItemRepository>(context)),
-        child: ItemScreenBody(widget.id,
-            favoritesRepository:
-                RepositoryProvider.of<FavoritesRepository>(context)),
+        child: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle.dark,
+          child: ItemScreenBody(widget.id,
+              favoritesRepository:
+                  RepositoryProvider.of<FavoritesRepository>(context)),
+        ),
       ),
     );
   }
