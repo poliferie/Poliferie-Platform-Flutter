@@ -39,7 +39,7 @@ class SearchScreenBody extends StatefulWidget {
 class FiltersBody extends StatefulWidget {
   final List filters;
 
-  FiltersBody({@required this.filters});
+  FiltersBody({@required this.filters, Key key}) : super(key: key);
 
   @override
   _FiltersBodyState createState() => _FiltersBodyState();
@@ -163,10 +163,8 @@ class _FiltersBodyState extends State<FiltersBody> {
     );
   }
 
-  /// Call search delegate with selected filters and order query
-  void _onPressedExplore() {
+  Map<String, dynamic> _getFilters() {
     Map<String, dynamic> filters = Map();
-    Map<String, dynamic> order;
 
     // Build Firebase filters map
     allStatus.forEach((i, status) {
@@ -175,6 +173,14 @@ class _FiltersBodyState extends State<FiltersBody> {
             () => getFirebaseFilter(allFilters[i], status));
       }
     });
+
+    return filters;
+  }
+
+  /// Call search delegate with selected filters and order query
+  void _onPressedExplore() {
+    Map<String, dynamic> filters = _getFilters();
+    Map<String, dynamic> order;
 
     Navigator.push(
       context,
@@ -230,6 +236,10 @@ class _FiltersBodyState extends State<FiltersBody> {
 class _SearchScreenBodyState extends State<SearchScreenBody> {
   final TextEditingController searchController = TextEditingController();
 
+  // Global key to retrieve filters state.
+  final GlobalKey<_FiltersBodyState> _filtersState =
+      GlobalKey<_FiltersBodyState>();
+
   Widget _buildFilterHeading() {
     return Text(
       Strings.searchFilterHeading,
@@ -249,7 +259,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
           return PoliferieProgressIndicator();
         }
         if (state is FetchStateSuccess) {
-          return FiltersBody(filters: state.filters);
+          return FiltersBody(filters: state.filters, key: _filtersState);
         }
         if (state is FetchStateError) {
           return Text(state.error);
@@ -289,6 +299,8 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
           loadSuggestions: () async {
             return await RepositoryProvider.of<SearchRepository>(context)
                 .suggest(searchController.text,
+                    // TODO(@amerlo): fix me.
+                    // filters: _filtersState.currentState._getFilters(),
                     order: {
                       "type": {"descending": true}
                     },
@@ -309,6 +321,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
                 builder: (context) => ResultsScreen(
                   ItemSearch(
                     query: query,
+                    filters: _filtersState.currentState._getFilters(),
                     limit: Configs.firebaseItemsLimit,
                   ),
                 ),
