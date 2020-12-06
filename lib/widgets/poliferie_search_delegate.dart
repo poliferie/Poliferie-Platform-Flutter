@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Poliferie.io/icons.dart';
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/configs.dart';
+import 'package:Poliferie.io/utils.dart';
 
 import 'package:Poliferie.io/bloc/search.dart';
 import 'package:Poliferie.io/models/suggestion.dart';
@@ -17,6 +18,7 @@ class PoliferieSearchDelegate extends SearchDelegate {
   final SearchBloc searchBloc;
   final Widget Function(ItemSearch) onSearch;
   final dynamic Function(SearchSuggestion) onSuggestionTap;
+  final _debouncer = Debouncer(milliseconds: 500);
 
   dynamic _onSuggestionTapDefault(
       BuildContext context, SearchSuggestion suggestion) {
@@ -134,8 +136,10 @@ class PoliferieSearchDelegate extends SearchDelegate {
   //                in the suggestion name
   @override
   Widget buildSuggestions(BuildContext context) {
-    searchBloc.add(FetchSuggestions(
-        searchText: query, limit: Configs.firebaseSuggestionsLimit));
+    _debouncer.run(() {
+      searchBloc.add(FetchSuggestions(
+          searchText: query, limit: Configs.firebaseSuggestionsLimit));
+    });
 
     return BlocBuilder<SearchBloc, SearchState>(
       bloc: searchBloc,
@@ -146,7 +150,7 @@ class PoliferieSearchDelegate extends SearchDelegate {
         if (state is SuggestionStateSuccess) {
           Widget suggestionListWidget =
               _buildSuggestionsList(state.suggestions, query);
-          searchBloc.close();
+          //searchBloc.close();
           return suggestionListWidget;
         }
         if (state is SearchStateError) {

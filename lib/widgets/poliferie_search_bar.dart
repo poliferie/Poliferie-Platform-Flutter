@@ -1,11 +1,10 @@
 // adapted from https://github.com/alexrindone/flutter_textfield_search/blob/master/lib/textfield_search.dart
 
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart'; // debouncing
-import 'dart:async';
 
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/icons.dart';
+import 'package:Poliferie.io/utils.dart';
 import 'package:flutter/services.dart';
 
 class PoliferieSearchBar extends StatefulWidget {
@@ -35,7 +34,7 @@ class _PoliferieSearchBarState extends State<PoliferieSearchBar> {
   final LayerLink _layerLink = LayerLink();
   List suggestions = new List();
   bool loading = false;
-  final _debouncer = Debouncer(milliseconds: 1000);
+  final _debouncer = Debouncer(milliseconds: 500);
 
   void resetList() {
     List tempList = new List();
@@ -255,18 +254,5 @@ class _PoliferieSearchBarState extends State<PoliferieSearchBar> {
         ),
       ),
     );
-  }
-}
-
-class Debouncer {
-  final int milliseconds;
-  VoidCallback action;
-  Timer _timer;
-  Debouncer({this.milliseconds});
-  run(VoidCallback action) {
-    if (_timer != null) {
-      _timer.cancel();
-    }
-    _timer = Timer(Duration(milliseconds: milliseconds), action);
   }
 }

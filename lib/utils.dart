@@ -1,5 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'dart:async';
 
 List<T> repeat<T>(List<T> list, int iteration) {
   List<T> newList = [];
@@ -27,4 +29,17 @@ Widget keyboardDismisser({BuildContext context, Widget child}) {
     child: child,
   );
   return gesture;
+}
+
+class Debouncer {
+  final int milliseconds;
+  VoidCallback action;
+  Timer _timer;
+  Debouncer({this.milliseconds});
+  run(VoidCallback action) {
+    if (_timer != null) {
+      _timer.cancel();
+    }
+    _timer = Timer(Duration(milliseconds: milliseconds), action);
+  }
 }
