@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -348,22 +349,34 @@ Widget buildCardTraling(ItemStat stat) {
       radius: 50.0,
       lineWidth: 3.0,
       percent: (stat.value ?? 0) / 100,
-      center: Text(
-        (stat.value?.toString() ?? '-') + " %",
-        style: Styles.statsValue,
+      center: Padding(
+        child: FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Text(
+            (stat.value?.toStringAsFixed(0) ?? '- ') + "%",
+            style: Styles.statsValue,
+          ),
+        ),
+        padding: EdgeInsets.all(5),
       ),
       progressColor:
           Color.lerp(Colors.red, Colors.green, (stat.value ?? 0) / 100),
     );
   } else if (stat.unit == "€") {
-    return Text(
-      (stat.value?.toStringAsFixed(0) ?? '-') + ' ' + stat.unit,
-      style: Styles.statsValue,
+    return FittedBox(
+      fit: BoxFit.fitWidth,
+      child: Text(
+        (stat.value?.toStringAsFixed(0) ?? '- ') + stat.unit,
+        style: Styles.statsValue,
+      ),
     );
   } else {
-    return Text(
-      (stat.value?.toString() ?? '-') + ' ' + stat.unit,
-      style: Styles.statsValue,
+    return FittedBox(
+      fit: BoxFit.fitWidth,
+      child: Text(
+        (stat.value?.toString() ?? '- ') + stat.unit,
+        style: Styles.statsValue,
+      ),
     );
   }
 }
