@@ -90,8 +90,9 @@ class Filter extends Equatable {
 class FilterStatus {
   bool selected;
   List<dynamic> values;
+  bool available;
 
-  FilterStatus(this.values, {this.selected = false});
+  FilterStatus(this.values, {this.selected = false, this.available = true});
 
   static FilterStatus initStatus(FilterType type, List<dynamic> range) {
     if (type == FilterType.dropDown) {

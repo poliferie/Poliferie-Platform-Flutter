@@ -57,6 +57,13 @@ class _FiltersBodyState extends State<FiltersBody> {
     setState(() {
       if (type == null) {
         allStatus[index].selected = newValue as bool;
+        if (allFilters[index].type == FilterType.selectRange) {
+          if ((newValue as bool) == true) {
+            disableAllRangesBut(index);
+          } else {
+            enableAllRanges();
+          }
+        }
       } else if (type == FilterType.dropDown) {
         if (newValue == null) {
           allStatus[index].values = [];
@@ -82,6 +89,22 @@ class _FiltersBodyState extends State<FiltersBody> {
           RangeValues newRangeValues = (newValue as RangeValues);
           allStatus[index].values = [newRangeValues.start, newRangeValues.end];
         }
+      }
+    });
+  }
+
+  void disableAllRangesBut(int index) {
+    allFilters.forEach((i, filter) {
+      if (i != index && filter.type == FilterType.selectRange) {
+        allStatus[i].available = false;
+      }
+    });
+  }
+
+  void enableAllRanges() {
+    allFilters.forEach((i, filter) {
+      if (filter.type == FilterType.selectRange) {
+        allStatus[i].available = true;
       }
     });
   }

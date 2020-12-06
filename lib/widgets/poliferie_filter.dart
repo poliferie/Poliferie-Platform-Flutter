@@ -342,11 +342,17 @@ class _PoliferieFilterState extends State<PoliferieFilter>
 
   Widget _buildCardBody() {
     return ListTile(
-      onTap: _onButtonPressed,
+      onTap: widget.status.available ? _onButtonPressed : null,
+      enabled: widget.status.available,
+      //tileColor: widget.status.available ? null : Color.fromRGBO(245, 245, 245, 1),
       leading: PoliferieIconBox(
         widget.filter.icon,
         iconSize: AppDimensions.filterIconSize,
-        iconColor: widget.status.selected ? Colors.white : widget.color,
+        iconColor: widget.status.selected
+            ? Colors.white
+            : (widget.status.available
+                ? Colors.red
+                : Styles.poliferieLightGrey),
         iconBackgroundColor: widget.status.selected ? widget.color : null,
       ),
       title: AutoSizeText(
