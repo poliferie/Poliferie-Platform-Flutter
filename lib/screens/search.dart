@@ -51,16 +51,6 @@ class _FiltersBodyState extends State<FiltersBody> {
   Map<int, FilterStatus> allStatus = Map();
   Map<int, Function> allUpdate = Map();
 
-  /// Map of course [Filter]
-  Map<int, Filter> courseFilters = Map();
-  Map<int, FilterStatus> courseStatus = Map();
-  Map<int, Function> courseUpdate = Map();
-
-  /// Map of university [Filter]
-  Map<int, Filter> universityFilters = Map();
-  Map<int, FilterStatus> universityStatus = Map();
-  Map<int, Function> universityUpdate = Map();
-
   // TODO(@amerlo): Could we avoid to duplicate code between here and the
   //                status inside PoliferieFilter?
   void updateFilterStatus(int index, FilterType type, dynamic newValue) {
@@ -107,18 +97,6 @@ class _FiltersBodyState extends State<FiltersBody> {
           i,
           (FilterType type, dynamic newValue) =>
               updateFilterStatus(i, type, newValue)));
-      allFilters.forEach((key, value) {
-        if (value.applyTo.contains(ItemType.course)) {
-          courseFilters[key] = value;
-          courseStatus[key] = allStatus[key];
-          courseUpdate[key] = allUpdate[key];
-        }
-        if (value.applyTo.contains(ItemType.university)) {
-          universityFilters[key] = value;
-          universityStatus[key] = allStatus[key];
-          universityUpdate[key] = allUpdate[key];
-        }
-      });
     });
   }
 
@@ -134,32 +112,21 @@ class _FiltersBodyState extends State<FiltersBody> {
     return isActive;
   }
 
-  Widget _buildFilterList(
-      BuildContext context,
-      Map<int, Filter> filters,
-      Map<int, FilterStatus> status,
-      Map<int, Function> updates,
-      ItemType tabType) {
-    return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      padding: EdgeInsets.only(
-        top: 10,
-        bottom: MediaQuery.of(context).padding.bottom + 56,
-      ),
-      child: Wrap(
-        children: <Widget>[
-          ...filters.keys
-              .toList()
-              .map(
-                (key) => PoliferieFilter(
-                  filters[key],
-                  status[key],
-                  updateValue: updates[key],
-                ),
-              )
-              .toList()
-        ],
-      ),
+  Widget _buildFilterList(BuildContext context, Map<int, Filter> filters,
+      Map<int, FilterStatus> status, Map<int, Function> updates) {
+    return Wrap(
+      children: <Widget>[
+        ...filters.keys
+            .toList()
+            .map(
+              (key) => PoliferieFilter(
+                filters[key],
+                status[key],
+                updateValue: updates[key],
+              ),
+            )
+            .toList()
+      ],
     );
   }
 
@@ -217,14 +184,16 @@ class _FiltersBodyState extends State<FiltersBody> {
       child: Stack(
         alignment: AlignmentDirectional.bottomCenter,
         children: <Widget>[
-          TabBarView(
-            physics: NeverScrollableScrollPhysics(),
-            children: [
-              _buildFilterList(context, courseFilters, courseStatus,
-                  courseUpdate, ItemType.course),
-              _buildFilterList(context, universityFilters, universityStatus,
-                  universityUpdate, ItemType.university),
-            ],
+          Container(
+            height: double.infinity,
+            child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                padding: EdgeInsets.only(
+                  top: 10,
+                  bottom: MediaQuery.of(context).padding.bottom + 56,
+                ),
+                child: _buildFilterList(
+                    context, allFilters, allStatus, allUpdate)),
           ),
           _buildFloatingButton(context),
         ],
@@ -247,11 +216,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
     );
   }
 
-  Widget _buildTabBar() {
-    return PoliferieTabBar();
-  }
-
-  Widget _buildTabBarBody(BuildContext context) {
+  Widget _buildFiltersBody(BuildContext context) {
     BlocProvider.of<FilterBloc>(context).add(FetchFilters());
     return BlocBuilder<FilterBloc, FilterState>(
       builder: (BuildContext context, FilterState state) {
@@ -270,20 +235,16 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
   }
 
   Widget _buildSearchScreenBody(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Container(
-        padding: AppDimensions.bodyPadding,
-        height: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            _buildFilterHeading(),
-            SizedBox(height: 10),
-            _buildTabBar(),
-            _buildTabBarBody(context),
-          ],
-        ),
+    return Container(
+      padding: AppDimensions.bodyPadding,
+      height: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _buildFilterHeading(),
+          SizedBox(height: 10),
+          _buildFiltersBody(context),
+        ],
       ),
     );
   }
