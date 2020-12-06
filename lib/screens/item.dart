@@ -269,7 +269,9 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
     item.stats.forEach((String listName, List<ItemStat> statList) {
       List<Card> cards = [];
       for (ItemStat stat in statList) {
-        if (stat.value != null) cards.add(_buildCard(stat));
+        // if (stat.value != null) cards.add(_buildCard(stat));
+        // show the cards also if it has no value
+        cards.add(_buildCard(stat));
       }
       if (cards.isNotEmpty) itemStats.add(_buildList(listName, cards));
     });
@@ -345,18 +347,23 @@ Widget buildCardTraling(ItemStat stat) {
     return CircularPercentIndicator(
       radius: 50.0,
       lineWidth: 3.0,
-      percent: stat.value / 100,
+      percent: (stat.value ?? 0) / 100,
       center: Text(
-        stat.value.toString(),
+        (stat.value?.toString() ?? '-') + " %",
         style: Styles.statsValue,
       ),
-      progressColor: Color.lerp(Colors.red, Colors.green, stat.value / 100),
+      progressColor:
+          Color.lerp(Colors.red, Colors.green, (stat.value ?? 0) / 100),
     );
   } else if (stat.unit == "€") {
-    return Text(stat.value.toStringAsFixed(0) + ' ' + stat.unit,
-        style: Styles.statsValue);
+    return Text(
+      (stat.value?.toStringAsFixed(0) ?? '-') + ' ' + stat.unit,
+      style: Styles.statsValue,
+    );
   } else {
-    return Text(stat.value.toString() + ' ' + stat.unit,
-        style: Styles.statsValue);
+    return Text(
+      (stat.value?.toString() ?? '-') + ' ' + stat.unit,
+      style: Styles.statsValue,
+    );
   }
 }
