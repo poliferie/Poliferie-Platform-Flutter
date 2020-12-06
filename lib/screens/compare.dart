@@ -243,7 +243,7 @@ class _CompareScreenBodyState extends State<CompareScreenBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PoliferieAppBar(icon: AppIcons.settings),
+      appBar: PoliferieAppBar(),
       body: _buildBody(context),
     );
   }

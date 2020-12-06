@@ -15,7 +15,7 @@ class PoliferieAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   const PoliferieAppBar(
       {Key key,
-      this.icon = AppIcons.settings,
+      this.icon, //AppIcons.settings,
       this.bottom,
       this.bottomHeight = 0,
       this.sliverBar = false,
@@ -53,7 +53,7 @@ class PoliferieAppBar extends StatelessWidget implements PreferredSizeWidget {
         title: titleWidget,
         automaticallyImplyLeading: true,
         bottom: bottom,
-        actions: <Widget>[_actions(icon)],
+        actions: icon != null ? <Widget>[_actions(icon)] : null,
       );
     } else {
       return SliverAppBar(
@@ -66,7 +66,7 @@ class PoliferieAppBar extends StatelessWidget implements PreferredSizeWidget {
           background: bottom,
           collapseMode: CollapseMode.parallax,
         ),
-        actions: <Widget>[_actions(icon)],
+        actions: icon != null ? <Widget>[_actions(icon)] : null,
       );
     }
   }
