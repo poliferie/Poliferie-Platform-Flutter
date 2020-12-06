@@ -47,7 +47,10 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
   List<String> _favoriteItems;
 
   /// Hack to flag first loading
-  bool _initialized;
+  Map<ItemType, bool> _initialized;
+
+  /// Hack to separate tab loadings
+  Map<ItemType, SearchBloc> _searchBlocs;
 
   /// Results order
   String _selectedOrder;
@@ -56,7 +59,7 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
   void initState() {
     super.initState();
     _updateFavorites();
-    _initialized = false;
+    _initialized = {ItemType.course: false, ItemType.university: false};
     _selectedOrder = ordersResults[0];
   }
 
@@ -213,75 +216,9 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
     );
   }
 
-  Widget _buildTabBody(
-      BuildContext context, List<ItemModel> results, ItemType tabType) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        _buildSearchActions(),
-        _buildResultsList(results),
-      ],
-    );
-  }
-
-  Widget _buildTabBar() {
-    return PoliferieTabBar();
-  }
-
-  Widget _buildResultsBody(BuildContext context, List<ItemModel> results) {
-    return Expanded(
-      child: TabBarView(
-        physics: NeverScrollableScrollPhysics(),
-        children: [
-          _buildTabBody(
-              context,
-              results.where((item) => item.type == ItemType.course).toList(),
-              ItemType.course),
-          _buildTabBody(
-              context,
-              results
-                  .where((item) => item.type == ItemType.university)
-                  .toList(),
-              ItemType.university),
-        ],
-      ),
-    );
-  }
-
-  // TODO(@amerlo): Change results to courseResults and providerResults
-  Widget _buildBody(BuildContext context, List<ItemModel> results) {
-    return DefaultTabController(
-      length: 2,
-      child: Container(
-        padding: AppDimensions.bodyPadding,
-        height: double.infinity,
-        color: Styles.poliferieWhite,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            _buildTabBar(),
-            _buildResultsBody(context, results),
-          ],
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This is an hack not to re-fetch results once done once.
-    if (!_initialized) {
-      BlocProvider.of<SearchBloc>(context).add(FetchSearch(
-          searchText: widget.search.query,
-          filters: widget.search.filters,
-          order: widget.search.order,
-          limit: widget.search.limit));
-      setState(() {
-        _initialized = true;
-      });
-    }
-
+  Widget _buildTabBody(BuildContext context, ItemType tabType) {
     return BlocBuilder<SearchBloc, SearchState>(
+      bloc: _searchBlocs[tabType],
       builder: (BuildContext context, SearchState state) {
         if (state is SearchStateLoading) {
           return PoliferieProgressIndicator();
@@ -290,10 +227,93 @@ class _ResultsScreenBodyState extends State<ResultsScreenBody> {
           return Text(state.error);
         }
         if (state is SearchStateSuccess) {
-          return _buildBody(context, state.results);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _buildSearchActions(),
+              _buildResultsList(state.results),
+            ],
+          );
         }
         return Text('This widge should never be reached');
       },
+    );
+  }
+
+  Widget _buildTabBar() {
+    return PoliferieTabBar();
+  }
+
+  _eventuallyInitTab(ItemType tabType) {
+    // This is an hack not to re-fetch results once done once.
+    if (!_initialized[tabType]) {
+      Map<String, dynamic> _filters =
+          Map<String, dynamic>.from(widget.search.filters ?? {});
+      _filters['type'] = {
+        "op": "==",
+        "values": tabType == ItemType.university ? 'university' : 'course'
+      };
+
+      _searchBlocs[tabType].add(FetchSearch(
+        searchText: widget.search.query,
+        filters: _filters,
+        order: widget.search.order,
+        limit: widget.search.limit,
+      ));
+      setState(() {
+        _initialized[tabType] = true;
+      });
+    }
+  }
+
+  Widget _buildResultsBody(BuildContext context) {
+    TabController tabController = DefaultTabController.of(context);
+    tabController.addListener(() {
+      if (!tabController.indexIsChanging) {
+        ItemType tabType =
+            tabController.index == 0 ? ItemType.course : ItemType.university;
+        _eventuallyInitTab(tabType);
+      }
+    });
+
+    return Expanded(
+      child: TabBarView(
+        physics: NeverScrollableScrollPhysics(),
+        children: [
+          _buildTabBody(context, ItemType.course),
+          _buildTabBody(context, ItemType.university),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_searchBlocs == null) {
+      _searchBlocs = {};
+      _searchBlocs[ItemType.course] = SearchBloc(
+          searchRepository: RepositoryProvider.of<SearchRepository>(context));
+      _searchBlocs[ItemType.university] = SearchBloc(
+          searchRepository: RepositoryProvider.of<SearchRepository>(context));
+    }
+    _eventuallyInitTab(ItemType.course);
+    return DefaultTabController(
+      length: 2,
+      initialIndex: 0,
+      child: Container(
+        padding: AppDimensions.bodyPadding,
+        height: double.infinity,
+        color: Styles.poliferieWhite,
+        child: Builder(
+          builder: (BuildContext context) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _buildTabBar(),
+              _buildResultsBody(context),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -331,7 +351,10 @@ class _ResultsScreenState extends State<ResultsScreen> {
               context,
               MaterialPageRoute(
                 builder: (context) => ResultsScreen(
-                  ItemSearch(query: query, limit: Configs.firebaseItemsLimit),
+                  ItemSearch(
+                      query: query,
+                      filters: widget.search.filters,
+                      limit: Configs.firebaseItemsLimit),
                 ),
               ),
             );
@@ -345,29 +368,19 @@ class _ResultsScreenState extends State<ResultsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider<SearchBloc>(
-            create: (context) => SearchBloc(
-              searchRepository:
-                  RepositoryProvider.of<SearchRepository>(context),
+      body: keyboardDismisser(
+        context: context,
+        child: Scaffold(
+          appBar: PoliferieAppBar(
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(kToolbarHeight + 10),
+              child: _buildSearchBar(context),
             ),
-          )
-        ],
-        child: keyboardDismisser(
-          context: context,
-          child: Scaffold(
-            appBar: PoliferieAppBar(
-              bottom: PreferredSize(
-                preferredSize: Size.fromHeight(kToolbarHeight + 10),
-                child: _buildSearchBar(context),
-              ),
-            ),
-            body: ResultsScreenBody(
-                search: widget.search,
-                favoritesRepository:
-                    RepositoryProvider.of<FavoritesRepository>(context)),
           ),
+          body: ResultsScreenBody(
+              search: widget.search,
+              favoritesRepository:
+                  RepositoryProvider.of<FavoritesRepository>(context)),
         ),
       ),
     );
