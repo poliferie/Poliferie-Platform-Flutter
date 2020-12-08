@@ -275,12 +275,7 @@ class _CompareViewScreenState extends State<CompareViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       // TODO(@amerlo): We would like to remove the settings icon here
-      appBar: PoliferieAppBar(
-        icon: Icons.close,
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
+      appBar: PoliferieAppBar(),
       body: BlocProvider<ItemBloc>(
         create: (context) => ItemBloc(
             itemRepository: RepositoryProvider.of<ItemRepository>(context)),
