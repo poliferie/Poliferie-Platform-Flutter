@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/utils.dart';
 import 'package:Poliferie.io/dimensions.dart';
 
 class PoliferieIconBox extends StatelessWidget {
@@ -20,7 +20,7 @@ class PoliferieIconBox extends StatelessWidget {
         color: iconColor,
       );
     } else if (child is String) {
-      return Image.asset(child, height: iconSize, width: iconSize);
+      return getImage(child, height: iconSize, width: iconSize);
     } else {
       return null;
     }

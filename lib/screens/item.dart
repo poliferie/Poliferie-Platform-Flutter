@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -8,6 +7,7 @@ import 'package:Poliferie.io/dimensions.dart';
 import 'package:Poliferie.io/styles.dart';
 import 'package:Poliferie.io/strings.dart';
 import 'package:Poliferie.io/icons.dart';
+import 'package:Poliferie.io/utils.dart';
 
 import 'package:Poliferie.io/repositories/repositories.dart';
 import 'package:Poliferie.io/bloc/item.dart';
@@ -83,9 +83,7 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
   Widget _buildImage(ItemModel item) {
     return Container(
       padding: EdgeInsets.only(bottom: 1),
-      child: Image(
-        image: AssetImage(item.providerImage),
-      ),
+      child: getImage(item.providerImage),
     );
   }
 

@@ -43,3 +43,11 @@ class Debouncer {
     _timer = Timer(Duration(milliseconds: milliseconds), action);
   }
 }
+
+Image getImage(String src, {BoxFit fit, double height, double width}) {
+  if (src.startsWith("http")) {
+    return Image.network(src, fit: fit, height: height, width: width);
+  } else {
+    return Image.asset(src, fit: fit, height: height, width: width);
+  }
+}
