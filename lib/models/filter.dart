@@ -68,6 +68,12 @@ class Filter extends Equatable {
     if (icon == 'language') {
       return Icons.language;
     }
+    if (icon == 'lock') {
+      return Icons.lock;
+    }
+    if (icon == 'domain') {
+      return Icons.domain;
+    }
   }
 
   // Constructor from Json file
