@@ -16,6 +16,7 @@ import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
 /// [SearchDelegate] helper class.
 class PoliferieSearchDelegate extends SearchDelegate {
   final SearchBloc searchBloc;
+  final Map<String, dynamic> filters;
   final Widget Function(ItemSearch) onSearch;
   final dynamic Function(SearchSuggestion) onSuggestionTap;
   final _debouncer = Debouncer(milliseconds: 500);
@@ -31,7 +32,7 @@ class PoliferieSearchDelegate extends SearchDelegate {
   }
 
   PoliferieSearchDelegate(
-      {this.searchBloc, this.onSearch, this.onSuggestionTap});
+      {this.searchBloc, this.filters, this.onSearch, this.onSuggestionTap});
 
   @override
   ThemeData appBarTheme(BuildContext context) {
@@ -72,6 +73,7 @@ class PoliferieSearchDelegate extends SearchDelegate {
         ItemSearch(
           query: query,
           limit: Configs.firebaseItemsLimit,
+          filters: this.filters,
         ),
       );
     } else {
@@ -136,10 +138,17 @@ class PoliferieSearchDelegate extends SearchDelegate {
   //                in the suggestion name
   @override
   Widget buildSuggestions(BuildContext context) {
-    _debouncer.run(() {
-      searchBloc.add(FetchSuggestions(
-          searchText: query, limit: Configs.firebaseSuggestionsLimit));
-    });
+    _debouncer.run(
+      () {
+        searchBloc.add(
+          FetchSuggestions(
+            searchText: query,
+            limit: Configs.firebaseSuggestionsLimit,
+            filters: this.filters,
+          ),
+        );
+      },
+    );
 
     return BlocBuilder<SearchBloc, SearchState>(
       bloc: searchBloc,

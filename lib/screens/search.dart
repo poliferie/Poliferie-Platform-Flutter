@@ -10,7 +10,6 @@ import 'package:Poliferie.io/configs.dart';
 import 'package:Poliferie.io/bloc/search.dart';
 import 'package:Poliferie.io/bloc/filter.dart';
 import 'package:Poliferie.io/models/filter.dart';
-import 'package:Poliferie.io/models/item.dart';
 import 'package:Poliferie.io/models/item_search.dart';
 import 'package:Poliferie.io/repositories/search_repository.dart';
 import 'package:Poliferie.io/repositories/filter_repository.dart';
@@ -19,7 +18,6 @@ import 'package:Poliferie.io/screens/item.dart';
 
 import 'package:Poliferie.io/widgets/poliferie_filter.dart';
 import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
-import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
 import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
 import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
 import 'package:Poliferie.io/widgets/poliferie_search_bar.dart';

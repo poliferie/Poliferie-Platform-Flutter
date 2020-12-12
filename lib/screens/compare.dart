@@ -3,20 +3,20 @@ import 'package:flutter/rendering.dart';
 import "package:flutter/widgets.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:Poliferie.io/dimensions.dart';
+import 'package:Poliferie.io/strings.dart';
+import 'package:Poliferie.io/styles.dart';
+
 import 'package:Poliferie.io/bloc/search_bloc.dart';
-import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
-import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
-import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
-import 'package:Poliferie.io/widgets/poliferie_search_delegate.dart';
 import 'package:Poliferie.io/models/item.dart';
 import 'package:Poliferie.io/models/suggestion.dart';
 import 'package:Poliferie.io/screens/compare_view.dart';
 import 'package:Poliferie.io/repositories/search_repository.dart';
 
-import 'package:Poliferie.io/dimensions.dart';
-import 'package:Poliferie.io/icons.dart';
-import 'package:Poliferie.io/strings.dart';
-import 'package:Poliferie.io/styles.dart';
+import 'package:Poliferie.io/widgets/poliferie_app_bar.dart';
+import 'package:Poliferie.io/widgets/poliferie_tab_bar.dart';
+import 'package:Poliferie.io/widgets/poliferie_floating_button.dart';
+import 'package:Poliferie.io/widgets/poliferie_search_delegate.dart';
 
 // TODO(@amerlo): Move this to a widget
 class CompareItemBox extends StatelessWidget {
@@ -155,6 +155,12 @@ class _CompareScreenBodyState extends State<CompareScreenBody> {
       context: context,
       delegate: PoliferieSearchDelegate(
         searchBloc: BlocProvider.of<SearchBloc>(context),
+        filters: {
+          "type": {
+            "op": "==",
+            "values": type == ItemType.course ? "course" : "university"
+          }
+        },
         onSuggestionTap: (SearchSuggestion suggestion) => {
           setState(
             () {
