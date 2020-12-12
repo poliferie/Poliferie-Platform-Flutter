@@ -82,23 +82,20 @@ class _PoliferieFilterState extends State<PoliferieFilter>
   }
 
   Widget _buildHeading() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: AppDimensions.bottomSheetPadding,
-          child: PoliferieIconBox(
-            widget.filter.icon,
-            iconColor: widget.color,
-          ),
-        ),
-        Text(
-          widget.filter.name,
-          style: Styles.filterHeadline,
-          overflow: TextOverflow.ellipsis,
-          maxLines: 2,
-        ),
-      ],
+    return ListTile(
+      leading: PoliferieIconBox(
+        widget.filter.icon,
+        iconColor: widget.color,
+      ),
+      enabled: false,
+      title: AutoSizeText(
+        widget.filter.name,
+        style: Styles.filterHeadline,
+        wrapWords: false,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 2,
+        minFontSize: AppDimensions.filterTitleFontSize,
+      ),
     );
   }
 
@@ -344,7 +341,6 @@ class _PoliferieFilterState extends State<PoliferieFilter>
     return ListTile(
       onTap: widget.status.available ? _onButtonPressed : null,
       enabled: widget.status.available,
-      //tileColor: widget.status.available ? null : Color.fromRGBO(245, 245, 245, 1),
       leading: PoliferieIconBox(
         widget.filter.icon,
         iconSize: AppDimensions.filterIconSize,
