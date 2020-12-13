@@ -17,6 +17,8 @@ import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
 import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
 import 'package:Poliferie.io/widgets/poliferie_animated_list.dart';
 
+import 'package:auto_size_text/auto_size_text.dart';
+
 class ItemScreen extends StatefulWidget {
   /// This [id] is the requested id from the frontend
   final String id;
@@ -198,7 +200,7 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(right: 6.0),
+                  padding: EdgeInsets.only(left: 3.0, right: 6.0),
                   child: PoliferieIconBox(
                     infoMap[text],
                     iconColor: Styles.poliferieRed,
@@ -206,11 +208,13 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
                   ),
                 ),
                 Expanded(
-                  child: Text(
+                  child: AutoSizeText(
                     text,
+                    minFontSize: 10,
+                    maxLines: 2,
+                    wrapWords: false,
                     style: Styles.courseInfoStats,
                     overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
                   ),
                 ),
               ],

@@ -6,6 +6,7 @@ import 'package:Poliferie.io/models/item.dart';
 
 import 'package:Poliferie.io/screens/item.dart';
 import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class PoliferieItemCard extends StatelessWidget {
   final ItemModel item;
@@ -102,16 +103,22 @@ class PoliferieItemCard extends StatelessWidget {
           child: Row(
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(right: 6.0),
+                padding: EdgeInsets.only(left: 3.0, right: 6.0),
                 child: PoliferieIconBox(
                   infoMap[text],
                   iconColor: Styles.poliferieRed,
                   iconSize: 18.0,
                 ),
               ),
-              Text(
-                text,
-                style: Styles.courseInfoStats,
+              Expanded(
+                child: AutoSizeText(
+                  text,
+                  minFontSize: 10,
+                  maxLines: 2,
+                  wrapWords: false,
+                  style: Styles.courseInfoStats,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ],
           ),
