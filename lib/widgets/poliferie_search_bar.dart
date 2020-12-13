@@ -14,6 +14,7 @@ class PoliferieSearchBar extends StatefulWidget {
   final Function onSearch;
   final List initialList;
   final Function suggestionCallback;
+  final int minTextLength;
   const PoliferieSearchBar(
       {Key key,
       @required this.label,
@@ -21,7 +22,8 @@ class PoliferieSearchBar extends StatefulWidget {
       @required this.loadSuggestions,
       @required this.onSearch,
       this.initialList,
-      this.suggestionCallback})
+      this.suggestionCallback,
+      this.minTextLength = 4})
       : super(key: key);
 
   @override
@@ -35,6 +37,20 @@ class _PoliferieSearchBarState extends State<PoliferieSearchBar> {
   List suggestions = new List();
   bool loading = false;
   final _debouncer = Debouncer(milliseconds: 500);
+  bool notEmpty;
+
+  void resetText() {
+    widget.controller.text = '';
+    checkIsEmpty();
+  }
+
+  void checkIsEmpty() {
+    if (notEmpty != (widget.controller.text.length > 0)) {
+      setState(() {
+        notEmpty = (widget.controller.text.length > 0);
+      });
+    }
+  }
 
   void resetList() {
     List tempList = new List();
@@ -88,6 +104,7 @@ class _PoliferieSearchBarState extends State<PoliferieSearchBar> {
 
   void initState() {
     super.initState();
+    notEmpty = (widget.controller.text.length > 0);
     // add event listener to the focus node and only give an overlay if an entry
     // has focus and insert the overlay into Overlay context otherwise remove it
     _focusNode.addListener(() {
@@ -108,7 +125,7 @@ class _PoliferieSearchBarState extends State<PoliferieSearchBar> {
   }
 
   Widget _listViewBuilder(context) {
-    if (widget.controller.text.length <= 2) {
+    if (widget.controller.text.length < widget.minTextLength) {
       return null;
     }
     if (suggestions.length > 0) {
@@ -231,14 +248,22 @@ class _PoliferieSearchBarState extends State<PoliferieSearchBar> {
             border: InputBorder.none,
             isDense: false,
             contentPadding: EdgeInsets.all(15),
-            suffixIcon: Icon(
-              Icons.search,
-            ),
+            suffixIcon: notEmpty
+                ? GestureDetector(
+                    onTap: resetText,
+                    child: Icon(
+                      Icons.cancel,
+                    ),
+                  )
+                : Icon(
+                    Icons.search,
+                  ),
           ),
           showCursor: true,
           onChanged: (String value) {
+            checkIsEmpty();
             // every time we make a change to the input, update the list
-            if (widget.controller.text.length <= 2) {
+            if (widget.controller.text.length < widget.minTextLength) {
               resetList();
               print(widget.controller.text);
             } else {
