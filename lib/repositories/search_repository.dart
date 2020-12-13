@@ -44,6 +44,8 @@ class SearchRepository {
     if (searchText.length <= Configs.searchTextMinimumCharacters) return [];
 
     // Builds the Firebase search query based on [searchText].
+    filters = Map<String, dynamic>.from(
+        filters ?? {}); // clone so original it is not modified
     filters = _addSearchText(filters, searchText);
 
     List<SearchSuggestion> suggestions = [];
