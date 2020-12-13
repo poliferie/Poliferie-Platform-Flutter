@@ -281,8 +281,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
           loadSuggestions: () async {
             return await RepositoryProvider.of<SearchRepository>(context)
                 .suggest(searchController.text,
-                    // TODO(@amerlo): fix me.
-                    // filters: _filtersState.currentState._getFilters(),
+                    filters: _filtersState.currentState._getFilters(),
                     order: {
                       "type": {"descending": true}
                     },

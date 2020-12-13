@@ -90,10 +90,10 @@ Query _setFilter(Query query, String field, Map<String, dynamic> filter) {
   return query;
 }
 
-Query _setFilters(Query query, Map<String, dynamic> filters) {
-  filters.forEach((field, filter) {
-    query = _setFilter(query, field, filter);
-  });
+Query _setFilters(Query query, List<MapEntry<String, dynamic>> filters) {
+  for (MapEntry<String, dynamic> filter in filters) {
+    query = _setFilter(query, filter.key, filter.value);
+  }
   return query;
 }
 
@@ -119,9 +119,27 @@ Query _setOrder(Query query, Map<String, dynamic> order) {
   return query;
 }
 
-Map<String, dynamic> _sanitizeFilters(Map<String, dynamic> filters) {
-  //TODO(@amerlo): To be implemented
-  return filters;
+/// Get a map of filters and returns a sanitized list of them.
+List<MapEntry<String, dynamic>> _sanitizeFilters(Map<String, dynamic> filters) {
+  // Map "in" filter in multiple "==" ones
+  List<MapEntry<String, dynamic>> _inFilters = filters.entries
+      .where((e) => (e.value["op"] == "in" && e.key != "search"))
+      .toList();
+  // Remove in filters
+  for (String key in _inFilters.map((e) => e.key).toList()) {
+    filters.remove(key);
+  }
+
+  List<MapEntry<String, dynamic>> _filters = filters.entries.toList();
+
+  // Add the "==" filters
+  for (MapEntry<String, dynamic> filter in _inFilters) {
+    for (String value in filter.value["values"]) {
+      _filters.add(MapEntry(filter.key, {"op": "==", "values": value}));
+    }
+  }
+
+  return _filters;
 }
 
 Map<String, dynamic> _sanitizeOrder(Map<String, dynamic> order) {

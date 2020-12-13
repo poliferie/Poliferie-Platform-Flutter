@@ -50,29 +50,6 @@ class SearchRepository {
 
     List<SearchSuggestion> suggestions = [];
 
-    // Search for in filter.
-    MapEntry<String, dynamic> _inFilter = filters.entries
-        .singleWhere((e) => e.value["op"] == "in", orElse: () => null);
-
-    // See fetch() for reference.
-    if (searchText != "" && _inFilter != null) {
-      for (String value in _inFilter.value["values"]) {
-        Map<String, dynamic> _filters = filters;
-        _filters.remove(_inFilter.key);
-        _filters[_inFilter.key] = {"op": "==", "values": value};
-        final returnedJson = await apiProvider.fetch(
-            Configs.firebaseSuggestionsCollection,
-            filters: _filters,
-            order: order,
-            limit: limit);
-        suggestions.addAll(returnedJson
-            .map((el) => SearchSuggestion.fromJson(el))
-            .cast<SearchSuggestion>());
-      }
-
-      return _orderResults(suggestions, searchText);
-    }
-
     final returnedJson = await apiProvider.fetch(
         Configs.firebaseSuggestionsCollection,
         filters: filters,
@@ -97,33 +74,6 @@ class SearchRepository {
     filters = _addSearchText(filters, searchText);
 
     List<ItemModel> results = [];
-
-    // Firebase does not allow to perform some combination of queries.
-    // Detect them here and combine multiple query results together.
-    // This is an hack, but for now it works.
-    //
-    // Firebase not valid queries supported are:
-    // * searchText (array-contains-any) with in
-
-    // Search for in filter.
-    MapEntry<String, dynamic> _inFilter = filters.entries
-        .singleWhere((e) => e.value["op"] == "in", orElse: () => null);
-
-    if (searchText != "" && _inFilter != null) {
-      for (String value in _inFilter.value["values"]) {
-        Map<String, dynamic> _filters = filters;
-        _filters.remove(_inFilter.key);
-        _filters[_inFilter.key] = {"op": "==", "values": value};
-        final returnedJson = await apiProvider.fetch(
-            Configs.firebaseItemsCollection,
-            filters: _filters,
-            order: order,
-            limit: limit);
-        results.addAll(
-            returnedJson.map((el) => ItemModel.fromJson(el)).cast<ItemModel>());
-      }
-      return _orderResults(results, searchText);
-    }
 
     // Query does not seem to be problematic, so perform single one.
     final returnedJson = await apiProvider.fetch(
