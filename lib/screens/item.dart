@@ -83,9 +83,15 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
   }
 
   Widget _buildImage(ItemModel item) {
+    Size screenSize = MediaQuery.of(context).size;
     return Container(
       padding: EdgeInsets.only(bottom: 1),
-      child: getImage(item.providerImage),
+      child: getImage(
+        item.providerImage,
+        fit: BoxFit.cover,
+        height: screenSize.height / 3,
+        width: screenSize.width,
+      ),
     );
   }
 
