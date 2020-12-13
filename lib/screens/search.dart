@@ -279,13 +279,14 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
           label: Strings.searchBarCopy,
           controller: searchController,
           loadSuggestions: () async {
-            return await RepositoryProvider.of<SearchRepository>(context)
-                .suggest(searchController.text,
-                    filters: _filtersState.currentState._getFilters(),
-                    order: {
-                      "type": {"descending": true}
-                    },
-                    limit: Configs.firebaseSuggestionsLimit);
+            return await RepositoryProvider.of<SearchRepository>(context).suggest(
+                searchController.text,
+                filters: _filtersState.currentState._getFilters(),
+                // TODO(@amerlo): Indices have to be created for each filter field.
+                // order: {
+                //   "type": {"descending": true}
+                // },
+                limit: Configs.firebaseSuggestionsLimit);
           },
           suggestionCallback: (suggestion) {
             Navigator.push(
