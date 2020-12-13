@@ -103,9 +103,12 @@ class CompareScreenBody extends StatefulWidget {
 
 class _CompareScreenBodyState extends State<CompareScreenBody> {
   // Selected items
-  List<SearchSuggestion> _items = [null, null];
-  bool _readyToCompare() {
-    return !_items.any((i) => i == null);
+  Map<ItemType, List<SearchSuggestion>> _items = {
+    ItemType.course: [null, null],
+    ItemType.university: [null, null]
+  };
+  bool _readyToCompare(ItemType type) {
+    return !_items[type].any((i) => i == null);
   }
 
   Widget _buildHeadline() {
@@ -127,20 +130,21 @@ class _CompareScreenBodyState extends State<CompareScreenBody> {
         padding: EdgeInsets.only(bottom: 10.0), child: PoliferieTabBar());
   }
 
-  Widget _buildFloatingButton(BuildContext context) {
+  Widget _buildFloatingButton(BuildContext context, ItemType currentType) {
     return Padding(
       padding: EdgeInsetsDirectional.only(
           bottom: MediaQuery.of(context).padding.bottom + 10),
       child: PoliferieFloatingButton(
         text: Strings.compareAction,
         activeColor: Styles.poliferieBlue,
-        isActive: _readyToCompare(),
-        onPressed: _readyToCompare()
+        isActive: _readyToCompare(currentType),
+        onPressed: _readyToCompare(currentType)
             ? () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CompareViewScreen(_items),
+                    builder: (context) =>
+                        CompareViewScreen(_items[currentType]),
                   ),
                 );
               }
@@ -164,7 +168,7 @@ class _CompareScreenBodyState extends State<CompareScreenBody> {
         onSuggestionTap: (SearchSuggestion suggestion) => {
           setState(
             () {
-              _items[box] = suggestion;
+              _items[type][box] = suggestion;
             },
           )
         },
@@ -173,9 +177,9 @@ class _CompareScreenBodyState extends State<CompareScreenBody> {
   }
 
   // Callback to deselect item
-  void _deselect(int box) {
+  void _deselect(int box, ItemType type) {
     setState(() {
-      _items[box] = null;
+      _items[type][box] = null;
     });
   }
 
@@ -184,7 +188,7 @@ class _CompareScreenBodyState extends State<CompareScreenBody> {
         type == ItemType.course ? 'Scegli un corso' : 'Scegli un\'università';
     return Column(
       children: <Widget>[
-        ..._items
+        ..._items[type]
             .asMap()
             .map(
               (index, s) => MapEntry(
@@ -195,7 +199,7 @@ class _CompareScreenBodyState extends State<CompareScreenBody> {
                     _searchAndSelect(index, type);
                   },
                   deselector: () {
-                    _deselect(index);
+                    _deselect(index, type);
                   },
                   selected: s != null,
                 ),
@@ -209,17 +213,23 @@ class _CompareScreenBodyState extends State<CompareScreenBody> {
 
   Widget _buildTabBarBody(BuildContext context) {
     return Expanded(
-      child: Stack(
-        alignment: AlignmentDirectional.bottomCenter,
-        children: <Widget>[
-          TabBarView(
-            physics: NeverScrollableScrollPhysics(),
-            children: [
+      child: TabBarView(
+        physics: NeverScrollableScrollPhysics(),
+        children: [
+          Stack(
+            alignment: AlignmentDirectional.bottomCenter,
+            children: <Widget>[
               _buildInputBoxes(context, ItemType.course),
-              _buildInputBoxes(context, ItemType.university),
+              _buildFloatingButton(context, ItemType.course),
             ],
           ),
-          _buildFloatingButton(context),
+          Stack(
+            alignment: AlignmentDirectional.bottomCenter,
+            children: <Widget>[
+              _buildInputBoxes(context, ItemType.university),
+              _buildFloatingButton(context, ItemType.university),
+            ],
+          ),
         ],
       ),
     );
