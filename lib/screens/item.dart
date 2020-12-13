@@ -267,12 +267,15 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
     List<Widget> itemStats = List<Widget>();
     item.stats.forEach((String listName, List<ItemStat> statList) {
       List<Card> cards = [];
+      List<Card> nullCards = [];
       for (ItemStat stat in statList) {
-        // if (stat.value != null) cards.add(_buildCard(stat));
-        // show the cards also if it has no value
-        cards.add(_buildCard(stat));
+        if (stat.value == null)
+          nullCards.add(_buildCard(stat));
+        else
+          cards.add(_buildCard(stat));
       }
-      if (cards.isNotEmpty) itemStats.add(_buildList(listName, cards));
+      if (cards.isNotEmpty)
+        itemStats.add(_buildList(listName, cards + nullCards));
     });
 
     return Container(
@@ -372,7 +375,8 @@ Widget buildCardTraling(ItemStat stat) {
     return FittedBox(
       fit: BoxFit.fitWidth,
       child: Text(
-        (stat.value?.toString() ?? '- ') + stat.unit,
+        (stat.value?.toString() ?? '-') +
+            (stat.unit != '' ? ' ' + stat.unit : ''),
         style: Styles.statsValue,
       ),
     );
