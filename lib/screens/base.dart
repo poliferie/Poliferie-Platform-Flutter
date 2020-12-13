@@ -70,6 +70,10 @@ class BaseScreenState extends State<BaseScreen> {
   /// Build the [BottomNavigationBar] which handles the screens.
   @override
   Widget build(BuildContext context) {
+    // HACK to update the favorites upon switching to profile screen
+    if (_selectedIndex == 3) {
+      (screens[3] as ProfileScreen).updateFavorites();
+    }
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(

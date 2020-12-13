@@ -40,23 +40,50 @@ List<Filter> preferenceFilters = [
   ),
 ];
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key key}) : super(key: key);
+class ProfileScreen extends StatelessWidget {
+  final GlobalKey<_ProfileScreenBodyState> _body =
+      GlobalKey<_ProfileScreenBodyState>();
+
+  ProfileScreen({Key key}) : super(key: key);
+
+  void updateFavorites() {
+    _body.currentState._updateFavorites();
+  }
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<UserBloc>(
+          create: (context) => UserBloc(
+              userRepository: RepositoryProvider.of<UserRepository>(context)),
+        ),
+        BlocProvider<itm.ItemBloc>(
+          create: (context) => itm.ItemBloc(
+              itemRepository: RepositoryProvider.of<ItemRepository>(context)),
+        ),
+      ],
+      child: ProfileScreenBody(
+          favoritesRepository:
+              RepositoryProvider.of<FavoritesRepository>(context),
+          key: _body),
+    );
+  }
 }
 
 class ProfileScreenBody extends StatefulWidget {
   final FavoritesRepository favoritesRepository;
 
-  ProfileScreenBody({@required this.favoritesRepository});
+  ProfileScreenBody({@required this.favoritesRepository, Key key})
+      : super(key: key);
 
   @override
   _ProfileScreenBodyState createState() => _ProfileScreenBodyState();
 }
 
 class _ProfileScreenBodyState extends State<ProfileScreenBody> {
+  bool _profileLoaded = false;
+
   // Items list are expanded
   Map<ItemType, bool> tabExpanded = {
     ItemType.course: false,
@@ -382,8 +409,12 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
   // }
 
   Widget build(BuildContext context) {
-    final UserBloc _userBloc = BlocProvider.of<UserBloc>(context);
-    _userBloc.add(FetchUser(userName: 'test'));
+    if (!_profileLoaded) {
+      BlocProvider.of<UserBloc>(context).add(FetchUser(userName: 'test'));
+      setState(() {
+        _profileLoaded = true;
+      });
+    }
 
     return BlocBuilder<UserBloc, UserState>(
       builder: (BuildContext context, UserState state) {
@@ -418,27 +449,6 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
         }
         return Text('This should never be reached');
       },
-    );
-  }
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<UserBloc>(
-          create: (context) => UserBloc(
-              userRepository: RepositoryProvider.of<UserRepository>(context)),
-        ),
-        BlocProvider<itm.ItemBloc>(
-          create: (context) => itm.ItemBloc(
-              itemRepository: RepositoryProvider.of<ItemRepository>(context)),
-        ),
-      ],
-      child: ProfileScreenBody(
-          favoritesRepository:
-              RepositoryProvider.of<FavoritesRepository>(context)),
     );
   }
 }
