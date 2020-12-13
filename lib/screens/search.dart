@@ -310,6 +310,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
               ),
             );
             searchController.text = "";
+            searchController.notifyListeners();
           },
         ),
       ),

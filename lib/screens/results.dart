@@ -359,6 +359,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
               ),
             );
             searchController.text = widget.search.query;
+            searchController.notifyListeners();
           },
         ),
       ),

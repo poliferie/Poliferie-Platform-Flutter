@@ -41,15 +41,7 @@ class _PoliferieSearchBarState extends State<PoliferieSearchBar> {
 
   void resetText() {
     widget.controller.text = '';
-    checkIsEmpty();
-  }
-
-  void checkIsEmpty() {
-    if (notEmpty != (widget.controller.text.length > 0)) {
-      setState(() {
-        notEmpty = (widget.controller.text.length > 0);
-      });
-    }
+    widget.controller.notifyListeners();
   }
 
   void resetList() {
@@ -66,6 +58,26 @@ class _PoliferieSearchBarState extends State<PoliferieSearchBar> {
     if (!this.loading) {
       setState(() {
         this.loading = true;
+      });
+    }
+  }
+
+  void textUpdated() {
+    bool _notEmpty = (widget.controller.text.length > 0);
+    if (notEmpty != _notEmpty) {
+      setState(() {
+        notEmpty = _notEmpty;
+      });
+    }
+    // every time we make a change to the input, update the list
+    if (widget.controller.text.length < widget.minTextLength) {
+      resetList();
+    } else {
+      this.setLoading();
+      _debouncer.run(() {
+        setState(() {
+          updateSuggestions();
+        });
       });
     }
   }
@@ -105,6 +117,7 @@ class _PoliferieSearchBarState extends State<PoliferieSearchBar> {
   void initState() {
     super.initState();
     notEmpty = (widget.controller.text.length > 0);
+    widget.controller.addListener(textUpdated);
     // add event listener to the focus node and only give an overlay if an entry
     // has focus and insert the overlay into Overlay context otherwise remove it
     _focusNode.addListener(() {
@@ -260,21 +273,6 @@ class _PoliferieSearchBarState extends State<PoliferieSearchBar> {
                   ),
           ),
           showCursor: true,
-          onChanged: (String value) {
-            checkIsEmpty();
-            // every time we make a change to the input, update the list
-            if (widget.controller.text.length < widget.minTextLength) {
-              resetList();
-              print(widget.controller.text);
-            } else {
-              this.setLoading();
-              _debouncer.run(() {
-                setState(() {
-                  updateSuggestions();
-                });
-              });
-            }
-          },
           onSubmitted: widget.onSearch,
         ),
       ),
