@@ -34,20 +34,63 @@ class SearchScreenBody extends StatefulWidget {
   _SearchScreenBodyState createState() => _SearchScreenBodyState();
 }
 
-class FiltersBody extends StatefulWidget {
+class FilterGroup extends StatefulWidget {
   final List filters;
+  final Function onAtLeastOneSelected;
 
-  FiltersBody({@required this.filters, Key key}) : super(key: key);
+  FilterGroup({@required this.filters, this.onAtLeastOneSelected, Key key})
+      : super(key: key);
 
   @override
-  _FiltersBodyState createState() => _FiltersBodyState();
+  _FilterGroupState createState() => _FilterGroupState();
 }
 
-class _FiltersBodyState extends State<FiltersBody> {
+class _FilterGroupState extends State<FilterGroup> {
   /// Map of all [Filter]
   Map<int, Filter> allFilters = Map();
   Map<int, FilterStatus> allStatus = Map();
   Map<int, Function> allUpdate = Map();
+  bool _atLeastOneSelected = false;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      allFilters = widget.filters.asMap();
+      allStatus = allFilters
+          .map((i, f) => MapEntry(i, FilterStatus.initStatus(f.type, f.range)));
+      allUpdate = allStatus.map((i, s) => MapEntry(
+          i,
+          (FilterType type, dynamic newValue) =>
+              updateFilterStatus(i, type, newValue)));
+    });
+  }
+
+  Map<String, dynamic> _getFilters() {
+    Map<String, dynamic> filters = Map();
+
+    // Build Firebase filters map
+    allStatus.forEach((i, status) {
+      if (status.selected) {
+        filters.putIfAbsent(allFilters[i].field,
+            () => getFirebaseFilter(allFilters[i], status));
+      }
+    });
+
+    return filters;
+  }
+
+  // TODO(@amerlo): Should we allow explore session with no filters selected?
+  bool atLeastOneSelected() {
+    bool isActive = false;
+    for (FilterStatus status in allStatus.values) {
+      if (status.selected == true) {
+        isActive = true;
+        break;
+      }
+    }
+    return isActive;
+  }
 
   // TODO(@amerlo): Could we avoid to duplicate code between here and the
   //                status inside PoliferieFilter?
@@ -89,6 +132,12 @@ class _FiltersBodyState extends State<FiltersBody> {
         }
       }
     });
+    if (_atLeastOneSelected != atLeastOneSelected()) {
+      setState(() {
+        _atLeastOneSelected = !_atLeastOneSelected;
+      });
+      widget.onAtLeastOneSelected(_atLeastOneSelected);
+    }
   }
 
   void disableAllRangesBut(int index) {
@@ -108,117 +157,20 @@ class _FiltersBodyState extends State<FiltersBody> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    setState(() {
-      allFilters = widget.filters.asMap();
-      allStatus = allFilters
-          .map((i, f) => MapEntry(i, FilterStatus.initStatus(f.type, f.range)));
-      allUpdate = allStatus.map((i, s) => MapEntry(
-          i,
-          (FilterType type, dynamic newValue) =>
-              updateFilterStatus(i, type, newValue)));
-    });
-  }
-
-  // TODO(@amerlo): Should we allow explore session with no filters selected?
-  bool couldWeSearch() {
-    bool isActive = false;
-    for (FilterStatus status in allStatus.values) {
-      if (status.selected == true) {
-        isActive = true;
-        break;
-      }
-    }
-    return isActive;
-  }
-
-  Widget _buildFilterList(BuildContext context, Map<int, Filter> filters,
-      Map<int, FilterStatus> status, Map<int, Function> updates) {
+  Widget build(BuildContext context) {
     return Wrap(
       children: <Widget>[
-        ...filters.keys
+        ...allFilters.keys
             .toList()
             .map(
               (key) => PoliferieFilter(
-                filters[key],
-                status[key],
-                updateValue: updates[key],
+                allFilters[key],
+                allStatus[key],
+                updateValue: allUpdate[key],
               ),
             )
             .toList()
       ],
-    );
-  }
-
-  Map<String, dynamic> _getFilters() {
-    Map<String, dynamic> filters = Map();
-
-    // Build Firebase filters map
-    allStatus.forEach((i, status) {
-      if (status.selected) {
-        filters.putIfAbsent(allFilters[i].field,
-            () => getFirebaseFilter(allFilters[i], status));
-      }
-    });
-
-    return filters;
-  }
-
-  /// Call search delegate with selected filters and order query
-  void _onPressedExplore() {
-    Map<String, dynamic> filters = _getFilters();
-    Map<String, dynamic> order;
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ResultsScreen(
-          ItemSearch(
-            query: "",
-            filters: filters,
-            order: order,
-            limit: Configs.firebaseItemsLimit,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFloatingButton(BuildContext context) {
-    return Padding(
-      padding: EdgeInsetsDirectional.only(
-        bottom: MediaQuery.of(context).padding.bottom + 10,
-      ),
-      child: PoliferieFloatingButton(
-        isActive: couldWeSearch(),
-        text: Strings.searchExplore,
-        activeColor: Styles.poliferieBlue,
-        onPressed: _onPressedExplore,
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Stack(
-        alignment: AlignmentDirectional.bottomCenter,
-        children: <Widget>[
-          Container(
-            height: double.infinity,
-            child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                padding: EdgeInsets.only(
-                  top: 10,
-                  bottom: MediaQuery.of(context).padding.bottom + 56,
-                ),
-                child: _buildFilterList(
-                    context, allFilters, allStatus, allUpdate)),
-          ),
-          _buildFloatingButton(context),
-        ],
-      ),
     );
   }
 }
@@ -227,8 +179,39 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
   final TextEditingController searchController = TextEditingController();
 
   // Global key to retrieve filters state.
-  final GlobalKey<_FiltersBodyState> _filtersState =
-      GlobalKey<_FiltersBodyState>();
+  final GlobalKey<_FilterGroupState> _filtersState =
+      GlobalKey<_FilterGroupState>();
+  bool atLeastOneFilterSelected = false;
+  bool queryNotEmpty = false;
+
+  @override
+  void initState() {
+    searchController.addListener(() {
+      bool _queryNotEmpty = (searchController.text.length > 0);
+      if (_queryNotEmpty != queryNotEmpty) {
+        setState(() {
+          queryNotEmpty = _queryNotEmpty;
+        });
+      }
+    });
+  }
+
+  void pushSearch(query) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResultsScreen(
+          ItemSearch(
+            query: query,
+            filters: _filtersState.currentState._getFilters(),
+            limit: Configs.firebaseItemsLimit,
+          ),
+        ),
+      ),
+    );
+    searchController.text = "";
+    searchController.notifyListeners();
+  }
 
   Widget _buildFilterHeading() {
     return Text(
@@ -242,10 +225,50 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
     return BlocBuilder<FilterBloc, FilterState>(
       builder: (BuildContext context, FilterState state) {
         if (state is FetchStateLoading) {
-          return PoliferieProgressIndicator();
+          return Center(child: PoliferieProgressIndicator());
         }
         if (state is FetchStateSuccess) {
-          return FiltersBody(filters: state.filters, key: _filtersState);
+          return Expanded(
+            child: Stack(
+              alignment: AlignmentDirectional.bottomCenter,
+              children: <Widget>[
+                // Scrollable view with list of filters
+                Container(
+                  height: double.infinity,
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    padding: EdgeInsets.only(
+                      top: 10,
+                      bottom: MediaQuery.of(context).padding.bottom + 56,
+                    ),
+                    child: FilterGroup(
+                      filters: state.filters,
+                      onAtLeastOneSelected: (atLeastOneSelected) {
+                        setState(() {
+                          atLeastOneFilterSelected = atLeastOneSelected;
+                        });
+                      },
+                      key: _filtersState,
+                    ),
+                  ),
+                ),
+                // Floating button
+                Padding(
+                  padding: EdgeInsetsDirectional.only(
+                    bottom: MediaQuery.of(context).padding.bottom + 10,
+                  ),
+                  child: PoliferieFloatingButton(
+                    isActive: queryNotEmpty || atLeastOneFilterSelected,
+                    text: queryNotEmpty
+                        ? Strings.searchButton
+                        : Strings.searchExplore,
+                    activeColor: Styles.poliferieBlue,
+                    onPressed: () => pushSearch(searchController.text),
+                  ),
+                )
+              ],
+            ),
+          );
         }
         if (state is FetchStateError) {
           return Text(state.error);
@@ -296,22 +319,7 @@ class _SearchScreenBodyState extends State<SearchScreenBody> {
               ),
             );
           },
-          onSearch: (query) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ResultsScreen(
-                  ItemSearch(
-                    query: query,
-                    filters: _filtersState.currentState._getFilters(),
-                    limit: Configs.firebaseItemsLimit,
-                  ),
-                ),
-              ),
-            );
-            searchController.text = "";
-            searchController.notifyListeners();
-          },
+          onSearch: pushSearch,
         ),
       ),
     );
