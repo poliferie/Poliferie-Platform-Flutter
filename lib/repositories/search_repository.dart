@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 
 import 'package:Poliferie.io/configs.dart';
+import 'package:Poliferie.io/utils.dart';
 
 import 'package:Poliferie.io/providers/api_provider.dart';
 import 'package:Poliferie.io/providers/local_provider.dart';
@@ -94,10 +95,6 @@ class SearchRepository {
     }
 
     // TODO(@amerlo): Keep the one with the longest values list instead of the first one
-    // Map<String, int> _inFiltersLengths = null;
-    // _inFilters.forEach((key, value) {
-    //   _inFiltersLengths.putIfAbsent(key, () => (value as List).length);
-    // });
     if (_inFilters.isNotEmpty && !filters.containsKey("search")) {
       _inFilters.remove(_inFilters.keys.toList()[0]);
     }
@@ -107,21 +104,23 @@ class SearchRepository {
       filters.remove(key);
     }
 
-    // TODO(@amerlo): Create all combinations of possible OR queries and add items to results
-    // for (List<dynamic> values in _zipValues) {
-    //   Map<String, dynamic> _filters = Map.from(filters);
-    //   for (var v in values) {
-    //     _filters.putIfAbsent(
-    //         _inFilters.keys.toList()[values.indexOf(v)], () => v);
-    //   }
-    //   final returnedJson = await apiProvider.fetch(
-    //       Configs.firebaseItemsCollection,
-    //       filters: _filters,
-    //       order: order,
-    //       limit: limit);
-    //   results.addAll(
-    //       returnedJson.map((el) => ItemModel.fromJson(el)).cast<ItemModel>());
-    // }
+    CombinationAlgorithmDynamics _allValues = CombinationAlgorithmDynamics(
+        _inFilters.values.map((e) => (e["values"] as List)).toList());
+
+    for (List<dynamic> values in _allValues.combinations()) {
+      Map<String, dynamic> _filters = Map.from(filters);
+      for (var v in values) {
+        _filters.putIfAbsent(_inFilters.keys.toList()[values.indexOf(v)],
+            () => {"op": "==", "values": v});
+      }
+      final returnedJson = await apiProvider.fetch(
+          Configs.firebaseItemsCollection,
+          filters: _filters,
+          order: order,
+          limit: limit);
+      results.addAll(
+          returnedJson.map((el) => ItemModel.fromJson(el)).cast<ItemModel>());
+    }
 
     return _orderResults(results, searchText);
   }

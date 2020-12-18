@@ -51,3 +51,28 @@ Image getImage(String src, {BoxFit fit, double height, double width}) {
     return Image.asset(src, fit: fit, height: height, width: width);
   }
 }
+
+class CombinationAlgorithmDynamics {
+  final List<List<dynamic>> elements;
+
+  CombinationAlgorithmDynamics(this.elements);
+
+  List<List<dynamic>> combinations() {
+    List<List<dynamic>> perms = [];
+    generateCombinations(elements, perms, 0, []);
+    return perms;
+  }
+
+  void generateCombinations(List<List<dynamic>> lists,
+      List<List<dynamic>> result, int depth, List<dynamic> current) {
+    if (depth == lists.length) {
+      result.add(current);
+      return;
+    }
+
+    for (int i = 0; i < lists[depth].length; i++) {
+      generateCombinations(
+          lists, result, depth + 1, [...current, lists[depth][i]]);
+    }
+  }
+}
