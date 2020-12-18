@@ -9,7 +9,7 @@ import 'package:Poliferie.io/providers/local_provider.dart';
 import 'package:Poliferie.io/models/suggestion.dart';
 import 'package:Poliferie.io/models/item.dart';
 
-// TODO(@amerlo): Define generic method for both search and suggestion fetch() ones.
+// TODO(@amerlo): Define generic _fetch() method for both search and suggestion to fetch results.
 
 ///Orders [results] based on number of matched keywords given [searchText].
 _orderResults(dynamic results, String searchText) {
@@ -51,15 +51,52 @@ class SearchRepository {
 
     List<SearchSuggestion> suggestions = [];
 
-    final returnedJson = await apiProvider.fetch(
-        Configs.firebaseSuggestionsCollection,
-        filters: filters,
-        order: order,
-        limit: limit);
-    suggestions = returnedJson
-        .map((e) => SearchSuggestion.fromJson(e))
-        .toList()
-        .cast<SearchSuggestion>();
+    // Search for "in" filters
+    Map<String, dynamic> _inFilters = Map.from(filters ?? {})
+      ..removeWhere((key, value) => (key == "search" || value["op"] != "in"));
+
+    if (_inFilters.isEmpty ||
+        (_inFilters.keys.length == 1 && !filters.containsKey("search"))) {
+      // Query does not seem to be problematic, so perform single one.
+      final returnedJson = await apiProvider.fetch(
+          Configs.firebaseSuggestionsCollection,
+          filters: filters,
+          order: order,
+          limit: limit);
+      suggestions.addAll(
+          returnedJson.map((el) => ItemModel.fromJson(el)).cast<ItemModel>());
+
+      return _orderResults(suggestions, searchText);
+    }
+
+    // TODO(@amerlo): Keep the one with the longest values list instead of the first one
+    if (_inFilters.isNotEmpty && !filters.containsKey("search")) {
+      _inFilters.remove(_inFilters.keys.toList()[0]);
+    }
+
+    // Remove _inFilters from filters
+    for (String key in _inFilters.keys) {
+      filters.remove(key);
+    }
+
+    CombinationAlgorithmDynamics _allValues = CombinationAlgorithmDynamics(
+        _inFilters.values.map((e) => (e["values"] as List)).toList());
+
+    for (List<dynamic> values in _allValues.combinations()) {
+      Map<String, dynamic> _filters = Map.from(filters);
+      for (var v in values) {
+        _filters.putIfAbsent(_inFilters.keys.toList()[values.indexOf(v)],
+            () => {"op": "==", "values": v});
+      }
+      final returnedJson = await apiProvider.fetch(
+          Configs.firebaseSuggestionsCollection,
+          filters: _filters,
+          order: order,
+          limit: limit);
+      suggestions.addAll(returnedJson
+          .map((el) => SearchSuggestion.fromJson(el))
+          .cast<SearchSuggestion>());
+    }
 
     return _orderResults(suggestions, searchText);
   }
@@ -77,7 +114,7 @@ class SearchRepository {
     List<ItemModel> results = [];
 
     // Search for "in" filters
-    Map<String, dynamic> _inFilters = Map.from(filters)
+    Map<String, dynamic> _inFilters = Map.from(filters ?? {})
       ..removeWhere((key, value) => (key == "search" || value["op"] != "in"));
 
     if (_inFilters.isEmpty ||
