@@ -63,8 +63,11 @@ class SearchRepository {
           filters: filters,
           order: order,
           limit: limit);
-      suggestions.addAll(
-          returnedJson.map((el) => ItemModel.fromJson(el)).cast<ItemModel>());
+      //suggestions.addAll(
+      //    returnedJson.map((el) => ItemModel.fromJson(el)).cast<ItemModel>());
+      suggestions.addAll(returnedJson
+          .map((el) => SearchSuggestion.fromJson(el))
+          .cast<SearchSuggestion>());
 
       return _orderResults(suggestions, searchText);
     }

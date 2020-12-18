@@ -51,7 +51,7 @@ class _PoliferieSearchBarState extends State<PoliferieSearchBar> {
       this.loading = false;
     });
     // mark that the overlay widget needs to be rebuilt
-    this._overlayEntry.markNeedsBuild();
+    this._overlayEntry?.markNeedsBuild();
   }
 
   void setLoading() {
