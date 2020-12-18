@@ -13,6 +13,9 @@ import 'package:Poliferie.io/models/item.dart';
 
 ///Orders [results] based on number of matched keywords given [searchText].
 _orderResults(dynamic results, String searchText) {
+  // Do not order results if there is no searchText.
+  if (searchText == null) return results;
+
   Set<String> searchKeywords =
       Set.from(searchText.contains(" ") ? searchText.split(" ") : [searchText]);
   int _countMatches(List<String> keywords, String searchText) {
