@@ -51,20 +51,14 @@ class HomeScreenBody extends StatelessWidget {
   }
 
   Widget _buildRowCards(List<CardInfo> cards) {
-    // Hack to fit in child height
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        new SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: new Row(
-            children: <Widget>[
-              if (cards.isNotEmpty)
-                ...cards.map((c) => PoliferieCard(c)).toList()
-            ],
-          ),
-        ),
-      ],
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          if (cards.isNotEmpty) ...cards.map((c) => PoliferieCard(c)).toList(),
+        ],
+      ),
     );
   }
 

@@ -62,7 +62,7 @@ class PoliferieCard extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ResultsScreen(ItemSearch()),
+                  builder: (context) => ResultsScreen(ItemSearch(query: "")),
                 ),
               );
             };
@@ -70,7 +70,7 @@ class PoliferieCard extends StatelessWidget {
 
           // Perform search.
           final Map<String, dynamic> search = json.decode(link[1]);
-          String query = search.containsKey("query") ? search["query"] : null;
+          String query = search.containsKey("query") ? search["query"] : "";
           final Map<String, dynamic> filters =
               search.containsKey("filters") ? search["filters"] : null;
           final Map<String, dynamic> order =
