@@ -75,14 +75,53 @@ class SearchRepository {
 
     List<ItemModel> results = [];
 
-    // Query does not seem to be problematic, so perform single one.
-    final returnedJson = await apiProvider.fetch(
-        Configs.firebaseItemsCollection,
-        filters: filters,
-        order: order,
-        limit: limit);
-    results.addAll(
-        returnedJson.map((el) => ItemModel.fromJson(el)).cast<ItemModel>());
+    // Search for "in" filters
+    Map<String, dynamic> _inFilters = Map.from(filters)
+      ..removeWhere((key, value) => (key == "search" || value["op"] != "in"));
+
+    if (_inFilters.isEmpty ||
+        (_inFilters.keys.length == 1 && !filters.containsKey("search"))) {
+      // Query does not seem to be problematic, so perform single one.
+      final returnedJson = await apiProvider.fetch(
+          Configs.firebaseItemsCollection,
+          filters: filters,
+          order: order,
+          limit: limit);
+      results.addAll(
+          returnedJson.map((el) => ItemModel.fromJson(el)).cast<ItemModel>());
+
+      return _orderResults(results, searchText);
+    }
+
+    // TODO(@amerlo): Keep the one with the longest values list instead of the first one
+    // Map<String, int> _inFiltersLengths = null;
+    // _inFilters.forEach((key, value) {
+    //   _inFiltersLengths.putIfAbsent(key, () => (value as List).length);
+    // });
+    if (_inFilters.isNotEmpty && !filters.containsKey("search")) {
+      _inFilters.remove(_inFilters.keys.toList()[0]);
+    }
+
+    // Remove _inFilters from filters
+    for (String key in _inFilters.keys) {
+      filters.remove(key);
+    }
+
+    // TODO(@amerlo): Create all combinations of possible OR queries and add items to results
+    // for (List<dynamic> values in _zipValues) {
+    //   Map<String, dynamic> _filters = Map.from(filters);
+    //   for (var v in values) {
+    //     _filters.putIfAbsent(
+    //         _inFilters.keys.toList()[values.indexOf(v)], () => v);
+    //   }
+    //   final returnedJson = await apiProvider.fetch(
+    //       Configs.firebaseItemsCollection,
+    //       filters: _filters,
+    //       order: order,
+    //       limit: limit);
+    //   results.addAll(
+    //       returnedJson.map((el) => ItemModel.fromJson(el)).cast<ItemModel>());
+    // }
 
     return _orderResults(results, searchText);
   }
