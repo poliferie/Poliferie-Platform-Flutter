@@ -76,3 +76,59 @@ class CombinationAlgorithmDynamics {
     }
   }
 }
+
+/// Parse the data structure from a stat values.
+/// TODO(@amerlo): Implement as a repository.
+dynamic parseStatValue(dynamic stat) {
+  // If null, return it.
+  if (stat == null) return stat;
+
+  // If single value, return it.
+  if (stat is int || stat is String || stat is double) {
+    return stat;
+  }
+
+  // Extract metadata from stat
+  Map<String, dynamic> bins = stat["bins"];
+  List<dynamic> values = stat["values"];
+
+  // TODO(@amerlo): implement as a repository.
+  int isee;
+  getPrefereceKey("ISEE").then((v) {
+    isee = int.parse(v);
+  });
+
+  // Assume higher isee.
+  int iseeIndex = values.length - 1;
+  if (bins.containsKey("isee")) {
+    iseeIndex = bins["isee"].length;
+  }
+  // TODO(@amerlo): uncomment once repository is ready.
+  // if (isee != null) {
+  //   for (dynamic i in bins["isee"]) {
+  //     if (isee < (i as int)) {
+  //       break;
+  //     }
+  //     isee_index += 1;
+  //   }
+  // }
+
+  // If stat is a cost, values is indexed only by ISEE.
+  if (!bins.containsKey("ispe")) {
+    return values[iseeIndex];
+  }
+
+  // Assume higher ispee bin.
+  int ispeeIndex = bins["ispe"].length;
+
+  // Cap has to be implemented.
+  int capIndex = 0;
+
+  // TODO(@amerlo): Include caps lenght.
+  // Compute index
+  // int index = cap_index +
+  //     isee_index * bins["cap"].length +
+  //     ispee_index * bins["cap"].length * (bins["isee"].length + 1);
+  int index = iseeIndex + ispeeIndex * (bins["isee"].length + 1);
+  return values[index];
+}

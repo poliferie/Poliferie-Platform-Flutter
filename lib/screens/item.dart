@@ -355,29 +355,29 @@ class _ItemScreenState extends State<ItemScreen> {
 
 /// Build [ItemStat] value widget based in value unit
 Widget buildCardTraling(ItemStat stat) {
+  var value = parseStatValue(stat.value);
   if (stat.unit == "%") {
     return CircularPercentIndicator(
       radius: 50.0,
       lineWidth: 3.0,
-      percent: (stat.value ?? 0) / 100,
+      percent: (value ?? 0) / 100,
       center: Padding(
         child: FittedBox(
           fit: BoxFit.fitWidth,
           child: Text(
-            (stat.value?.toStringAsFixed(0) ?? '- ') + "%",
+            (value?.toStringAsFixed(0) ?? '- ') + "%",
             style: Styles.statsValue,
           ),
         ),
         padding: EdgeInsets.all(5),
       ),
-      progressColor:
-          Color.lerp(Colors.red, Colors.green, (stat.value ?? 0) / 100),
+      progressColor: Color.lerp(Colors.red, Colors.green, (value ?? 0) / 100),
     );
   } else if (stat.unit == "€") {
     return FittedBox(
       fit: BoxFit.fitWidth,
       child: Text(
-        (stat.value?.toStringAsFixed(0) ?? '- ') + stat.unit,
+        (value?.toStringAsFixed(0) ?? '- ') + stat.unit,
         style: Styles.statsValue,
       ),
     );
@@ -385,8 +385,7 @@ Widget buildCardTraling(ItemStat stat) {
     return FittedBox(
       fit: BoxFit.fitWidth,
       child: Text(
-        (stat.value?.toString() ?? '-') +
-            (stat.unit != '' ? ' ' + stat.unit : ''),
+        (value?.toString() ?? '-') + (stat.unit != '' ? ' ' + stat.unit : ''),
         style: Styles.statsValue,
       ),
     );
