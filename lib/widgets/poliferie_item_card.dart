@@ -87,7 +87,7 @@ class PoliferieItemCard extends StatelessWidget {
       infoMap = {
         item.duration.toString(): Icons.looks_one,
         item.groupLabel: Icons.subject,
-        item.language: Icons.language,
+        item.access: Icons.language,
       };
     } else if (item.type == ItemType.university) {
       infoMap = {
