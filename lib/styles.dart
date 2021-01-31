@@ -368,6 +368,22 @@ abstract class Styles {
     fontWeight: FontWeight.w400,
   );
 
+  static const disabledStatsTitle = TextStyle(
+    color: poliferieLightGrey,
+    fontFamily: 'Montserrat',
+    fontSize: 16,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w500,
+  );
+
+  static const disabledStatsDescription = TextStyle(
+    color: poliferieLightGrey,
+    fontFamily: 'Montserrat',
+    fontSize: 12,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w400,
+  );
+
   static const statsValue = TextStyle(
     color: poliferieLightBlack,
     fontFamily: 'Montserrat',

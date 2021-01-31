@@ -244,7 +244,7 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
     );
   }
 
-  Widget _buildList(String title, List<Card> items) {
+  Widget _buildList(String title, List<Widget> items) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -257,17 +257,41 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
     );
   }
 
-  Card _buildCard(ItemStat stat) {
-    return Card(
-      elevation: 0.0,
-      child: Container(
-        height: AppDimensions.itemCardHeight,
-        child: ListTile(
-          title: Text(stat.name, style: Styles.statsTitle),
-          subtitle: Text(stat.desc, style: Styles.statsDescription),
-          trailing: buildCardTraling(stat),
-          contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
-        ),
+  Widget _buildCard(ItemStat stat) {
+    bool _enabled = stat.value != null;
+    return Container(
+      height: AppDimensions.itemCardHeight,
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  stat.name,
+                  style:
+                      _enabled ? Styles.statsTitle : Styles.disabledStatsTitle,
+                  textAlign: TextAlign.left,
+                  softWrap: true,
+                ),
+                Text(
+                  stat.desc,
+                  style: _enabled
+                      ? Styles.statsDescription
+                      : Styles.disabledStatsDescription,
+                  textAlign: TextAlign.left,
+                  softWrap: true,
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 10),
+            child: buildCardTraling(stat),
+          )
+        ],
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
       ),
     );
   }
@@ -276,8 +300,8 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
     // TODO(@amerlo): List order matters, decide how to do it.
     List<Widget> itemStats = List<Widget>();
     item.stats.forEach((String listName, List<ItemStat> statList) {
-      List<Card> cards = [];
-      List<Card> nullCards = [];
+      List<Widget> cards = [];
+      List<Widget> nullCards = [];
       for (ItemStat stat in statList) {
         if (stat.value == null)
           nullCards.add(_buildCard(stat));
@@ -358,6 +382,8 @@ Widget buildCardTraling(ItemStat stat) {
   var value = parseStatValue(stat.value);
   if (stat.unit == "%") {
     return CircularPercentIndicator(
+      animation: true,
+      animationDuration: 1000,
       radius: 50.0,
       lineWidth: 3.0,
       percent: (value ?? 0) / 100,
