@@ -35,6 +35,7 @@ class ItemModel extends Equatable {
   final String owner;
   final String access;
   final String education;
+  final String website;
   final Map<String, List<ItemStat>> stats;
   final List<String> search;
 
@@ -59,6 +60,7 @@ class ItemModel extends Equatable {
       this.owner,
       this.access,
       this.education,
+      this.website,
       this.stats,
       this.search});
 
@@ -113,6 +115,7 @@ class ItemModel extends Equatable {
         access: json["access"],
         education: json["education"],
         students: json["students"],
+        website: json.containsKey("website") ? json["website"] : null,
         stats: map,
         search: (json['search'] as List<dynamic>)
             .map((e) => e.toString())

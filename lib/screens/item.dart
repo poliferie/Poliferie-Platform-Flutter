@@ -16,6 +16,7 @@ import 'package:Poliferie.io/models/models.dart';
 import 'package:Poliferie.io/widgets/poliferie_progress_indicator.dart';
 import 'package:Poliferie.io/widgets/poliferie_icon_box.dart';
 import 'package:Poliferie.io/widgets/poliferie_animated_list.dart';
+import 'package:Poliferie.io/widgets/poliferie_animated_text.dart';
 
 import 'package:auto_size_text/auto_size_text.dart';
 
@@ -108,17 +109,42 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
     );
   }
 
-  Widget _buildFavorite() {
+  Widget _buildButtonBar(ItemModel item) {
     return Positioned(
       bottom: 20.0,
-      right: 10.0,
-      child: MaterialButton(
-        color: Styles.poliferieWhite,
-        shape: CircleBorder(),
-        padding: EdgeInsets.all(6.0),
-        child: Icon(_isFavorite ? Icons.favorite : Icons.favorite_border,
-            color: Styles.poliferieRed, size: 40),
-        onPressed: () => _updateIsFavorite(toggle: true),
+      right: 15.0,
+      child: Material(
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        clipBehavior: Clip.hardEdge,
+        elevation: 4.0,
+        child: ButtonBar(
+          children: <Widget>[
+            if (item.website != null &&
+                item.website.length > 0 &&
+                item.website != '-')
+              FlatButton(
+                color: Styles.poliferieWhite,
+                padding: EdgeInsets.symmetric(vertical: 12.0),
+                child: Icon(
+                  Icons.open_in_new, //account_balance,
+                  color: Styles.poliferieRed,
+                  size: 32,
+                ),
+                onPressed: () => launchInWebViewOrVC(item.website),
+              ),
+            FlatButton(
+              color: Styles.poliferieWhite,
+              padding: EdgeInsets.all(10.0),
+              child: Icon(
+                _isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: Styles.poliferieRed,
+                size: 36,
+              ),
+              onPressed: () => _updateIsFavorite(toggle: true),
+            ),
+          ],
+          buttonPadding: EdgeInsets.all(0.0),
+        ),
       ),
     );
   }
@@ -130,7 +156,7 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
         _buildImage(item),
         _buildBackButton(context),
         _buildSpacer(),
-        _buildFavorite()
+        _buildButtonBar(item)
       ],
     );
   }
@@ -237,8 +263,17 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(Strings.courseDescription, style: Styles.tabHeading),
-          Text(item.shortDescription, style: Styles.tabDescription),
+          Padding(
+            child: Text(Strings.courseDescription, style: Styles.tabHeading),
+            padding: EdgeInsets.only(bottom: 16.0),
+          ),
+          PoliferieAnimatedText(
+            text: item.longDescription,
+            previewText:
+                (item.shortDescription != null && item.shortDescription != '-')
+                    ? item.shortDescription
+                    : null,
+          ),
         ],
       ),
     );
@@ -250,7 +285,7 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
       children: <Widget>[
         Padding(
           child: Text(title, style: Styles.tabHeading),
-          padding: EdgeInsets.only(bottom: 10.0),
+          padding: EdgeInsets.only(bottom: 16.0),
         ),
         PoliferieAnimatedList(items: items),
       ],

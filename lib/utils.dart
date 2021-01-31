@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:async';
+import 'package:url_launcher/url_launcher.dart';
 
 List<T> repeat<T>(List<T> list, int iteration) {
   List<T> newList = [];
@@ -131,4 +132,28 @@ dynamic parseStatValue(dynamic stat) {
   //     ispee_index * bins["cap"].length * (bins["isee"].length + 1);
   int index = iseeIndex + ispeeIndex * (bins["isee"].length + 1);
   return values[index];
+}
+
+Future<void> launchInWebViewOrVC(String url) async {
+  if (await canLaunch(url)) {
+    await launch(
+      url,
+      forceSafariVC: true,
+      forceWebView: true,
+      enableJavaScript: true,
+    );
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
+Future<void> sendMail(String address, String subject) async {
+  final Uri emailLaunchUri = Uri(
+      scheme: 'mailto', path: address, queryParameters: {'subject': subject});
+  String uri = emailLaunchUri.toString();
+  if (await canLaunch(uri)) {
+    await launch(uri);
+  } else {
+    throw 'Could not launch $uri';
+  }
 }

@@ -12,7 +12,7 @@ class PoliferieAnimatedList extends StatefulWidget {
     this.items,
     this.singleHeight = AppDimensions.itemCardHeight,
     this.verticalPadding = AppDimensions.itemCardPaddingVertical,
-    this.itemAnimationMilliseconds = 50,
+    this.itemAnimationMilliseconds = 100,
   }) : super(key: key);
 
   final List<Widget> items;
@@ -107,11 +107,12 @@ class _PoliferieAnimatedListState extends State<PoliferieAnimatedList> {
                   child: widget.items[i]),
               fadeIn: (!_isExpanded && i > 0) ? false : true,
               fadingDuration: Duration(
-                  milliseconds:
-                      _isExpanded ? widget.itemAnimationMilliseconds : 25),
+                  milliseconds: _isExpanded
+                      ? widget.itemAnimationMilliseconds
+                      : (widget.itemAnimationMilliseconds / 4).round()),
               delay: Duration(
                   milliseconds: _isExpanded
-                      ? (i - 1) * widget.itemAnimationMilliseconds
+                      ? ((i - 1) * widget.itemAnimationMilliseconds / 2).round()
                       : 0),
             )
         ],
