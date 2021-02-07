@@ -65,7 +65,12 @@ class _PoliferieAnimatedTextState extends State<PoliferieAnimatedText>
   Widget _previewText() {
     return Text(
       widget.previewText ??
-          widget.text.substring(0, widget.previewLength) + '...',
+          widget.text.substring(
+                  0,
+                  (widget.previewLength > widget.text.length)
+                      ? widget.text.length
+                      : widget.previewLength) +
+              '...',
       softWrap: true,
       style: Styles.cardSubHeading,
       key: UniqueKey(),

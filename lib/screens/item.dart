@@ -343,8 +343,8 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
         else
           cards.add(_buildCard(stat));
       }
-      if (cards.isNotEmpty)
-        itemStats.add(_buildList(listName, cards + nullCards));
+      //if (cards.isNotEmpty)
+      itemStats.add(_buildList(listName, cards + nullCards));
     });
 
     return Container(
