@@ -113,15 +113,15 @@ class _CompareViewScreenBodyState extends State<CompareViewScreenBody> {
     List<IconData> _infoIcons;
     if (item.type == ItemType.course) {
       _infoIcons = [
-        Icons.looks_one,
-        Icons.language,
+        Icons.calendar_today,
+        Icons.translate,
         Icons.card_membership,
         Icons.lock,
         Icons.check_circle,
-        Icons.recent_actors,
+        Icons.monitor,
       ];
     } else if (item.type == ItemType.university) {
-      _infoIcons = [Icons.lock, Icons.location_searching];
+      _infoIcons = [Icons.lock, Icons.place, Icons.people];
     } else {
       return Container();
     }

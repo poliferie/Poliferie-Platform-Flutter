@@ -203,17 +203,17 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
     Map<String, dynamic> infoMap;
     if (item.type == ItemType.course) {
       infoMap = {
-        item.duration.toString(): Icons.looks_one,
-        item.language: Icons.language,
+        item.duration.toString(): Icons.calendar_today,
+        item.language: Icons.translate,
         item.requirements: Icons.card_membership,
         item.owner: Icons.lock,
         item.access: Icons.check_circle,
-        item.education: Icons.recent_actors,
+        item.education: Icons.monitor,
       };
     } else if (item.type == ItemType.university) {
       infoMap = {
         item.owner: Icons.lock,
-        item.region: Icons.location_searching,
+        item.region: Icons.place,
         item.students.toString(): Icons.people,
       };
     } else {
