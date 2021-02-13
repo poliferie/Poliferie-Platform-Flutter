@@ -30,7 +30,7 @@ List<OnBoardingPage> _pages = [
     index: 0,
     title: 'Benvenuto',
     text:
-        'Poliferie.io è un App che mira a combattare le disuagualinze di opportunità in ambito scolatico.',
+        'Poliferie.io è un App che mira a combattare le disuguaglianze di opportunità in ambito scolatico.',
     color: Styles.poliferieWhite,
     imagePath: 'assets/images/onboarding/home.png',
   ),
@@ -60,7 +60,7 @@ List<OnBoardingPage> _pages = [
     index: 4,
     title: 'Inizia',
     text:
-        'Scopri il tuo futuro. Per ogni domanda contattci su Instagram @poliferie!',
+        'Scopri il tuo futuro. Per ogni domanda contattaci su Instagram @poliferie!',
     color: Styles.poliferieWhite,
     imagePath: 'assets/images/onboarding/profile.png',
   )
