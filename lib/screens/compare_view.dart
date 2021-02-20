@@ -115,7 +115,7 @@ class _CompareViewScreenBodyState extends State<CompareViewScreenBody> {
       _infoIcons = [
         Icons.calendar_today,
         Icons.translate,
-        Icons.card_membership,
+        Icons.vpn_key,
         Icons.lock,
         Icons.check_circle,
         Icons.monitor,

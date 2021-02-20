@@ -205,7 +205,7 @@ class _ItemScreenBodyState extends State<ItemScreenBody> {
       infoMap = {
         item.duration.toString(): Icons.calendar_today,
         item.language: Icons.translate,
-        item.requirements: Icons.card_membership,
+        item.requirements: Icons.vpn_key,
         item.owner: Icons.lock,
         item.access: Icons.check_circle,
         item.education: Icons.monitor,
