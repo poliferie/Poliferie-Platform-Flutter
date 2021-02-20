@@ -376,37 +376,43 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
     );
   }
 
-  Widget _buildUserBody(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-          horizontal: AppDimensions.bodyPaddingLeft, vertical: 10.0),
-      width: double.infinity,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-          color: Styles.poliferieWhite),
-      child: Column(
-        children: [
-          _buildFilters(context),
-          _buildList(context, ItemType.course),
-          _buildList(context, ItemType.university),
-        ],
-      ),
-    );
-  }
-
-  // Widget _buildBody(BuildContext context, User user) {
-  //   return ListView(
-  //     children: <Widget>[
-  //       Column(
-  //         children: <Widget>[
-  //           //_buildUserInfo(context, user),
-  //           _buildUserBody(context),
-  //         ],
-  //       )
-  //     ],
+  // Widget _buildUserBody(BuildContext context) {
+  //   return Container(
+  //     padding: EdgeInsets.symmetric(
+  //         horizontal: AppDimensions.bodyPaddingLeft, vertical: 10.0),
+  //     width: double.infinity,
+  //     decoration: BoxDecoration(
+  //         borderRadius: BorderRadius.only(
+  //             topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+  //         color: Styles.poliferieWhite),
+  //     child: Column(
+  //       children: [
+  //         _buildFilters(context),
+  //         _buildList(context, ItemType.course),
+  //         _buildList(context, ItemType.university),
+  //       ],
+  //     ),
   //   );
   // }
+
+  // TODO(@ferrarodav): Check if this is ok with the AppBar. In case it is, delete the code commented above.
+  Widget _buildUserBody(BuildContext context) {
+    final double _bottomPadding = MediaQuery.of(context).padding.bottom +
+        AppDimensions.bodyPadding.bottom;
+    return ListView(
+      padding: AppDimensions.bodyPadding.copyWith(bottom: _bottomPadding),
+      scrollDirection: Axis.vertical,
+      children: <Widget>[
+        Column(
+          children: [
+            _buildFilters(context),
+            _buildList(context, ItemType.course),
+            _buildList(context, ItemType.university),
+          ],
+        )
+      ],
+    );
+  }
 
   Widget build(BuildContext context) {
     if (!_profileLoaded) {
