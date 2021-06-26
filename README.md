@@ -3,6 +3,8 @@
 This project is a first draft for the cross-platform Poliferie Platform App.
 It is written in Dart using [Flutter](https://flutter.io).
 
+> As for June 2021, this project has been discountined. Please write to [andrea.merlo@poliferie.org](mailto:andrea.merlo@poliferie.org) for further information.
+
 ## Contributing
 
 * Fork the repository and clone it to your local machine
